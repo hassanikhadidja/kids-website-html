@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToyHive — Shop By Age, Trending & More</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root{
+    --blue:#1A35B0;
+    --blue-dark:#0F2480;
+    --blue-soft:#E7EBFB;
+    --sky:#BFEAFB;
+    --sky-deep:#7FD1F2;
+    --green:#7CB82F;
+    --green-dark:#5C9420;
+    --ink:#11214A;
+    --ink-soft:#5B6685;
+    --gold:#F5A623;
+    --pink:#D6196B;
+    --cream:#FFFDF8;
+    --line:#E4E7F2;
+    --radius-lg:26px;
+    --radius-md:18px;
+    --radius-pill:999px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#DEE3F0;
+    font-family:'Nunito',sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Baloo 2',cursive;
+    margin:0;
+  }
+  button{font-family:inherit; cursor:pointer; border:none;}
+  a{text-decoration:none; color:inherit;}
+  img{display:block; width:100%; height:100%; object-fit:cover;}
+
+  /* ---------- page progress ---------- */
+  #pageProgress{
+    position:fixed; top:0; left:0; height:4px; width:0%;
+    background:linear-gradient(90deg,var(--blue),var(--sky-deep));
+    z-index:999; transition:width .08s linear;
+  }
+
+  /* ---------- phone shell ---------- */
+  .app-shell{
+    max-width:430px;
+    margin:0 auto;
+    background:var(--cream);
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+    box-shadow:0 0 60px rgba(15,20,60,.25);
+  }
+
+  /* ---------- promo bar ---------- */
+  .promo-bar{
+    background:var(--sky);
+    color:var(--blue-dark);
+    text-align:center;
+    font-weight:700;
+    font-size:.82rem;
+    letter-spacing:.2px;
+    padding:9px 12px;
+  }
+
+  /* ---------- nav ---------- */
+  .nav{
+    background:var(--blue);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 16px 18px;
+    gap:6px;
+  }
+  .icon-btn{
+    background:transparent;
+    color:#fff;
+    width:34px; height:34px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.05rem;
+    border-radius:50%;
+    position:relative;
+  }
+  .icon-btn:active{background:rgba(255,255,255,.15);}
+  .wishlist-btn i{color:#ff6b8a;}
+  .cart-dot{
+    position:absolute; top:2px; right:2px;
+    width:8px; height:8px; border-radius:50%;
+    background:var(--gold); border:1.5px solid var(--blue);
+  }
+  .logo{
+    font-family:'Baloo 2',cursive;
+    font-weight:800;
+    font-size:1.5rem;
+    letter-spacing:.5px;
+    display:flex;
+    align-items:baseline;
+    white-space:nowrap;
+  }
+  .logo .t1{color:#FF5A4E;}
+  .logo .t2{color:#FFD23F;}
+  .logo .t3{
+    color:#fff;
+    -webkit-text-stroke:1.5px #2EC4F1;
+    margin:0 1px;
+  }
+  .logo .t4{color:#6FE07A;}
+
+  /* ---------- shop by age ---------- */
+  .age-section{
+    background:linear-gradient(180deg,var(--green) 0%, var(--green-dark) 100%);
+    padding:30px 22px 36px;
+    text-align:center;
+  }
+  .age-section h2{
+    color:#0E2A07;
+    font-size:2rem;
+    font-weight:800;
+    margin-bottom:20px;
+  }
+  .age-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+  }
+  .age-grid button{
+    background:var(--blue);
+    color:#fff;
+    font-family:'Baloo 2',cursive;
+    font-weight:700;
+    font-size:1.05rem;
+    padding:14px 4px;
+    border-radius:var(--radius-pill);
+    box-shadow:0 4px 0 var(--blue-dark);
+    transition:transform .08s;
+  }
+  .age-grid button:active{transform:translateY(3px); box-shadow:0 1px 0 var(--blue-dark);}
+
+  /* ---------- generic carousel shell ---------- */
+  .carousel-wrap{ padding:22px 0 8px; }
+  .carousel-wrap.tight{padding-top:0;}
+  .carousel-track{
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    padding:0 18px 6px;
+    scrollbar-width:none;
+  }
+  .carousel-track::-webkit-scrollbar{display:none;}
+  .progress-rail{
+    height:4px; background:var(--line); border-radius:99px;
+    margin:14px 18px 0; overflow:hidden;
+  }
+  .progress-fill{
+    height:100%; width:10%; background:var(--blue); border-radius:99px;
+    transition:width .12s ease-out;
+  }
+
+  /* ---------- hero carousel ---------- */
+  .hero-slide{
+    min-width:100%;
+    scroll-snap-align:start;
+    position:relative;
+    height:360px;
+    display:flex; flex-direction:column; justify-content:flex-end;
+    padding:28px 22px 30px;
+    color:#fff;
+    overflow:hidden;
+  }
+  .hero-slide.photo{
+    background:linear-gradient(180deg,rgba(10,20,50,.05) 35%, rgba(5,12,35,.78) 100%), center/cover no-repeat;
+  }
+  .hero-slide .eyebrow{
+    font-weight:800; letter-spacing:1.5px; font-size:.78rem; opacity:.92; margin-bottom:6px;
+  }
+  .hero-slide h1{
+    font-size:2.5rem;
+    line-height:1.02;
+    font-weight:800;
+    text-shadow:0 2px 10px rgba(0,0,0,.25);
+    margin-bottom:18px;
+  }
+  .pill-btn{
+    display:inline-block;
+    background:#fff;
+    color:var(--ink);
+    font-family:'Baloo 2',cursive;
+    font-weight:700;
+    font-size:1rem;
+    padding:13px 36px;
+    border-radius:var(--radius-pill);
+    width:max-content;
+  }
+  .pill-btn.outline{
+    background:transparent; border:2px solid #fff; color:#fff;
+  }
+  .movie-slide{
+    background:linear-gradient(180deg,#CDEEFB 0%, #6FC9EE 100%);
+    align-items:center; text-align:center; color:var(--blue-dark);
+  }
+  .movie-slide .studio{font-weight:700; font-size:1.05rem; margin-bottom:10px; font-style:italic;}
+  .movie-slide h1{font-size:3.2rem; color:#fff; -webkit-text-stroke:2px var(--blue-dark);
+    text-shadow:3px 3px 0 var(--blue-dark); line-height:.95; margin-bottom:18px;}
+  .movie-slide .credit{font-size:.72rem; opacity:.65; margin-top:10px;}
+  .trend-slide{
+    background:linear-gradient(180deg,#4FA9E0 0%, #1E73C2 100%);
+    align-items:center; text-align:center;
+    position:relative;
+  }
+  .cloud-r{
+    font-family:'Baloo 2',cursive; font-weight:800; font-size:5.5rem;
+    color:#fff; text-shadow:0 0 0 #fff;
+    filter:drop-shadow(0 6px 0 rgba(255,255,255,.25));
+    margin-bottom:6px;
+  }
+  .trend-slide h1{font-size:2.1rem; margin-bottom:18px;}
+
+  /* ---------- product cards ---------- */
+  .product-card{
+    min-width:225px; max-width:225px;
+    scroll-snap-align:start;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    padding:14px 14px 16px;
+    display:flex; flex-direction:column;
+  }
+  .product-img{
+    height:140px; border-radius:14px; margin-bottom:12px;
+    background:linear-gradient(135deg,var(--blue-soft),var(--sky));
+    display:flex; align-items:center; justify-content:center;
+    font-size:2.6rem; color:var(--blue);
+    overflow:hidden;
+  }
+  .rating-row{display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;}
+  .stars{color:var(--gold); font-size:.78rem; letter-spacing:1px;}
+  .stars span{color:var(--ink-soft); font-weight:700; margin-left:4px;}
+  .price{font-weight:800; font-size:1.05rem;}
+  .product-title{
+    font-size:.86rem; font-weight:700; line-height:1.3; margin-bottom:14px; flex:1;
+  }
+  .add-cart{
+    background:var(--blue); color:#fff; font-family:'Baloo 2',cursive;
+    font-weight:700; padding:11px; border-radius:var(--radius-pill); width:100%;
+    box-shadow:0 3px 0 var(--blue-dark);
+  }
+  .add-cart:active{transform:translateY(2px); box-shadow:none;}
+
+  .section-cta-wrap{padding:8px 18px 26px;}
+  .section-cta{
+    display:block; text-align:center;
+    background:var(--blue); color:#fff;
+    font-family:'Baloo 2',cursive; font-weight:700; font-size:1.02rem;
+    padding:15px; border-radius:var(--radius-pill);
+    box-shadow:0 4px 0 var(--blue-dark);
+  }
+  .section-cta:active{transform:translateY(3px); box-shadow:0 1px 0 var(--blue-dark);}
+
+  .section-heading{
+    font-size:1.7rem; font-weight:800; text-align:center;
+    padding:30px 20px 18px;
+  }
+
+  /* category / brand tiles */
+  .tile-card{
+    min-width:135px; max-width:135px;
+    scroll-snap-align:start;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+  }
+  .tile-img{
+    width:135px; height:135px; border-radius:18px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:2.4rem; color:#fff;
+  }
+  .tile-label{font-weight:800; font-family:'Baloo 2',cursive; font-size:.92rem; text-align:center; line-height:1.2;}
+
+  .brand-card{
+    min-width:135px; max-width:135px; height:135px;
+    border-radius:18px; scroll-snap-align:start;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Baloo 2',cursive; font-weight:800; font-size:1.05rem;
+    text-align:center; padding:10px; color:#fff;
+  }
+
+  /* book club banner */
+  .bookclub-banner{
+    background:repeating-linear-gradient(115deg,#1E73C2 0 40px, #2C84D6 40px 80px);
+    padding:34px 20px;
+    display:flex; align-items:center; gap:14px;
+    color:#fff;
+  }
+  .giraffe-emoji{font-size:3.2rem; filter:drop-shadow(0 4px 4px rgba(0,0,0,.2));}
+  .bookclub-badge{
+    background:var(--blue-dark);
+    border-radius:16px;
+    padding:14px 20px;
+    font-family:'Baloo 2',cursive; font-weight:800;
+    font-size:1.3rem; line-height:1.15;
+    box-shadow:0 4px 0 rgba(0,0,0,.2);
+  }
+  .bookclub-badge small{display:block; font-size:.7rem; font-weight:600; opacity:.8; letter-spacing:1px;}
+
+  /* trivia */
+  .trivia-wrap{ padding:30px 20px 10px; }
+  .trivia-card{
+    background:linear-gradient(180deg,var(--sky) 0%, var(--sky-deep) 100%);
+    border-radius:28px;
+    padding:18px;
+  }
+  .trivia-inner{
+    background:#fff; border-radius:20px; padding:26px 20px;
+    text-align:center;
+  }
+  .trivia-logo{font-family:'Baloo 2',cursive; font-weight:800; font-size:1.4rem; color:var(--blue);}
+  .trivia-tag{
+    font-family:'Baloo 2',cursive; font-weight:800; font-size:1.6rem; color:var(--ink);
+    margin:4px 0 18px; text-transform:uppercase;
+  }
+  .trivia-q{font-weight:800; font-size:1.15rem; margin-bottom:18px;}
+  .trivia-btn{
+    display:block; width:100%; background:var(--blue); color:#fff;
+    font-family:'Baloo 2',cursive; font-weight:700; font-size:1rem;
+    padding:13px; border-radius:var(--radius-pill); margin-bottom:10px;
+    box-shadow:0 3px 0 var(--blue-dark); transition:.15s;
+  }
+  .trivia-btn.selected{background:var(--gold); box-shadow:0 3px 0 #b97c00; color:var(--ink);}
+  .trivia-msg{min-height:20px; font-weight:700; color:var(--green-dark); margin:8px 0 6px;}
+  .shop-geoffrey{font-weight:800; color:var(--blue); text-decoration:underline; display:inline-block; margin-top:6px;}
+
+  /* social / follow section */
+  .follow-section{ padding:34px 0 6px; }
+  .follow-heading{font-size:1.6rem; font-weight:800; text-align:center; padding:0 20px;}
+  .follow-handle{text-align:center; font-weight:800; color:var(--ink-soft); margin:8px 0 18px; font-size:1.05rem;}
+  .social-row{display:flex; justify-content:center; gap:14px; padding:0 20px 24px; flex-wrap:wrap;}
+  .social-circle{
+    width:42px; height:42px; border-radius:50%;
+    background:var(--ink); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.05rem;
+  }
+  .social-instagram{
+    background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+  }
+  .video-card{
+    min-width:225px; max-width:225px; scroll-snap-align:start;
+    border:1px solid var(--line); border-radius:var(--radius-md);
+    overflow:hidden; background:#fff;
+  }
+  .video-thumb{
+    height:260px; position:relative;
+    background:linear-gradient(160deg,#26365E,#0F1830);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .video-thumb i.play-ic{
+    font-size:2.6rem; color:#fff; opacity:.95;
+  }
+  .mute-ic{
+    position:absolute; bottom:10px; left:10px;
+    width:30px; height:30px; border-radius:50%;
+    background:rgba(0,0,0,.45); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:.78rem;
+  }
+  .video-meta{
+    display:flex; align-items:center; gap:10px;
+    padding:12px;
+  }
+  .video-meta-thumb{
+    width:42px; height:42px; border-radius:10px; flex:none;
+    background:var(--blue-soft); display:flex; align-items:center; justify-content:center; color:var(--blue);
+  }
+  .video-meta-text{flex:1; min-width:0;}
+  .video-meta-text .vt{font-weight:800; font-size:.84rem; line-height:1.25;}
+  .video-meta-text .vp{font-weight:700; color:var(--ink-soft); font-size:.84rem; margin-top:2px;}
+  .chev{color:var(--ink-soft);}
+
+  footer.fin{
+    text-align:center; padding:38px 20px 60px;
+    color:var(--ink-soft); font-size:.8rem; font-weight:700;
+  }
+
+  /* floating chat bubble */
+  .chat-fab{
+    position:fixed;
+    bottom:22px; right:max(16px, calc(50% - 195px));
+    background:rgba(255,255,255,.95);
+    color:var(--blue);
+    border-radius:var(--radius-pill);
+    padding:11px 18px 11px 14px;
+    display:flex; align-items:center; gap:8px;
+    font-family:'Baloo 2',cursive; font-weight:700; font-size:.95rem;
+    box-shadow:0 6px 18px rgba(15,20,60,.25);
+    z-index:50;
+    border:1px solid var(--line);
+  }
+  .chat-fab i{font-size:1.05rem;}
+  .toast{
+    position:fixed; left:50%; bottom:90px; transform:translateX(-50%) translateY(20px);
+    background:var(--ink); color:#fff; padding:10px 18px; border-radius:99px;
+    font-weight:700; font-size:.85rem; opacity:0; pointer-events:none;
+    transition:.25s; z-index:60;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  @media (min-width:431px){
+    body{padding:24px 0;}
+  }
+</style>
+</head>
+<body>
+
+<div id="pageProgress"></div>
+
+<div class="app-shell">
+
+  <!-- promo bar -->
+  <div class="promo-bar">Free Shipping for Orders Over $49*</div>
+
+  <!-- nav -->
+  <header class="nav">
+    <button class="icon-btn" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+    <button class="icon-btn" aria-label="Account"><i class="fa-regular fa-user"></i></button>
+    <div class="logo"><span class="t1">Toy</span><span class="t2">H</span><span class="t3">i</span><span class="t4">ve</span></div>
+    <button class="icon-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+    <button class="icon-btn wishlist-btn" aria-label="Wishlist"><i class="fa-solid fa-heart"></i></button>
+    <button class="icon-btn" aria-label="Cart"><i class="fa-solid fa-cart-shopping"></i><span class="cart-dot"></span></button>
+  </header>
+
+  <!-- shop by age -->
+  <section class="age-section">
+    <h2>Shop By Age</h2>
+    <div class="age-grid">
+      <button>0-2</button>
+      <button>3-4</button>
+      <button>5-7</button>
+      <button>8-10</button>
+      <button>11-12</button>
+      <button>13+</button>
+    </div>
+  </section>
+
+  <!-- hero carousel -->
+  <section>
+    <div class="carousel-track" id="heroTrack" style="padding:0; gap:0; scroll-snap-type:x mandatory;">
+      <div class="hero-slide photo" style="background-image:linear-gradient(180deg,rgba(10,20,50,.05) 35%, rgba(5,12,35,.78) 100%), url('https://picsum.photos/seed/outdoorkids/800/700');">
+        <h1>OUTDOOR<br>PLAY ALL DAY</h1>
+        <a class="pill-btn" href="#productCarousel">Shop Now</a>
+      </div>
+      <div class="hero-slide movie-slide">
+        <p class="studio">An Animated Studios Adventure</p>
+        <h1>TOY<br>TALES<br>5</h1>
+        <a class="pill-btn" href="#">Shop Now</a>
+        <p class="credit">©Animated Studios — fan recreation</p>
+      </div>
+      <div class="hero-slide trend-slide">
+        <div class="cloud-r"><i class="fa-solid fa-cloud"></i></div>
+        <h1>NEW &amp;<br>TRENDING</h1>
+        <a class="pill-btn" href="#categorySection">Shop Now</a>
+      </div>
+    </div>
+    <div class="progress-rail"><div class="progress-fill" id="heroProgress"></div></div>
+  </section>
+
+  <!-- product carousel -->
+  <section class="carousel-wrap" id="productCarousel">
+    <div class="carousel-track" id="productTrack">
+
+      <div class="product-card">
+        <div class="product-img"><i class="fa-solid fa-satellite-dish" style="font-size:2.2rem;"></i></div>
+        <div class="rating-row">
+          <span class="stars">★★★★★ <span>0.0 (0)</span></span>
+        </div>
+        <div class="price" style="margin-bottom:6px;">$59.99</div>
+        <div class="product-title">Pro Beam Kids Video Walkie Talkies 2-Pack With Camera &amp; Voice Changer</div>
+        <button class="add-cart">Add to cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img"><i class="fa-solid fa-seedling"></i></div>
+        <div class="rating-row">
+          <span class="stars">★★★☆☆ <span>3.0 (12)</span></span>
+        </div>
+        <div class="price" style="margin-bottom:6px;">$24.99</div>
+        <div class="product-title">Garden Adventure Sand &amp; Mold Outdoor Play Set</div>
+        <button class="add-cart">Add to cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img"><i class="fa-solid fa-futbol"></i></div>
+        <div class="rating-row">
+          <span class="stars">★★★★☆ <span>4.2 (38)</span></span>
+        </div>
+        <div class="price" style="margin-bottom:6px;">$14.99</div>
+        <div class="product-title">All-Weather Backyard Match Soccer Ball, Size 4</div>
+        <button class="add-cart">Add to cart</button>
+      </div>
+
+    </div>
+    <div class="progress-rail"><div class="progress-fill" id="productProgress"></div></div>
+    <div class="section-cta-wrap">
+      <a class="section-cta" href="#">Shop Outdoor Play</a>
+    </div>
+  </section>
+
+  <!-- shop by category -->
+  <section id="categorySection">
+    <h2 class="section-heading">Shop By Category</h2>
+    <div class="carousel-track" id="categoryTrack">
+      <div class="tile-card">
+        <div class="tile-img" style="background:linear-gradient(150deg,#FFB199,#FF7A59);"><i class="fa-solid fa-cubes-stacked"></i></div>
+        <div class="tile-label">Building Sets &amp; Blocks</div>
+      </div>
+      <div class="tile-card">
+        <div class="tile-img" style="background:linear-gradient(150deg,#6FC9EE,#1E73C2);"><i class="fa-solid fa-basketball"></i></div>
+        <div class="tile-label">Outdoor Play</div>
+      </div>
+      <div class="tile-card">
+        <div class="tile-img" style="background:linear-gradient(150deg,#FFCBE1,#F178B6);"><i class="fa-solid fa-shapes"></i></div>
+        <div class="tile-label">Dolls &amp; Animals</div>
+      </div>
+      <div class="tile-card">
+        <div class="tile-img" style="background:linear-gradient(150deg,#B6E388,#7CB82F);"><i class="fa-solid fa-puzzle-piece"></i></div>
+        <div class="tile-label">Games &amp; Puzzles</div>
+      </div>
+    </div>
+    <div class="progress-rail"><div class="progress-fill" id="categoryProgress"></div></div>
+    <div class="section-cta-wrap">
+      <a class="section-cta" href="#">Shop All Categories</a>
+    </div>
+  </section>
+
+  <!-- shop by brand -->
+  <section>
+    <h2 class="section-heading">Shop By Brand</h2>
+    <div class="carousel-track" id="brandTrack">
+      <div class="brand-card" style="background:var(--green);">Made For<br>ToyHive</div>
+      <div class="brand-card" style="background:var(--sky); color:var(--blue-dark);">little<br>tikes</div>
+      <div class="brand-card" style="background:var(--pink);">Bella<br>Doll Co.</div>
+      <div class="brand-card" style="background:var(--blue);">BrickWorks</div>
+    </div>
+    <div class="progress-rail"><div class="progress-fill" id="brandProgress"></div></div>
+    <div class="section-cta-wrap">
+      <a class="section-cta" href="#">Shop All Brands</a>
+    </div>
+  </section>
+
+  <!-- geoffrey-style book club -->
+  <section>
+    <div class="bookclub-banner">
+      <div class="giraffe-emoji">🦒</div>
+      <div class="bookclub-badge">Buddy's<br>Book Club<small>READ &amp; DISCOVER</small></div>
+    </div>
+    <div class="carousel-wrap tight">
+      <div class="carousel-track" id="bookTrack">
+        <div class="product-card">
+          <div class="product-img" style="background:linear-gradient(160deg,#1B2A52,#3E5FA8); color:#fff;"><i class="fa-solid fa-meteor"></i></div>
+          <div class="rating-row"><span class="stars">★★★★★ <span>0.0 (0)</span></span></div>
+          <div class="price" style="margin-bottom:6px;">$17.99</div>
+          <div class="product-title">Galaxy Explorers: Jedi Training Mission Activity Book</div>
+          <button class="add-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <div class="product-img" style="background:linear-gradient(160deg,#3E5FA8,#1B2A52); color:#fff;"><i class="fa-solid fa-meteor"></i></div>
+          <div class="rating-row"><span class="stars">★★★☆☆ <span>3.0 (4)</span></span></div>
+          <div class="price" style="margin-bottom:6px;">$12.99</div>
+          <div class="product-title">Galaxy Explorers: A Hero in Training Step-by-Step Reader</div>
+          <button class="add-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <div class="product-img" style="background:linear-gradient(160deg,#F4B400,#E08800); color:#fff;"><i class="fa-solid fa-paw"></i></div>
+          <div class="rating-row"><span class="stars">★★★★★ <span>5.0 (2)</span></span></div>
+          <div class="price" style="margin-bottom:6px;">$9.99</div>
+          <div class="product-title">Buddy the Giraffe: A Tall Tale Bedtime Story</div>
+          <button class="add-cart">Add to cart</button>
+        </div>
+      </div>
+      <div class="progress-rail"><div class="progress-fill" id="bookProgress"></div></div>
+    </div>
+  </section>
+
+  <!-- trivia -->
+  <section class="trivia-wrap">
+    <div class="trivia-card">
+      <div class="trivia-inner">
+        <div class="trivia-logo">ToyHive</div>
+        <div class="trivia-tag">Trivia</div>
+        <div class="trivia-q">How old is Buddy the Giraffe?</div>
+        <button class="trivia-btn" data-val="12">12</button>
+        <button class="trivia-btn" data-val="9.5">9.5</button>
+        <button class="trivia-btn" data-val="10.5">10.5</button>
+        <button class="trivia-btn" data-val="13">13</button>
+        <div class="trivia-msg" id="triviaMsg"></div>
+        <a class="shop-geoffrey" href="#">Shop Buddy</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- follow / social -->
+  <section class="follow-section">
+    <h2 class="follow-heading">Follow the fun! #toyhive</h2>
+    <div class="follow-handle">@toyhive</div>
+    <div class="social-row">
+      <a class="social-circle" href="#"><i class="fa-brands fa-facebook-f"></i></a>
+      <a class="social-circle social-instagram" href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a class="social-circle" href="#"><i class="fa-brands fa-youtube"></i></a>
+      <a class="social-circle" href="#"><i class="fa-brands fa-pinterest-p"></i></a>
+      <a class="social-circle" href="#"><i class="fa-brands fa-tiktok"></i></a>
+    </div>
+
+    <div class="carousel-track" id="videoTrack">
+      <div class="video-card">
+        <div class="video-thumb" style="background:linear-gradient(160deg,#E8B4D8,#C26FB0);">
+          <i class="fa-solid fa-circle-play play-ic"></i>
+          <div class="mute-ic"><i class="fa-solid fa-volume-xmark"></i></div>
+        </div>
+        <div class="video-meta">
+          <div class="video-meta-thumb"><i class="fa-solid fa-paw"></i></div>
+          <div class="video-meta-text">
+            <div class="vt">Buddy Plush Companion</div>
+            <div class="vp">$19.99</div>
+          </div>
+          <i class="fa-solid fa-chevron-up chev"></i>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-thumb">
+          <i class="fa-solid fa-circle-play play-ic"></i>
+          <div class="mute-ic"><i class="fa-solid fa-volume-xmark"></i></div>
+        </div>
+        <div class="video-meta">
+          <div class="video-meta-thumb"><i class="fa-solid fa-motorcycle"></i></div>
+          <div class="video-meta-text">
+            <div class="vt">Night Rider Dual Adventure Cycle</div>
+            <div class="vp">$29.99</div>
+          </div>
+          <i class="fa-solid fa-chevron-up chev"></i>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-thumb" style="background:linear-gradient(160deg,#FFD9A0,#F2A33D);">
+          <i class="fa-solid fa-circle-play play-ic"></i>
+          <div class="mute-ic"><i class="fa-solid fa-volume-xmark"></i></div>
+        </div>
+        <div class="video-meta">
+          <div class="video-meta-thumb"><i class="fa-solid fa-dog"></i></div>
+          <div class="video-meta-text">
+            <div class="vt">Wiggles the Walking Pup</div>
+            <div class="vp">$34.99</div>
+          </div>
+          <i class="fa-solid fa-chevron-up chev"></i>
+        </div>
+      </div>
+    </div>
+    <div class="progress-rail" style="margin-bottom:0;"><div class="progress-fill" id="videoProgress"></div></div>
+  </section>
+
+  <footer class="fin">ToyHive — a UI recreation built for practice · not a real store</footer>
+
+  <button class="chat-fab" id="chatFab"><i class="fa-solid fa-comment-dots"></i> Chat</button>
+  <div class="toast" id="toast">Thanks for stopping by! 🦒</div>
+
+</div>
+
+<script>
+  // page scroll progress
+  const pageProgress = document.getElementById('pageProgress');
+  function updatePageProgress(){
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = max <= 0 ? 0 : (window.scrollY / max) * 100;
+    pageProgress.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updatePageProgress);
+  window.addEventListener('resize', updatePageProgress);
+  updatePageProgress();
+
+  // generic carousel progress wiring
+  function wireCarousel(trackId, fillId, minPct){
+    const track = document.getElementById(trackId);
+    const fill = document.getElementById(fillId);
+    if(!track || !fill) return;
+    function update(){
+      const max = track.scrollWidth - track.clientWidth;
+      const pct = max <= 0 ? 100 : (track.scrollLeft / max) * 100;
+      fill.style.width = Math.max(minPct, Math.min(100, pct)) + '%';
+    }
+    track.addEventListener('scroll', () => requestAnimationFrame(update));
+    update();
+  }
+  wireCarousel('heroTrack','heroProgress',8);
+  wireCarousel('productTrack','productProgress',12);
+  wireCarousel('categoryTrack','categoryProgress',14);
+  wireCarousel('brandTrack','brandProgress',14);
+  wireCarousel('bookTrack','bookProgress',12);
+  wireCarousel('videoTrack','videoProgress',12);
+
+  // trivia interaction
+  const triviaMsg = document.getElementById('triviaMsg');
+  document.querySelectorAll('.trivia-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.trivia-btn').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      triviaMsg.textContent = "Thanks for playing! 🦒";
+    });
+  });
+
+  // chat fab toast
+  const toast = document.getElementById('toast');
+  document.getElementById('chatFab').addEventListener('click', ()=>{
+    toast.classList.add('show');
+    setTimeout(()=> toast.classList.remove('show'), 1800);
+  });
+
+  // add to cart micro-feedback
+  document.querySelectorAll('.add-cart').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const original = btn.textContent;
+      btn.textContent = 'Added ✓';
+      setTimeout(()=> btn.textContent = original, 1200);
+    });
+  });
+</script>
+
+</body>
+</html>
