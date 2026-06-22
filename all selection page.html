@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toy Story | ToysRus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue-dark:#0f3fb0;
+    --blue:#1a56e0;
+    --blue-light:#3f7bff;
+    --red:#ee3a4b;
+    --orange:#ff8a1e;
+    --yellow:#ffc629;
+    --green:#34b27a;
+    --pink:#ff5fa2;
+    --ink:#15202b;
+    --ink-soft:#5b6878;
+    --line:#e6e9ee;
+    --bg:#f5f6f8;
+    --card-bg:#ffffff;
+    --radius-lg:22px;
+    --radius-md:14px;
+    --radius-sm:8px;
+    font-size:16px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Poppins',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  .page{max-width:600px;margin:0 auto;background:var(--bg);min-height:100vh;position:relative;}
+
+  /* ---------- HEADER ---------- */
+  .site-header{
+    background:linear-gradient(180deg,var(--blue-dark) 0%,var(--blue) 100%);
+    padding:14px 16px;
+    position:sticky;top:0;z-index:30;
+  }
+  .header-inner{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+  }
+  .icon-btn{
+    width:38px;height:38px;display:flex;align-items:center;justify-content:center;
+    color:#fff;border-radius:50%;flex:0 0 auto;
+  }
+  .icon-btn svg{width:22px;height:22px;display:block;}
+  .header-actions{display:flex;align-items:center;}
+  .header-actions .icon-btn{position:relative;}
+  .cart-badge{
+    position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;
+    background:var(--yellow);border:1.5px solid var(--blue);
+  }
+  .logo{
+    font-family:'Fredoka',sans-serif;
+    font-weight:700;
+    font-size:1.55rem;
+    letter-spacing:0.5px;
+    display:flex;
+    user-select:none;
+    text-shadow:0 2px 0 rgba(0,0,0,0.08);
+  }
+  .logo span{display:inline-block;}
+  .logo .flip{display:inline-block;transform:scaleX(-1);}
+  .logo .l-t{color:#ff5060;}
+  .logo .l-o1{color:#ffb13d;}
+  .logo .l-y{color:#ffe14d;}
+  .logo .l-s1{color:#5cd97e;}
+  .logo .l-r{color:#48c4ff;}
+  .logo .l-u{color:#5b8bff;}
+  .logo .l-s2{color:#ff6fc3;}
+
+  /* ---------- BREADCRUMB ---------- */
+  .breadcrumb{
+    padding:16px 20px 8px;
+    font-size:0.95rem;
+    display:flex;gap:8px;align-items:center;
+    color:var(--blue);
+  }
+  .breadcrumb a{text-decoration:underline;font-weight:500;}
+  .breadcrumb .sep{color:var(--ink-soft);text-decoration:none;}
+  .breadcrumb .current{color:var(--blue);}
+
+  /* ---------- HERO BANNER ---------- */
+  .hero-banner{
+    margin:8px 16px 20px;
+    border-radius:var(--radius-lg);
+    background:linear-gradient(135deg,#bfe6ff 0%,#8fd0f7 60%,#7cc6f4 100%);
+    position:relative;
+    overflow:hidden;
+    min-height:260px;
+    display:flex;
+    align-items:flex-end;
+    padding:24px;
+  }
+  .hero-banner::before{
+    content:"";
+    position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 80% 20%, rgba(255,255,255,0.5), transparent 45%),
+      radial-gradient(circle at 15% 85%, rgba(255,255,255,0.35), transparent 40%);
+  }
+  .hero-credit{
+    position:absolute;right:10px;top:50%;transform:translateY(-50%) rotate(90deg);
+    transform-origin:right center;
+    font-size:0.6rem;color:rgba(20,40,60,0.45);letter-spacing:0.5px;
+  }
+  .hero-content{position:relative;z-index:2;}
+  .hero-eyebrow{
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    margin:0 0 4px;
+    color:#2a3f55;
+    font-size:1.05rem;
+    letter-spacing:0.5px;
+  }
+  .hero-title{
+    margin:0;
+    font-family:'Fredoka',sans-serif;
+    font-weight:700;
+    font-size:3.1rem;
+    line-height:0.95;
+    color:#fff200;
+    -webkit-text-stroke:3px #1b3a6b;
+    text-stroke:3px #1b3a6b;
+    text-shadow:4px 4px 0 #d2271f;
+  }
+  .hero-figures{
+    position:absolute;right:6%;bottom:0;
+    display:flex;align-items:flex-end;gap:6px;
+    font-size:3.8rem;
+    filter:drop-shadow(0 6px 8px rgba(0,0,0,0.18));
+  }
+  .hero-figures span{display:block;}
+  .hero-figures span:nth-child(2){font-size:4.6rem;margin-bottom:-6px;}
+
+  /* ---------- TOOLBAR ---------- */
+  .toolbar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:4px 20px 18px;
+  }
+  .filter-btn{
+    display:flex;align-items:center;gap:8px;
+    border:1.5px solid #c7ccd4;
+    background:#fff;
+    padding:10px 18px;
+    border-radius:30px;
+    font-weight:600;
+    font-size:0.98rem;
+  }
+  .filter-btn svg{width:18px;height:18px;}
+  .product-count{
+    font-weight:600;
+    color:var(--ink);
+    font-size:1.05rem;
+  }
+
+  /* ---------- PRODUCT GRID ---------- */
+  .product-grid{
+    display:flex;flex-direction:column;
+    padding:0 0 40px;
+  }
+  .product-card{
+    display:flex;gap:16px;
+    padding:22px 20px;
+    border-top:1px solid var(--line);
+    background:var(--card-bg);
+    transition:opacity .25s ease;
+  }
+  .product-card.hidden{display:none;}
+  .product-image{
+    flex:0 0 130px;
+    height:130px;
+    border-radius:var(--radius-md);
+    display:flex;align-items:center;justify-content:center;
+    font-size:3.2rem;
+    position:relative;
+  }
+  .product-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;}
+  .rating-row{display:flex;align-items:center;gap:8px;}
+  .stars{
+    position:relative;
+    font-size:0.95rem;
+    letter-spacing:2px;
+    color:#d9dce1;
+    white-space:nowrap;
+  }
+  .stars::before{content:"★★★★★";}
+  .stars-fill{
+    position:absolute;top:0;left:0;overflow:hidden;
+    color:var(--red);
+    white-space:nowrap;
+  }
+  .stars-fill::before{content:"★★★★★";}
+  .rating-text{font-size:0.92rem;color:var(--ink-soft);}
+  .wishlist-btn{
+    margin-left:auto;
+    width:30px;height:30px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--ink);
+    flex:0 0 auto;
+  }
+  .wishlist-btn svg{width:21px;height:21px;}
+  .wishlist-btn.active svg path{fill:var(--red);stroke:var(--red);}
+  .product-title{
+    margin:0;font-size:1.05rem;font-weight:600;line-height:1.32;color:var(--ink);
+  }
+  .product-price{margin:2px 0 4px;font-size:1.15rem;font-weight:700;}
+  .add-to-cart{
+    background:var(--blue);
+    color:#fff;
+    padding:13px 0;
+    border-radius:30px;
+    font-weight:700;
+    font-size:1rem;
+    text-align:center;
+    width:100%;
+    transition:background .15s ease, transform .1s ease;
+  }
+  .add-to-cart:active{transform:scale(0.98);}
+  .add-to-cart.added{background:var(--green);}
+
+  .empty-state{
+    padding:60px 24px;text-align:center;color:var(--ink-soft);font-size:1rem;display:none;
+  }
+  .empty-state.show{display:block;}
+
+  /* ---------- CHAT BUBBLE ---------- */
+  .chat-bubble{
+    position:fixed;bottom:22px;right:max(16px, calc((100vw - 600px)/2 + 16px));
+    background:#fff;border:1px solid var(--line);
+    padding:11px 18px 11px 14px;border-radius:30px;
+    display:flex;align-items:center;gap:8px;
+    font-weight:600;font-size:0.95rem;
+    box-shadow:0 6px 18px rgba(20,40,70,0.15);
+    z-index:25;color:var(--blue);
+  }
+  .chat-bubble svg{width:19px;height:19px;color:var(--blue);}
+
+  /* ---------- FILTER DRAWER ---------- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(20,30,45,0.45);
+    opacity:0;pointer-events:none;transition:opacity .25s ease;
+    z-index:40;
+  }
+  .overlay.show{opacity:1;pointer-events:auto;}
+
+  .filter-drawer{
+    position:fixed;top:0;right:0;bottom:0;
+    width:min(86vw, 460px);
+    background:#fff;
+    z-index:50;
+    transform:translateX(100%);
+    transition:transform .3s cubic-bezier(.4,0,.2,1);
+    display:flex;flex-direction:column;
+    box-shadow:-8px 0 30px rgba(0,0,0,0.15);
+  }
+  .filter-drawer.open{transform:translateX(0);}
+
+  .drawer-header{
+    text-align:center;
+    padding:22px 50px 18px;
+    position:relative;
+    border-bottom:1px solid var(--line);
+    flex:0 0 auto;
+  }
+  .drawer-header h2{margin:0;font-size:1.3rem;font-weight:700;}
+  .drawer-header p{margin:6px 0 0;color:var(--ink-soft);font-size:1rem;}
+  .drawer-close{
+    position:absolute;top:18px;right:18px;
+    width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+  }
+  .drawer-close svg{width:22px;height:22px;}
+
+  .drawer-body{flex:1;overflow-y:auto;padding-bottom:90px;}
+
+  .accordion-section{border-bottom:1px solid var(--line);}
+  .accordion-header{
+    width:100%;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:20px 24px;
+    font-size:1.15rem;font-weight:700;
+    text-align:left;
+  }
+  .accordion-header .chev{
+    width:18px;height:18px;transition:transform .25s ease;flex:0 0 auto;
+  }
+  .accordion-section.open .accordion-header .chev{transform:rotate(180deg);}
+  .accordion-content{
+    max-height:0;overflow:hidden;
+    transition:max-height .3s ease;
+    padding:0 24px;
+  }
+  .accordion-section.open .accordion-content{padding-bottom:22px;}
+
+  .option-row{
+    display:flex;align-items:center;gap:14px;
+    padding:10px 0;
+    font-size:1.08rem;
+    cursor:pointer;
+  }
+  .option-row input[type="checkbox"],
+  .option-row input[type="radio"]{
+    width:22px;height:22px;flex:0 0 auto;accent-color:var(--blue);
+  }
+  .option-row .opt-label{flex:1;}
+  .option-row .opt-count{color:var(--ink-soft);}
+
+  .show-more-btn{
+    display:flex;align-items:center;gap:8px;
+    padding:12px 0 6px;
+    font-weight:700;font-size:0.95rem;letter-spacing:0.3px;
+    color:var(--ink);
+  }
+  .extra-options.hide{display:none;}
+
+  .price-range{
+    padding:8px 0 4px;
+  }
+  .price-note{color:var(--ink-soft);font-size:0.98rem;margin:0 0 14px;}
+  .price-inputs{display:flex;align-items:center;gap:10px;}
+  .price-field{
+    flex:1;display:flex;align-items:center;
+    border:1.5px solid #c7ccd4;border-radius:8px;
+    padding:10px 12px;gap:4px;
+  }
+  .price-field input{
+    border:none;outline:none;width:100%;font-size:1rem;font-family:inherit;color:var(--ink);
+  }
+  .price-to{color:var(--ink-soft);font-size:1rem;}
+
+  .drawer-footer{
+    position:absolute;left:0;right:0;bottom:0;
+    background:#fff;border-top:1px solid var(--line);
+    padding:14px 20px;
+    display:flex;gap:12px;
+  }
+  .drawer-footer button{
+    flex:1;padding:14px 0;border-radius:30px;font-weight:700;font-size:1rem;
+  }
+  .clear-btn{border:1.5px solid #c7ccd4;color:var(--ink);background:#fff;}
+  .apply-btn{background:var(--blue);color:#fff;}
+
+  @media (min-width:601px){
+    .page{box-shadow:0 0 40px rgba(0,0,0,0.06);}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c1.2-4 4-6 7-6s5.8 2 7 6" stroke-linecap="round"/></svg>
+      </button>
+      <a href="#" class="logo" aria-label="ToysRus home">
+        <span class="l-t">T</span><span class="l-o1">o</span><span class="l-y">y</span><span class="l-s1">s</span><span class="flip l-r">R</span><span class="l-u">U</span><span class="l-s2">s</span>
+      </a>
+      <div class="header-actions">
+        <button class="icon-btn" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5" stroke-linecap="round"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Wishlist">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 21s-7.5-4.6-10-9.3C.5 8 2.4 4.5 6 4.5c2.1 0 3.6 1.2 4.5 2.6l1.5 2.2 1.5-2.2c.9-1.4 2.4-2.6 4.5-2.6 3.6 0 5.5 3.5 4 7.2-2.5 4.7-10 9.3-10 9.3Z"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 12.4a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="10" cy="21" r="1.4" fill="currentColor" stroke="none"/><circle cx="17" cy="21" r="1.4" fill="currentColor" stroke="none"/></svg>
+          <span class="cart-badge"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb">
+    <a href="#">Home</a><span class="sep">&gt;</span><a href="#" class="current">Toy Story</a>
+  </nav>
+
+  <!-- HERO BANNER -->
+  <section class="hero-banner">
+    <span class="hero-credit">©Disney/Pixar</span>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Disney · Pixar</p>
+      <h1 class="hero-title">TOY<br>STORY<br>5</h1>
+    </div>
+    <div class="hero-figures">
+      <span>🤠</span><span>🚀</span><span>🐴</span>
+    </div>
+  </section>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <button class="filter-btn" id="openFilter">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2" fill="#fff"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2" fill="#fff"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="11" cy="18" r="2" fill="#fff"/></svg>
+      Filter and sort
+    </button>
+    <span class="product-count" id="productCount">20 products</span>
+  </div>
+
+  <!-- PRODUCT GRID -->
+  <main class="product-grid" id="productGrid"></main>
+  <p class="empty-state" id="emptyState">No products match your filters. Try clearing a few and searching again.</p>
+
+  <!-- CHAT BUBBLE -->
+  <button class="chat-bubble">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.5 8.5 0 1 1-3.7-7"/><path d="M21 3v6h-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Chat
+  </button>
+
+  <!-- FILTER DRAWER -->
+  <div class="overlay" id="overlay"></div>
+  <aside class="filter-drawer" id="filterDrawer" aria-hidden="true">
+    <div class="drawer-header">
+      <h2>Filter and sort</h2>
+      <p id="drawerCount">20 products</p>
+      <button class="drawer-close" id="closeFilter" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+      </button>
+    </div>
+
+    <div class="drawer-body" id="drawerBody">
+
+      <!-- SORT BY -->
+      <div class="accordion-section open" data-section="sort">
+        <button class="accordion-header">
+          Sort by:
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <label class="option-row"><input type="radio" name="sort" value="featured" checked><span class="opt-label">Featured</span></label>
+          <label class="option-row"><input type="radio" name="sort" value="bestselling"><span class="opt-label">Best selling</span></label>
+          <label class="option-row"><input type="radio" name="sort" value="az"><span class="opt-label">Alphabetically, A-Z</span></label>
+          <label class="option-row"><input type="radio" name="sort" value="za"><span class="opt-label">Alphabetically, Z-A</span></label>
+          <label class="option-row"><input type="radio" name="sort" value="lowhigh"><span class="opt-label">Price, low to high</span></label>
+          <label class="option-row"><input type="radio" name="sort" value="highlow"><span class="opt-label">Price, high to low</span></label>
+          <label class="option-row"><input type="radio" name="sort" value="oldnew"><span class="opt-label">Date, old to new</span></label>
+          <label class="option-row"><input type="radio" name="sort" value="newold"><span class="opt-label">Date, new to old</span></label>
+        </div>
+      </div>
+
+      <!-- CATEGORY -->
+      <div class="accordion-section" data-section="category">
+        <button class="accordion-header">
+          Category
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <label class="option-row"><input type="checkbox" data-group="category" value="Action Figures and Accessories"><span class="opt-label">Action Figures and Accessories</span><span class="opt-count">(8)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="Adult Collector Guide"><span class="opt-label">Adult Collector Guide</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="Building Blocks and Construction"><span class="opt-label">Building Blocks and Construction</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="Building Sets & blocks"><span class="opt-label">Building Sets &amp; blocks</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="LEGO"><span class="opt-label">LEGO</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="LEGO Disney"><span class="opt-label">LEGO Disney</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="Learning Systems"><span class="opt-label">Learning Systems</span><span class="opt-count">(2)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="Playsets Child Size"><span class="opt-label">Playsets Child Size</span><span class="opt-count">(2)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="Plush Stuffed Animals"><span class="opt-label">Plush Stuffed Animals</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="Pretend Play and Role Play"><span class="opt-label">Pretend Play and Role Play</span><span class="opt-count">(1)</span></label>
+          <div class="extra-options hide">
+            <label class="option-row"><input type="checkbox" data-group="category" value="Vehicles"><span class="opt-label">Vehicles</span><span class="opt-count">(1)</span></label>
+            <label class="option-row"><input type="checkbox" data-group="category" value="Games"><span class="opt-label">Games</span><span class="opt-count">(1)</span></label>
+          </div>
+          <button class="show-more-btn" id="showMoreCategory">+ <span>SHOW MORE</span></button>
+        </div>
+      </div>
+
+      <!-- AGE -->
+      <div class="accordion-section" data-section="age">
+        <button class="accordion-header">
+          Age
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <label class="option-row"><input type="checkbox" data-group="age" value="11-12 years"><span class="opt-label">11-12 years</span><span class="opt-count">(2)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="age" value="13+ years"><span class="opt-label">13+ years</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="age" value="3-4 years"><span class="opt-label">3-4 years</span><span class="opt-count">(15)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="age" value="5-7 years"><span class="opt-label">5-7 years</span><span class="opt-count">(13)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="age" value="8-10 years"><span class="opt-label">8-10 years</span><span class="opt-count">(2)</span></label>
+        </div>
+      </div>
+
+      <!-- BRAND -->
+      <div class="accordion-section" data-section="brand">
+        <button class="accordion-header">
+          Brand
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <label class="option-row"><input type="checkbox" data-group="brand" value="Disney"><span class="opt-label">Disney</span><span class="opt-count">(2)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="brand" value="Disney Pixar"><span class="opt-label">Disney Pixar</span><span class="opt-count">(1)</span></label>
+        </div>
+      </div>
+
+      <!-- PRICE -->
+      <div class="accordion-section" data-section="price">
+        <button class="accordion-header">
+          Price
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <div class="price-range">
+            <p class="price-note">The highest price is $149.99</p>
+            <div class="price-inputs">
+              <div class="price-field">$<input type="number" id="priceMin" placeholder="15.99" min="0"></div>
+              <span class="price-to">to</span>
+              <div class="price-field">$<input type="number" id="priceMax" placeholder="149.99" min="0"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHARACTER -->
+      <div class="accordion-section" data-section="character">
+        <button class="accordion-header">
+          Character
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <label class="option-row"><input type="checkbox" data-group="character" value="Bullseye"><span class="opt-label">Bullseye</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="character" value="Buzz Lightyear"><span class="opt-label">Buzz Lightyear</span><span class="opt-count">(6)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="character" value="Jessie"><span class="opt-label">Jessie</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="character" value="Slinky Dog"><span class="opt-label">Slinky Dog</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="character" value="Toy Story"><span class="opt-label">Toy Story</span><span class="opt-count">(8)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="character" value="Woody"><span class="opt-label">Woody</span><span class="opt-count">(2)</span></label>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="drawer-footer">
+      <button class="clear-btn" id="clearFilters">Clear all</button>
+      <button class="apply-btn" id="applyFilters">Apply</button>
+    </div>
+  </aside>
+
+</div>
+
+<script>
+/* ---------------- PRODUCT DATA ---------------- */
+const products = [
+  {title:"Imaginext Toy Story Pizza Planet Truck with Buzz Lightyear and Alien Figures", price:21.99, rating:4.8, reviews:47, icon:"🚚", grad:["#ffe9b3","#ffd27a"], category:["Action Figures and Accessories"], age:["5-7 years","8-10 years"], brand:[], character:["Buzz Lightyear","Toy Story"]},
+  {title:"Fantasma Disney Toy Story Andy's Toy Chest Wooden Puzzle Box", price:24.99, rating:0, reviews:0, icon:"🧩", grad:["#cfe8ff","#a9d4ff"], category:["Pretend Play and Role Play"], age:["8-10 years","11-12 years"], brand:["Disney"], character:["Toy Story"]},
+  {title:"Toy Story Woody Pull-String Talking Action Figure", price:19.99, rating:4.7, reviews:55, icon:"🤠", grad:["#ffd6d6","#ffb3b3"], category:["Action Figures and Accessories"], age:["3-4 years","5-7 years"], brand:[], character:["Woody","Toy Story"]},
+  {title:"LEGO Disney Toy Story Buzz Lightyear & Zurg Battle Set", price:34.99, rating:4.9, reviews:112, icon:"🧱", grad:["#d8f5d0","#aee6a0"], category:["LEGO Disney","LEGO"], age:["8-10 years","11-12 years"], brand:["Disney Pixar"], character:["Buzz Lightyear","Toy Story"]},
+  {title:"Toy Story Bullseye Plush Horse Stuffed Animal", price:16.99, rating:4.6, reviews:38, icon:"🧸", grad:["#f4e3ff","#e0c2ff"], category:["Plush Stuffed Animals"], age:["3-4 years","5-7 years"], brand:[], character:["Bullseye","Toy Story"]},
+  {title:"Toy Story Jessie Cowgirl Action Figure with Lasso", price:18.99, rating:4.5, reviews:29, icon:"🤠", grad:["#ffe0c2","#ffc78a"], category:["Action Figures and Accessories"], age:["3-4 years"], brand:[], character:["Jessie","Toy Story"]},
+  {title:"Toy Story Slinky Dog Pull-Along Toy", price:22.99, rating:4.7, reviews:64, icon:"🐶", grad:["#fff3b0","#ffe680"], category:["Action Figures and Accessories"], age:["3-4 years","5-7 years"], brand:[], character:["Slinky Dog","Toy Story"]},
+  {title:"Disney Pixar Toy Story Andy's Room Building Blocks Playset", price:44.99, rating:4.4, reviews:21, icon:"🏗️", grad:["#cdeee0","#9fdcc1"], category:["Building Blocks and Construction"], age:["5-7 years","8-10 years"], brand:["Disney Pixar"], character:["Toy Story"]},
+  {title:"Toy Story Buzz Lightyear Wings & Lights Roleplay Helmet", price:29.99, rating:4.3, reviews:18, icon:"🪖", grad:["#cfe2ff","#a6c4ff"], category:["Pretend Play and Role Play"], age:["5-7 years"], brand:[], character:["Buzz Lightyear"]},
+  {title:"Toy Story Talking Woody 16\" Figure Collector Edition", price:59.99, rating:4.9, reviews:9, icon:"📦", grad:["#ffd9d9","#ffb0b0"], category:["Adult Collector Guide"], age:["13+ years"], brand:[], character:["Woody","Toy Story"]},
+  {title:"Toy Story Buzz Lightyear Space Ranger Action Figure", price:15.99, rating:4.6, reviews:73, icon:"🚀", grad:["#d4f0ff","#a9e0ff"], category:["Action Figures and Accessories"], age:["3-4 years"], brand:[], character:["Buzz Lightyear"]},
+  {title:"Toy Story Woody & Buzz Friendship Figure 2-Pack", price:27.99, rating:4.8, reviews:41, icon:"⭐", grad:["#fff0c2","#ffe08a"], category:["Action Figures and Accessories"], age:["5-7 years"], brand:[], character:["Buzz Lightyear","Woody","Toy Story"]},
+  {title:"Toy Story Pizza Planet Alien Squeeze Plush 3-Pack", price:15.99, rating:4.2, reviews:16, icon:"👽", grad:["#dcf7d0","#b7eda3"], category:["Plush Stuffed Animals"], age:["3-4 years"], brand:[], character:["Toy Story"]},
+  {title:"Toy Story Learning Letters Playset", price:19.99, rating:4.1, reviews:12, icon:"🔤", grad:["#ffe3f1","#ffc1e1"], category:["Learning Systems"], age:["3-4 years"], brand:[], character:["Toy Story"]},
+  {title:"Toy Story Counting & Colors Activity Cube", price:24.99, rating:4.4, reviews:27, icon:"🎲", grad:["#e0e4ff","#c2c9ff"], category:["Learning Systems"], age:["3-4 years"], brand:[], character:["Toy Story"]},
+  {title:"Toy Story Child-Size Pizza Planet Play Kitchen", price:129.99, rating:4.7, reviews:8, icon:"🍕", grad:["#ffe8c2","#ffd08a"], category:["Playsets Child Size"], age:["3-4 years","5-7 years"], brand:[], character:["Toy Story"]},
+  {title:"Toy Story Andy's Backyard Child-Size Tent Playset", price:89.99, rating:4.5, reviews:14, icon:"⛺", grad:["#d7f5e6","#abe8c9"], category:["Playsets Child Size"], age:["5-7 years"], brand:[], character:["Toy Story"]},
+  {title:"Toy Story 5 Galactic Alliance Buzz Lightyear Deluxe Figure", price:32.99, rating:4.9, reviews:33, icon:"🛸", grad:["#cfeaff","#9fd6ff"], category:["Action Figures and Accessories"], age:["8-10 years"], brand:[], character:["Buzz Lightyear","Toy Story"]},
+  {title:"Toy Story Woody's Roundup Building Set", price:39.99, rating:4.6, reviews:19, icon:"🤠", grad:["#ffeccb","#ffd99a"], category:["Building Sets & blocks"], age:["8-10 years","11-12 years"], brand:[], character:["Woody","Toy Story"]},
+  {title:"Toy Story 5 Movie Storybook & Figure Collector Set", price:149.99, rating:4.9, reviews:6, icon:"📖", grad:["#f0d9ff","#dbb3ff"], category:["Action Figures and Accessories"], age:["8-10 years"], brand:[], character:["Toy Story"]},
+];
+products.forEach((p,i)=>{p.id=i;p.dateIndex=i;});
+
+const grid = document.getElementById('productGrid');
+const productCountEl = document.getElementById('productCount');
+const drawerCountEl = document.getElementById('drawerCount');
+const emptyState = document.getElementById('emptyState');
+
+function starsMarkup(rating){
+  const pct = Math.max(0, Math.min(100, (rating/5)*100));
+  return `<span class="stars"><span class="stars-fill" style="width:${pct}%"></span></span>`;
+}
+
+function renderProducts(list){
+  grid.innerHTML = '';
+  list.forEach(p=>{
+    const card = document.createElement('article');
+    card.className = 'product-card';
+    card.dataset.id = p.id;
+    card.innerHTML = `
+      <div class="product-image" style="background:linear-gradient(135deg, ${p.grad[0]}, ${p.grad[1]})">${p.icon}</div>
+      <div class="product-info">
+        <div class="rating-row">
+          ${starsMarkup(p.rating)}
+          <span class="rating-text">${p.rating.toFixed(1)} (${p.reviews})</span>
+          <button class="wishlist-btn" aria-label="Add to wishlist">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7.5-4.6-10-9.3C.5 8 2.4 4.5 6 4.5c2.1 0 3.6 1.2 4.5 2.6l1.5 2.2 1.5-2.2c.9-1.4 2.4-2.6 4.5-2.6 3.6 0 5.5 3.5 4 7.2-2.5 4.7-10 9.3-10 9.3Z"/></svg>
+          </button>
+        </div>
+        <h3 class="product-title">${p.title}</h3>
+        <p class="product-price">$${p.price.toFixed(2)}</p>
+        <button class="add-to-cart">Add to cart</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+renderProducts(products);
+
+/* wishlist + add to cart interactions */
+grid.addEventListener('click', e=>{
+  const wish = e.target.closest('.wishlist-btn');
+  if(wish){ wish.classList.toggle('active'); return; }
+  const add = e.target.closest('.add-to-cart');
+  if(add){
+    add.textContent = 'Added ✓';
+    add.classList.add('added');
+    setTimeout(()=>{ add.textContent='Add to cart'; add.classList.remove('added'); }, 1400);
+  }
+});
+
+/* ---------------- FILTER DRAWER ---------------- */
+const overlay = document.getElementById('overlay');
+const drawer = document.getElementById('filterDrawer');
+const openBtn = document.getElementById('openFilter');
+const closeBtn = document.getElementById('closeFilter');
+
+function openDrawer(){
+  drawer.classList.add('open');
+  overlay.classList.add('show');
+  drawer.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+function closeDrawer(){
+  drawer.classList.remove('open');
+  overlay.classList.remove('show');
+  drawer.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+openBtn.addEventListener('click', openDrawer);
+closeBtn.addEventListener('click', closeDrawer);
+overlay.addEventListener('click', closeDrawer);
+
+/* accordion: one section open at a time */
+document.querySelectorAll('.accordion-section').forEach(section=>{
+  const header = section.querySelector('.accordion-header');
+  const content = section.querySelector('.accordion-content');
+  header.addEventListener('click', ()=>{
+    const isOpen = section.classList.contains('open');
+    document.querySelectorAll('.accordion-section').forEach(s=>{
+      s.classList.remove('open');
+      s.querySelector('.accordion-content').style.maxHeight = null;
+    });
+    if(!isOpen){
+      section.classList.add('open');
+      content.style.maxHeight = content.scrollHeight + 'px';
+    }
+  });
+});
+// set initial open section height after fonts/layout settle
+window.addEventListener('load', ()=>{
+  const openSection = document.querySelector('.accordion-section.open .accordion-content');
+  if(openSection) openSection.style.maxHeight = openSection.scrollHeight + 'px';
+});
+
+/* show more categories */
+const showMoreBtn = document.getElementById('showMoreCategory');
+showMoreBtn.addEventListener('click', ()=>{
+  const extra = document.querySelector('.extra-options');
+  extra.classList.toggle('hide');
+  showMoreBtn.querySelector('span').textContent = extra.classList.contains('hide') ? 'SHOW MORE' : 'SHOW LESS';
+  showMoreBtn.firstChild.textContent = extra.classList.contains('hide') ? '+ ' : '− ';
+  const openContent = document.querySelector('.accordion-section.open .accordion-content');
+  if(openContent) openContent.style.maxHeight = openContent.scrollHeight + 'px';
+});
+
+/* ---------------- FILTERING + SORTING ---------------- */
+function getChecked(group){
+  return Array.from(document.querySelectorAll(`input[data-group="${group}"]:checked`)).map(i=>i.value);
+}
+
+function applyFiltersAndSort(){
+  const cats = getChecked('category');
+  const ages = getChecked('age');
+  const brands = getChecked('brand');
+  const chars = getChecked('character');
+  const min = parseFloat(document.getElementById('priceMin').value) || 0;
+  const max = parseFloat(document.getElementById('priceMax').value) || Infinity;
+  const sortVal = document.querySelector('input[name="sort"]:checked').value;
+
+  let filtered = products.filter(p=>{
+    const okCat = cats.length===0 || cats.some(c=>p.category.includes(c));
+    const okAge = ages.length===0 || ages.some(a=>p.age.includes(a));
+    const okBrand = brands.length===0 || brands.some(b=>p.brand.includes(b));
+    const okChar = chars.length===0 || chars.some(c=>p.character.includes(c));
+    const okPrice = p.price >= min && p.price <= max;
+    return okCat && okAge && okBrand && okChar && okPrice;
+  });
+
+  switch(sortVal){
+    case 'az': filtered.sort((a,b)=>a.title.localeCompare(b.title)); break;
+    case 'za': filtered.sort((a,b)=>b.title.localeCompare(a.title)); break;
+    case 'lowhigh': filtered.sort((a,b)=>a.price-b.price); break;
+    case 'highlow': filtered.sort((a,b)=>b.price-a.price); break;
+    case 'oldnew': filtered.sort((a,b)=>a.dateIndex-b.dateIndex); break;
+    case 'newold': filtered.sort((a,b)=>b.dateIndex-a.dateIndex); break;
+    case 'bestselling': filtered.sort((a,b)=>b.reviews-a.reviews); break;
+    default: filtered.sort((a,b)=>a.id-b.id);
+  }
+
+  renderProducts(filtered);
+  const countText = `${filtered.length} product${filtered.length!==1?'s':''}`;
+  productCountEl.textContent = countText;
+  drawerCountEl.textContent = countText;
+  emptyState.classList.toggle('show', filtered.length===0);
+}
+
+document.getElementById('applyFilters').addEventListener('click', ()=>{
+  applyFiltersAndSort();
+  closeDrawer();
+});
+
+document.getElementById('clearFilters').addEventListener('click', ()=>{
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb=>cb.checked=false);
+  document.querySelector('input[name="sort"][value="featured"]').checked = true;
+  document.getElementById('priceMin').value='';
+  document.getElementById('priceMax').value='';
+  applyFiltersAndSort();
+});
+
+// live sort on radio change (common UX pattern: sort applies immediately)
+document.querySelectorAll('input[name="sort"]').forEach(r=>{
+  r.addEventListener('change', applyFiltersAndSort);
+});
+</script>
+</body>
+</html>

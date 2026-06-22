@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toys"R"Us | Shop by Age</title>
+<style>
+  :root{
+    --trus-blue-dark:#0033a0;
+    --trus-blue:#1450c4;
+    --trus-blue-light:#3f7ee0;
+    --trus-red:#ed1c24;
+    --trus-yellow:#ffd400;
+    --ink:#1a1a1a;
+    --muted:#6b6b6b;
+    --line:#e6e6e6;
+    --bg:#ffffff;
+    --page-bg:#f4f4f4;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+    background:var(--page-bg);
+    color:var(--ink);
+    display:flex;
+    justify-content:center;
+  }
+
+  .phone{
+    width:100%;
+    max-width:430px;
+    min-height:100vh;
+    background:var(--bg);
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  /* ---------- Status bar ---------- */
+  .statusbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 18px 6px;
+    font-size:15px;
+    font-weight:600;
+    background:var(--bg);
+  }
+  .statusbar .time{font-weight:700;}
+  .statusbar .icons{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;}
+  .telegram-row{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    padding:0 14px 8px;
+    font-size:15px;
+    color:#1a1a1a;
+    font-weight:500;
+  }
+  .telegram-row .arrow{font-size:16px;}
+
+  /* ---------- Header ---------- */
+  .site-header{
+    background:linear-gradient(180deg,#0a3fb0 0%, #1457d6 55%, #2c6bef 100%);
+    padding:14px 16px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .site-header .menu-icon{
+    width:24px;height:18px;
+    display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .site-header .menu-icon span{display:block;height:2.5px;background:#fff;border-radius:2px;}
+  .site-header .user-icon{
+    width:22px;height:22px;border:2px solid #fff;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+  }
+  .logo{
+    font-weight:900;
+    font-size:30px;
+    letter-spacing:-0.5px;
+    font-style:italic;
+    display:flex;
+  }
+  .logo span{display:inline-block;transform:skewX(-6deg);}
+  .logo .c-toys{color:#ff5fa2;text-shadow:1px 1px 0 #fff;}
+  .logo .c-r{color:#ffd400; -webkit-text-stroke:1px #ff5fa2;}
+  .logo .c-us{color:#62c8f5;text-shadow:1px 1px 0 #fff;}
+  .header-right{display:flex;align-items:center;gap:14px;color:#fff;}
+  .header-right .icon-wrap{position:relative;display:flex;align-items:center;}
+  .cart-badge{
+    position:absolute;top:-8px;right:-10px;
+    background:#fff;color:#0033a0;
+    font-size:10px;font-weight:800;
+    border-radius:8px;padding:1px 5px;
+  }
+  .signal{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#fff;}
+
+  /* ---------- Breadcrumb ---------- */
+  .breadcrumb{
+    background:#f1f1f1;
+    padding:22px 18px;
+    font-size:18px;
+    color:#1450c4;
+  }
+  .breadcrumb a{color:#1450c4;text-decoration:underline;font-weight:500;}
+  .breadcrumb .sep{color:#1a1a1a;margin:0 6px;text-decoration:none;}
+
+  /* ---------- Section ---------- */
+  .age-section{
+    padding:34px 0 10px;
+  }
+  .age-title{
+    text-align:center;
+    font-size:46px;
+    font-weight:800;
+    margin:0 0 26px;
+    letter-spacing:-1px;
+    color:#1a1a1a;
+  }
+
+  .carousel{
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    padding:0 16px 6px;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+  }
+  .carousel::-webkit-scrollbar{display:none;}
+
+  .product-card{
+    flex:0 0 78%;
+    scroll-snap-align:start;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:22px 18px 24px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    background:#fff;
+  }
+  .product-card .img-wrap{
+    width:100%;
+    height:220px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:18px;
+  }
+  .product-card img{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+  }
+  .rating-row{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:10px;
+  }
+  .stars{
+    color:var(--trus-red);
+    font-size:18px;
+    letter-spacing:1px;
+  }
+  .rating-num{
+    font-size:15px;
+    color:#1a1a1a;
+    margin-left:6px;
+    font-weight:500;
+  }
+  .price{
+    font-size:24px;
+    font-weight:800;
+    color:#1a1a1a;
+  }
+  .product-title{
+    width:100%;
+    font-size:21px;
+    font-weight:700;
+    line-height:1.28;
+    margin:2px 0 18px;
+    color:#1a1a1a;
+  }
+  .add-cart-btn{
+    width:100%;
+    background:#1450c4;
+    color:#fff;
+    border:none;
+    border-radius:30px;
+    padding:16px 0;
+    font-size:19px;
+    font-weight:700;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .add-cart-btn:active{background:#0c3690;}
+
+  .scroll-track{
+    height:4px;
+    background:#e3e3e3;
+    border-radius:3px;
+    margin:18px 16px 28px;
+    position:relative;
+    overflow:hidden;
+  }
+  .scroll-thumb{
+    position:absolute;
+    top:0;left:0;
+    height:100%;
+    width:42px;
+    background:#1450c4;
+    border-radius:3px;
+  }
+
+  .shop-all-btn{
+    display:block;
+    width:calc(100% - 32px);
+    margin:8px auto 14px;
+    background:#1450c4;
+    color:#fff;
+    text-align:center;
+    border:none;
+    border-radius:30px;
+    padding:18px 0;
+    font-size:20px;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .source-pill{
+    display:block;
+    width:max-content;
+    margin:0 auto 26px;
+    background:#111;
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+    border-radius:30px;
+    padding:12px 22px;
+  }
+
+  .chat-fab{
+    position:fixed;
+    right:16px;
+    bottom:118px;
+    background:#eef1f5;
+    color:#1a1a1a;
+    border-radius:30px;
+    padding:12px 20px 12px 16px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:17px;
+    font-weight:600;
+    box-shadow:0 4px 14px rgba(0,0,0,0.12);
+    max-width:430px;
+  }
+  .chat-fab .bubble-icon{
+    background:#1450c4;
+    color:#fff;
+    width:30px;height:30px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;
+  }
+
+  .divider-gap{height:40px;}
+
+  @media (min-width:431px){
+    .phone{box-shadow:0 0 30px rgba(0,0,0,0.15);}
+  }
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <!-- Status / nav mock -->
+  <div class="statusbar">
+    <span class="time">11:43</span>
+    <span class="icons">🌙</span>
+  </div>
+  <div class="telegram-row"><span class="arrow">◀</span> Telegram</div>
+
+  <!-- Site header -->
+  <header class="site-header">
+    <div class="menu-icon"><span></span><span></span><span></span></div>
+    <div class="logo">
+      <span class="c-toys">Toys</span><span class="c-r">Я</span><span class="c-us">Us</span>
+    </div>
+    <div class="header-right">
+      <div class="signal">📶 LTE</div>
+      <div class="icon-wrap">🔍</div>
+      <div class="icon-wrap">🤍</div>
+      <div class="icon-wrap">🛒<span class="cart-badge">10</span></div>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a href="#">Home</a><span class="sep">›</span><a href="#">Shop by Age</a>
+  </nav>
+
+  <!-- 0-2 Years -->
+  <section class="age-section">
+    <h2 class="age-title">0-2 Years</h2>
+    <div class="carousel" id="carousel-0-2">
+      <article class="product-card">
+        <div class="img-wrap">
+          <svg viewBox="0 0 200 200" width="190" height="190">
+            <!-- simple activity cube illustration -->
+            <polygon points="100,20 170,55 100,90 30,55" fill="#e8302a"/>
+            <polygon points="30,55 100,90 100,170 30,135" fill="#f5a623"/>
+            <polygon points="170,55 100,90 100,170 170,135" fill="#6bbf4e"/>
+            <circle cx="65" cy="40" r="6" fill="#ffd400"/>
+            <circle cx="90" cy="30" r="6" fill="#3f7ee0"/>
+            <circle cx="115" cy="30" r="6" fill="#6bbf4e"/>
+            <circle cx="140" cy="40" r="6" fill="#ff5fa2"/>
+            <circle cx="60" cy="95" r="9" fill="#ffd400"/>
+            <circle cx="55" cy="120" r="9" fill="#8e6bd6"/>
+            <circle cx="140" cy="100" r="10" fill="#e8302a"/>
+            <rect x="25" y="50" width="8" height="95" rx="4" fill="#3f7ee0"/>
+            <rect x="167" y="50" width="8" height="95" rx="4" fill="#ffd400"/>
+            <rect x="96" y="86" width="8" height="95" rx="4" fill="#ffd400"/>
+            <rect x="20" y="140" width="160" height="14" rx="7" fill="#62c8f5"/>
+          </svg>
+        </div>
+        <div class="rating-row">
+          <div><span class="stars">★★★★★</span><span class="rating-num">4.9 (11)</span></div>
+          <div class="price">$19.99</div>
+        </div>
+        <h3 class="product-title">VTech Busy Learners Activity Cube – Interactive Educational Toy with Music and Lights</h3>
+        <button class="add-cart-btn">Add to cart</button>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap">
+          <svg viewBox="0 0 200 200" width="190" height="190">
+            <rect x="20" y="40" width="160" height="120" rx="10" fill="#ffd400"/>
+            <circle cx="70" cy="100" r="34" fill="#fff"/>
+            <circle cx="130" cy="100" r="34" fill="#fff"/>
+            <circle cx="70" cy="100" r="22" fill="#e8302a"/>
+            <circle cx="130" cy="100" r="22" fill="#3f7ee0"/>
+            <circle cx="70" cy="100" r="10" fill="#fff"/>
+            <circle cx="130" cy="100" r="10" fill="#fff"/>
+          </svg>
+        </div>
+        <div class="rating-row">
+          <div><span class="stars">★★★</span><span class="rating-num">‎</span></div>
+          <div class="price">$—</div>
+        </div>
+        <h3 class="product-title">Fisher-Price Colorful Toddler Toy</h3>
+        <button class="add-cart-btn">Add to cart</button>
+      </article>
+    </div>
+    <div class="scroll-track"><div class="scroll-thumb"></div></div>
+  </section>
+
+  <button class="shop-all-btn">Shop All 0-2 Years</button>
+  <a class="source-pill" href="#">toysrus.com</a>
+
+  <div class="divider-gap"></div>
+
+  <!-- 3-4 Years -->
+  <section class="age-section">
+    <h2 class="age-title">3-4 Years</h2>
+    <div class="carousel" id="carousel-3-4">
+      <article class="product-card">
+        <div class="img-wrap">
+          <svg viewBox="0 0 200 200" width="190" height="190">
+            <rect x="15" y="15" width="170" height="170" rx="6" fill="#e8302a"/>
+            <rect x="15" y="15" width="60" height="170" fill="#ffd400"/>
+            <g transform="translate(35,70)">
+              <rect x="0" y="0" width="60" height="70" rx="6" fill="#fff" stroke="#3f7ee0" stroke-width="3"/>
+              <text x="30" y="45" font-size="34" text-anchor="middle" font-family="Arial" font-weight="800" fill="#1a1a1a">Aa</text>
+            </g>
+            <g transform="translate(105,70)">
+              <rect x="0" y="0" width="60" height="70" rx="6" fill="#fff" stroke="#3f7ee0" stroke-width="3"/>
+              <circle cx="30" cy="32" r="20" fill="#e8302a"/>
+              <rect x="27" y="8" width="6" height="12" fill="#6bbf4e"/>
+            </g>
+            <text x="100" y="170" font-size="16" text-anchor="middle" font-family="Arial" font-weight="800" fill="#fff">Alphabet</text>
+          </svg>
+        </div>
+        <div class="rating-row">
+          <div><span class="stars">★★★★★</span><span class="rating-num">5.0 (1)</span></div>
+          <div class="price">$16.99</div>
+        </div>
+        <h3 class="product-title">TREND ENTERPRISES Alphabet Match 26-Piece Puzzle Set</h3>
+        <button class="add-cart-btn">Add to cart</button>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap">
+          <svg viewBox="0 0 200 200" width="190" height="190">
+            <rect x="20" y="30" width="160" height="140" rx="8" fill="#8a5a3b"/>
+            <rect x="35" y="50" width="50" height="50" rx="4" fill="#e8302a"/>
+            <rect x="95" y="50" width="50" height="50" rx="4" fill="#3f7ee0"/>
+            <rect x="35" y="110" width="50" height="40" rx="4" fill="#6bbf4e"/>
+            <rect x="95" y="110" width="50" height="40" rx="4" fill="#ffd400"/>
+          </svg>
+        </div>
+        <div class="rating-row">
+          <div><span class="stars">★★★</span><span class="rating-num">‎</span></div>
+          <div class="price">$—</div>
+        </div>
+        <h3 class="product-title">Melissa &amp; Doug Wooden Toy Set</h3>
+        <button class="add-cart-btn">Add to cart</button>
+      </article>
+    </div>
+    <div class="scroll-track"><div class="scroll-thumb"></div></div>
+  </section>
+
+  <button class="shop-all-btn">Shop All 3-4 Years</button>
+  <a class="source-pill" href="#">toysrus.com</a>
+
+  <div class="chat-fab"><span class="bubble-icon">💬</span> Chat</div>
+
+  <div style="height:40px;"></div>
+</div>
+
+<script>
+  // Sync the scroll progress bar with each carousel's horizontal scroll position
+  document.querySelectorAll('.carousel').forEach(function(carousel){
+    var track = carousel.parentElement.nextElementSibling; // .scroll-track
+    var thumb = track.querySelector('.scroll-thumb');
+
+    function updateThumb(){
+      var maxScroll = carousel.scrollWidth - carousel.clientWidth;
+      var trackWidth = track.clientWidth;
+      var thumbWidth = thumb.clientWidth;
+      var maxThumbTravel = trackWidth - thumbWidth;
+      var ratio = maxScroll > 0 ? (carousel.scrollLeft / maxScroll) : 0;
+      thumb.style.left = (ratio * maxThumbTravel) + 'px';
+    }
+
+    carousel.addEventListener('scroll', updateThumb);
+    window.addEventListener('resize', updateThumb);
+    updateThumb();
+  });
+
+  // Simple "Add to cart" feedback
+  document.querySelectorAll('.add-cart-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var original = btn.textContent;
+      btn.textContent = 'Added ✓';
+      btn.style.background = '#1d9a4c';
+      setTimeout(function(){
+        btn.textContent = original;
+        btn.style.background = '';
+      }, 1200);
+    });
+  });
+</script>
+</body>
+</html>

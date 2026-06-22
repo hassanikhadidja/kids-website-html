@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wishlist — AJ BLOKS</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
+  :root{
+    --blue:#004ebc;
+    --blue-dark:#003894;
+    --ink:#212427;
+    --line:#E4E7F2;
+    --cream:#FFFDF8;
+    --radius-pill:999px;
+    --page-pad:16px;
+    --shell-max:100%;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#DEE3F0;
+    font-family:'Buenos Aires',sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  button,a{font-family:inherit;}
+  a{text-decoration:none;color:inherit;}
+  img{display:block;max-width:100%;height:auto;}
+
+  .app-shell{
+    max-width:var(--shell-max);
+    margin:0 auto;
+    background:var(--cream);
+    min-height:100vh;
+    min-height:100dvh;
+    overflow-x:hidden;
+  }
+
+  .promo-bar{
+    background:#BFEAFB;
+    color:#000;
+    text-align:center;
+    font-weight:700;
+    font-size:clamp(.75rem, 2.5vw, .88rem);
+    padding:9px var(--page-pad);
+  }
+
+  .nav{
+    background:var(--blue);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px var(--page-pad) 12px;
+    gap:4px;
+  }
+  .nav-icons{display:flex;align-items:center;gap:0;flex-shrink:0;}
+  .icon-btn{
+    background:transparent;
+    color:#fff;
+    width:35px;height:35px;
+    min-width:35px;min-height:35px;
+    display:flex;align-items:center;justify-content:center;
+    border:none;border-radius:50%;padding:0;cursor:pointer;
+  }
+  .icon-btn:active{background:rgba(255,255,255,.15);}
+  .icon-btn .nav-icon{
+    width:22px;height:22px;
+    display:block;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:1.75;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .icon-btn.is-active .nav-icon{fill:#fff;stroke:#fff;}
+  .logo{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:1;
+    min-width:0;
+  }
+  .logo img{
+    height:clamp(47px, 12.6vw, 61px);
+    width:auto;
+    max-width:min(288px, 94vw);
+    object-fit:contain;
+    display:block;
+  }
+  .nav-default{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+    gap:4px;
+  }
+  .nav-search{
+    display:none;
+    align-items:center;
+    width:100%;
+    gap:10px;
+  }
+  .nav.is-search-active .nav-default{display:none;}
+  .nav.is-search-active .nav-search{display:flex;}
+  .search-form{flex:1;min-width:0;}
+  .search-input{
+    width:100%;
+    height:44px;
+    padding:0 16px;
+    border:none;
+    border-radius:var(--radius-pill);
+    background:#fff;
+    color:var(--ink);
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1rem;
+    font-weight:600;
+    outline:none;
+  }
+  .search-input::placeholder{color:var(--ink);opacity:.55;}
+  .search-input:focus{box-shadow:0 0 0 2px rgba(255,255,255,.35);}
+  .search-close .nav-icon{width:24px;height:24px;stroke-width:2;}
+
+  /* cart drawer */
+  .cart-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(17,33,74,.45);
+    z-index:1100;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .28s ease, visibility .28s;
+  }
+  .cart-overlay.is-open{opacity:1;visibility:visible;}
+  .cart-drawer{
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    width:min(100%, 420px);
+    background:#fff;
+    z-index:1101;
+    transform:translateX(100%);
+    transition:transform .32s cubic-bezier(.4,0,.2,1);
+    display:flex;
+    flex-direction:column;
+    padding:18px var(--page-pad) 24px;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    box-shadow:-8px 0 32px rgba(15,20,60,.15);
+  }
+  .cart-drawer.is-open{transform:translateX(0);}
+  body.cart-open{overflow:hidden;}
+  .cart-close{
+    align-self:flex-end;
+    background:transparent;
+    border:none;
+    color:var(--ink);
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    padding:0;
+    margin-bottom:8px;
+  }
+  .cart-close svg{
+    width:24px;
+    height:24px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:2;
+    stroke-linecap:round;
+  }
+  .cart-empty{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+  }
+  .cart-empty-msg{
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:var(--ink);
+    margin:8px 0 22px;
+  }
+  .cart-continue-btn{
+    display:block;
+    width:100%;
+    max-width:320px;
+    background:var(--blue);
+    color:#fff;
+    font-family:'Buenos Aires',sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+    padding:15px 24px;
+    border:none;
+    border-radius:var(--radius-pill);
+    cursor:pointer;
+    box-shadow:0 4px 0 var(--blue-dark);
+    margin-bottom:18px;
+  }
+  .cart-continue-btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--blue-dark);}
+  .cart-login{
+    font-family:'Buenos Aires',sans-serif;
+    font-size:.95rem;
+    font-weight:600;
+    color:var(--ink);
+    margin:0 0 8px;
+    line-height:1.45;
+  }
+  .cart-login a{color:var(--blue);text-decoration:underline;font-weight:700;}
+  .cart-featured{
+    width:min(336px, 90vw);
+    margin:0 auto 8px;
+    aspect-ratio:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .cart-featured img{width:100%;height:100%;object-fit:contain;}
+  .cart-shop-age{
+    align-self:flex-start;
+    margin-top:0;
+    padding-top:0;
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1.05rem;
+    font-weight:700;
+    color:var(--ink);
+    text-decoration:none;
+  }
+  .cart-shop-age:active{opacity:.7;}
+
+  /* hero */
+  .wish-hero{
+    background:#fff;
+  }
+  .wish-hero-banner{
+    position:relative;
+    overflow:hidden;
+    padding:28px var(--page-pad) 24px;
+    min-height:clamp(180px, 42vw, 240px);
+    display:flex;
+    align-items:flex-end;
+    background:#fff;
+  }
+  .wish-hero-banner::after{
+    content:'';
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:55%;
+    background:linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,.75) 45%, #fff 100%);
+    z-index:1;
+    pointer-events:none;
+  }
+  .wish-hero-video{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:85%;
+    object-fit:cover;
+    object-position:center top;
+    z-index:0;
+    pointer-events:none;
+    display:block;
+    border:none;
+    -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 35%, rgba(0,0,0,.4) 70%, transparent 100%);
+    mask-image:linear-gradient(to bottom, #000 0%, #000 35%, rgba(0,0,0,.4) 70%, transparent 100%);
+  }
+  .wish-hero-content{
+    position:relative;
+    z-index:2;
+  }
+  .wish-hero h1{
+    font-size:clamp(1.35rem, 5vw, 1.75rem);
+    font-weight:800;
+    line-height:1.15;
+    color:var(--ink);
+    margin:0 0 18px;
+    max-width:14ch;
+  }
+  .wish-add-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--blue);
+    color:#fff;
+    font-weight:700;
+    font-size:1rem;
+    padding:13px 22px;
+    border:none;
+    border-radius:var(--radius-pill);
+    box-shadow:0 4px 0 var(--blue-dark);
+    cursor:pointer;
+  }
+  .wish-add-btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--blue-dark);}
+  .wish-share{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:8px;
+    padding:16px var(--page-pad) 8px;
+    background:#fff;
+  }
+  .wish-share-label{
+    font-weight:700;
+    font-size:.95rem;
+    color:var(--ink);
+  }
+  .wish-share-icons{
+    display:flex;
+    gap:18px;
+    align-items:center;
+  }
+  .wish-share-icons a{
+    color:var(--ink);
+    font-size:1.15rem;
+    display:flex;
+    opacity:.9;
+  }
+  .wish-share-icons a:hover{opacity:.65;}
+
+  /* my wishlist */
+  .wish-section{
+    padding:8px var(--page-pad) 40px;
+  }
+  .wish-section-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:16px 0 12px;
+    border:none;
+    background:transparent;
+    width:100%;
+    cursor:pointer;
+    text-align:left;
+    color:var(--ink);
+  }
+  .wish-section-head h2{
+    font-size:1.35rem;
+    font-weight:800;
+    margin:0;
+    white-space:nowrap;
+  }
+  .wish-section-rule{
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+  .wish-section-head .chev{
+    font-size:.85rem;
+    transition:transform .2s ease;
+  }
+  .wish-section.is-collapsed .chev{transform:rotate(180deg);}
+  .wish-section.is-collapsed .wish-list-body{display:none;}
+  .wish-list-body{
+    padding:8px 0 0;
+  }
+  .wish-empty{
+    text-align:center;
+    color:#5B6685;
+    font-weight:600;
+    font-size:.95rem;
+    padding:24px 12px;
+  }
+  .wish-list-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 0;
+    border-bottom:1px solid var(--line);
+    font-weight:700;
+  }
+  .wish-list-item:last-child{border-bottom:none;}
+
+  /* create wishlist drawer */
+  .wish-modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(17,33,74,.45);
+    z-index:1200;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .28s ease, visibility .28s;
+  }
+  .wish-modal-overlay.is-open{
+    opacity:1;
+    visibility:visible;
+  }
+  .wish-modal-panel{
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    width:min(100%, 420px);
+    z-index:1201;
+    transform:translateX(100%);
+    transition:transform .32s cubic-bezier(.4,0,.2,1);
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    box-shadow:-8px 0 32px rgba(15,20,60,.15);
+    background:#fff url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782155110/download_4_dnn47i.gif') center/cover no-repeat;
+    padding:18px var(--page-pad) 32px;
+  }
+  .wish-modal-panel.is-open{
+    transform:translateX(0);
+  }
+  body.wish-modal-open{overflow:hidden;}
+  .wish-modal-close{
+    align-self:flex-end;
+    background:transparent;
+    border:none;
+    color:var(--ink);
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    padding:0;
+    margin:0 0 8px auto;
+  }
+  .wish-modal-close svg{
+    width:24px;
+    height:24px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:2;
+    stroke-linecap:round;
+  }
+  .wish-modal-panel h2{
+    font-size:clamp(1.25rem, 4.5vw, 1.55rem);
+    font-weight:800;
+    line-height:1.2;
+    margin:0 0 14px;
+    position:relative;
+  }
+  .wish-modal-panel .wish-share{
+    align-items:flex-start;
+    margin:0 0 22px;
+    position:relative;
+  }
+  .wish-modal-panel .wish-share-label{font-size:.9rem;}
+  .wish-name-input{
+    width:100%;
+    border:1.5px solid var(--ink);
+    border-radius:4px;
+    padding:14px 12px;
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1rem;
+    font-weight:600;
+    margin-bottom:22px;
+    background:#fff;
+    color:var(--ink);
+  }
+  .wish-name-input::placeholder{color:#9AA3B5;font-weight:600;}
+  .wish-name-input:focus{
+    outline:2px solid var(--blue);
+    outline-offset:1px;
+  }
+  .wish-create-btn{
+    display:block;
+    width:100%;
+    background:var(--blue);
+    color:#fff;
+    font-weight:700;
+    font-size:1.05rem;
+    padding:15px;
+    border:none;
+    border-radius:var(--radius-pill);
+    box-shadow:0 4px 0 var(--blue-dark);
+    cursor:pointer;
+  }
+  .wish-create-btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--blue-dark);}
+
+  @media (min-width:640px){
+    :root{--shell-max:640px;}
+    body{padding:20px 0;}
+    .app-shell{border-radius:20px;box-shadow:0 0 60px rgba(15,20,60,.25);}
+  }
+  @media (min-width:768px){
+    :root{--shell-max:768px;--page-pad:28px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <div class="promo-bar">Free Shipping for Orders Over 6500 DZD</div>
+
+  <header class="nav" id="mainNav">
+    <div class="nav-default">
+      <div class="nav-icons">
+        <a class="icon-btn" href="home-page.html" aria-label="Back to home">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </a>
+        <button class="icon-btn" type="button" aria-label="Account">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+        </button>
+      </div>
+      <a class="logo" href="home-page.html" aria-label="AJ BLOKS home">
+        <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782065376/Design_sans_titre_10_bokgdf.png" alt="AJ BLOKS">
+      </a>
+      <div class="nav-icons">
+        <button class="icon-btn" type="button" id="searchOpenBtn" aria-label="Search">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M16.5 16.5L21 21"/></svg>
+        </button>
+        <span class="icon-btn is-active" aria-current="page" aria-label="Wishlist">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.502 5.502 0 0 0 16.503 3c-1.76 0-3 .56-4.5 2.17C10.503 3.56 9.263 3 7.503 3A5.502 5.502 0 0 0 2 8.5c0 2.29 1.5 4.04 3 5.5l7 7Z"/></svg>
+        </span>
+        <button class="icon-btn" type="button" id="cartOpenBtn" aria-label="Cart">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="nav-search">
+      <form class="search-form" id="searchForm">
+        <input class="search-input" id="searchInput" type="search" placeholder="Search toys, brands & more" autocomplete="off">
+      </form>
+      <button class="icon-btn search-close" type="button" id="searchCloseBtn" aria-label="Close search">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <section class="wish-hero">
+    <div class="wish-hero-banner">
+      <video class="wish-hero-video" autoplay muted loop playsinline aria-hidden="true">
+        <source src="https://res.cloudinary.com/dbtkfjrvd/video/upload/v1782163263/download_znzkej.mp4" type="video/mp4">
+      </video>
+      <div class="wish-hero-content">
+        <h1>Wishes become toys, toys become PLAY!</h1>
+        <button type="button" class="wish-add-btn" id="openCreateModal">+ Add a new list</button>
+      </div>
+    </div>
+    <div class="wish-share">
+      <span class="wish-share-label">Share their wish</span>
+      <div class="wish-share-icons">
+        <a href="#" aria-label="Copy link"><i class="fa-solid fa-link"></i></a>
+        <a href="#" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" aria-label="Message"><i class="fa-regular fa-comment"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wish-section" id="wishSection">
+    <button type="button" class="wish-section-head" id="toggleWishSection" aria-expanded="true">
+      <h2>My Wishlist</h2>
+      <span class="wish-section-rule" aria-hidden="true"></span>
+      <i class="fa-solid fa-chevron-up chev" aria-hidden="true"></i>
+    </button>
+    <div class="wish-list-body" id="wishListBody">
+      <p class="wish-empty" id="wishEmpty">No wishlists yet. Tap + Add a new list to get started!</p>
+      <div id="wishLists"></div>
+    </div>
+  </section>
+</div>
+
+<div class="cart-overlay" id="cartOverlay" aria-hidden="true"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-hidden="true" aria-label="Shopping cart">
+  <button class="cart-close" type="button" id="cartCloseBtn" aria-label="Close cart">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+  <div class="cart-empty" id="cartEmpty">
+    <p class="cart-empty-msg">Your cart is empty</p>
+    <button type="button" class="cart-continue-btn" id="cartContinueBtn">Continue shopping</button>
+    <p class="cart-login">Have an account? <a href="#">Log in</a> to check out faster.</p>
+    <div class="cart-featured">
+      <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782123143/Design_sans_titre_13_qzliwu.png" alt="CAT dump truck toy">
+    </div>
+    <a href="home-page.html#ageSection" class="cart-shop-age" id="cartShopAge">Shop by Age →</a>
+  </div>
+</aside>
+
+<div class="wish-modal-overlay" id="wishModalOverlay" aria-hidden="true"></div>
+<aside class="wish-modal-panel" id="wishModalPanel" role="dialog" aria-modal="true" aria-labelledby="wishModalTitle" aria-hidden="true">
+  <button type="button" class="wish-modal-close" id="wishModalClose" aria-label="Close">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+  <h2 id="wishModalTitle">Make a Wish, Make It Yours</h2>
+  <div class="wish-share">
+    <span class="wish-share-label">Share my wish</span>
+    <div class="wish-share-icons">
+      <a href="#" aria-label="Copy link"><i class="fa-solid fa-link"></i></a>
+      <a href="#" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+      <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+      <a href="#" aria-label="Message"><i class="fa-regular fa-comment"></i></a>
+    </div>
+  </div>
+  <input class="wish-name-input" id="wishNameInput" type="text" placeholder="Wishlist Name" maxlength="60">
+  <button type="button" class="wish-create-btn" id="createWishlistBtn">Create Wishlist</button>
+</aside>
+
+<script>
+  const WISHLIST_KEY = 'ajbloks-wishlists';
+  const openCreateModal = document.getElementById('openCreateModal');
+  const wishModalOverlay = document.getElementById('wishModalOverlay');
+  const wishModalPanel = document.getElementById('wishModalPanel');
+  const wishModalClose = document.getElementById('wishModalClose');
+  const wishNameInput = document.getElementById('wishNameInput');
+  const createWishlistBtn = document.getElementById('createWishlistBtn');
+  const wishLists = document.getElementById('wishLists');
+  const wishEmpty = document.getElementById('wishEmpty');
+  const toggleWishSection = document.getElementById('toggleWishSection');
+  const wishSection = document.getElementById('wishSection');
+
+  function getWishlists(){
+    try{
+      return JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]');
+    }catch{
+      return [];
+    }
+  }
+
+  function saveWishlists(lists){
+    localStorage.setItem(WISHLIST_KEY, JSON.stringify(lists));
+  }
+
+  function renderWishlists(){
+    const lists = getWishlists();
+    wishLists.innerHTML = '';
+    wishEmpty.style.display = lists.length ? 'none' : 'block';
+    lists.forEach(name=>{
+      const row = document.createElement('div');
+      row.className = 'wish-list-item';
+      row.textContent = name;
+      wishLists.appendChild(row);
+    });
+  }
+
+  const mainNav = document.getElementById('mainNav');
+  const searchOpenBtn = document.getElementById('searchOpenBtn');
+  const searchCloseBtn = document.getElementById('searchCloseBtn');
+  const searchForm = document.getElementById('searchForm');
+  const searchInput = document.getElementById('searchInput');
+  const cartOverlay = document.getElementById('cartOverlay');
+  const cartDrawer = document.getElementById('cartDrawer');
+  const cartOpenBtn = document.getElementById('cartOpenBtn');
+  const cartCloseBtn = document.getElementById('cartCloseBtn');
+  const cartContinueBtn = document.getElementById('cartContinueBtn');
+  const cartShopAge = document.getElementById('cartShopAge');
+
+  function closeSearch(){
+    mainNav.classList.remove('is-search-active');
+    searchInput.blur();
+  }
+
+  function openSearch(){
+    closeCart();
+    closeModal();
+    mainNav.classList.add('is-search-active');
+    searchInput.value = '';
+    requestAnimationFrame(()=> searchInput.focus());
+  }
+
+  function openCart(){
+    closeSearch();
+    closeModal();
+    cartOverlay.classList.add('is-open');
+    cartDrawer.classList.add('is-open');
+    cartOverlay.setAttribute('aria-hidden', 'false');
+    cartDrawer.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('cart-open');
+  }
+
+  function closeCart(){
+    cartOverlay.classList.remove('is-open');
+    cartDrawer.classList.remove('is-open');
+    cartOverlay.setAttribute('aria-hidden', 'true');
+    cartDrawer.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('cart-open');
+  }
+
+  searchOpenBtn.addEventListener('click', openSearch);
+  searchCloseBtn.addEventListener('click', closeSearch);
+  searchForm.addEventListener('submit', e=>{
+    e.preventDefault();
+    closeSearch();
+  });
+
+  cartOpenBtn.addEventListener('click', openCart);
+  cartCloseBtn.addEventListener('click', closeCart);
+  cartOverlay.addEventListener('click', closeCart);
+  cartContinueBtn.addEventListener('click', closeCart);
+
+  function openModal(){
+    closeSearch();
+    closeCart();
+    wishModalOverlay.classList.add('is-open');
+    wishModalPanel.classList.add('is-open');
+    wishModalOverlay.setAttribute('aria-hidden', 'false');
+    wishModalPanel.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('wish-modal-open');
+    wishNameInput.value = '';
+    setTimeout(()=> wishNameInput.focus(), 320);
+  }
+
+  function closeModal(){
+    wishModalOverlay.classList.remove('is-open');
+    wishModalPanel.classList.remove('is-open');
+    wishModalOverlay.setAttribute('aria-hidden', 'true');
+    wishModalPanel.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('wish-modal-open');
+  }
+
+  openCreateModal.addEventListener('click', openModal);
+  wishModalOverlay.addEventListener('click', closeModal);
+  wishModalClose.addEventListener('click', closeModal);
+
+  createWishlistBtn.addEventListener('click', ()=>{
+    const name = wishNameInput.value.trim();
+    if(!name) return;
+    const lists = getWishlists();
+    lists.push(name);
+    saveWishlists(lists);
+    renderWishlists();
+    closeModal();
+  });
+
+  wishNameInput.addEventListener('keydown', e=>{
+    if(e.key === 'Enter') createWishlistBtn.click();
+  });
+
+  document.addEventListener('keydown', e=>{
+    if(e.key !== 'Escape') return;
+    if(cartDrawer.classList.contains('is-open')) closeCart();
+    else if(mainNav.classList.contains('is-search-active')) closeSearch();
+    else if(wishModalPanel.classList.contains('is-open')) closeModal();
+  });
+
+  toggleWishSection.addEventListener('click', ()=>{
+    const collapsed = wishSection.classList.toggle('is-collapsed');
+    toggleWishSection.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+  });
+
+  renderWishlists();
+</script>
+</body>
+</html>

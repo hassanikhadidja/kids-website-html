@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Baloo 2', sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #e2e2e2;
+    margin: 0;
+  }
+
+  /* ---- Accordion ---- */
+  .accordion {
+    padding: 36px 0 28px 0;
+  }
+
+  .accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: none;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+  }
+
+  .accordion-title {
+    font-size: 34px;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+
+  .accordion-icon {
+    font-size: 34px;
+    font-weight: 700;
+    color: #1a1a1a;
+    width: 28px;
+    text-align: center;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .accordion-content {
+    overflow: hidden;
+    max-height: 2000px;
+    transition: max-height 0.35s ease, opacity 0.25s ease;
+    opacity: 1;
+  }
+
+  .accordion-content.collapsed {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  .accordion-body-inner {
+    padding-top: 28px;
+  }
+
+  .overview-text {
+    font-size: 21px;
+    line-height: 1.5;
+    color: #2b2b2b;
+    font-weight: 400;
+    margin-bottom: 28px;
+  }
+
+  ul.feature-list {
+    list-style: none;
+    margin-bottom: 30px;
+  }
+
+  ul.feature-list li {
+    position: relative;
+    font-size: 21px;
+    line-height: 1.45;
+    color: #1a1a1a;
+    font-weight: 400;
+    padding-left: 28px;
+    margin-bottom: 14px;
+  }
+
+  ul.feature-list li::before {
+    content: "•";
+    position: absolute;
+    left: 4px;
+    top: 0;
+    font-size: 22px;
+    color: #1a1a1a;
+  }
+
+  /* ---- Warning box ---- */
+  .warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .warning-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .warning-icon svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .warning-text p {
+    font-size: 20px;
+    line-height: 1.4;
+  }
+
+  .warning-text .label {
+    color: #d6452a;
+    font-weight: 700;
+  }
+
+  .warning-text .hazard,
+  .warning-text .age {
+    color: #1a1a1a;
+    font-weight: 700;
+  }
+
+  /* ---- You May Also Like ---- */
+  .related {
+    text-align: center;
+    padding: 48px 0;
+  }
+
+  .related h2 {
+    font-size: 44px;
+    font-weight: 800;
+    color: #1a1a1a;
+  }
+
+  @media (max-width: 480px) {
+    .page { padding: 0 20px; }
+    .accordion-title { font-size: 28px; }
+    .overview-text, ul.feature-list li { font-size: 18px; }
+    .related h2 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <hr class="divider">
+
+  <section class="accordion">
+    <button class="accordion-header" id="accordionToggle" aria-expanded="true">
+      <span class="accordion-title">Product Overview</span>
+      <span class="accordion-icon" id="accordionIcon">&minus;</span>
+    </button>
+
+    <div class="accordion-content" id="accordionContent">
+      <div class="accordion-body-inner">
+
+        <p class="overview-text">
+          Snack time is a blast with the Melissa &amp; Doug Vending Machine Play Set! Designed with engaging colors and kid-friendly mechanics, this play set offers a delightful way for little ones to playshop and learn. Perfectly sized for budding entrepreneurs, this set provides hands-on fun that enhances learning and development through play.
+        </p>
+
+        <ul class="feature-list">
+          <li>No batteries needed for all-day fun</li>
+          <li>Features 16 colorful wooden play pieces</li>
+          <li>Customizable sign to match your child's store theme</li>
+          <li>Includes play coins and bank card for transaction play</li>
+          <li>All components store inside for quick clean-up</li>
+        </ul>
+
+        <div class="warning">
+          <div class="warning-icon">
+            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11 2H25L34 11V25L25 34H11L2 25V11L11 2Z" stroke="#d6452a" stroke-width="2"/>
+              <rect x="17" y="10" width="2" height="11" rx="1" fill="#d6452a"/>
+              <circle cx="18" cy="25" r="1.4" fill="#d6452a"/>
+            </svg>
+          </div>
+          <div class="warning-text">
+            <p class="label">WARNING:</p>
+            <p class="hazard">CHOKING HAZARD</p>
+            <p class="age">Small parts. Not for children under 3 yrs.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="related">
+    <h2>You May Also Like</h2>
+  </section>
+
+</div>
+
+<script>
+  const toggle = document.getElementById('accordionToggle');
+  const content = document.getElementById('accordionContent');
+  const icon = document.getElementById('accordionIcon');
+
+  toggle.addEventListener('click', () => {
+    const isCollapsed = content.classList.toggle('collapsed');
+    icon.textContent = isCollapsed ? '+' : '\u2212';
+    toggle.setAttribute('aria-expanded', String(!isCollapsed));
+  });
+</script>
+
+</body>
+</html>

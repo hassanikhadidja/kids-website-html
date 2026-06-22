@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Melissa &amp; Doug Interactive Wooden Vending Machine Play Set</title>
+<style>
+  :root{
+    --navy:#0B2A6B;
+    --blue1:#1E4FA8;
+    --blue2:#5B8FE0;
+    --link-blue:#1559C9;
+    --red:#D81F4B;
+    --ink:#15171C;
+    --gray-700:#444B57;
+    --gray-500:#7A8190;
+    --gray-300:#DEE1E7;
+    --gray-100:#F4F5F7;
+    --cream:#F6EFDD;
+    --cream-line:#E4D8B9;
+    --green:#3FAE5C;
+    --shop1:#5B33E0;
+    --shop2:#8E63F2;
+    --radius-lg:18px;
+    --radius-md:12px;
+    --radius-sm:8px;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:#E9EBEF;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--link-blue);text-decoration:underline;cursor:pointer;}
+  button{font-family:inherit;cursor:pointer;}
+
+  .page{
+    max-width:560px;
+    margin:0 auto;
+    background:#fff;
+    min-height:100vh;
+  }
+  @media (min-width:600px){
+    body{padding:24px 0;}
+    .page{border-radius:20px;box-shadow:0 20px 60px rgba(20,30,60,.12);overflow:hidden;}
+  }
+
+  /* ---------- Header ---------- */
+  .topbar{
+    background:linear-gradient(135deg,var(--navy),var(--blue1) 55%,var(--blue2));
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 16px;
+    position:sticky;top:0;z-index:30;
+  }
+  .icon-btn{
+    background:rgba(255,255,255,.14);
+    border:none;color:#fff;
+    width:36px;height:36px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+  }
+  .icon-btn svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;}
+  .icon-btn.heart.active svg{fill:#FF6B81;stroke:#FF6B81;}
+  .topbar-icons{display:flex;gap:8px;align-items:center;}
+  .cart-badge{
+    position:absolute;top:-4px;right:-4px;
+    background:var(--red);color:#fff;font-size:10px;font-weight:700;
+    width:16px;height:16px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .logo{
+    font-family:Georgia,'Times New Roman',serif;
+    font-weight:800;font-style:italic;font-size:26px;letter-spacing:-1px;
+    color:#fff;display:flex;align-items:center;gap:2px;
+    text-shadow:0 1px 0 rgba(0,0,0,.15);
+  }
+  .logo .star{color:#FFC83D;font-style:normal;font-size:14px;transform:translateY(-9px);margin:0 -2px;}
+
+  /* ---------- Breadcrumb ---------- */
+  .breadcrumb{
+    padding:16px 16px 4px;
+    font-size:13px;line-height:1.5;color:var(--gray-700);
+  }
+  .breadcrumb a{font-weight:600;}
+  .breadcrumb .current{color:var(--ink);}
+
+  /* ---------- Gallery ---------- */
+  .gallery{padding:14px 16px 0;}
+  .art-frame{
+    background:#fff;border:1px solid var(--gray-300);border-radius:var(--radius-lg);
+    aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;
+    overflow:hidden;position:relative;
+  }
+  .art-view{display:none;width:100%;height:100%;}
+  .art-view.active{display:flex;align-items:center;justify-content:center;}
+  .art-view svg{width:88%;height:88%;}
+
+  .thumbs{display:flex;gap:10px;margin-top:10px;}
+  .thumb{
+    width:64px;height:64px;border-radius:var(--radius-sm);
+    border:2px solid var(--gray-300);background:#fff;
+    display:flex;align-items:center;justify-content:center;overflow:hidden;padding:4px;
+  }
+  .thumb svg{width:100%;height:100%;}
+  .thumb.active{border-color:var(--blue1);box-shadow:0 0 0 2px rgba(30,79,168,.15);}
+
+  /* ---------- Rating row ---------- */
+  .rating-row{
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    padding:16px 16px 0;font-size:14px;color:var(--gray-700);
+  }
+  .stars{position:relative;display:inline-block;font-size:16px;line-height:1;white-space:nowrap;}
+  .stars .back{color:var(--gray-300);letter-spacing:1px;}
+  .stars .front{position:absolute;top:0;left:0;overflow:hidden;color:var(--red);letter-spacing:1px;white-space:nowrap;}
+  .rating-num{font-weight:600;color:var(--ink);}
+
+  /* ---------- Title / price ---------- */
+  .title{padding:10px 16px 0;font-size:21px;font-weight:800;line-height:1.3;}
+  .price{padding:10px 16px 0;font-size:28px;font-weight:800;}
+  .ship-note{padding:8px 16px 0;font-size:13px;color:var(--gray-700);}
+
+  .shoppay-line{padding:12px 16px 0;font-size:13px;color:var(--gray-700);display:flex;align-items:center;flex-wrap:wrap;gap:6px;}
+  .shoppay-badge{
+    display:inline-flex;align-items:center;background:#fff;border:1px solid var(--gray-300);
+    border-radius:6px;overflow:hidden;font-weight:800;font-size:12px;
+  }
+  .shoppay-badge .shop{padding:3px 6px;color:var(--shop1);}
+  .shoppay-badge .pay{padding:3px 6px;background:linear-gradient(120deg,var(--shop1),var(--shop2));color:#fff;}
+  .learn-more{display:block;padding:2px 16px 0;font-size:13px;}
+
+  hr.div{border:none;border-top:1px solid var(--gray-300);margin:18px 16px;}
+
+  /* ---------- Accordion ---------- */
+  .accordion{padding:0 16px;}
+  .accordion-header{
+    width:100%;background:none;border:none;display:flex;align-items:center;gap:10px;
+    padding:6px 0;font-size:18px;font-weight:800;text-align:left;
+  }
+  .accordion-header .badge-icon{
+    width:26px;height:26px;border-radius:50%;background:var(--blue1);color:#fff;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;
+  }
+  .accordion-header .grow{flex:1;}
+  .accordion-header .toggle{font-size:20px;font-weight:400;color:var(--gray-700);width:18px;text-align:center;}
+  .accordion-content{display:none;padding:10px 0 4px;}
+  .accordion.open .accordion-content{display:block;}
+
+  .check-list{list-style:none;margin:6px 0 0;padding:0;}
+  .check-list li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:15px;}
+  .check-list svg{width:16px;height:16px;stroke:var(--ink);flex-shrink:0;margin-top:3px;}
+
+  /* ---------- Availability / shipping ---------- */
+  .avail{padding:4px 16px 0;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--green);display:inline-block;}
+  .free-ship{padding:10px 16px 0;font-size:15px;font-weight:700;}
+  .fine-print{padding:6px 16px 0;font-size:12.5px;color:var(--gray-500);line-height:1.5;}
+  .fine-print b{color:var(--gray-700);}
+
+  /* ---------- Buttons ---------- */
+  .cta-wrap{padding:16px 16px 0;display:flex;flex-direction:column;gap:12px;}
+  .btn{
+    border:none;border-radius:30px;padding:15px;font-size:16px;font-weight:800;
+    width:100%;color:#fff;text-align:center;
+  }
+  .btn-primary{background:var(--blue1);}
+  .btn-primary:active{background:var(--navy);}
+  .btn-shop{background:linear-gradient(110deg,var(--shop1),var(--shop2));}
+  .more-pay{text-align:center;font-size:13px;color:var(--gray-700);margin-top:2px;}
+
+  /* ---------- Full details inner sections ---------- */
+  .sub-section{margin-top:18px;}
+  .sub-h{font-size:16px;font-weight:800;margin-bottom:8px;}
+  .bullet-list{margin:0;padding-left:0;list-style:none;}
+  .bullet-list li{font-size:14.5px;line-height:1.55;padding:6px 0;}
+  .bullet-list li b{font-weight:800;}
+
+  .pill-list{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
+  .pill{
+    background:var(--gray-100);border-radius:14px;padding:14px 16px;
+    font-size:14.5px;line-height:1.45;
+  }
+
+  .star-bullets{font-size:14.5px;line-height:1.7;margin:0;padding-left:18px;}
+
+  /* ---------- Q&A ---------- */
+  .qa-card{
+    border:1px solid var(--gray-300);border-radius:14px;padding:16px;margin-top:12px;
+  }
+  .qa-q{font-weight:800;font-size:15px;margin-bottom:8px;}
+  .qa-a{font-size:14.5px;line-height:1.55;color:var(--gray-700);}
+
+  /* ---------- Reviews ---------- */
+  .reviews-head{padding:18px 16px 0;}
+  .reviews-rating-line{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;}
+  .recommend-line{font-size:14px;color:var(--gray-700);margin-top:6px;}
+  .search-box{
+    margin-top:14px;border:1px solid var(--gray-300);border-radius:10px;
+    padding:11px 14px;font-size:14px;color:var(--gray-500);display:flex;align-items:center;gap:8px;
+  }
+  .search-box svg{width:16px;height:16px;stroke:var(--gray-500);flex-shrink:0;}
+
+  .snapshot-title{font-weight:800;font-size:15px;margin-top:20px;}
+  .snapshot-sub{font-size:13px;color:var(--gray-500);margin-top:2px;margin-bottom:10px;}
+  .bar-row{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:14px;}
+  .bar-row .star-label{width:30px;flex-shrink:0;font-weight:600;}
+  .bar-track{flex:1;height:9px;background:var(--gray-300);border-radius:6px;overflow:hidden;}
+  .bar-fill{height:100%;background:var(--red);border-radius:6px;}
+  .bar-row .count{width:26px;text-align:right;color:var(--gray-700);}
+
+  .avg-title{font-weight:800;font-size:15px;margin-top:20px;}
+  .avg-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;font-size:14px;}
+  .avg-row .stars{font-size:15px;}
+
+  .review-meta{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 0;}
+  .sort-select{font-size:13px;color:var(--gray-700);}
+
+  .review-card{padding:16px;margin:14px 16px 0;border:1px solid var(--gray-300);border-radius:14px;}
+  .review-card .stars{font-size:15px;}
+  .review-author{font-size:12.5px;color:var(--gray-500);margin-top:6px;}
+  .review-title{font-weight:800;font-size:15px;margin-top:8px;}
+  .review-body{font-size:14px;line-height:1.55;color:var(--gray-700);margin-top:4px;}
+
+  .load-more{
+    display:block;margin:18px 16px 6px;text-align:center;
+    border:1px solid var(--gray-300);border-radius:30px;padding:13px;
+    font-weight:700;font-size:14px;background:#fff;color:var(--ink);
+  }
+
+  .bottom-pad{height:90px;}
+
+  /* ---------- Chat bubble ---------- */
+  .chat-fab{
+    position:fixed;bottom:20px;right:18px;z-index:40;
+    background:#fff;border:1px solid var(--gray-300);border-radius:30px;
+    padding:10px 16px 10px 12px;display:flex;align-items:center;gap:7px;
+    box-shadow:0 8px 22px rgba(20,30,60,.18);font-weight:700;font-size:14px;color:var(--blue1);
+  }
+  .chat-fab svg{width:20px;height:20px;}
+  .chat-fab:hover{transform:translateY(-2px);transition:.15s;}
+</style>
+</head>
+<body>
+<div class="page" id="top">
+
+  <!-- ===== Header ===== -->
+  <header class="topbar">
+    <button class="icon-btn" aria-label="Menu">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="logo">Toys<span class="star">★</span>Us</div>
+    <div class="topbar-icons">
+      <button class="icon-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button class="icon-btn heart" id="wishlistBtn" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9C.8 8.2 2.3 5 5.6 5c1.9 0 3.3 1 4.4 2.6C11.1 6 12.5 5 14.4 5c3.3 0 4.8 3.2 3.2 7-2.1 4.4-9.6 9-9.6 9z"/></svg>
+      </button>
+      <button class="icon-btn cart" aria-label="Cart">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2 3h2l2.6 12.4a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L21 7H6"/></svg>
+        <span class="cart-badge">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== Breadcrumb ===== -->
+  <div class="breadcrumb">
+    <a href="#top">Home</a> &gt;
+    <span class="current">Melissa &amp; Doug Interactive Wooden Vending Machine Play Set</span>
+  </div>
+
+  <!-- ===== Gallery ===== -->
+  <div class="gallery">
+    <div class="art-frame">
+      <div class="art-view active" data-view="scene" id="art-scene"></div>
+      <div class="art-view" data-view="cabinet" id="art-cabinet"></div>
+      <div class="art-view" data-view="box" id="art-box"></div>
+    </div>
+    <div class="thumbs">
+      <button class="thumb active" data-target="scene"></button>
+      <button class="thumb" data-target="cabinet"></button>
+      <button class="thumb" data-target="box"></button>
+    </div>
+  </div>
+
+  <!-- ===== Rating ===== -->
+  <div class="rating-row">
+    <span class="stars" style="--rating:4.5"><span class="back">★★★★★</span><span class="front" style="width:90%">★★★★★</span></span>
+    <span class="rating-num">4.5</span> (51) <a href="#reviews">Write a review</a>
+  </div>
+
+  <!-- ===== Title / Price ===== -->
+  <h1 class="title">Melissa &amp; Doug Interactive Wooden Vending Machine Play Set</h1>
+  <div class="price">$79.99</div>
+  <div class="ship-note"><a href="#">Shipping</a> calculated at checkout.</div>
+
+  <div class="shoppay-line">
+    Pay in 4 interest-free installments of $20.00 with
+    <span class="shoppay-badge"><span class="shop">shop</span><span class="pay">Pay</span></span>
+  </div>
+  <a class="learn-more" href="#">Learn more</a>
+
+  <hr class="div">
+
+  <!-- ===== Why They'll Love It (hero) ===== -->
+  <div class="accordion open" id="acc-love">
+    <button class="accordion-header" data-target="acc-love">
+      <span class="badge-icon">★</span>
+      <span class="grow">Why They'll Love It</span>
+      <span class="toggle">−</span>
+    </button>
+    <div class="accordion-content">
+      <ul class="check-list">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Boosts sorting and matching skills
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Sparks joy in pretend snack sales
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Stores snacks neatly after play
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- ===== Availability / shipping / CTA ===== -->
+  <div class="avail"><span class="dot"></span> Availability: In Stock</div>
+  <div class="free-ship">Free Shipping on orders $49 and up*</div>
+  <div class="fine-print">
+    *Offer applies to standard shipping to one location in the contiguous U.S. A $20 shipping surcharge per item applies to
+    customers living outside the contiguous United States: Hawaii, Alaska. Additional surcharges may apply to oversized
+    or bulky items. <b>Eligible for return on ToysRUs.com only.</b>
+  </div>
+
+  <div class="cta-wrap">
+    <button class="btn btn-primary" id="addToCart">Add to cart</button>
+    <button class="btn btn-shop">Buy with <span style="font-style:italic;">shop</span><b>Pay</b></button>
+  </div>
+  <a class="more-pay" href="#" style="display:block;">More payment options</a>
+
+  <hr class="div">
+
+  <!-- ===== Full Details ===== -->
+  <div class="accordion open" id="acc-details">
+    <button class="accordion-header" data-target="acc-details">
+      <span class="grow" style="font-size:20px;">Full Details</span>
+      <span class="toggle">−</span>
+    </button>
+    <div class="accordion-content">
+
+      <div class="sub-section">
+        <div class="sub-h">Care Notes</div>
+        <ul class="bullet-list">
+          <li><b>Cleaning:</b> Wipe the cabinet and wooden snack pieces with a dry or lightly damp cloth. Do not submerge any pieces in water.</li>
+          <li><b>Storage:</b> Store in a dry location away from direct sunlight to keep the colors and decals from fading.</li>
+          <li><b>Material Warnings:</b> Set includes small parts such as play coins and snack pieces. Adult supervision is recommended for younger siblings.</li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-h">Use Cases</div>
+        <div class="pill-list">
+          <div class="pill">Pretend snack-shop play during after-school hours</div>
+          <div class="pill">Birthday gift for kids ages 4 to 8 who love sorting games</div>
+          <div class="pill">Recreating real vending-machine trips at home</div>
+          <div class="pill">Companion activity for budding "shopkeepers" and play-store sets</div>
+          <div class="pill">Reward toy for practicing counting and color matching</div>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-h">Skills Developed</div>
+        <ul class="bullet-list">
+          <li><b>Sorting &amp; Matching:</b> Children learn to match each snack icon to its labeled slot (A1–C3).</li>
+          <li><b>Fine Motor:</b> Picking up coins, sliding pieces into slots, and pressing buttons strengthens hand coordination and finger dexterity.</li>
+          <li><b>Cause And Effect:</b> Children learn that pressing a specific numbered button produces a predictable result — the matching snack drops down.</li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-h">Age Suitability</div>
+        <ul class="bullet-list">
+          <li><b>Minimum Safe Age:</b> 4 years</li>
+          <li><b>Ideal Age Range:</b> 4–8 years</li>
+          <li><b>Developmental Fit:</b> Children ages 5–7 can usually operate the machine independently, recognize the letter and number codes, and run an extended pretend snack shop on their own.</li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-h">Play Patterns</div>
+        <ul class="bullet-list">
+          <li><b>Primary Play Type:</b> Pretend-play retail and sorting game.</li>
+          <li><b>Play Structure:</b> Children load snack pieces into labeled slots, then "sell" them by matching a coin and a numbered button to dispense the correct item.</li>
+          <li><b>Social Context:</b> Works well for solo play or as a two-player "shopkeeper and customer" game with siblings or friends.</li>
+          <li><b>Adult Involvement:</b> Minimal supervision needed after an initial walkthrough of how the slots and coins work.</li>
+          <li><b>Play Progression:</b> Kids start by simply sorting snacks into slots, then progress to running a full pretend store with coins and customers.</li>
+          <li><b>Session Length:</b> Typical play sessions last 15 to 30 minutes per round of "shopping."</li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-h">Compatibility</div>
+        <ul class="bullet-list">
+          <li><b>Works With Own Line:</b> Pairs naturally with other Melissa &amp; Doug wooden play-food and grocery sets that use a similar scale.</li>
+          <li><b>Recommended With:</b> Works well alongside a play cash register or grocery cart for expanded pretend-store scenarios.</li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-h">Why It Works</div>
+        <ul class="bullet-list">
+          <li><b>Primary Benefit:</b> Combines hands-on sorting with a satisfying "dispense" mechanic, reinforcing matching skills through repeatable play.</li>
+          <li><b>Secondary Benefit:</b> Encourages early math and reading readiness as kids match letters and numbers to make a "purchase."</li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-h">What Makes It Fun</div>
+        <p style="font-size:14.5px;line-height:1.6;margin:4px 0 0;">
+          Pick a snack, slide in a coin, and press the matching button to watch it drop down the chute — just like a
+          real vending machine, sized for little hands.
+        </p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-h">Why They'll Love It</div>
+        <ul class="star-bullets">
+          <li>9 wooden snack pieces to sort, stack, and "sell"</li>
+          <li>Press-button mechanism mimics a real vending machine</li>
+          <li>Reusable play coins and a sliding coin slot</li>
+          <li>Folds flat for easy storage between play sessions</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- ===== Customer Q&A ===== -->
+  <div class="accordion open" id="acc-qa">
+    <button class="accordion-header" data-target="acc-qa">
+      <span class="grow" style="font-size:20px;">Customer Q&amp;A</span>
+      <span class="toggle">−</span>
+    </button>
+    <div class="accordion-content">
+      <div class="qa-card">
+        <div class="qa-q">Is this vending machine made of real wood?</div>
+        <div class="qa-a">Yes — the cabinet and snack pieces are crafted from sustainably sourced wood with child-safe, non-toxic paint.</div>
+      </div>
+      <div class="qa-card">
+        <div class="qa-q">How many snack pieces are included?</div>
+        <div class="qa-a">The set includes 9 wooden snack pieces, reusable play coins, and a small wallet for pretend money.</div>
+      </div>
+      <div class="qa-card">
+        <div class="qa-q">Do the buttons actually dispense the snacks?</div>
+        <div class="qa-a">Yes — pressing the matching numbered button releases a spring-loaded gate so the snack piece slides down to the tray.</div>
+      </div>
+      <div class="qa-card">
+        <div class="qa-q">Is adult assembly required?</div>
+        <div class="qa-a">The vending machine arrives mostly assembled. Only the "Snacks to Go" header sign needs to be attached.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Reviews ===== -->
+  <div id="reviews">
+    <div class="reviews-head">
+      <div class="reviews-rating-line">
+        <span class="stars" style="font-size:18px;"><span class="back">★★★★★</span><span class="front" style="width:90%">★★★★★</span></span>
+        4.5 &nbsp;|&nbsp; 51 Reviews
+      </div>
+      <div class="recommend-line">8 out of 11 (73%) reviewers recommend this product</div>
+
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search topics and reviews
+      </div>
+
+      <div class="snapshot-title">Rating Snapshot</div>
+      <div class="snapshot-sub">Select a row below to filter reviews.</div>
+
+      <div class="bar-row"><span class="star-label">5 ★</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="count">40</span></div>
+      <div class="bar-row"><span class="star-label">4 ★</span><div class="bar-track"><div class="bar-fill" style="width:10%"></div></div><span class="count">4</span></div>
+      <div class="bar-row"><span class="star-label">3 ★</span><div class="bar-track"><div class="bar-fill" style="width:5%"></div></div><span class="count">2</span></div>
+      <div class="bar-row"><span class="star-label">2 ★</span><div class="bar-track"><div class="bar-fill" style="width:7.5%"></div></div><span class="count">3</span></div>
+      <div class="bar-row"><span class="star-label">1 ★</span><div class="bar-track"><div class="bar-fill" style="width:5%"></div></div><span class="count">2</span></div>
+
+      <div class="avg-title">Average Customer Ratings</div>
+      <div class="avg-row">
+        Overall
+        <span class="stars"><span class="back">★★★★★</span><span class="front" style="width:90%">★★★★★</span></span>
+        4.5
+      </div>
+    </div>
+
+    <div class="review-meta">
+      <span>1–3 of 51 Reviews</span>
+      <span class="sort-select">Sort by: Most Relevant ▾</span>
+    </div>
+
+    <div class="review-card">
+      <span class="stars"><span class="back">★★★★★</span><span class="front" style="width:100%">★★★★★</span></span>
+      <div class="review-title">Worth every penny</div>
+      <div class="review-author">ParentOf3 · Verified Buyer</div>
+      <div class="review-body">My daughter plays with this for an hour every afternoon. The buttons are sturdy and the snack pieces are exactly the right size for small hands.</div>
+    </div>
+
+    <div class="review-card">
+      <span class="stars"><span class="back">★★★★★</span><span class="front" style="width:100%">★★★★★</span></span>
+      <div class="review-title">Great gift</div>
+      <div class="review-author">AuntieK · Verified Buyer</div>
+      <div class="review-body">Bought this for my niece's birthday and she was instantly hooked. Easy to set up — only the header sign needed attaching.</div>
+    </div>
+
+    <div class="review-card">
+      <span class="stars"><span class="back">★★★★★</span><span class="front" style="width:80%">★★★★★</span></span>
+      <div class="review-title">Fun but pieces are small</div>
+      <div class="review-author">GrandmaSue · Verified Buyer</div>
+      <div class="review-body">Lovely quality wood and paint. Just keep an eye on the little coins, since they're easy to misplace.</div>
+    </div>
+
+    <button class="load-more">Show more reviews</button>
+  </div>
+
+  <div class="bottom-pad"></div>
+</div>
+
+<!-- ===== Floating Chat ===== -->
+<div class="chat-fab">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#1559C9" stroke-width="2"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.1-5.4A8.5 8.5 0 1 1 21 11.5z"/></svg>
+  Chat
+</div>
+
+<script>
+  // ---- Accordion toggle ----
+  document.querySelectorAll('.accordion-header').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var acc = document.getElementById(btn.dataset.target);
+      acc.classList.toggle('open');
+      var icon = btn.querySelector('.toggle');
+      icon.textContent = acc.classList.contains('open') ? '−' : '+';
+    });
+  });
+
+  // ---- Wishlist heart toggle ----
+  document.getElementById('wishlistBtn').addEventListener('click', function(){
+    this.classList.toggle('active');
+  });
+
+  // ---- Add to cart feedback ----
+  document.getElementById('addToCart').addEventListener('click', function(){
+    var badge = document.querySelector('.cart-badge');
+    badge.textContent = (parseInt(badge.textContent) + 1);
+    this.textContent = 'Added ✓';
+    var self = this;
+    setTimeout(function(){ self.textContent = 'Add to cart'; }, 1200);
+  });
+
+  // ---- Gallery thumbnail switching ----
+  document.querySelectorAll('.thumb').forEach(function(thumb){
+    thumb.addEventListener('click', function(){
+      document.querySelectorAll('.thumb').forEach(function(t){ t.classList.remove('active'); });
+      document.querySelectorAll('.art-view').forEach(function(v){ v.classList.remove('active'); });
+      this.classList.add('active');
+      document.getElementById('art-' + this.dataset.target).classList.add('active');
+    });
+  });
+
+  // ---- Build vending-machine SVG art ----
+  function machineMarkup(cropped){
+    return '\
+    <svg viewBox="' + (cropped ? '60 30 240 360' : '0 0 360 460') + '" xmlns="http://www.w3.org/2000/svg">\
+      <defs>\
+        <linearGradient id="bannerGrad" x1="0" y1="0" x2="1" y2="0">\
+          <stop offset="0%" stop-color="#F2789A"/><stop offset="100%" stop-color="#7E6FE0"/>\
+        </linearGradient>\
+      </defs>\
+      <rect x="40" y="0" width="280" height="0" fill="none"/>\
+      <!-- menu card -->\
+      <rect x="14" y="150" width="58" height="86" rx="6" fill="#fff" stroke="#E0E3E8"/>\
+      <rect x="20" y="156" width="20" height="16" rx="2" fill="#F2A1B8"/>\
+      <rect x="44" y="156" width="20" height="16" rx="2" fill="#9AD1A6"/>\
+      <rect x="20" y="176" width="20" height="16" rx="2" fill="#A6CDEB"/>\
+      <rect x="44" y="176" width="20" height="16" rx="2" fill="#F4D27A"/>\
+      <rect x="20" y="196" width="20" height="16" rx="2" fill="#E8736B"/>\
+      <rect x="44" y="196" width="20" height="16" rx="2" fill="#C7AEEA"/>\
+      <!-- header banner -->\
+      <rect x="90" y="34" width="220" height="36" rx="8" fill="url(#bannerGrad)"/>\
+      <text x="200" y="58" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-weight="700" font-size="17" fill="#fff">SNACKS to GO</text>\
+      <!-- cabinet -->\
+      <rect x="80" y="70" width="240" height="320" rx="16" fill="#F6EFDD" stroke="#E4D8B9" stroke-width="2"/>\
+      <!-- row A -->\
+      <rect x="96" y="86" width="150" height="64" rx="6" fill="#fff" stroke="#cfd6e0"/>\
+      <rect x="100" y="90" width="44" height="46" rx="4" fill="#F2A1B8"/>\
+      <rect x="150" y="90" width="44" height="46" rx="4" fill="#E8736B"/>\
+      <rect x="200" y="90" width="40" height="46" rx="4" fill="#A6CDEB"/>\
+      <rect x="96" y="152" width="150" height="16" fill="#5BB3E4"/>\
+      <text x="118" y="164" font-family="sans-serif" font-size="9" fill="#fff" text-anchor="middle">A1</text>\
+      <text x="171" y="164" font-family="sans-serif" font-size="9" fill="#fff" text-anchor="middle">A2</text>\
+      <text x="221" y="164" font-family="sans-serif" font-size="9" fill="#fff" text-anchor="middle">A3</text>\
+      <!-- row B -->\
+      <rect x="96" y="178" width="150" height="64" rx="6" fill="#fff" stroke="#cfd6e0"/>\
+      <rect x="100" y="182" width="44" height="46" rx="4" fill="#CFE6D3"/>\
+      <rect x="150" y="182" width="44" height="46" rx="4" fill="#D9D2E8"/>\
+      <rect x="200" y="182" width="40" height="46" rx="4" fill="#EAD8B0"/>\
+      <rect x="96" y="244" width="150" height="16" fill="#5FBE7E"/>\
+      <text x="118" y="256" font-family="sans-serif" font-size="9" fill="#fff" text-anchor="middle">B1</text>\
+      <text x="171" y="256" font-family="sans-serif" font-size="9" fill="#fff" text-anchor="middle">B2</text>\
+      <text x="221" y="256" font-family="sans-serif" font-size="9" fill="#fff" text-anchor="middle">B3</text>\
+      <!-- row C -->\
+      <rect x="96" y="270" width="150" height="64" rx="6" fill="#fff" stroke="#cfd6e0"/>\
+      <rect x="100" y="274" width="44" height="46" rx="4" fill="#F4C7D6"/>\
+      <rect x="150" y="274" width="44" height="46" rx="4" fill="#F6E5A8"/>\
+      <rect x="200" y="274" width="40" height="46" rx="4" fill="#F2A1B8"/>\
+      <rect x="96" y="336" width="150" height="16" fill="#E2554F"/>\
+      <text x="118" y="348" font-family="sans-serif" font-size="9" fill="#fff" text-anchor="middle">C1</text>\
+      <text x="171" y="348" font-family="sans-serif" font-size="9" fill="#fff" text-anchor="middle">C2</text>\
+      <text x="221" y="348" font-family="sans-serif" font-size="9" fill="#fff" text-anchor="middle">C3</text>\
+      <!-- buttons column -->\
+      <rect x="252" y="86" width="48" height="64" rx="6" fill="#fff" stroke="#cfd6e0"/>\
+      <rect x="258" y="92" width="20" height="13" rx="3" fill="#5BB3E4"/><text x="268" y="101" font-size="8" fill="#fff" text-anchor="middle">1</text>\
+      <rect x="258" y="108" width="20" height="13" rx="3" fill="#5BB3E4"/><text x="268" y="117" font-size="8" fill="#fff" text-anchor="middle">2</text>\
+      <rect x="258" y="124" width="20" height="13" rx="3" fill="#5BB3E4"/><text x="268" y="133" font-size="8" fill="#fff" text-anchor="middle">3</text>\
+      <circle cx="288" cy="118" r="9" fill="#5BB3E4"/><text x="288" y="121" font-size="9" fill="#fff" text-anchor="middle">A</text>\
+      <rect x="252" y="178" width="48" height="64" rx="6" fill="#fff" stroke="#cfd6e0"/>\
+      <rect x="258" y="184" width="20" height="13" rx="3" fill="#5FBE7E"/><text x="268" y="193" font-size="8" fill="#fff" text-anchor="middle">1</text>\
+      <rect x="258" y="200" width="20" height="13" rx="3" fill="#5FBE7E"/><text x="268" y="209" font-size="8" fill="#fff" text-anchor="middle">2</text>\
+      <rect x="258" y="216" width="20" height="13" rx="3" fill="#5FBE7E"/><text x="268" y="225" font-size="8" fill="#fff" text-anchor="middle">3</text>\
+      <circle cx="288" cy="210" r="9" fill="#5FBE7E"/><text x="288" y="213" font-size="9" fill="#fff" text-anchor="middle">B</text>\
+      <rect x="252" y="270" width="48" height="64" rx="6" fill="#fff" stroke="#cfd6e0"/>\
+      <rect x="258" y="276" width="20" height="13" rx="3" fill="#E2554F"/><text x="268" y="285" font-size="8" fill="#fff" text-anchor="middle">1</text>\
+      <rect x="258" y="292" width="20" height="13" rx="3" fill="#E2554F"/><text x="268" y="301" font-size="8" fill="#fff" text-anchor="middle">2</text>\
+      <rect x="258" y="308" width="20" height="13" rx="3" fill="#E2554F"/><text x="268" y="317" font-size="8" fill="#fff" text-anchor="middle">3</text>\
+      <circle cx="288" cy="302" r="9" fill="#E2554F"/><text x="288" y="305" font-size="9" fill="#fff" text-anchor="middle">C</text>\
+      <!-- coin slot + tray -->\
+      <rect x="252" y="344" width="48" height="36" rx="6" fill="#fff" stroke="#cfd6e0"/>\
+      <rect x="262" y="352" width="4" height="18" rx="2" fill="#9AA2AF"/>\
+      <rect x="96" y="358" width="204" height="24" rx="6" fill="#E0E3E8" stroke="#cfd6e0"/>\
+      ' + (cropped ? '' : '\
+      <!-- accessories outside the machine -->\
+      <rect x="120" y="394" width="36" height="26" rx="4" fill="#F4D27A" transform="rotate(-6 138 407)"/>\
+      <rect x="168" y="396" width="38" height="30" rx="6" fill="#C7AEEA"/>\
+      <circle cx="226" cy="408" r="11" fill="#E2554F"/>\
+      <circle cx="252" cy="416" r="11" fill="#5FBE7E"/>\
+      <circle cx="276" cy="404" r="11" fill="#5BB3E4"/>\
+      <rect x="116" y="430" width="34" height="22" rx="3" fill="#F6E5A8" transform="rotate(8 133 441)"/>\
+      ') + '\
+    </svg>';
+  }
+
+  function boxMarkup(){
+    return '\
+    <svg viewBox="0 0 360 460" xmlns="http://www.w3.org/2000/svg">\
+      <rect x="50" y="50" width="260" height="340" rx="10" fill="#fff" stroke="#cfd6e0" stroke-width="2"/>\
+      <rect x="50" y="50" width="260" height="64" rx="10" fill="#A6CDEB"/>\
+      <text x="180" y="86" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-weight="800" font-size="20" fill="#0B2A6B">vending machine</text>\
+      <text x="180" y="106" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="13" fill="#0B2A6B" letter-spacing="2">PLAY SET</text>\
+      <text x="180" y="136" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#5B6270" letter-spacing="1">SORT &#183; STACK &#183; SELECT</text>\
+      <rect x="100" y="156" width="160" height="170" rx="8" fill="#F6EFDD" stroke="#E4D8B9"/>\
+      <rect x="116" y="168" width="128" height="34" rx="6" fill="url(#bannerGrad2)"/>\
+      <defs><linearGradient id="bannerGrad2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#F2789A"/><stop offset="100%" stop-color="#7E6FE0"/></linearGradient></defs>\
+      <rect x="116" y="210" width="36" height="36" rx="4" fill="#F2A1B8"/>\
+      <rect x="160" y="210" width="36" height="36" rx="4" fill="#9AD1A6"/>\
+      <rect x="204" y="210" width="36" height="36" rx="4" fill="#A6CDEB"/>\
+      <rect x="116" y="254" width="36" height="36" rx="4" fill="#F4D27A"/>\
+      <rect x="160" y="254" width="36" height="36" rx="4" fill="#E8736B"/>\
+      <rect x="204" y="254" width="36" height="36" rx="4" fill="#C7AEEA"/>\
+      <circle cx="278" cy="100" r="22" fill="#E2554F"/>\
+      <text x="278" y="96" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="14" fill="#fff">19</text>\
+      <text x="278" y="110" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="7" fill="#fff">PIECES</text>\
+      <text x="180" y="350" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="11" fill="#5B6270">Melissa &amp; Doug</text>\
+      <text x="180" y="368" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#8A8F99">Ages 4+ &#183; 9 wooden play pieces</text>\
+    </svg>';
+  }
+
+  document.getElementById('art-scene').innerHTML   = machineMarkup(false);
+  document.getElementById('art-cabinet').innerHTML = machineMarkup(true);
+  document.getElementById('art-box').innerHTML     = boxMarkup();
+  document.querySelectorAll('.thumb')[0].innerHTML = machineMarkup(false);
+  document.querySelectorAll('.thumb')[1].innerHTML = machineMarkup(true);
+  document.querySelectorAll('.thumb')[2].innerHTML = boxMarkup();
+</script>
+</body>
+</html>

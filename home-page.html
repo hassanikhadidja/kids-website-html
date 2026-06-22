@@ -1,0 +1,2237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToyHive — Shop By Age, Trending & More</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
+  :root{
+    --blue:#004ebc;
+    --blue-dark:#003894;
+    --blue-soft:#E7EBFB;
+    --sky:#BFEAFB;
+    --sky-deep:#7FD1F2;
+    --green:#7CB82F;
+    --green-dark:#5C9420;
+    --ink:#11214A;
+    --ink-soft:#5B6685;
+    --gold:#F5A623;
+    --pink:#D6196B;
+    --cream:#FFFDF8;
+    --line:#E4E7F2;
+    --radius-lg:26px;
+    --radius-md:18px;
+    --radius-pill:999px;
+    --shell-max:100%;
+    --page-pad:16px;
+    --section-pad:20px;
+  }
+  *{box-sizing:border-box;}
+  html{
+    scroll-behavior:smooth;
+    -webkit-text-size-adjust:100%;
+  }
+  html,body{margin:0;padding:0;}
+  body{
+    background:#DEE3F0;
+    font-family:'Buenos Aires',sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  h1,h2,h3,.display{
+    font-family:'Buenos Aires',sans-serif;
+    margin:0;
+  }
+  .title{
+    color:#212427;
+    font-family:'Buenos Aires',sans-serif;
+    font-size:30px;
+    font-style:normal;
+    font-weight:600;
+    line-height:normal;
+  }
+  button{font-family:inherit; cursor:pointer; border:none;}
+  a{text-decoration:none; color:inherit;}
+  img{display:block; width:100%; height:100%; object-fit:cover;}
+
+  /* ---------- page progress ---------- */
+  #pageProgress{
+    position:fixed; top:0; left:0; height:4px; width:0%;
+    background:linear-gradient(90deg,var(--blue),var(--sky-deep));
+    z-index:999; transition:width .08s linear;
+  }
+
+  /* ---------- app shell ---------- */
+  .app-shell{
+    max-width:var(--shell-max);
+    width:100%;
+    margin:0 auto;
+    background:var(--cream);
+    min-height:100vh;
+    min-height:100dvh;
+    position:relative;
+    overflow-x:hidden;
+    box-shadow:0 0 60px rgba(15,20,60,.25);
+  }
+
+  /* ---------- promo bar ---------- */
+  .promo-bar{
+    background:var(--sky);
+    color:#000;
+    text-align:center;
+    font-weight:700;
+    font-size:clamp(.75rem, 2.5vw, .88rem);
+    letter-spacing:.2px;
+    padding:9px var(--page-pad);
+  }
+
+  /* ---------- nav ---------- */
+  .nav{
+    background:var(--blue);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px var(--page-pad) 12px;
+    gap:4px;
+  }
+  .nav-icons{
+    display:flex;
+    align-items:center;
+    gap:0;
+    flex-shrink:0;
+  }
+  .icon-btn{
+    background:transparent;
+    color:#fff;
+    min-width:35px; min-height:35px;
+    width:35px; height:35px;
+    flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1rem;
+    border-radius:50%;
+    position:relative;
+    padding:0;
+  }
+  .icon-btn:active{background:rgba(255,255,255,.15);}
+  .icon-btn .nav-icon{
+    width:22px;
+    height:22px;
+    display:block;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:1.75;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+
+  .logo{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:1;
+    min-width:0;
+  }
+  .logo img{
+    height:clamp(47px, 12.6vw, 61px);
+    width:auto;
+    max-width:min(288px, 94vw);
+    object-fit:contain;
+    display:block;
+  }
+  .nav-default{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+    gap:4px;
+  }
+  .nav-search{
+    display:none;
+    align-items:center;
+    width:100%;
+    gap:10px;
+  }
+  .nav.is-search-active .nav-default{display:none;}
+  .nav.is-search-active .nav-search{display:flex;}
+  .search-form{
+    flex:1;
+    min-width:0;
+  }
+  .search-input{
+    width:100%;
+    height:44px;
+    padding:0 16px;
+    border:none;
+    border-radius:var(--radius-pill);
+    background:#fff;
+    color:#212427;
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1rem;
+    font-weight:600;
+    outline:none;
+  }
+  .search-input::placeholder{
+    color:#212427;
+    opacity:.55;
+  }
+  .search-input:focus{
+    box-shadow:0 0 0 2px rgba(255,255,255,.35);
+  }
+  .search-close .nav-icon{
+    width:24px;
+    height:24px;
+    stroke-width:2;
+  }
+
+  /* ---------- mobile menu ---------- */
+  .mobile-menu{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    background:#fff;
+    display:flex;
+    flex-direction:column;
+    transform:translateX(-100%);
+    transition:transform .28s ease, visibility .28s;
+    visibility:hidden;
+    overflow:hidden;
+  }
+  .mobile-menu.is-open{
+    transform:translateX(0);
+    visibility:visible;
+  }
+  body.menu-open{overflow:hidden;}
+  .mobile-menu-header{
+    background:var(--blue);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px var(--page-pad);
+    flex-shrink:0;
+  }
+  .menu-search-form{
+    flex:1;
+    min-width:0;
+    position:relative;
+  }
+  .menu-search-input{
+    width:100%;
+    height:44px;
+    padding:0 44px 0 16px;
+    border:none;
+    border-radius:var(--radius-pill);
+    background:#fff;
+    color:#212427;
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1rem;
+    font-weight:600;
+    outline:none;
+  }
+  .menu-search-input::placeholder{
+    color:#212427;
+    opacity:.45;
+  }
+  .menu-search-btn{
+    position:absolute;
+    right:6px;
+    top:50%;
+    transform:translateY(-50%);
+    width:32px;
+    height:32px;
+    border:none;
+    background:transparent;
+    color:#212427;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    padding:0;
+  }
+  .menu-search-btn svg{
+    width:20px;
+    height:20px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .menu-close .nav-icon{
+    width:24px;
+    height:24px;
+    stroke-width:2;
+  }
+  .mobile-menu-body{
+    flex:1;
+    overflow:hidden;
+    position:relative;
+  }
+  .menu-panels{
+    position:relative;
+    height:100%;
+    overflow:hidden;
+  }
+  .menu-panel{
+    position:absolute;
+    inset:0;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    background:#fff;
+    transform:translateX(100%);
+    transition:transform .32s cubic-bezier(.4,0,.2,1);
+    pointer-events:none;
+    z-index:1;
+    will-change:transform;
+  }
+  .menu-panel.is-active{
+    transform:translateX(0);
+    pointer-events:auto;
+    z-index:3;
+  }
+  .menu-panel.is-left{
+    transform:translateX(-100%);
+    z-index:1;
+  }
+  .menu-panel.is-right{
+    transform:translateX(100%);
+    z-index:2;
+  }
+  .menu-no-transition .menu-panel{
+    transition:none !important;
+  }
+  .menu-subheader{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:18px var(--page-pad) 14px;
+  }
+  .menu-back{
+    background:transparent;
+    border:none;
+    color:#212427;
+    width:36px;
+    height:36px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    padding:0;
+  }
+  .menu-back svg{
+    width:22px;
+    height:22px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .menu-subtitle{
+    margin:0;
+    font-size:clamp(1.35rem, 5vw, 30px);
+  }
+  .menu-sublist{
+    list-style:none;
+    margin:0;
+    padding:0 0 24px;
+  }
+  .menu-sublist li{
+    border-bottom:1px solid var(--line);
+  }
+  .menu-plain,
+  .menu-drill{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+    padding:16px var(--page-pad);
+    color:#212427;
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1.05rem;
+    font-weight:600;
+    text-align:left;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    text-decoration:none;
+  }
+  .menu-plain:active,
+  .menu-drill:active{background:#f5f6f8;}
+  .menu-sublist .menu-plain{
+    justify-content:flex-start;
+  }
+  .menu-primary{
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  .menu-primary a,
+  .menu-drill-root{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+    padding:18px var(--page-pad);
+    color:#212427;
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1.05rem;
+    font-weight:600;
+    border-bottom:1px solid var(--line);
+    background:transparent;
+    border-left:none;
+    border-right:none;
+    border-top:none;
+    cursor:pointer;
+    text-align:left;
+  }
+  .menu-primary a:active,
+  .menu-drill-root:active{background:#f5f6f8;}
+  .menu-chevron{
+    color:#212427;
+    opacity:.55;
+    font-size:1.1rem;
+    line-height:1;
+  }
+  .menu-secondary{
+    list-style:none;
+    margin:0;
+    padding:20px var(--page-pad) 32px;
+  }
+  .menu-secondary li + li{margin-top:18px;}
+  .menu-secondary a{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    color:#212427;
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1rem;
+    font-weight:600;
+    line-height:1.3;
+  }
+  .menu-secondary a.menu-link-blue{color:var(--blue);}
+  .menu-secondary a:active{opacity:.75;}
+  .menu-item-icon{
+    width:22px;
+    height:22px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .menu-item-icon svg{
+    width:22px;
+    height:22px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:1.75;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .menu-item-icon.icon-fill svg{
+    fill:currentColor;
+    stroke:none;
+  }
+  .menu-item-icon.icon-blue{color:var(--blue);}
+
+  /* ---------- cart drawer ---------- */
+  .cart-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(17,33,74,.45);
+    z-index:1100;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .28s ease, visibility .28s;
+  }
+  .cart-overlay.is-open{
+    opacity:1;
+    visibility:visible;
+  }
+  .cart-drawer{
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    width:min(100%, 420px);
+    background:#fff;
+    z-index:1101;
+    transform:translateX(100%);
+    transition:transform .32s cubic-bezier(.4,0,.2,1);
+    display:flex;
+    flex-direction:column;
+    padding:18px var(--page-pad) 24px;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    box-shadow:-8px 0 32px rgba(15,20,60,.15);
+  }
+  .cart-drawer.is-open{
+    transform:translateX(0);
+  }
+  body.cart-open{overflow:hidden;}
+  .cart-close{
+    align-self:flex-end;
+    background:transparent;
+    border:none;
+    color:#212427;
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    padding:0;
+    margin-bottom:8px;
+  }
+  .cart-close svg{
+    width:24px;
+    height:24px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:2;
+    stroke-linecap:round;
+  }
+  .cart-empty{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+  }
+  .cart-empty-msg{
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#212427;
+    margin:8px 0 22px;
+  }
+  .cart-continue-btn{
+    display:block;
+    width:100%;
+    max-width:320px;
+    background:var(--blue);
+    color:#fff;
+    font-family:'Buenos Aires',sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+    padding:15px 24px;
+    border:none;
+    border-radius:var(--radius-pill);
+    cursor:pointer;
+    box-shadow:0 4px 0 var(--blue-dark);
+    margin-bottom:18px;
+  }
+  .cart-continue-btn:active{transform:translateY(2px); box-shadow:0 2px 0 var(--blue-dark);}
+  .cart-login{
+    font-family:'Buenos Aires',sans-serif;
+    font-size:.95rem;
+    font-weight:600;
+    color:#212427;
+    margin:0 0 8px;
+    line-height:1.45;
+  }
+  .cart-login a{
+    color:var(--blue);
+    text-decoration:underline;
+    font-weight:700;
+  }
+  .cart-featured{
+    width:min(336px, 90vw);
+    margin:0 auto 8px;
+    aspect-ratio:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .cart-featured img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+  }
+  .cart-shop-age{
+    align-self:flex-start;
+    margin-top:0;
+    padding-top:0;
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1.05rem;
+    font-weight:700;
+    color:#212427;
+    text-decoration:none;
+  }
+  .cart-shop-age:active{opacity:.7;}
+
+  /* ---------- shop by age ---------- */
+  .age-section{
+    background:rgb(102, 188, 41);
+    padding:clamp(24px, 5vw, 40px) var(--section-pad) clamp(28px, 5vw, 44px);
+    text-align:center;
+  }
+  .age-section h2{
+    margin-bottom:20px;
+  }
+  .age-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:clamp(12px, 3vw, 18px);
+    max-width:560px;
+    margin:0 auto;
+  }
+  .age-grid button{
+    background:var(--blue);
+    color:#fff;
+    font-family:'Buenos Aires',sans-serif;
+    font-weight:700;
+    font-size:clamp(.75rem, 2.2vw, .88rem);
+    padding:8px 4px;
+    min-height:36px;
+    border-radius:var(--radius-pill);
+    box-shadow:0 3px 0 var(--blue-dark);
+    transition:transform .08s;
+  }
+  .age-grid button:active{transform:translateY(3px); box-shadow:0 1px 0 var(--blue-dark);}
+
+  /* ---------- generic carousel shell ---------- */
+  .carousel-wrap{ padding:22px 0 8px; }
+  .carousel-wrap.tight{padding-top:0;}
+  .bookclub-banner + .carousel-wrap.tight{
+    padding-top:clamp(20px, 4vw, 32px);
+  }
+  .carousel-track{
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    padding:0 var(--page-pad) 6px;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-x:contain;
+  }
+  .carousel-track::-webkit-scrollbar{display:none;}
+  #productTrack,
+  #bookTrack,
+  #categoryTrack,
+  #brandTrack,
+  #videoTrack{
+    padding-left:var(--section-pad);
+    padding-right:var(--page-pad);
+    scroll-padding-left:var(--section-pad);
+  }
+  #productTrack > .product-card:first-child,
+  #bookTrack > .product-card:first-child,
+  #categoryTrack > .tile-card:first-child,
+  #brandTrack > .tile-card:first-child,
+  #videoTrack > .video-card:first-child{
+    scroll-margin-left:var(--section-pad);
+  }
+  .progress-rail{
+    height:4px; background:var(--line); border-radius:99px;
+    margin:14px var(--page-pad) 0; overflow:hidden;
+  }
+  .progress-fill{
+    height:100%; width:10%; background:var(--blue); border-radius:99px;
+    transition:width .12s ease-out;
+  }
+
+  /* ---------- hero full screen ---------- */
+  .hero-section{
+    width:100%;
+  }
+  .hero-full{
+    position:relative;
+    width:100%;
+    min-height:calc(100dvh - 108px);
+    min-height:calc(100svh - 108px);
+    background:center/cover no-repeat;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:clamp(24px, 5vw, 40px) var(--section-pad);
+    color:#fff;
+    overflow:hidden;
+    text-align:center;
+  }
+  .hero-full::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg,rgba(0,0,0,.12) 0%, rgba(0,0,0,.18) 50%, rgba(0,0,0,.12) 100%);
+    pointer-events:none;
+  }
+  .hero-full-content{
+    position:relative;
+    z-index:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+  }
+  .hero-full h1{
+    font-size:clamp(2.8rem, 12vw, 5.5rem);
+    line-height:0.95;
+    font-weight:900;
+    letter-spacing:.02em;
+    text-transform:uppercase;
+    -webkit-text-stroke:1.5px rgba(255,255,255,.35);
+    text-shadow:0 4px 18px rgba(0,0,0,.45), 0 2px 0 rgba(0,0,0,.25);
+    margin:0 0 22px;
+  }
+
+  /* ---------- hero carousel ---------- */
+  .hero-slide{
+    min-width:100%;
+    scroll-snap-align:start;
+    position:relative;
+    height:clamp(280px, 55vw, 420px);
+    display:flex; flex-direction:column; justify-content:flex-end;
+    padding:clamp(20px, 4vw, 32px) var(--section-pad) clamp(24px, 4vw, 36px);
+    color:#fff;
+    overflow:hidden;
+  }
+  .hero-slide.photo{
+    background:linear-gradient(180deg,rgba(10,20,50,.05) 35%, rgba(5,12,35,.78) 100%), center/cover no-repeat;
+  }
+  .hero-slide .eyebrow{
+    font-weight:800; letter-spacing:1.5px; font-size:.78rem; opacity:.92; margin-bottom:6px;
+  }
+  .hero-slide h1{
+    font-size:clamp(1.85rem, 7vw, 3rem);
+    line-height:1.02;
+    font-weight:800;
+    text-shadow:0 2px 10px rgba(0,0,0,.25);
+    margin-bottom:18px;
+  }
+  .pill-btn{
+    display:inline-block;
+    background:#fff;
+    color:var(--ink);
+    font-family:'Buenos Aires',sans-serif;
+    font-weight:700;
+    font-size:1rem;
+    padding:13px 36px;
+    border-radius:var(--radius-pill);
+    width:max-content;
+  }
+  .pill-btn.outline{
+    background:transparent; border:2px solid #fff; color:#fff;
+  }
+  .movie-slide{
+    background:linear-gradient(180deg,#CDEEFB 0%, #6FC9EE 100%);
+    align-items:center; text-align:center; color:var(--blue-dark);
+  }
+  .movie-slide .studio{font-weight:700; font-size:1.05rem; margin-bottom:10px; font-style:italic;}
+  .movie-slide h1{font-size:clamp(2rem, 8vw, 3.4rem); color:#fff; -webkit-text-stroke:2px var(--blue-dark);
+    text-shadow:3px 3px 0 var(--blue-dark); line-height:.95; margin-bottom:18px;}
+  .movie-slide .credit{font-size:.72rem; opacity:.65; margin-top:10px;}
+  .trend-slide{
+    background:linear-gradient(180deg,#4FA9E0 0%, #1E73C2 100%);
+    align-items:center; text-align:center;
+    position:relative;
+  }
+  .cloud-r{
+    font-family:'Buenos Aires',sans-serif; font-weight:800; font-size:clamp(3.5rem, 12vw, 5.5rem);
+    color:#fff; text-shadow:0 0 0 #fff;
+    filter:drop-shadow(0 6px 0 rgba(255,255,255,.25));
+    margin-bottom:6px;
+  }
+  .trend-slide h1{font-size:clamp(1.6rem, 5vw, 2.4rem); margin-bottom:18px;}
+
+  /* ---------- product cards ---------- */
+  .product-card{
+    min-width:min(280px, 85vw); max-width:min(280px, 85vw);
+    scroll-snap-align:start;
+    border:1px solid #DDD;
+    box-sizing:border-box;
+    border-radius:15px;
+    overflow:hidden;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    background:#ffffff;
+    position:relative;
+    padding:16px 16px 18px;
+  }
+  .product-img{
+    height:175px; border-radius:12px; margin-bottom:14px;
+    background:linear-gradient(135deg,var(--blue-soft),var(--sky));
+    display:flex; align-items:center; justify-content:center;
+    font-size:2.6rem; color:var(--blue);
+    overflow:hidden;
+  }
+  .rating-row{display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;}
+  .stars{color:var(--gold); font-size:.78rem; letter-spacing:1px;}
+  .stars span{color:var(--ink-soft); font-weight:700; margin-left:4px;}
+  .price{font-weight:800; font-size:1.05rem;}
+  .product-title{
+    font-size:.92rem; font-weight:700; line-height:1.3; margin-bottom:16px; flex:1;
+  }
+  .add-cart{
+    background:var(--blue); color:#fff; font-family:'Buenos Aires',sans-serif;
+    font-weight:700; padding:11px; border-radius:var(--radius-pill); width:100%;
+    min-height:44px;
+    box-shadow:0 3px 0 var(--blue-dark);
+  }
+  .add-cart:active{transform:translateY(2px); box-shadow:none;}
+
+  .section-cta-wrap{padding:8px var(--page-pad) 26px; max-width:480px; margin:0 auto;}
+  #productCarousel .section-cta-wrap,
+  #categorySection .section-cta-wrap,
+  #brandSection .section-cta-wrap,
+  #bookSection .section-cta-wrap{
+    padding-top:26px;
+    padding-bottom:48px;
+    max-width:100%;
+    display:flex;
+    justify-content:center;
+  }
+  #productCarousel .section-cta,
+  #categorySection .section-cta,
+  #brandSection .section-cta,
+  #bookSection .section-cta{
+    width:auto;
+    max-width:min(280px, 88vw);
+    padding:15px 32px;
+  }
+
+  /* ---------- promo banner cards ---------- */
+  .promo-cards-stack{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+    padding:10px var(--page-pad) 8px;
+  }
+  .promo-banner-card{
+    width:min(400px, 100%);
+    height:560px;
+    border-radius:20px;
+    overflow:hidden;
+    position:relative;
+    display:block;
+    padding:0;
+    box-sizing:border-box;
+    flex-shrink:0;
+  }
+  .promo-banner-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .section-cta{
+    display:block; text-align:center;
+    background:var(--blue); color:#fff;
+    font-family:'Buenos Aires',sans-serif; font-weight:700; font-size:1.02rem;
+    padding:15px; border-radius:var(--radius-pill);
+    min-height:48px;
+    box-shadow:0 4px 0 var(--blue-dark);
+  }
+  .section-cta:active{transform:translateY(3px); box-shadow:0 1px 0 var(--blue-dark);}
+
+  .section-heading{
+    text-align:center;
+    padding:30px var(--section-pad) 18px;
+  }
+  #categorySection > .section-heading{
+    padding-top:14px;
+  }
+
+  /* category / brand tiles */
+  .tile-card{
+    min-width:135px; max-width:135px;
+    scroll-snap-align:start;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+  }
+  .tile-img{
+    width:135px; height:135px; border-radius:18px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:2.4rem; color:#fff;
+  }
+  .tile-img--photo{
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
+  .tile-label{font-weight:800; font-family:'Buenos Aires',sans-serif; font-size:.92rem; text-align:center; line-height:1.2;}
+
+  .brand-card{
+    min-width:135px; max-width:135px; height:135px;
+    border-radius:18px; scroll-snap-align:start;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Buenos Aires',sans-serif; font-weight:800; font-size:1.05rem;
+    text-align:center; padding:10px; color:#fff;
+  }
+
+  /* book club banner */
+  .bookclub-banner{
+    padding:0;
+    display:block;
+    line-height:0;
+  }
+  .bookclub-banner img{
+    width:100%;
+    height:auto;
+    display:block;
+  }
+  #brandSection + section .bookclub-banner{
+    margin-top:20px;
+  }
+  .giraffe-emoji{font-size:3.2rem; filter:drop-shadow(0 4px 4px rgba(0,0,0,.2));}
+  .bookclub-badge{
+    background:var(--blue-dark);
+    border-radius:16px;
+    padding:14px 20px;
+    font-family:'Buenos Aires',sans-serif; font-weight:800;
+    font-size:1.3rem; line-height:1.15;
+    box-shadow:0 4px 0 rgba(0,0,0,.2);
+  }
+  .bookclub-badge small{display:block; font-size:.7rem; font-weight:600; opacity:.8; letter-spacing:1px;}
+
+  /* trivia */
+  .trivia-wrap{
+    padding:30px var(--section-pad) 10px;
+    max-width:560px;
+    margin:0 auto;
+  }
+  .trivia-card{
+    background:#00d4fc;
+    border-radius:28px;
+    padding:80px 30px 30px;
+  }
+  .trivia-inner{
+    position:relative;
+    background:#fff; border-radius:20px; padding:40px 20px 26px;
+    text-align:center;
+  }
+  .trivia-bob{
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translate(12%, -100%);
+    width:150px;
+    height:150px;
+    pointer-events:none;
+  }
+  .trivia-bob img{
+    width:150px;
+    height:150px;
+    object-fit:contain;
+    display:block;
+  }
+  .trivia-logo{
+    display:block;
+    position:absolute;
+    left:-45px;
+    top:-130px;
+  }
+  .trivia-logo img{
+    height:clamp(180px, 45vw, 234px);
+    width:auto;
+    max-width:min(990px, 100vw);
+    object-fit:contain;
+    display:block;
+  }
+  .trivia-tag{
+    font-family:'Buenos Aires',sans-serif; font-weight:800; font-size:1.6rem; color:var(--ink);
+    margin:4px 0 18px; text-transform:uppercase;
+  }
+  .trivia-q{font-weight:800; font-size:1.15rem; margin-bottom:18px;}
+  .trivia-btn{
+    display:block; width:100%; background:var(--blue); color:#fff;
+    font-family:'Buenos Aires',sans-serif; font-weight:700; font-size:1rem;
+    padding:13px; border-radius:var(--radius-pill); margin-bottom:10px;
+    box-shadow:0 3px 0 var(--blue-dark); transition:.15s;
+  }
+  .trivia-btn.selected{background:var(--gold); box-shadow:0 3px 0 #b97c00; color:var(--ink);}
+  .trivia-btn.wrong{
+    background:#E53935;
+    box-shadow:0 3px 0 #B71C1C;
+    color:#fff;
+  }
+  .trivia-btn.correct{
+    background:var(--green);
+    box-shadow:0 3px 0 var(--green-dark);
+    color:#fff;
+  }
+  .trivia-btn:last-of-type{margin-bottom:4px;}
+  .shop-geoffrey{font-weight:800; color:var(--blue); text-decoration:underline; display:inline-block; margin-top:15px;}
+
+  /* social / follow section */
+  .follow-section{ padding:34px 0 6px; }
+  .follow-heading{text-align:center; padding:0 var(--section-pad);}
+  .follow-handle{text-align:center; font-weight:800; color:var(--ink-soft); margin:8px 0 18px; font-size:1.05rem;}
+  .social-row{
+    display:flex;
+    justify-content:center;
+    gap:26px;
+    padding:0 var(--section-pad) 24px;
+    flex-wrap:wrap;
+  }
+  .social-row a{
+    color:var(--ink);
+    display:flex;
+    transition:opacity .15s ease;
+  }
+  .social-row a:hover,
+  .social-row a:focus-visible{opacity:.7;}
+  .social-row svg{width:30px; height:30px;}
+  .video-card{
+    min-width:min(225px, 78vw); max-width:min(225px, 78vw); scroll-snap-align:start;
+    border:1px solid var(--line); border-radius:var(--radius-md);
+    overflow:hidden; background:#fff;
+  }
+  .video-card.is-expanded .video-main{display:none;}
+  .video-thumb{
+    height:clamp(200px, 55vw, 280px); position:relative;
+    background:linear-gradient(160deg,#26365E,#0F1830);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .video-thumb i.play-ic{
+    font-size:2.6rem; color:#fff; opacity:.95;
+  }
+  .mute-ic{
+    position:absolute; bottom:10px; left:10px;
+    width:30px; height:30px; border-radius:50%;
+    background:rgba(0,0,0,.45); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:.78rem;
+  }
+  .video-meta{
+    display:flex; align-items:center; gap:10px;
+    padding:12px;
+  }
+  .video-meta-thumb{
+    width:42px; height:42px; border-radius:10px; flex:none;
+    background:var(--blue-soft); display:flex; align-items:center; justify-content:center; color:var(--blue);
+  }
+  .video-meta-text{flex:1; min-width:0;}
+  .video-meta-text .vt{font-weight:800; font-size:.84rem; line-height:1.25;}
+  .video-meta-text .vp{font-weight:700; color:var(--ink-soft); font-size:.84rem; margin-top:2px;}
+  .video-chev-btn{
+    background:transparent;
+    border:none;
+    padding:4px;
+    cursor:pointer;
+    flex:none;
+    color:var(--ink-soft);
+    line-height:1;
+  }
+  .video-chev-btn .chev{
+    display:block;
+    font-size:.9rem;
+  }
+  .video-products{display:none;}
+  .video-card.is-expanded .video-products{display:block;}
+  .video-product-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px;
+    color:inherit;
+    border-bottom:1px solid var(--line);
+  }
+  .video-product-row:last-child{border-bottom:none;}
+  .video-product-link{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex:1;
+    min-width:0;
+    text-decoration:none;
+    color:inherit;
+  }
+  .video-product-row--lead .video-chev-btn{
+    margin-left:auto;
+    flex:none;
+  }
+  .video-product-thumb{
+    width:42px; height:42px; border-radius:8px; flex:none;
+    background:var(--blue-soft);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--blue); font-size:.95rem;
+    overflow:hidden;
+  }
+  .video-product-text{flex:1; min-width:0;}
+  .video-product-text .vt{
+    font-weight:800; font-size:.82rem; line-height:1.25;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .video-product-text .vp{font-weight:700; color:var(--ink-soft); font-size:.82rem; margin-top:2px;}
+  .chev{color:var(--ink-soft);}
+
+  /* find store */
+  .store-locator-section{
+    padding:24px var(--section-pad) 34px;
+  }
+  .store-locator-card{
+    border:1px solid #bcbcbc;
+    border-radius:16px;
+    background:#f4f4f4;
+    padding:28px 24px 32px;
+    text-align:center;
+    max-width:420px;
+    margin:0 auto;
+  }
+  .store-locator-brand{
+    width:313px;
+    height:224px;
+    max-width:100%;
+    object-fit:contain;
+    display:block;
+    margin:0;
+  }
+  .store-locator-btn{
+    display:inline-block;
+    background:var(--blue);
+    color:#fff;
+    font-family:'Buenos Aires',sans-serif;
+    font-weight:700;
+    font-size:1rem;
+    padding:14px 36px;
+    border-radius:var(--radius-pill);
+    text-decoration:none;
+    box-shadow:0 4px 0 var(--blue-dark);
+  }
+  .store-locator-btn:active{transform:translateY(2px); box-shadow:0 2px 0 var(--blue-dark);}
+
+  footer.fin{
+    text-align:center; padding:38px var(--section-pad) calc(28px + env(safe-area-inset-bottom));
+    color:var(--ink-soft); font-size:.8rem; font-weight:700;
+  }
+
+  /* ---------- small phones ---------- */
+  @media (max-width:359px){
+    :root{ --page-pad:12px; --section-pad:14px; }
+    .age-grid{ grid-template-columns:repeat(2,1fr); }
+    .nav{ gap:2px; }
+    .nav-icons{ gap:0; }
+  }
+
+  /* ---------- large phones ---------- */
+  @media (min-width:480px){
+    :root{ --page-pad:20px; --section-pad:24px; }
+  }
+
+  /* ---------- tablets ---------- */
+  @media (min-width:640px){
+    :root{ --shell-max:640px; }
+    body{ padding-top:20px; padding-bottom:20px; }
+    .app-shell{ border-radius:20px; }
+    .age-grid{ grid-template-columns:repeat(6,1fr); }
+  }
+
+  @media (min-width:768px){
+    :root{ --shell-max:768px; --page-pad:28px; --section-pad:32px; }
+
+    #productTrack,
+    #bookTrack,
+    #videoTrack,
+    #categoryTrack,
+    #brandTrack{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+      overflow:visible;
+      scroll-snap-type:none;
+      gap:18px;
+    }
+    #productTrack .product-card,
+    #bookTrack .product-card,
+    #videoTrack .video-card,
+    #categoryTrack .tile-card,
+    #brandTrack .tile-card{
+      min-width:unset;
+      max-width:unset;
+      scroll-snap-align:unset;
+    }
+    #categoryTrack .tile-img,
+    #brandTrack .tile-img{
+      width:100%;
+      height:auto;
+      aspect-ratio:1;
+    }
+    #categoryTrack .tile-card,
+    #brandTrack .tile-card{ max-width:none; min-width:unset; }
+
+    .carousel-wrap .progress-rail,
+    #categorySection > .progress-rail,
+    #brandTrack + .progress-rail,
+    .follow-section > .progress-rail{
+      display:none;
+    }
+
+    .section-cta-wrap{ max-width:360px; }
+  }
+
+  /* ---------- desktop ---------- */
+  @media (min-width:1024px){
+    :root{ --shell-max:1100px; }
+    body{ padding-top:28px; padding-bottom:28px; }
+    .app-shell{ border-radius:24px; }
+
+    .hero-full{
+      min-height:clamp(520px, 72vh, 820px);
+    }
+
+    .age-grid{ max-width:680px; }
+    .bookclub-badge{ font-size:clamp(1.1rem, 2vw, 1.4rem); }
+  }
+
+  @media (min-width:1280px){
+    :root{ --shell-max:1200px; --page-pad:36px; }
+    #productTrack,
+    #bookTrack,
+    #videoTrack{
+      grid-template-columns:repeat(3, 1fr);
+    }
+  }
+
+  /* ---------- touch & accessibility ---------- */
+  @media (hover:hover){
+    .icon-btn:hover{ background:rgba(255,255,255,.15); }
+    .add-cart:hover{ filter:brightness(1.08); }
+    .section-cta:hover{ filter:brightness(1.08); }
+    .trivia-btn:hover{ filter:brightness(1.08); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .menu-panel{ transition:none !important; }
+    *, *::before, *::after{
+      animation-duration:.01ms !important;
+      transition-duration:.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="pageProgress"></div>
+
+<div class="app-shell">
+
+  <!-- promo bar -->
+  <div class="promo-bar">Free Shipping for Orders Over 6500 DZD</div>
+
+  <!-- nav -->
+  <header class="nav" id="mainNav">
+    <div class="nav-default">
+      <div class="nav-icons">
+        <button class="icon-btn" type="button" id="menuOpenBtn" aria-label="Menu">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Account">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+        </button>
+      </div>
+      <a class="logo" href="#" aria-label="AJ BLOKS home">
+        <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782065376/Design_sans_titre_10_bokgdf.png" alt="AJ BLOKS">
+      </a>
+      <div class="nav-icons">
+        <button class="icon-btn" type="button" id="searchOpenBtn" aria-label="Search">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M16.5 16.5L21 21"/></svg>
+        </button>
+        <a class="icon-btn" href="wishlist.html" aria-label="Wishlist">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.502 5.502 0 0 0 16.503 3c-1.76 0-3 .56-4.5 2.17C10.503 3.56 9.263 3 7.503 3A5.502 5.502 0 0 0 2 8.5c0 2.29 1.5 4.04 3 5.5l7 7Z"/></svg>
+        </a>
+        <button class="icon-btn" type="button" id="cartOpenBtn" aria-label="Cart">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="nav-search">
+      <form class="search-form" id="searchForm" role="search">
+        <input class="search-input" id="searchInput" type="search" name="q" placeholder="Search" autocomplete="off" aria-label="Search">
+      </form>
+      <button class="icon-btn search-close" type="button" id="searchCloseBtn" aria-label="Close search">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- mobile menu -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <div class="mobile-menu-header">
+      <form class="menu-search-form" id="menuSearchForm" role="search">
+        <input class="menu-search-input" id="menuSearchInput" type="search" name="q" placeholder="Search for fun!" autocomplete="off" aria-label="Search for fun">
+        <button class="menu-search-btn" type="submit" aria-label="Search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+        </button>
+      </form>
+      <button class="icon-btn menu-close" type="button" id="menuCloseBtn" aria-label="Close menu">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <nav class="mobile-menu-body">
+      <div class="menu-panels" id="menuPanels">
+
+        <!-- root -->
+        <div class="menu-panel is-active" data-panel="root">
+          <ul class="menu-primary">
+            <li><button type="button" class="menu-drill-root" data-panel="category">Shop By Category <span class="menu-chevron" aria-hidden="true">›</span></button></li>
+            <li><button type="button" class="menu-drill-root" data-panel="age">Shop By Age <span class="menu-chevron" aria-hidden="true">›</span></button></li>
+            <li><button type="button" class="menu-drill-root" data-panel="brand">Shop By Character <span class="menu-chevron" aria-hidden="true">›</span></button></li>
+            <li><button type="button" class="menu-drill-root" data-panel="play">Play <span class="menu-chevron" aria-hidden="true">›</span></button></li>
+          </ul>
+          <ul class="menu-secondary">
+            <li>
+              <a href="#" class="menu-link-blue">
+                <span class="menu-item-icon icon-blue"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+                Email Signup for Deals &amp; Updates!
+              </a>
+            </li>
+            <li>
+              <a href="wishlist.html" class="menu-close-link">
+                <span class="menu-item-icon icon-blue icon-fill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.502 5.502 0 0 0 16.503 3c-1.76 0-3 .56-4.5 2.17C10.503 3.56 9.263 3 7.503 3A5.502 5.502 0 0 0 2 8.5c0 2.29 1.5 4.04 3 5.5l7 7Z"/></svg></span>
+                Wishlist
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span class="menu-item-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10z"/><circle cx="12" cy="11" r="2.5"/></svg></span>
+                Find a Store
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span class="menu-item-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1 6h13v9H1z"/><path d="M14 9h4l3 4v2h-7V9z"/><circle cx="5.5" cy="17.5" r="1.5"/><circle cx="17.5" cy="17.5" r="1.5"/></svg></span>
+                Track Your Order
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span class="menu-item-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 3.5c-.9.9-1.5 1.2-1.5 2"/><circle cx="12" cy="17" r=".75" fill="currentColor" stroke="none"/></svg></span>
+                Help Center
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span class="menu-item-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h12a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V5z"/><path d="M7 5a3 3 0 0 1 3-3h9v16H10a3 3 0 0 1-3-3"/></svg></span>
+                Catalogue grossiste
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- shop by category -->
+        <div class="menu-panel" data-panel="category">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="root" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">Shop By Category</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="#categorySection" class="menu-plain menu-close-link">Shop All Categories</a></li>
+            <li><button type="button" class="menu-drill" data-panel="category-trending">New &amp; Trending <span class="menu-chevron">›</span></button></li>
+            <li><a href="#" class="menu-plain menu-close-link">Action Figures &amp; Playsets</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Arts &amp; Crafts</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Baby &amp; Toddler Toys</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Books</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Building Sets &amp; Blocks</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Dolls, Collectibles &amp; Stuffed Animals</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Electronics</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Games &amp; Puzzles</a></li>
+            <li><a href="#productCarousel" class="menu-plain menu-close-link">Outdoor Play</a></li>
+          </ul>
+        </div>
+
+        <!-- new & trending -->
+        <div class="menu-panel" data-panel="category-trending">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="category" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">New &amp; Trending</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="#" class="menu-plain menu-close-link">Shop All New &amp; Trending</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Action Figures &amp; Playsets</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Arts &amp; Crafts</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Baby &amp; Toddler Toys</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Building Sets &amp; Blocks</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Dolls, Collectibles &amp; Stuffed Animals</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Electronics</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Games &amp; Puzzles</a></li>
+            <li><a href="#productCarousel" class="menu-plain menu-close-link">Outdoor Play</a></li>
+          </ul>
+        </div>
+
+        <!-- shop by age -->
+        <div class="menu-panel" data-panel="age">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="root" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">Shop By Age</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><button type="button" class="menu-drill" data-panel="age-0-2">0-2 years <span class="menu-chevron">›</span></button></li>
+            <li><button type="button" class="menu-drill" data-panel="age-3-4">3-4 years <span class="menu-chevron">›</span></button></li>
+            <li><button type="button" class="menu-drill" data-panel="age-5-7">5-7 years <span class="menu-chevron">›</span></button></li>
+            <li><button type="button" class="menu-drill" data-panel="age-8-10">8-10 years <span class="menu-chevron">›</span></button></li>
+            <li><button type="button" class="menu-drill" data-panel="age-11-12">11-12 years <span class="menu-chevron">›</span></button></li>
+            <li><button type="button" class="menu-drill" data-panel="age-13">13+ years <span class="menu-chevron">›</span></button></li>
+          </ul>
+        </div>
+
+        <!-- 0-2 years -->
+        <div class="menu-panel" data-panel="age-0-2">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="age" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">0-2 years</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="#ageSection" class="menu-plain menu-close-link">Shop All 0-2 years</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Activity Centers</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Baby &amp; Toddler Toys</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Bath Toys</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Blocks, Sorting &amp; Stacking</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Development &amp; Learning</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Musical &amp; Sound Toys</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Dolls &amp; Stuffed Animals</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Rattles &amp; Teethers</a></li>
+          </ul>
+        </div>
+
+        <!-- 3-4 years -->
+        <div class="menu-panel" data-panel="age-3-4">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="age" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">3-4 years</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="#ageSection" class="menu-plain menu-close-link">Shop All 3-4 years</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Preschool Learning</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Building Sets &amp; Blocks</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Dolls &amp; Playsets</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Ride-Ons &amp; Scooters</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Pretend Play</a></li>
+          </ul>
+        </div>
+
+        <!-- 5-7 years -->
+        <div class="menu-panel" data-panel="age-5-7">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="age" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">5-7 years</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="#ageSection" class="menu-plain menu-close-link">Shop All 5-7 years</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Action Figures</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Arts &amp; Crafts</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Games &amp; Puzzles</a></li>
+            <li><a href="#productCarousel" class="menu-plain menu-close-link">Outdoor Play</a></li>
+          </ul>
+        </div>
+
+        <!-- 8-10 years -->
+        <div class="menu-panel" data-panel="age-8-10">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="age" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">8-10 years</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="#ageSection" class="menu-plain menu-close-link">Shop All 8-10 years</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">STEM &amp; Robotics</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Board Games</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Sports &amp; Outdoor</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Collectibles</a></li>
+          </ul>
+        </div>
+
+        <!-- 11-12 years -->
+        <div class="menu-panel" data-panel="age-11-12">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="age" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">11-12 years</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="#ageSection" class="menu-plain menu-close-link">Shop All 11-12 years</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Advanced Building Sets</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Electronics &amp; Gadgets</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Strategy Games</a></li>
+          </ul>
+        </div>
+
+        <!-- 13+ years -->
+        <div class="menu-panel" data-panel="age-13">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="age" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">13+ years</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="#ageSection" class="menu-plain menu-close-link">Shop All 13+ years</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Model Kits</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Tech &amp; Gaming</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Puzzles &amp; Brain Teasers</a></li>
+          </ul>
+        </div>
+
+        <!-- shop by character -->
+        <div class="menu-panel" data-panel="brand">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="root" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">Shop By Character</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><button type="button" class="menu-drill" data-panel="brand-all">Explore All Brands <span class="menu-chevron">›</span></button></li>
+            <li><button type="button" class="menu-drill" data-panel="brand-characters">Explore All Characters <span class="menu-chevron">›</span></button></li>
+          </ul>
+        </div>
+
+        <!-- explore all brands -->
+        <div class="menu-panel" data-panel="brand-all">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="brand" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">Explore All Brands</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="#brandSection" class="menu-plain menu-close-link">Shop All Characters</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Made For AJ BLOKS</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">little tikes</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Bella Doll Co.</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">BrickWorks</a></li>
+          </ul>
+        </div>
+
+        <!-- explore all characters -->
+        <div class="menu-panel" data-panel="brand-characters">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="brand" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">Explore All Characters</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="#" class="menu-plain menu-close-link">Bluey</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">DC Heroes</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Disney Princess</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Harry Potter</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Hello Kitty</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Lilo &amp; Stitch</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Marvel Heroes</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Minecraft</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Mickey Mouse &amp; Minnie Mouse</a></li>
+          </ul>
+        </div>
+
+        <!-- play -->
+        <div class="menu-panel" data-panel="play">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="root" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">Play</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="#" class="menu-plain menu-close-link">Toys in Action</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">DIY Activities</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Printables</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Buddy's World</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+  </div>
+
+  <!-- cart drawer -->
+  <div class="cart-overlay" id="cartOverlay" aria-hidden="true"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true" aria-label="Shopping cart">
+    <button class="cart-close" type="button" id="cartCloseBtn" aria-label="Close cart">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="cart-empty" id="cartEmpty">
+      <p class="cart-empty-msg">Your cart is empty</p>
+      <button type="button" class="cart-continue-btn" id="cartContinueBtn">Continue shopping</button>
+      <p class="cart-login">Have an account? <a href="#">Log in</a> to check out faster.</p>
+      <div class="cart-featured">
+        <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782123143/Design_sans_titre_13_qzliwu.png" alt="CAT dump truck toy">
+      </div>
+      <a href="#ageSection" class="cart-shop-age" id="cartShopAge">Shop by Age →</a>
+    </div>
+  </aside>
+
+  <!-- shop by age -->
+  <section class="age-section" id="ageSection">
+    <h2 class="title">Shop By Age</h2>
+    <div class="age-grid">
+      <button>0-2</button>
+      <button>3-4</button>
+      <button>5-7</button>
+      <button>8-10</button>
+      <button>11-12</button>
+      <button>13+</button>
+    </div>
+  </section>
+
+  <!-- hero -->
+  <section class="hero-section">
+    <div class="hero-full" style="background-image:url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782077612/Design_sans_titre_11_bgoqiu.png');">
+      <div class="hero-full-content">
+        <h1>OUTDOOR<br>PLAY ALL DAY</h1>
+        <a class="pill-btn" href="#productCarousel">Shop Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- product carousel -->
+  <section class="carousel-wrap" id="productCarousel">
+    <div class="carousel-track" id="productTrack">
+
+      <div class="product-card">
+        <div class="product-img"><i class="fa-solid fa-satellite-dish" style="font-size:2.2rem;"></i></div>
+        <div class="rating-row">
+          <span class="stars">★★★★★ <span>0.0 (0)</span></span>
+        </div>
+        <div class="price" style="margin-bottom:6px;">$59.99</div>
+        <div class="product-title">Pro Beam Kids Video Walkie Talkies 2-Pack With Camera &amp; Voice Changer</div>
+        <button class="add-cart">Add to cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img"><i class="fa-solid fa-seedling"></i></div>
+        <div class="rating-row">
+          <span class="stars">★★★☆☆ <span>3.0 (12)</span></span>
+        </div>
+        <div class="price" style="margin-bottom:6px;">$24.99</div>
+        <div class="product-title">Garden Adventure Sand &amp; Mold Outdoor Play Set</div>
+        <button class="add-cart">Add to cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img"><i class="fa-solid fa-futbol"></i></div>
+        <div class="rating-row">
+          <span class="stars">★★★★☆ <span>4.2 (38)</span></span>
+        </div>
+        <div class="price" style="margin-bottom:6px;">$14.99</div>
+        <div class="product-title">All-Weather Backyard Match Soccer Ball, Size 4</div>
+        <button class="add-cart">Add to cart</button>
+      </div>
+
+    </div>
+    <div class="progress-rail"><div class="progress-fill" id="productProgress"></div></div>
+    <div class="section-cta-wrap">
+      <a class="section-cta" href="#">Shop Outdoor Play</a>
+    </div>
+    <div class="promo-cards-stack">
+      <article class="promo-banner-card">
+        <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782117947/Cards_on_home_page_mark_mvuszi.png" alt="Cartoon &amp; Friends">
+      </article>
+      <article class="promo-banner-card">
+        <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782117952/Cards_on_home_page_mark_1_mmc9rc.png" alt="New &amp; Trending">
+      </article>
+    </div>
+  </section>
+
+  <!-- shop by category -->
+  <section id="categorySection">
+    <h2 class="section-heading title">Shop By Category</h2>
+    <div class="carousel-track" id="categoryTrack">
+      <div class="tile-card">
+        <div class="tile-img tile-img--photo" style="background-image:url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782124177/Design_sans_titre_15_lqrnsx.png');"></div>
+        <div class="tile-label">New &amp; Trending</div>
+      </div>
+      <div class="tile-card">
+        <div class="tile-img tile-img--photo" style="background-image:url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782124182/Design_sans_titre_16_xzh6cv.png');"></div>
+        <div class="tile-label">Outdoor Play</div>
+      </div>
+      <div class="tile-card">
+        <div class="tile-img tile-img--photo" style="background-image:url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782124188/Design_sans_titre_17_a0a8bp.png');"></div>
+        <div class="tile-label">Building Sets &amp; Blocks</div>
+      </div>
+      <div class="tile-card">
+        <div class="tile-img" style="background:linear-gradient(150deg,#87CEEB,#1E73C2);"><i class="fa-solid fa-truck"></i></div>
+        <div class="tile-label">Vehicles</div>
+      </div>
+      <div class="tile-card">
+        <div class="tile-img" style="background:linear-gradient(150deg,#FFD54F,#F57C00);"><i class="fa-solid fa-book"></i></div>
+        <div class="tile-label">Kids Books</div>
+      </div>
+    </div>
+    <div class="progress-rail"><div class="progress-fill" id="categoryProgress"></div></div>
+    <div class="section-cta-wrap">
+      <a class="section-cta" href="#">Shop All Categories</a>
+    </div>
+  </section>
+
+  <!-- shop by character -->
+  <section id="brandSection">
+    <h2 class="section-heading title">Shop By Character</h2>
+    <div class="carousel-track" id="brandTrack">
+      <div class="tile-card">
+        <div class="tile-img tile-img--photo" style="background-image:url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782128031/Design_sans_titre_22_itvlqi.png');"></div>
+        <div class="tile-label">Spider-Man</div>
+      </div>
+      <div class="tile-card">
+        <div class="tile-img tile-img--photo" style="background-image:url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782127861/Design_sans_titre_21_bwt30m.png');"></div>
+        <div class="tile-label">Hello Kitty</div>
+      </div>
+      <div class="tile-card">
+        <div class="tile-img tile-img--photo" style="background-image:url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782127842/Design_sans_titre_18_z9mvkj.png');"></div>
+        <div class="tile-label">Tom &amp; Jerry</div>
+      </div>
+      <div class="tile-card">
+        <div class="tile-img tile-img--photo" style="background-image:url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782127847/Design_sans_titre_19_g3xqdx.png');"></div>
+        <div class="tile-label">Teenage Mutant Ninja Turtles</div>
+      </div>
+      <div class="tile-card">
+        <div class="tile-img tile-img--photo" style="background-image:url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782127852/Design_sans_titre_20_fymlan.png');"></div>
+        <div class="tile-label">Super Wings</div>
+      </div>
+      <div class="tile-card">
+        <div class="tile-img tile-img--photo" style="background-image:url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782128429/9_1_lovmpf.png');"></div>
+        <div class="tile-label">Bob</div>
+      </div>
+    </div>
+    <div class="progress-rail"><div class="progress-fill" id="brandProgress"></div></div>
+  </section>
+
+  <!-- geoffrey-style book club -->
+  <section id="bookSection">
+    <div class="bookclub-banner">
+      <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782130764/Design_sans_titre_24_gkwun1.png" alt="Bob's Book Club">
+    </div>
+    <div class="carousel-wrap tight">
+      <div class="carousel-track" id="bookTrack">
+        <div class="product-card">
+          <div class="product-img" style="background:linear-gradient(160deg,#1B2A52,#3E5FA8); color:#fff;"><i class="fa-solid fa-meteor"></i></div>
+          <div class="rating-row"><span class="stars">★★★★★ <span>0.0 (0)</span></span></div>
+          <div class="price" style="margin-bottom:6px;">$17.99</div>
+          <div class="product-title">Galaxy Explorers: Jedi Training Mission Activity Book</div>
+          <button class="add-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <div class="product-img" style="background:linear-gradient(160deg,#3E5FA8,#1B2A52); color:#fff;"><i class="fa-solid fa-meteor"></i></div>
+          <div class="rating-row"><span class="stars">★★★☆☆ <span>3.0 (4)</span></span></div>
+          <div class="price" style="margin-bottom:6px;">$12.99</div>
+          <div class="product-title">Galaxy Explorers: A Hero in Training Step-by-Step Reader</div>
+          <button class="add-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <div class="product-img" style="background:linear-gradient(160deg,#F4B400,#E08800); color:#fff;"><i class="fa-solid fa-paw"></i></div>
+          <div class="rating-row"><span class="stars">★★★★★ <span>5.0 (2)</span></span></div>
+          <div class="price" style="margin-bottom:6px;">$9.99</div>
+          <div class="product-title">Buddy the Giraffe: A Tall Tale Bedtime Story</div>
+          <button class="add-cart">Add to cart</button>
+        </div>
+      </div>
+      <div class="progress-rail"><div class="progress-fill" id="bookProgress"></div></div>
+      <div class="section-cta-wrap">
+        <a class="section-cta" href="#">Shop Kids Books</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- trivia -->
+  <section class="trivia-wrap">
+    <div class="trivia-card">
+      <div class="trivia-inner">
+        <div class="trivia-bob">
+          <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782132973/Design_sans_titre_27_cen41k.png" alt="Bob the Bear">
+        </div>
+        <div class="trivia-logo">
+          <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782137842/Design_sans_titre_28_fwmasz.png" alt="AJ BLOKS">
+        </div>
+        <div class="trivia-q">How old is BOB the Bear?</div>
+        <button class="trivia-btn" data-val="12">12</button>
+        <button class="trivia-btn" data-val="9">9</button>
+        <button class="trivia-btn" data-val="10">10</button>
+        <button class="trivia-btn" data-val="13">13</button>
+        <a class="shop-geoffrey" href="#">Shop with Bob</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- follow / social -->
+  <section class="follow-section">
+    <h2 class="follow-heading title">Follow the fun! @ajBloks</h2>
+    <div class="follow-handle">@ajBloks</div>
+    <div class="social-row">
+      <a href="#" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.7 31.7 0 0 0 0 12a31.7 31.7 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.7 31.7 0 0 0 24 12a31.7 31.7 0 0 0-.5-5.8zM9.6 15.5V8.5L15.8 12z"/></svg>
+      </a>
+      <a href="#" aria-label="TikTok">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.4 2.3 2 4 4.4 4.2v3.1c-1.5.1-2.9-.4-4.4-1.3v6.6a5.7 5.7 0 1 1-5.7-5.7c.3 0 .6 0 .9.1v3.2a2.6 2.6 0 1 0 1.8 2.5V3z"/></svg>
+      </a>
+      <a href="#" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="Pinterest">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.219-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.17.6 2.123 1.775 2.123 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+      </a>
+      <a href="#" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-9h3l.5-3.5h-3.5V7.4c0-1 .3-1.7 1.7-1.7H17V2.6C16.6 2.5 15.5 2.4 14.2 2.4c-2.7 0-4.6 1.6-4.6 4.7v2.4H6.9V13h2.7v9z"/></svg>
+      </a>
+    </div>
+
+    <div class="carousel-track" id="videoTrack">
+      <div class="video-card">
+        <div class="video-main">
+          <div class="video-thumb" style="background:linear-gradient(160deg,#E8B4D8,#C26FB0);">
+            <i class="fa-solid fa-circle-play play-ic"></i>
+            <div class="mute-ic"><i class="fa-solid fa-volume-xmark"></i></div>
+          </div>
+          <div class="video-meta">
+            <div class="video-meta-thumb"><i class="fa-solid fa-paw"></i></div>
+            <div class="video-meta-text">
+              <div class="vt">Buddy Plush Companion</div>
+              <div class="vp">$19.99</div>
+            </div>
+            <button type="button" class="video-chev-btn video-chev-open" aria-expanded="false" aria-label="Show products in this video">
+              <i class="fa-solid fa-chevron-down chev"></i>
+            </button>
+          </div>
+        </div>
+        <div class="video-products">
+          <div class="video-product-row video-product-row--lead">
+            <a class="video-product-link" href="#">
+              <div class="video-product-thumb"><i class="fa-solid fa-paw"></i></div>
+              <div class="video-product-text">
+                <div class="vt">Buddy Plush Companion</div>
+                <div class="vp">$19.99</div>
+              </div>
+            </a>
+            <button type="button" class="video-chev-btn video-chev-close" aria-label="Back to video">
+              <i class="fa-solid fa-chevron-down chev"></i>
+            </button>
+          </div>
+          <a class="video-product-row video-product-link" href="#">
+            <div class="video-product-thumb"><i class="fa-solid fa-book"></i></div>
+            <div class="video-product-text">
+              <div class="vt">Buddy the Giraffe: A Tall Tale Bedtime Story</div>
+              <div class="vp">$9.99</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-main">
+          <div class="video-thumb">
+            <i class="fa-solid fa-circle-play play-ic"></i>
+            <div class="mute-ic"><i class="fa-solid fa-volume-xmark"></i></div>
+          </div>
+          <div class="video-meta">
+            <div class="video-meta-thumb"><i class="fa-solid fa-motorcycle"></i></div>
+            <div class="video-meta-text">
+              <div class="vt">Night Rider Dual Adventure Cycle</div>
+              <div class="vp">$29.99</div>
+            </div>
+            <button type="button" class="video-chev-btn video-chev-open" aria-expanded="false" aria-label="Show products in this video">
+              <i class="fa-solid fa-chevron-down chev"></i>
+            </button>
+          </div>
+        </div>
+        <div class="video-products">
+          <div class="video-product-row video-product-row--lead">
+            <a class="video-product-link" href="#">
+              <div class="video-product-thumb"><i class="fa-solid fa-motorcycle"></i></div>
+              <div class="video-product-text">
+                <div class="vt">Batman Dual Adventure Batcycle</div>
+                <div class="vp">$29.99</div>
+              </div>
+            </a>
+            <button type="button" class="video-chev-btn video-chev-close" aria-label="Back to video">
+              <i class="fa-solid fa-chevron-down chev"></i>
+            </button>
+          </div>
+          <a class="video-product-row video-product-link" href="#">
+            <div class="video-product-thumb"><i class="fa-solid fa-user-ninja"></i></div>
+            <div class="video-product-text">
+              <div class="vt">Batman Adventures 12" Collectible Action Figure</div>
+              <div class="vp">$19.99</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-main">
+          <div class="video-thumb" style="background:linear-gradient(160deg,#FFD9A0,#F2A33D);">
+            <i class="fa-solid fa-circle-play play-ic"></i>
+            <div class="mute-ic"><i class="fa-solid fa-volume-xmark"></i></div>
+          </div>
+          <div class="video-meta">
+            <div class="video-meta-thumb"><i class="fa-solid fa-dog"></i></div>
+            <div class="video-meta-text">
+              <div class="vt">Wiggles the Walking Pup</div>
+              <div class="vp">$34.99</div>
+            </div>
+            <button type="button" class="video-chev-btn video-chev-open" aria-expanded="false" aria-label="Show products in this video">
+              <i class="fa-solid fa-chevron-down chev"></i>
+            </button>
+          </div>
+        </div>
+        <div class="video-products">
+          <div class="video-product-row video-product-row--lead">
+            <a class="video-product-link" href="#">
+              <div class="video-product-thumb"><i class="fa-solid fa-dog"></i></div>
+              <div class="video-product-text">
+                <div class="vt">Wiggles the Walking Pup</div>
+                <div class="vp">$34.99</div>
+              </div>
+            </a>
+            <button type="button" class="video-chev-btn video-chev-close" aria-label="Back to video">
+              <i class="fa-solid fa-chevron-down chev"></i>
+            </button>
+          </div>
+          <a class="video-product-row video-product-link" href="#">
+            <div class="video-product-thumb"><i class="fa-solid fa-bone"></i></div>
+            <div class="video-product-text">
+              <div class="vt">Puppy Playtime Treat &amp; Toy Set</div>
+              <div class="vp">$14.99</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="progress-rail" style="margin-bottom:0;"><div class="progress-fill" id="videoProgress"></div></div>
+
+    <div class="store-locator-section">
+      <div class="store-locator-card">
+        <img class="store-locator-brand" src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782141445/Design_sans_titre_29_gsu6a6.png" alt="Find Us At ajbloks" width="313" height="224">
+        <a class="store-locator-btn" href="#">Find Your Store</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // restore scroll, hash & menu state on refresh
+  if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+  const PAGE_SCROLL_KEY = 'ajbloks-scroll';
+  const PAGE_HASH_KEY = 'ajbloks-hash';
+  const MENU_OPEN_KEY = 'ajbloks-menu-open';
+  const MENU_STACK_KEY = 'ajbloks-menu-stack';
+  let savePageTimer;
+
+  function savePageState(){
+    sessionStorage.setItem(PAGE_SCROLL_KEY, String(window.scrollY));
+    sessionStorage.setItem(PAGE_HASH_KEY, window.location.hash);
+    const mobileMenu = document.getElementById('mobileMenu');
+    if(mobileMenu){
+      sessionStorage.setItem(MENU_OPEN_KEY, mobileMenu.classList.contains('is-open') ? '1' : '0');
+      if(window.menuPanelStack) sessionStorage.setItem(MENU_STACK_KEY, JSON.stringify(window.menuPanelStack));
+    }
+  }
+
+  function restorePageState(){
+    const html = document.documentElement;
+    html.style.scrollBehavior = 'auto';
+
+    const hash = window.location.hash || sessionStorage.getItem(PAGE_HASH_KEY) || '';
+    if(hash.length > 1){
+      const target = document.querySelector(hash);
+      if(target){
+        target.scrollIntoView({ block: 'start' });
+        html.style.scrollBehavior = '';
+        if(typeof updatePageProgress === 'function') updatePageProgress();
+        return;
+      }
+    }
+    const savedScroll = sessionStorage.getItem(PAGE_SCROLL_KEY);
+    if(savedScroll !== null){
+      window.scrollTo(0, parseInt(savedScroll, 10));
+      if(typeof updatePageProgress === 'function') updatePageProgress();
+    }
+    html.style.scrollBehavior = '';
+  }
+
+  function restoreMenuState(){
+    if(sessionStorage.getItem(MENU_OPEN_KEY) !== '1') return;
+    const stackRaw = sessionStorage.getItem(MENU_STACK_KEY);
+    if(!stackRaw || !window.applyMenuStack) return;
+    try{
+      const stack = JSON.parse(stackRaw);
+      if(Array.isArray(stack) && stack.length) window.applyMenuStack(stack);
+    }catch(e){}
+  }
+
+  window.addEventListener('scroll', ()=>{
+    clearTimeout(savePageTimer);
+    savePageTimer = setTimeout(savePageState, 120);
+  }, { passive: true });
+  window.addEventListener('beforeunload', savePageState);
+  window.addEventListener('hashchange', savePageState);
+
+  // page scroll progress
+  const pageProgress = document.getElementById('pageProgress');
+  function updatePageProgress(){
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = max <= 0 ? 0 : (window.scrollY / max) * 100;
+    pageProgress.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updatePageProgress);
+  window.addEventListener('resize', updatePageProgress);
+  updatePageProgress();
+
+  // generic carousel progress wiring
+  function wireCarousel(trackId, fillId, minPct){
+    const track = document.getElementById(trackId);
+    const fill = document.getElementById(fillId);
+    if(!track || !fill) return;
+    function update(){
+      const max = track.scrollWidth - track.clientWidth;
+      const pct = max <= 0 ? 100 : (track.scrollLeft / max) * 100;
+      fill.style.width = Math.max(minPct, Math.min(100, pct)) + '%';
+    }
+    track.addEventListener('scroll', () => requestAnimationFrame(update));
+    update();
+  }
+  wireCarousel('productTrack','productProgress',12);
+  wireCarousel('categoryTrack','categoryProgress',14);
+  wireCarousel('brandTrack','brandProgress',14);
+  wireCarousel('bookTrack','bookProgress',12);
+  wireCarousel('videoTrack','videoProgress',12);
+
+  // video card product expand
+  document.querySelectorAll('.video-chev-open').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const card = btn.closest('.video-card');
+      card.classList.add('is-expanded');
+      btn.setAttribute('aria-expanded', 'true');
+    });
+  });
+  document.querySelectorAll('.video-chev-close').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const card = btn.closest('.video-card');
+      card.classList.remove('is-expanded');
+      const openBtn = card.querySelector('.video-chev-open');
+      if(openBtn) openBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  window.addEventListener('resize', ()=>{
+    ['productTrack','categoryTrack','brandTrack','bookTrack','videoTrack'].forEach(id=>{
+      const track = document.getElementById(id);
+      if(track) track.dispatchEvent(new Event('scroll'));
+    });
+  });
+
+  // trivia interaction
+  document.querySelectorAll('.trivia-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.trivia-btn').forEach(b=>{
+        b.classList.remove('wrong', 'correct', 'selected');
+        b.textContent = b.dataset.val;
+      });
+      if(btn.dataset.val === '9'){
+        btn.classList.add('correct');
+        btn.textContent = 'Correct!';
+      } else {
+        btn.classList.add('wrong');
+        btn.textContent = 'Try again!';
+      }
+    });
+  });
+
+  // search bar toggle
+  const mainNav = document.getElementById('mainNav');
+  const searchOpenBtn = document.getElementById('searchOpenBtn');
+  const searchCloseBtn = document.getElementById('searchCloseBtn');
+  const searchInput = document.getElementById('searchInput');
+  const searchForm = document.getElementById('searchForm');
+
+  // mobile menu toggle
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuOpenBtn = document.getElementById('menuOpenBtn');
+  const menuCloseBtn = document.getElementById('menuCloseBtn');
+  const menuSearchForm = document.getElementById('menuSearchForm');
+  const menuPanels = document.querySelectorAll('.menu-panel');
+  const menuPanelStack = ['root'];
+  window.menuPanelStack = menuPanelStack;
+
+  function getMenuPanel(panelId){
+    return document.querySelector(`.menu-panel[data-panel="${panelId}"]`);
+  }
+
+  function applyMenuPanelClasses(){
+    const activeId = menuPanelStack[menuPanelStack.length - 1];
+    const activeIndex = menuPanelStack.indexOf(activeId);
+    menuPanels.forEach(panel=>{
+      const id = panel.dataset.panel;
+      const index = menuPanelStack.indexOf(id);
+      panel.classList.remove('is-active','is-left','is-right');
+      if(id === activeId) panel.classList.add('is-active');
+      else if(index !== -1 && index < activeIndex) panel.classList.add('is-left');
+      else panel.classList.add('is-right');
+    });
+  }
+
+  window.applyMenuStack = function(stack){
+    menuPanelStack.length = 0;
+    stack.forEach(id=> menuPanelStack.push(id));
+    applyMenuPanelClasses();
+    mobileMenu.classList.add('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('menu-open');
+  };
+
+  function resetMenuPanels(instant){
+    menuPanelStack.length = 0;
+    menuPanelStack.push('root');
+    if(instant) mobileMenu.classList.add('menu-no-transition');
+    applyMenuPanelClasses();
+    menuPanels.forEach(panel=>{ panel.scrollTop = 0; });
+    if(instant){
+      void mobileMenu.offsetWidth;
+      mobileMenu.classList.remove('menu-no-transition');
+    }
+  }
+
+  function pushMenuPanel(panelId){
+    const currentId = menuPanelStack[menuPanelStack.length - 1];
+    const currentPanel = getMenuPanel(currentId);
+    const nextPanel = getMenuPanel(panelId);
+    if(!currentPanel || !nextPanel) return;
+
+    menuPanelStack.push(panelId);
+
+    nextPanel.classList.remove('is-left','is-right');
+    nextPanel.classList.add('is-right');
+    void nextPanel.offsetWidth;
+
+    currentPanel.classList.remove('is-active');
+    currentPanel.classList.add('is-left');
+
+    nextPanel.classList.remove('is-right');
+    nextPanel.classList.add('is-active');
+    nextPanel.scrollTop = 0;
+    savePageState();
+  }
+
+  function popMenuPanel(){
+    if(menuPanelStack.length <= 1) return;
+    const currentId = menuPanelStack.pop();
+    const previousId = menuPanelStack[menuPanelStack.length - 1];
+    const currentPanel = getMenuPanel(currentId);
+    const previousPanel = getMenuPanel(previousId);
+    if(!currentPanel || !previousPanel) return;
+
+    if(!previousPanel.classList.contains('is-left')){
+      previousPanel.classList.remove('is-active','is-right');
+      previousPanel.classList.add('is-left');
+      void previousPanel.offsetWidth;
+    }
+
+    currentPanel.classList.remove('is-active');
+    currentPanel.classList.add('is-right');
+
+    previousPanel.classList.remove('is-left');
+    previousPanel.classList.add('is-active');
+    previousPanel.scrollTop = 0;
+    savePageState();
+  }
+
+  function openMenu(){
+    closeSearch();
+    closeCart();
+    resetMenuPanels(true);
+    mobileMenu.classList.add('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('menu-open');
+    savePageState();
+  }
+  function closeMenu(){
+    mobileMenu.classList.remove('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('menu-open');
+    resetMenuPanels(true);
+    savePageState();
+  }
+
+  menuOpenBtn.addEventListener('click', openMenu);
+  menuCloseBtn.addEventListener('click', closeMenu);
+  menuSearchForm.addEventListener('submit', e=> e.preventDefault());
+
+  document.querySelectorAll('[data-panel].menu-drill-root, [data-panel].menu-drill').forEach(btn=>{
+    btn.addEventListener('click', ()=> pushMenuPanel(btn.dataset.panel));
+  });
+  document.querySelectorAll('.menu-back').forEach(btn=>{
+    btn.addEventListener('click', popMenuPanel);
+  });
+  document.querySelectorAll('.menu-close-link').forEach(link=>{
+    link.addEventListener('click', closeMenu);
+  });
+
+  function closeSearch(){
+    mainNav.classList.remove('is-search-active');
+    searchInput.blur();
+  }
+
+  function openSearch(){
+    closeMenu();
+    closeCart();
+    mainNav.classList.add('is-search-active');
+    searchInput.value = '';
+    requestAnimationFrame(()=> searchInput.focus());
+  }
+
+  searchOpenBtn.addEventListener('click', openSearch);
+  searchCloseBtn.addEventListener('click', closeSearch);
+  searchForm.addEventListener('submit', e=>{
+    e.preventDefault();
+    closeSearch();
+  });
+
+  document.addEventListener('keydown', e=>{
+    if(e.key === 'Escape'){
+      if(cartDrawer.classList.contains('is-open')) closeCart();
+      else if(mainNav.classList.contains('is-search-active')) closeSearch();
+      else if(mobileMenu.classList.contains('is-open')){
+        if(menuPanelStack.length > 1) popMenuPanel();
+        else closeMenu();
+      }
+    }
+  });
+
+  // cart drawer
+  const cartOverlay = document.getElementById('cartOverlay');
+  const cartDrawer = document.getElementById('cartDrawer');
+  const cartOpenBtn = document.getElementById('cartOpenBtn');
+  const cartCloseBtn = document.getElementById('cartCloseBtn');
+  const cartContinueBtn = document.getElementById('cartContinueBtn');
+  const cartShopAge = document.getElementById('cartShopAge');
+
+  function openCart(){
+    closeSearch();
+    closeMenu();
+    cartOverlay.classList.add('is-open');
+    cartDrawer.classList.add('is-open');
+    cartOverlay.setAttribute('aria-hidden', 'false');
+    cartDrawer.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('cart-open');
+    savePageState();
+  }
+  function closeCart(){
+    if(!cartDrawer) return;
+    cartOverlay.classList.remove('is-open');
+    cartDrawer.classList.remove('is-open');
+    cartOverlay.setAttribute('aria-hidden', 'true');
+    cartDrawer.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('cart-open');
+    savePageState();
+  }
+
+  cartOpenBtn.addEventListener('click', openCart);
+  cartCloseBtn.addEventListener('click', closeCart);
+  cartOverlay.addEventListener('click', closeCart);
+  cartContinueBtn.addEventListener('click', closeCart);
+  cartShopAge.addEventListener('click', closeCart);
+
+  // add to cart micro-feedback
+  document.querySelectorAll('.add-cart').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const original = btn.textContent;
+      btn.textContent = 'Added ✓';
+      setTimeout(()=> btn.textContent = original, 1200);
+    });
+  });
+
+  restorePageState();
+  restoreMenuState();
+</script>
+
+</body>
+</html>

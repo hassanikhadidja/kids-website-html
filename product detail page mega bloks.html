@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEGA BLOKS - Camion Course Et Construction | Fisher-Price</title>
+<style>
+  :root{
+    --teal:#7ed3d9;
+    --teal-dark:#4fb8bf;
+    --red:#e2241a;
+    --yellow:#ffd200;
+    --ink:#1a1a1a;
+    --grey:#717171;
+    --line:#e6e6e6;
+    --offwhite:#f6f6f6;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Nunito','Segoe UI',Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    background:#fff;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .page{
+    max-width:480px;
+    margin:0 auto;
+    background:#fff;
+    min-height:100vh;
+    box-shadow:0 0 40px rgba(0,0,0,0.08);
+    position:relative;
+  }
+
+  /* ---------- brand bar ---------- */
+  .brandbar{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:14px 16px;
+    overflow-x:auto;
+    border-bottom:1px solid var(--line);
+    scrollbar-width:none;
+  }
+  .brandbar::-webkit-scrollbar{display:none;}
+  .brand-item{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    white-space:nowrap;
+    flex:0 0 auto;
+  }
+  .b-mattel{
+    width:26px;height:26px;border-radius:50%;
+    background:var(--red);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:13px;
+  }
+  .b-barbie{font-family:'Brush Script MT',cursive;color:#e0218a;font-size:21px;font-weight:700;}
+  .b-hotwheels{display:flex;align-items:center;gap:4px;font-weight:800;font-size:13px;letter-spacing:0.5px;color:#1a1a1a;}
+  .b-hotwheels::before{content:"";width:18px;height:12px;background:linear-gradient(90deg,#ffce00,#ff9800);clip-path:polygon(0 50%,40% 0,100% 0,70% 50%,100% 100%,40% 100%);}
+  .b-fp{background:var(--red);color:#fff;font-weight:800;font-size:12px;padding:5px 9px;border-radius:14px;}
+  .b-mc{width:18px;height:18px;background:#111;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);}
+  .b-all{font-size:12.5px;color:var(--ink);line-height:1.2;text-decoration:underline;}
+
+  /* ---------- nav ---------- */
+  .navbar{
+    background:var(--teal);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 16px;
+  }
+  .fp-logo{
+    background:var(--red);
+    color:#fff;
+    font-weight:800;
+    font-style:italic;
+    font-size:16px;
+    padding:6px 12px;
+    border-radius:14px 14px 14px 0;
+    flex:0 0 auto;
+  }
+  .search-wrap{
+    flex:1;
+    background:#fff;
+    border-radius:24px;
+    display:flex;
+    align-items:center;
+    padding:9px 8px 9px 16px;
+  }
+  .search-wrap input{
+    border:none;outline:none;flex:1;
+    font-size:14.5px;font-family:inherit;color:var(--ink);
+    background:transparent;
+  }
+  .search-wrap input::placeholder{color:#9a9a9a;}
+  .search-circle{
+    width:30px;height:30px;border-radius:50%;
+    background:var(--red);
+    display:flex;align-items:center;justify-content:center;
+    flex:0 0 auto;border:none;cursor:pointer;
+  }
+  .menu-btn{
+    background:none;border:none;
+    display:flex;flex-direction:column;gap:5px;
+    cursor:pointer;padding:6px;flex:0 0 auto;
+  }
+  .menu-btn span{width:24px;height:3px;background:var(--ink);border-radius:2px;display:block;}
+
+  /* ---------- breadcrumb ---------- */
+  .breadcrumb{
+    padding:22px 18px 10px;
+    letter-spacing:2px;
+  }
+  .crumb-light{
+    display:block;
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:4px;
+  }
+  .crumb-light .dots{color:var(--teal-dark);letter-spacing:1px;}
+  .crumb-bold{
+    display:block;
+    font-size:16px;
+    font-weight:800;
+  }
+
+  /* ---------- gallery ---------- */
+  .gallery{
+    position:relative;
+    padding:16px 0 0;
+  }
+  .progress-track{
+    height:3px;
+    background:var(--line);
+    margin:0 18px 14px;
+    border-radius:2px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    width:20%;
+    background:var(--red);
+    transition:width .3s ease, transform .3s ease;
+    border-radius:2px;
+  }
+  .slide-viewport{
+    overflow:hidden;
+    position:relative;
+  }
+  .slides{
+    display:flex;
+    transition:transform .4s ease;
+  }
+  .slide{
+    flex:0 0 100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    aspect-ratio:1/1;
+    padding:10px 28px;
+  }
+  .slide svg{width:100%;height:100%;}
+  .zoom-btn{
+    position:absolute;
+    bottom:14px;right:30px;
+    width:42px;height:42px;
+    border-radius:50%;
+    background:#fff;
+    border:1px solid var(--line);
+    box-shadow:0 4px 10px rgba(0,0,0,0.12);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    font-size:16px;
+  }
+
+  /* ---------- thumbnails ---------- */
+  .thumb-row{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:14px 8px 18px;
+  }
+  .thumb-arrow{
+    flex:0 0 auto;
+    width:34px;height:34px;
+    border-radius:50%;
+    border:none;
+    background:#fff;
+    box-shadow:0 2px 8px rgba(0,0,0,0.15);
+    color:var(--red);
+    font-size:18px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    z-index:2;
+  }
+  .thumbs{
+    flex:1;
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    scroll-behavior:smooth;
+    scrollbar-width:none;
+  }
+  .thumbs::-webkit-scrollbar{display:none;}
+  .thumb{
+    flex:0 0 64px;
+    height:64px;
+    border-radius:10px;
+    border:2px solid transparent;
+    background:var(--offwhite);
+    padding:6px;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .thumb svg{width:100%;height:100%;}
+  .thumb.active{border-color:var(--red);}
+
+  /* ---------- link / title / rating ---------- */
+  .browse-link{
+    display:block;
+    margin:6px 18px 18px;
+    font-size:15px;
+    font-weight:700;
+    color:var(--ink);
+    text-decoration:underline;
+  }
+  .title{
+    margin:0 18px 14px;
+    font-size:21px;
+    font-weight:800;
+    line-height:1.3;
+  }
+  .rating{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin:0 18px 20px;
+  }
+  .stars{display:flex;gap:2px;}
+  .stars svg{width:18px;height:18px;}
+  .count{font-size:14px;color:var(--grey);}
+
+  .cta{
+    display:block;
+    width:calc(100% - 36px);
+    margin:0 18px 26px;
+    background:var(--yellow);
+    border:none;
+    border-radius:28px;
+    padding:16px;
+    font-size:16px;
+    font-weight:800;
+    cursor:pointer;
+    transition:filter .15s ease, transform .1s ease;
+  }
+  .cta:hover{filter:brightness(0.97);}
+  .cta:active{transform:scale(0.98);}
+
+  /* ---------- accordion ---------- */
+  .accordions{margin:0 18px;}
+  .accordion-item{
+    border-top:1px solid var(--line);
+  }
+  .accordion-item:last-child{border-bottom:1px solid var(--line);}
+  .accordion-header{
+    width:100%;
+    background:var(--offwhite);
+    border:none;
+    text-align:left;
+    padding:18px;
+    font-size:15.5px;
+    font-weight:800;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    border-radius:10px;
+    margin:8px 0;
+  }
+  .chevron{
+    transition:transform .25s ease;
+    font-size:18px;
+    color:var(--ink);
+  }
+  .accordion-item.open .chevron{transform:rotate(180deg);}
+  .accordion-content{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .3s ease;
+    font-size:14.5px;
+    line-height:1.6;
+    color:#3c3c3c;
+  }
+  .accordion-content p{margin:0 0 14px;}
+  .accordion-content ul{margin:0 0 14px;padding-left:18px;}
+
+  /* ---------- footer info ---------- */
+  .age-row{
+    margin:24px 18px 10px;
+    font-size:14.5px;
+    letter-spacing:0.5px;
+  }
+  .warning-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:0 18px 24px;
+    font-size:14px;
+    color:#3c3c3c;
+  }
+  .warn-icon{
+    width:20px;height:20px;
+    border-radius:50%;
+    background:var(--ink);
+    color:#fff;
+    flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:800;
+  }
+  .disclaimer{
+    margin:0 18px 40px;
+    font-size:13px;
+    color:var(--grey);
+    line-height:1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- brand bar -->
+  <div class="brandbar">
+    <div class="brand-item"><span class="b-mattel">M</span></div>
+    <div class="brand-item"><span class="b-barbie">Barbie</span></div>
+    <div class="brand-item"><span class="b-hotwheels">HOT WHEELS</span></div>
+    <div class="brand-item"><span class="b-fp">fisher·price</span></div>
+    <div class="brand-item"><span class="b-mc"></span><span style="font-size:11.5px;font-weight:700;">MATTEL CREATIONS</span></div>
+    <div class="brand-item"><span class="b-all">Toutes les<br>marques</span></div>
+  </div>
+
+  <!-- nav -->
+  <div class="navbar">
+    <div class="fp-logo">fisher·price</div>
+    <div class="search-wrap">
+      <input type="text" placeholder="Que recherchez-vous ?">
+      <button class="search-circle" aria-label="Rechercher">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#fff" stroke-width="2.4"/><line x1="16.4" y1="16.4" x2="22" y2="22" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <button class="menu-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+
+  <!-- breadcrumb -->
+  <div class="breadcrumb">
+    <span class="crumb-light">TOUT PARCOURIR <span class="dots">···</span></span>
+    <span class="crumb-bold">BRIQUES DE CONSTRUCTION</span>
+  </div>
+
+  <!-- gallery -->
+  <div class="gallery">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+    <div class="slide-viewport">
+      <div class="slides" id="slides">
+
+        <!-- slide 1 : hero truck -->
+        <div class="slide">
+          <svg viewBox="0 0 400 320">
+            <ellipse cx="200" cy="290" rx="160" ry="14" fill="#000" opacity="0.06"/>
+            <!-- box stack -->
+            <rect x="40" y="40" width="120" height="90" rx="6" fill="#fff" stroke="#dadada" stroke-width="2"/>
+            <rect x="40" y="40" width="120" height="22" rx="6" fill="var(--red)"/>
+            <circle cx="80" cy="95" r="16" fill="#7ed3d9"/>
+            <circle cx="125" cy="95" r="16" fill="#ff8a3d"/>
+            <!-- trailer body -->
+            <rect x="150" y="90" width="190" height="120" rx="14" fill="#3f7fd1"/>
+            <rect x="150" y="90" width="190" height="120" rx="14" fill="none" stroke="#2f63ab" stroke-width="3"/>
+            <path d="M160 100 L320 100 L340 78 L210 78 Z" fill="#ffd200"/>
+            <path d="M210 130 q60 -10 110 30 l0 26 q-55 -34 -110 -22 Z" fill="#e2241a" opacity="0.9"/>
+            <circle cx="305" cy="150" r="20" fill="#fff" opacity="0.85"/>
+            <text x="305" y="157" font-size="18" font-weight="800" text-anchor="middle" fill="#e2241a">86</text>
+            <!-- cab -->
+            <rect x="55" y="120" width="110" height="100" rx="16" fill="#e2241a"/>
+            <rect x="55" y="120" width="110" height="100" rx="16" fill="none" stroke="#a91a12" stroke-width="3"/>
+            <rect x="60" y="135" width="55" height="36" rx="8" fill="#9fdee2"/>
+            <circle cx="78" cy="153" r="7" fill="#1a1a1a"/>
+            <circle cx="98" cy="153" r="7" fill="#1a1a1a"/>
+            <rect x="40" y="185" width="35" height="28" rx="6" fill="#c7c7c7"/>
+            <circle cx="58" cy="199" r="4" fill="#fff"/>
+            <!-- wheels -->
+            <circle cx="95" cy="230" r="30" fill="#1a1a1a"/>
+            <circle cx="95" cy="230" r="12" fill="#7a7a7a"/>
+            <circle cx="220" cy="230" r="30" fill="#1a1a1a"/>
+            <circle cx="220" cy="230" r="12" fill="#7a7a7a"/>
+            <circle cx="305" cy="230" r="30" fill="#1a1a1a"/>
+            <circle cx="305" cy="230" r="12" fill="#7a7a7a"/>
+          </svg>
+        </div>
+
+        <!-- slide 2 : exploded build diagram -->
+        <div class="slide">
+          <svg viewBox="0 0 400 320">
+            <rect x="10" y="10" width="180" height="140" rx="10" fill="#dff2f3"/>
+            <rect x="210" y="10" width="180" height="140" rx="10" fill="#fde3cf"/>
+            <rect x="10" y="170" width="180" height="140" rx="10" fill="#dff2f3"/>
+            <rect x="210" y="170" width="180" height="140" rx="10" fill="#fde3cf"/>
+
+            <!-- top-left: blue parts -->
+            <ellipse cx="55" cy="60" rx="28" ry="20" fill="#5ec2e0"/>
+            <ellipse cx="100" cy="55" rx="26" ry="18" fill="#5ec2e0"/>
+            <circle cx="55" cy="105" r="14" fill="#e2241a"/>
+            <circle cx="100" cy="105" r="14" fill="#e2241a"/>
+            <path d="M70 75 L60 95" stroke="#2f7fa3" stroke-width="2" marker-end="url(#arrow)"/>
+
+            <!-- top-right: orange car assembled -->
+            <ellipse cx="300" cy="55" rx="40" ry="26" fill="#ff8a3d"/>
+            <rect x="270" y="70" width="60" height="22" rx="6" fill="#1a1a1a"/>
+            <circle cx="282" cy="95" r="13" fill="#1a1a1a"/>
+            <circle cx="318" cy="95" r="13" fill="#1a1a1a"/>
+            <circle cx="295" cy="60" r="5" fill="#1a1a1a"/>
+            <circle cx="312" cy="60" r="5" fill="#1a1a1a"/>
+
+            <!-- bottom-left: blue car assembled -->
+            <ellipse cx="100" cy="230" rx="40" ry="26" fill="#5ec2e0"/>
+            <rect x="70" y="245" width="60" height="22" rx="6" fill="#1a1a1a"/>
+            <circle cx="82" cy="270" r="13" fill="#1a1a1a"/>
+            <circle cx="118" cy="270" r="13" fill="#1a1a1a"/>
+            <circle cx="95" cy="235" r="5" fill="#1a1a1a"/>
+            <circle cx="112" cy="235" r="5" fill="#1a1a1a"/>
+
+            <!-- bottom-right: orange parts -->
+            <ellipse cx="255" cy="220" rx="28" ry="20" fill="#ff8a3d"/>
+            <ellipse cx="300" cy="215" rx="26" ry="18" fill="#ff8a3d"/>
+            <circle cx="255" cy="265" r="14" fill="#7a7a7a"/>
+            <circle cx="300" cy="265" r="14" fill="#7a7a7a"/>
+
+            <defs>
+              <marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 Z" fill="#2f7fa3"/>
+              </marker>
+            </defs>
+          </svg>
+        </div>
+
+        <!-- slide 3 : 2x2 car grid -->
+        <div class="slide">
+          <svg viewBox="0 0 400 320">
+            <rect x="20" y="20" width="170" height="130" rx="10" fill="#dff2f3"/>
+            <rect x="210" y="20" width="170" height="130" rx="10" fill="#fde3cf"/>
+            <rect x="20" y="170" width="170" height="130" rx="10" fill="#dff2f3"/>
+            <rect x="210" y="170" width="170" height="130" rx="10" fill="#fde3cf"/>
+            <g>
+              <ellipse cx="105" cy="80" rx="34" ry="22" fill="#5ec2e0"/>
+              <circle cx="85" cy="100" r="11" fill="#1a1a1a"/>
+              <circle cx="125" cy="100" r="11" fill="#1a1a1a"/>
+            </g>
+            <g>
+              <ellipse cx="295" cy="80" rx="34" ry="22" fill="#ff8a3d"/>
+              <circle cx="275" cy="100" r="11" fill="#1a1a1a"/>
+              <circle cx="315" cy="100" r="11" fill="#1a1a1a"/>
+            </g>
+            <g>
+              <ellipse cx="105" cy="230" rx="34" ry="22" fill="#5ec2e0" transform="rotate(180 105 230)"/>
+              <circle cx="85" cy="250" r="11" fill="#1a1a1a"/>
+              <circle cx="125" cy="250" r="11" fill="#1a1a1a"/>
+            </g>
+            <g>
+              <ellipse cx="295" cy="230" rx="34" ry="22" fill="#ff8a3d" transform="rotate(180 295 230)"/>
+              <circle cx="275" cy="250" r="11" fill="#1a1a1a"/>
+              <circle cx="315" cy="250" r="11" fill="#1a1a1a"/>
+            </g>
+          </svg>
+        </div>
+
+        <!-- slide 4 : truck with ramp blueprint -->
+        <div class="slide">
+          <svg viewBox="0 0 400 320">
+            <rect x="10" y="10" width="380" height="300" rx="12" fill="#eef7f8"/>
+            <line x1="40" y1="260" x2="360" y2="260" stroke="#bcdfe1" stroke-width="2" stroke-dasharray="6 6"/>
+            <path d="M120 260 L230 170 L300 170" stroke="#ffb300" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <rect x="60" y="180" width="120" height="80" rx="10" fill="#e2241a"/>
+            <rect x="70" y="195" width="40" height="26" rx="6" fill="#9fdee2"/>
+            <circle cx="95" cy="270" r="22" fill="#1a1a1a"/>
+            <circle cx="165" cy="270" r="22" fill="#1a1a1a"/>
+            <circle cx="295" cy="178" r="16" fill="#3f7fd1"/>
+            <circle cx="295" cy="178" r="7" fill="#fff"/>
+          </svg>
+        </div>
+
+        <!-- slide 5 : lifestyle hand shot -->
+        <div class="slide">
+          <svg viewBox="0 0 400 320">
+            <rect x="0" y="0" width="400" height="320" fill="#f5d9bd"/>
+            <path d="M0 0 L400 320 M400 0 L0 320" stroke="#eccaa8" stroke-width="40" opacity="0.4"/>
+            <ellipse cx="200" cy="200" rx="60" ry="40" fill="#3f7fd1"/>
+            <circle cx="175" cy="230" r="18" fill="#1a1a1a"/>
+            <circle cx="225" cy="230" r="18" fill="#1a1a1a"/>
+            <path d="M120 260 q40 -90 100 -40" stroke="#f0bd92" stroke-width="26" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+
+      </div>
+    </div>
+
+    <button class="zoom-btn" aria-label="Zoom">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#1a1a1a" stroke-width="2"/><line x1="16.4" y1="16.4" x2="21" y2="21" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/><line x1="11" y1="8" x2="11" y2="14" stroke="#1a1a1a" stroke-width="1.6"/><line x1="8" y1="11" x2="14" y2="11" stroke="#1a1a1a" stroke-width="1.6"/></svg>
+    </button>
+  </div>
+
+  <!-- thumbnails -->
+  <div class="thumb-row">
+    <button class="thumb-arrow" id="prevBtn" aria-label="Précédent">‹</button>
+    <div class="thumbs" id="thumbs"></div>
+    <button class="thumb-arrow" id="nextBtn" aria-label="Suivant">›</button>
+  </div>
+
+  <a class="browse-link" href="#">Parcourir les jouets MEGA BLOKS</a>
+
+  <h1 class="title">MEGA BLOKS-Camion Course Et Construction-Coffret Avec 19 Pièces</h1>
+
+  <div class="rating">
+    <div class="stars" id="stars"></div>
+    <span class="count">(0)</span>
+  </div>
+
+  <button class="cta">Où l'acheter</button>
+
+  <div class="accordions" id="accordions">
+    <div class="accordion-item">
+      <button class="accordion-header">Descriptif du produit<span class="chevron">⌄</span></button>
+      <div class="accordion-content">
+        <p>Le camion course et construction MEGA BLOKS combine deux jouets en un : un camion de transport à empiler et deux petites voitures de course à construire soi-même. Conçu pour les petites mains, il favorise la motricité fine et encourage l'imagination dès les premiers jeux de construction.</p>
+        <p>La rampe articulée permet de faire rouler les véhicules hors du camion pour prolonger l'aventure de course, et les pièces larges et arrondies sont pensées pour un assemblage facile et sécurisé.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-header">Contenu de la boîte<span class="chevron">⌄</span></button>
+      <div class="accordion-content">
+        <ul>
+          <li>1 camion de transport à construire</li>
+          <li>2 voitures de course faciles à construire</li>
+          <li>1 rampe de déchargement articulée</li>
+          <li>19 briques et pièces au total</li>
+          <li>1 guide d'assemblage illustré</li>
+        </ul>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-header">Qualités et caractéristiques environnementales<span class="chevron">⌄</span></button>
+      <div class="accordion-content">
+        <p>Fabriqué à partir de plastique recyclé en partie, dans un souci de réduction de l'impact environnemental. L'emballage est conçu pour limiter les matériaux superflus tout en protégeant le produit pendant le transport.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="age-row"><strong>TRANCHE D'ÂGE : 1Y+</strong></div>
+  <div class="warning-row">
+    <span class="warn-icon">!</span>
+    <span>Aucun avertissement applicable</span>
+  </div>
+
+  <p class="disclaimer">*Ce prix conseillé est donné à titre indicatif – le prix de chaque vendeur peut varier.</p>
+
+</div>
+
+<script>
+  const slidesEl = document.getElementById('slides');
+  const slides = Array.from(slidesEl.children);
+  const progressFill = document.getElementById('progressFill');
+  const thumbsEl = document.getElementById('thumbs');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  let current = 0;
+
+  // build thumbnails by cloning slide svgs
+  slides.forEach((slide, i) => {
+    const t = document.createElement('button');
+    t.className = 'thumb' + (i === 0 ? ' active' : '');
+    t.innerHTML = slide.querySelector('svg').outerHTML;
+    t.addEventListener('click', () => goTo(i));
+    thumbsEl.appendChild(t);
+  });
+  const thumbButtons = Array.from(thumbsEl.children);
+
+  function goTo(index){
+    current = (index + slides.length) % slides.length;
+    slidesEl.style.transform = `translateX(-${current * 100}%)`;
+    progressFill.style.width = `${((current + 1) / slides.length) * 100}%`;
+    thumbButtons.forEach((b, i) => b.classList.toggle('active', i === current));
+    const activeThumb = thumbButtons[current];
+    activeThumb.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  // touch swipe support
+  let touchStartX = 0;
+  slidesEl.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, {passive:true});
+  slidesEl.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (dx > 40) goTo(current - 1);
+    else if (dx < -40) goTo(current + 1);
+  }, {passive:true});
+
+  goTo(0);
+
+  // star rating (0 reviews -> empty outline stars)
+  const starsEl = document.getElementById('stars');
+  const starOutline = `<svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6-5.9-3.3-5.9 3.3 1.3-6.6L2.5 9.4l6.6-.8L12 2.5z" stroke="#1a1a1a" stroke-width="1.5" fill="none"/></svg>`;
+  for (let i = 0; i < 5; i++){
+    starsEl.insertAdjacentHTML('beforeend', starOutline);
+  }
+
+  // accordion
+  document.querySelectorAll('.accordion-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const item = header.parentElement;
+      const content = header.nextElementSibling;
+      const isOpen = item.classList.contains('open');
+      if (isOpen){
+        content.style.maxHeight = null;
+        item.classList.remove('open');
+      } else {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        item.classList.add('open');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
