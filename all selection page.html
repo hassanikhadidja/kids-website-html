@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Toy Story | ToysRus</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Outdoor Play | ToysRus</title>
 <style>
+  @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
   :root{
     --blue-dark:#0f3fb0;
     --blue:#1a56e0;
@@ -19,64 +18,126 @@
     --ink:#15202b;
     --ink-soft:#5b6878;
     --line:#e6e9ee;
-    --bg:#f5f6f8;
+    --bg:rgb(249 249 249);
     --card-bg:#ffffff;
     --radius-lg:22px;
     --radius-md:14px;
     --radius-sm:8px;
+    --page-pad:16px;
+    --cream:#FFFDF8;
+    --radius-pill:999px;
     font-size:16px;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    font-family:'Poppins',system-ui,sans-serif;
-    background:var(--bg);
+    font-family:'Buenos Aires',sans-serif;
+    background:#DEE3F0;
     color:var(--ink);
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
   a{color:inherit;text-decoration:none;}
   button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
-  .page{max-width:600px;margin:0 auto;background:var(--bg);min-height:100vh;position:relative;}
+  img{display:block;max-width:100%;height:auto;}
 
-  /* ---------- HEADER ---------- */
-  .site-header{
-    background:linear-gradient(180deg,var(--blue-dark) 0%,var(--blue) 100%);
-    padding:14px 16px;
-    position:sticky;top:0;z-index:30;
+  .app-shell{
+    max-width:100%;
+    width:100%;
+    margin:0 auto;
+    background:var(--cream);
+    min-height:100vh;
+    min-height:100dvh;
+    overflow-x:hidden;
   }
-  .header-inner{
-    display:flex;align-items:center;justify-content:space-between;gap:8px;
+
+  .promo-bar{
+    background:#BFEAFB;
+    color:#000;
+    text-align:center;
+    font-weight:700;
+    font-size:clamp(.75rem, 2.5vw, .88rem);
+    padding:9px var(--page-pad);
   }
+
+  .nav{
+    background:#004ebc;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px var(--page-pad) 12px;
+    gap:4px;
+    overflow:visible;
+  }
+  .nav-icons{display:flex;align-items:center;gap:0;flex-shrink:0;}
   .icon-btn{
-    width:38px;height:38px;display:flex;align-items:center;justify-content:center;
-    color:#fff;border-radius:50%;flex:0 0 auto;
+    background:transparent;
+    color:#fff;
+    width:35px;height:35px;
+    min-width:35px;min-height:35px;
+    display:flex;align-items:center;justify-content:center;
+    border:none;border-radius:50%;padding:0;cursor:pointer;
   }
-  .icon-btn svg{width:22px;height:22px;display:block;}
-  .header-actions{display:flex;align-items:center;}
-  .header-actions .icon-btn{position:relative;}
-  .cart-badge{
-    position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;
-    background:var(--yellow);border:1.5px solid var(--blue);
+  .icon-btn:active{background:rgba(255,255,255,.15);}
+  .icon-btn .nav-icon{
+    width:22px;height:22px;
+    display:block;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:1.75;
+    stroke-linecap:round;
+    stroke-linejoin:round;
   }
   .logo{
-    font-family:'Fredoka',sans-serif;
-    font-weight:700;
-    font-size:1.55rem;
-    letter-spacing:0.5px;
     display:flex;
-    user-select:none;
-    text-shadow:0 2px 0 rgba(0,0,0,0.08);
+    align-items:center;
+    justify-content:center;
+    flex:1;
+    min-width:0;
+    overflow:visible;
   }
-  .logo span{display:inline-block;}
-  .logo .flip{display:inline-block;transform:scaleX(-1);}
-  .logo .l-t{color:#ff5060;}
-  .logo .l-o1{color:#ffb13d;}
-  .logo .l-y{color:#ffe14d;}
-  .logo .l-s1{color:#5cd97e;}
-  .logo .l-r{color:#48c4ff;}
-  .logo .l-u{color:#5b8bff;}
-  .logo .l-s2{color:#ff6fc3;}
+  .logo img{
+    height:clamp(47px, 12.6vw, 61px);
+    width:auto;
+    max-width:min(288px, 94vw);
+    object-fit:contain;
+    display:block;
+    transform:scale(1.25);
+    transform-origin:center center;
+  }
+  .nav-default{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+    gap:4px;
+  }
+  .nav-search{
+    display:none;
+    align-items:center;
+    width:100%;
+    gap:10px;
+  }
+  .nav.is-search-active .nav-default{display:none;}
+  .nav.is-search-active .nav-search{display:flex;}
+  .search-form{flex:1;min-width:0;}
+  .search-input{
+    width:100%;
+    height:44px;
+    padding:0 16px;
+    border:none;
+    border-radius:var(--radius-pill);
+    background:#fff;
+    color:var(--ink);
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1rem;
+    font-weight:600;
+    outline:none;
+  }
+  .search-input::placeholder{color:var(--ink);opacity:.55;}
+  .search-close .nav-icon{width:24px;height:24px;stroke-width:2;}
+
+  .page{max-width:600px;margin:0 auto;background:var(--bg);position:relative;}
 
   /* ---------- BREADCRUMB ---------- */
   .breadcrumb{
@@ -88,59 +149,6 @@
   .breadcrumb a{text-decoration:underline;font-weight:500;}
   .breadcrumb .sep{color:var(--ink-soft);text-decoration:none;}
   .breadcrumb .current{color:var(--blue);}
-
-  /* ---------- HERO BANNER ---------- */
-  .hero-banner{
-    margin:8px 16px 20px;
-    border-radius:var(--radius-lg);
-    background:linear-gradient(135deg,#bfe6ff 0%,#8fd0f7 60%,#7cc6f4 100%);
-    position:relative;
-    overflow:hidden;
-    min-height:260px;
-    display:flex;
-    align-items:flex-end;
-    padding:24px;
-  }
-  .hero-banner::before{
-    content:"";
-    position:absolute;inset:0;
-    background:
-      radial-gradient(circle at 80% 20%, rgba(255,255,255,0.5), transparent 45%),
-      radial-gradient(circle at 15% 85%, rgba(255,255,255,0.35), transparent 40%);
-  }
-  .hero-credit{
-    position:absolute;right:10px;top:50%;transform:translateY(-50%) rotate(90deg);
-    transform-origin:right center;
-    font-size:0.6rem;color:rgba(20,40,60,0.45);letter-spacing:0.5px;
-  }
-  .hero-content{position:relative;z-index:2;}
-  .hero-eyebrow{
-    font-family:'Fredoka',sans-serif;
-    font-weight:600;
-    margin:0 0 4px;
-    color:#2a3f55;
-    font-size:1.05rem;
-    letter-spacing:0.5px;
-  }
-  .hero-title{
-    margin:0;
-    font-family:'Fredoka',sans-serif;
-    font-weight:700;
-    font-size:3.1rem;
-    line-height:0.95;
-    color:#fff200;
-    -webkit-text-stroke:3px #1b3a6b;
-    text-stroke:3px #1b3a6b;
-    text-shadow:4px 4px 0 #d2271f;
-  }
-  .hero-figures{
-    position:absolute;right:6%;bottom:0;
-    display:flex;align-items:flex-end;gap:6px;
-    font-size:3.8rem;
-    filter:drop-shadow(0 6px 8px rgba(0,0,0,0.18));
-  }
-  .hero-figures span{display:block;}
-  .hero-figures span:nth-child(2){font-size:4.6rem;margin-bottom:-6px;}
 
   /* ---------- TOOLBAR ---------- */
   .toolbar{
@@ -166,19 +174,21 @@
   /* ---------- PRODUCT GRID ---------- */
   .product-grid{
     display:flex;flex-direction:column;
-    padding:0 0 40px;
+    padding:0 0 24px;
+    background:var(--card-bg);
   }
   .product-card{
     display:flex;gap:16px;
     padding:22px 20px;
-    border-top:1px solid var(--line);
     background:var(--card-bg);
     transition:opacity .25s ease;
+    border-top:1px solid #d9dce1;
   }
+  .product-card:first-child{border-top:none;}
   .product-card.hidden{display:none;}
   .product-image{
     flex:0 0 130px;
-    height:130px;
+    height:200px;
     border-radius:var(--radius-md);
     display:flex;align-items:center;justify-content:center;
     font-size:3.2rem;
@@ -208,8 +218,12 @@
     color:var(--ink);
     flex:0 0 auto;
   }
-  .wishlist-btn svg{width:21px;height:21px;}
-  .wishlist-btn.active svg path{fill:var(--red);stroke:var(--red);}
+  .wishlist-btn svg{
+    width:22px;height:22px;display:block;
+    stroke:currentColor;fill:none;
+    stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .wishlist-btn.active svg path{fill:var(--blue);stroke:var(--blue);}
   .product-title{
     margin:0;font-size:1.05rem;font-weight:600;line-height:1.32;color:var(--ink);
   }
@@ -232,18 +246,6 @@
     padding:60px 24px;text-align:center;color:var(--ink-soft);font-size:1rem;display:none;
   }
   .empty-state.show{display:block;}
-
-  /* ---------- CHAT BUBBLE ---------- */
-  .chat-bubble{
-    position:fixed;bottom:22px;right:max(16px, calc((100vw - 600px)/2 + 16px));
-    background:#fff;border:1px solid var(--line);
-    padding:11px 18px 11px 14px;border-radius:30px;
-    display:flex;align-items:center;gap:8px;
-    font-weight:600;font-size:0.95rem;
-    box-shadow:0 6px 18px rgba(20,40,70,0.15);
-    z-index:25;color:var(--blue);
-  }
-  .chat-bubble svg{width:19px;height:19px;color:var(--blue);}
 
   /* ---------- FILTER DRAWER ---------- */
   .overlay{
@@ -302,14 +304,24 @@
   .accordion-section.open .accordion-content{padding-bottom:22px;}
 
   .option-row{
-    display:flex;align-items:center;gap:14px;
-    padding:10px 0;
-    font-size:1.08rem;
+    display:flex;align-items:center;gap:10px;
+    padding:5px 0;
+    font-size:1rem;
     cursor:pointer;
   }
-  .option-row input[type="checkbox"],
-  .option-row input[type="radio"]{
-    width:22px;height:22px;flex:0 0 auto;accent-color:var(--blue);
+  .option-row input[type="checkbox"]{
+    -webkit-appearance:none;appearance:none;
+    width:18px;height:18px;flex:0 0 auto;
+    border:1.5px solid #c7ccd4;border-radius:4px;
+    background:#fff;cursor:pointer;position:relative;margin:0;
+  }
+  .option-row input[type="checkbox"]:checked{
+    background:var(--blue);border-color:var(--blue);
+  }
+  .option-row input[type="checkbox"]:checked::after{
+    content:"";position:absolute;left:5px;top:2px;
+    width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;
+    transform:rotate(45deg);
   }
   .option-row .opt-label{flex:1;}
   .option-row .opt-count{color:var(--ink-soft);}
@@ -349,57 +361,147 @@
   .clear-btn{border:1.5px solid #c7ccd4;color:var(--ink);background:#fff;}
   .apply-btn{background:var(--blue);color:#fff;}
 
+  footer.site-footer{
+    background:linear-gradient(180deg, #004ebc 0%, #004ebc 100%);
+    padding:40px 0 32px 24px;
+    position:relative;
+    color:#fff;
+    font-family:'Buenos Aires',sans-serif;
+  }
+  footer.site-footer .footer-inner{max-width:1200px;margin:0 auto;padding-right:24px;}
+  footer.site-footer .footer-top{position:relative;padding-right:110px;}
+  footer.site-footer .footer-grid{display:flex;flex-direction:column;}
+  footer.site-footer .footer-grid section{margin-bottom:36px;}
+  footer.site-footer .footer-grid .newsletter{margin-bottom:12px;}
+  footer.site-footer .footer-grid section:last-child{margin-bottom:0;}
+  footer.site-footer .footer-bottom{margin-top:36px;}
+  footer.site-footer .footer-brand{text-align:center;}
+  footer.site-footer .mascot{position:absolute;top:28px;right:0;width:300px;height:auto;opacity:.95;}
+  footer.site-footer h2.section-title{font-size:30px;font-weight:800;margin:0 0 22px;letter-spacing:-.5px;}
+  footer.site-footer ul.link-list{list-style:none;margin:0;padding:0;}
+  footer.site-footer ul.link-list li{margin-bottom:26px;}
+  footer.site-footer ul.link-list li:last-child{margin-bottom:0;}
+  footer.site-footer ul.link-list a{color:#fff;text-decoration:none;font-size:22px;display:inline-flex;align-items:center;gap:12px;transition:opacity .15s ease;}
+  footer.site-footer ul.link-list a:hover,
+  footer.site-footer ul.link-list a:focus-visible{opacity:.75;}
+  footer.site-footer .heart-icon{flex:none;}
+  footer.site-footer .newsletter p{font-size:19px;line-height:1.4;margin:0 0 22px;}
+  footer.site-footer .signup-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:nowrap;}
+  footer.site-footer .signup-row input[type="email"]{width:290px;height:49px;flex:0 0 290px;padding:0 18px;border-radius:10px;border:none;font-size:18px;color:#333;background:#fff;box-sizing:border-box;}
+  footer.site-footer .signup-row input[type="email"]::placeholder{color:#6b6b6b;}
+  footer.site-footer .signup-row button{width:89px;height:49px;flex:0 0 89px;padding:0;border-radius:10px;border:2px solid #fff;background:transparent;color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;box-sizing:border-box;transition:background .15s ease, color .15s ease;}
+  footer.site-footer .signup-row button:hover,
+  footer.site-footer .signup-row button:focus-visible{background:#fff;color:#004ebc;}
+  footer.site-footer .signup-disclaimer{font-size:14px;line-height:1.5;margin:0;opacity:.95;}
+  footer.site-footer .signup-disclaimer a{color:#fff;text-decoration:underline;}
+  footer.site-footer .signup-confirm{font-size:14px;margin:8px 0 0;min-height:0;}
+  footer.site-footer .social-row{display:flex;justify-content:center;gap:26px;margin:30px 0 18px;flex-wrap:wrap;}
+  footer.site-footer .social-row a{color:#fff;display:flex;transition:opacity .15s ease;}
+  footer.site-footer .social-row a:hover,
+  footer.site-footer .social-row a:focus-visible{opacity:.7;}
+  footer.site-footer .social-row svg{width:30px;height:30px;}
+  footer.site-footer .handle{text-align:center;font-size:22px;font-weight:700;margin-bottom:30px;}
+  footer.site-footer hr.divider{border:none;border-top:1px solid rgba(255,255,255,.35);margin:0 0 26px;}
+  footer.site-footer .wordmark{text-align:center;margin-bottom:22px;}
+  footer.site-footer .brand-logo{display:block;max-width:240px;width:100%;height:auto;margin:0 auto;}
+  footer.site-footer .copyright{text-align:center;font-size:14px;opacity:.9;padding-bottom:10px;}
+
   @media (min-width:601px){
     .page{box-shadow:0 0 40px rgba(0,0,0,0.06);}
+  }
+  @media (max-width:380px){
+    footer.site-footer h2.section-title{font-size:26px;}
+    footer.site-footer ul.link-list a{font-size:19px;}
+    footer.site-footer .brand-logo{max-width:200px;}
+    footer.site-footer .mascot{width:220px;}
+  }
+  @media (min-width:480px){
+    footer.site-footer .footer-top{padding-right:160px;}
+  }
+  @media (min-width:768px){
+    footer.site-footer{padding:64px 0 56px 48px;}
+    footer.site-footer .footer-inner{padding-right:48px;}
+    footer.site-footer .footer-top{padding-right:420px;}
+    footer.site-footer .mascot{width:400px;top:0;}
+    footer.site-footer .footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:48px 40px;}
+    footer.site-footer .footer-grid section{margin-bottom:0;}
+    footer.site-footer .footer-grid > section:nth-child(1){grid-column:1;grid-row:1;}
+    footer.site-footer .footer-grid > section:nth-child(2){grid-column:1 / -1;grid-row:2;}
+    footer.site-footer .footer-grid > section:nth-child(3){grid-column:2;grid-row:1;}
+    footer.site-footer .footer-grid > section:nth-child(4){grid-column:3;grid-row:1;}
+    footer.site-footer .footer-grid > section:nth-child(5){grid-column:4;grid-row:1;}
+    footer.site-footer h2.section-title{font-size:22px;margin-bottom:16px;}
+    footer.site-footer ul.link-list li{margin-bottom:14px;}
+    footer.site-footer ul.link-list a{font-size:16px;}
+    footer.site-footer .newsletter{display:grid;grid-template-columns:1fr 1fr;gap:16px 48px;align-items:start;padding-top:8px;border-top:1px solid rgba(255,255,255,.2);margin-bottom:0;}
+    footer.site-footer .newsletter .section-title{grid-column:1;margin-bottom:0;}
+    footer.site-footer .newsletter p{grid-column:1;margin-bottom:0;max-width:none;font-size:17px;}
+    footer.site-footer .newsletter-intro{width:250px;max-width:250px;}
+    footer.site-footer .newsletter form{grid-column:2;grid-row:1 / span 3;}
+    footer.site-footer .newsletter .signup-disclaimer{grid-column:1;}
+    footer.site-footer .newsletter .signup-confirm{grid-column:1;margin:0;}
+    footer.site-footer .footer-bottom{margin-top:48px;padding-top:32px;border-top:1px solid rgba(255,255,255,.35);}
+    footer.site-footer hr.divider{display:none;}
+    footer.site-footer .social-row{margin-top:0;}
+    footer.site-footer .footer-brand{display:flex;align-items:center;justify-content:space-between;gap:32px;text-align:left;}
+    footer.site-footer .wordmark{margin-bottom:0;}
+    footer.site-footer .brand-logo{margin:0;max-width:220px;}
+    footer.site-footer .copyright{padding-bottom:0;text-align:right;}
+  }
+  @media (min-width:1024px){
+    footer.site-footer .footer-top{padding-right:520px;}
+    footer.site-footer .mascot{width:500px;}
+  }
+  @media (min-width:1280px){
+    footer.site-footer .footer-inner{max-width:1280px;}
   }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="app-shell">
+  <div class="promo-bar">Free Shipping for Orders Over 6500 DZD</div>
 
-  <!-- HEADER -->
-  <header class="site-header">
-    <div class="header-inner">
-      <button class="icon-btn" aria-label="Menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-      <button class="icon-btn" aria-label="Account">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c1.2-4 4-6 7-6s5.8 2 7 6" stroke-linecap="round"/></svg>
-      </button>
-      <a href="#" class="logo" aria-label="ToysRus home">
-        <span class="l-t">T</span><span class="l-o1">o</span><span class="l-y">y</span><span class="l-s1">s</span><span class="flip l-r">R</span><span class="l-u">U</span><span class="l-s2">s</span>
+  <header class="nav" id="mainNav">
+    <div class="nav-default">
+      <div class="nav-icons">
+        <a class="icon-btn" href="home-page.html" aria-label="Menu">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </a>
+        <button class="icon-btn" type="button" aria-label="Account">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+        </button>
+      </div>
+      <a class="logo" href="home-page.html" aria-label="AJ BLOKS home">
+        <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782245376/Design_sans_titre_31_azudmo.png" alt="AJ BLOKS">
       </a>
-      <div class="header-actions">
-        <button class="icon-btn" aria-label="Search">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5" stroke-linecap="round"/></svg>
+      <div class="nav-icons">
+        <button class="icon-btn" type="button" id="searchOpenBtn" aria-label="Search">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M16.5 16.5L21 21"/></svg>
         </button>
-        <button class="icon-btn" aria-label="Wishlist">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 21s-7.5-4.6-10-9.3C.5 8 2.4 4.5 6 4.5c2.1 0 3.6 1.2 4.5 2.6l1.5 2.2 1.5-2.2c.9-1.4 2.4-2.6 4.5-2.6 3.6 0 5.5 3.5 4 7.2-2.5 4.7-10 9.3-10 9.3Z"/></svg>
-        </button>
-        <button class="icon-btn" aria-label="Cart">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 12.4a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="10" cy="21" r="1.4" fill="currentColor" stroke="none"/><circle cx="17" cy="21" r="1.4" fill="currentColor" stroke="none"/></svg>
-          <span class="cart-badge"></span>
+        <a class="icon-btn" href="done/wishlist.html" aria-label="Wishlist">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.502 5.502 0 0 0 16.503 3c-1.76 0-3 .56-4.5 2.17C10.503 3.56 9.263 3 7.503 3A5.502 5.502 0 0 0 2 8.5c0 2.29 1.5 4.04 3 5.5l7 7Z"/></svg>
+        </a>
+        <button class="icon-btn" type="button" aria-label="Cart">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
         </button>
       </div>
     </div>
+    <div class="nav-search">
+      <form class="search-form" id="searchForm" role="search">
+        <input class="search-input" id="searchInput" type="search" name="q" placeholder="Search toys, brands & more" autocomplete="off" aria-label="Search">
+      </form>
+      <button class="icon-btn search-close" type="button" id="searchCloseBtn" aria-label="Close search">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
   </header>
+
+<div class="page">
 
   <!-- BREADCRUMB -->
   <nav class="breadcrumb">
-    <a href="#">Home</a><span class="sep">&gt;</span><a href="#" class="current">Toy Story</a>
+    <a href="home-page.html">Home</a><span class="sep">&gt;</span><a href="#" class="current">Outdoor Play</a>
   </nav>
-
-  <!-- HERO BANNER -->
-  <section class="hero-banner">
-    <span class="hero-credit">©Disney/Pixar</span>
-    <div class="hero-content">
-      <p class="hero-eyebrow">Disney · Pixar</p>
-      <h1 class="hero-title">TOY<br>STORY<br>5</h1>
-    </div>
-    <div class="hero-figures">
-      <span>🤠</span><span>🚀</span><span>🐴</span>
-    </div>
-  </section>
 
   <!-- TOOLBAR -->
   <div class="toolbar">
@@ -413,12 +515,6 @@
   <!-- PRODUCT GRID -->
   <main class="product-grid" id="productGrid"></main>
   <p class="empty-state" id="emptyState">No products match your filters. Try clearing a few and searching again.</p>
-
-  <!-- CHAT BUBBLE -->
-  <button class="chat-bubble">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.5 8.5 0 1 1-3.7-7"/><path d="M21 3v6h-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Chat
-  </button>
 
   <!-- FILTER DRAWER -->
   <div class="overlay" id="overlay"></div>
@@ -434,20 +530,20 @@
     <div class="drawer-body" id="drawerBody">
 
       <!-- SORT BY -->
-      <div class="accordion-section open" data-section="sort">
+      <div class="accordion-section" data-section="sort">
         <button class="accordion-header">
           Sort by:
           <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="accordion-content">
-          <label class="option-row"><input type="radio" name="sort" value="featured" checked><span class="opt-label">Featured</span></label>
-          <label class="option-row"><input type="radio" name="sort" value="bestselling"><span class="opt-label">Best selling</span></label>
-          <label class="option-row"><input type="radio" name="sort" value="az"><span class="opt-label">Alphabetically, A-Z</span></label>
-          <label class="option-row"><input type="radio" name="sort" value="za"><span class="opt-label">Alphabetically, Z-A</span></label>
-          <label class="option-row"><input type="radio" name="sort" value="lowhigh"><span class="opt-label">Price, low to high</span></label>
-          <label class="option-row"><input type="radio" name="sort" value="highlow"><span class="opt-label">Price, high to low</span></label>
-          <label class="option-row"><input type="radio" name="sort" value="oldnew"><span class="opt-label">Date, old to new</span></label>
-          <label class="option-row"><input type="radio" name="sort" value="newold"><span class="opt-label">Date, new to old</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="featured" checked><span class="opt-label">Featured</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="bestselling"><span class="opt-label">Best selling</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="az"><span class="opt-label">Alphabetically, A-Z</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="za"><span class="opt-label">Alphabetically, Z-A</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="lowhigh"><span class="opt-label">Price, low to high</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="highlow"><span class="opt-label">Price, high to low</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="oldnew"><span class="opt-label">Date, old to new</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="newold"><span class="opt-label">Date, new to old</span></label>
         </div>
       </div>
 
@@ -547,7 +643,163 @@
 
 </div>
 
+  <footer class="site-footer">
+    <img
+      class="mascot"
+      src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782044381/Design_sans_titre_6_copetd.png"
+      alt="Bob, la mascotte ajBloks"
+    >
+
+    <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-grid">
+
+    <section aria-label="Service client">
+      <h2 class="section-title">Service client</h2>
+      <ul class="link-list">
+        <li><a href="#">Guides cadeaux</a></li>
+        <li><a href="#">Centre d'aide</a></li>
+        <li><a href="#">Livraison</a></li>
+        <li><a href="#">Retours et échanges</a></li>
+        <li><a href="#">Nous contacter</a></li>
+      </ul>
+    </section>
+
+    <section class="newsletter" aria-label="Inscription à l'infolettre">
+      <h2 class="section-title">Inscrivez-vous pour vous amuser&nbsp;!</h2>
+      <p class="newsletter-intro">Recevez des nouvelles exclusives sur les jouets, des idées de jeu et des avis !</p>
+      <form id="footer-signup-form">
+        <div class="signup-row">
+          <input type="email" id="footer-email-input" placeholder="Entrez votre e-mail" required aria-label="Adresse e-mail">
+          <button type="submit">S'inscrire</button>
+        </div>
+        <p class="signup-disclaimer">
+          En vous inscrivant à notre infolettre, vous acceptez nos <a href="#">conditions d'utilisation</a> et notre <a href="#">politique de confidentialité</a>.
+        </p>
+        <p class="signup-confirm" id="footer-signup-confirm" role="status"></p>
+      </form>
+    </section>
+
+    <section aria-label="Compte">
+      <h2 class="section-title">Compte</h2>
+      <ul class="link-list">
+        <li><a href="#">Mon compte</a></li>
+        <li><a href="#">Suivre ma commande</a></li>
+        <li>
+          <a href="done/wishlist.html">
+            <svg class="heart-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+            Ma liste de souhaits
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section aria-label="À propos">
+      <h2 class="section-title">À propos</h2>
+      <ul class="link-list">
+        <li><a href="#">Notre histoire</a></li>
+        <li><a href="#">Conditions d'utilisation</a></li>
+        <li><a href="#">Politique de confidentialité</a></li>
+        <li><a href="#">Déclaration d'accessibilité</a></li>
+        <li><a href="#">Préférences de cookies</a></li>
+      </ul>
+    </section>
+
+    <section aria-label="Activités">
+      <h2 class="section-title">Activités</h2>
+      <ul class="link-list">
+        <li><a href="#">Le monde de Bob</a></li>
+        <li><a href="#">Coloriage et activités</a></li>
+      </ul>
+    </section>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+    <div class="social-row">
+      <a href="#" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.7 31.7 0 0 0 0 12a31.7 31.7 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.7 31.7 0 0 0 24 12a31.7 31.7 0 0 0-.5-5.8zM9.6 15.5V8.5L15.8 12z"/></svg>
+      </a>
+      <a href="#" aria-label="TikTok">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.4 2.3 2 4 4.4 4.2v3.1c-1.5.1-2.9-.4-4.4-1.3v6.6a5.7 5.7 0 1 1-5.7-5.7c.3 0 .6 0 .9.1v3.2a2.6 2.6 0 1 0 1.8 2.5V3z"/></svg>
+      </a>
+      <a href="#" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="Pinterest">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.219-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.17.6 2.123 1.775 2.123 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+      </a>
+      <a href="#" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-9h3l.5-3.5h-3.5V7.4c0-1 .3-1.7 1.7-1.7H17V2.6C16.6 2.5 15.5 2.4 14.2 2.4c-2.7 0-4.6 1.6-4.6 4.7v2.4H6.9V13h2.7v9z"/></svg>
+      </a>
+    </div>
+
+    <p class="handle">@ajBloks</p>
+    <hr class="divider">
+
+    <div class="footer-brand">
+    <div class="wordmark">
+      <img
+        class="brand-logo"
+        src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782051890/Design_sans_titre_7_mwozaj.png"
+        alt="ajBloks"
+      >
+    </div>
+    <p class="copyright">© 2026 ajBloks. Tous droits réservés.</p>
+    </div>
+    </div>
+
+    </div>
+  </footer>
+
+</div>
+
 <script>
+const mainNav = document.getElementById('mainNav');
+const searchOpenBtn = document.getElementById('searchOpenBtn');
+const searchCloseBtn = document.getElementById('searchCloseBtn');
+const searchForm = document.getElementById('searchForm');
+const searchInput = document.getElementById('searchInput');
+
+function closeSearch(){
+  mainNav.classList.remove('is-search-active');
+  searchInput.blur();
+}
+function openSearch(){
+  mainNav.classList.add('is-search-active');
+  searchInput.value = '';
+  requestAnimationFrame(() => searchInput.focus());
+}
+searchOpenBtn.addEventListener('click', openSearch);
+searchCloseBtn.addEventListener('click', closeSearch);
+searchForm.addEventListener('submit', e => { e.preventDefault(); closeSearch(); });
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape' && mainNav.classList.contains('is-search-active')) closeSearch();
+});
+
+const footerSignupForm = document.getElementById('footer-signup-form');
+const footerSignupConfirm = document.getElementById('footer-signup-confirm');
+if(footerSignupForm && footerSignupConfirm){
+  footerSignupForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    const email = document.getElementById('footer-email-input').value.trim();
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if(valid){
+      footerSignupConfirm.textContent = "Merci pour votre inscription ! Consultez votre boîte de réception pour confirmer.";
+      footerSignupForm.reset();
+    } else {
+      footerSignupConfirm.textContent = "Veuillez entrer une adresse e-mail valide.";
+    }
+  });
+}
+
 /* ---------------- PRODUCT DATA ---------------- */
 const products = [
   {title:"Imaginext Toy Story Pizza Planet Truck with Buzz Lightyear and Alien Figures", price:21.99, rating:4.8, reviews:47, icon:"🚚", grad:["#ffe9b3","#ffd27a"], category:["Action Figures and Accessories"], age:["5-7 years","8-10 years"], brand:[], character:["Buzz Lightyear","Toy Story"]},
@@ -596,7 +848,7 @@ function renderProducts(list){
           ${starsMarkup(p.rating)}
           <span class="rating-text">${p.rating.toFixed(1)} (${p.reviews})</span>
           <button class="wishlist-btn" aria-label="Add to wishlist">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7.5-4.6-10-9.3C.5 8 2.4 4.5 6 4.5c2.1 0 3.6 1.2 4.5 2.6l1.5 2.2 1.5-2.2c.9-1.4 2.4-2.6 4.5-2.6 3.6 0 5.5 3.5 4 7.2-2.5 4.7-10 9.3-10 9.3Z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.502 5.502 0 0 0 16.503 3c-1.76 0-3 .56-4.5 2.17C10.503 3.56 9.263 3 7.503 3A5.502 5.502 0 0 0 2 8.5c0 2.29 1.5 4.04 3 5.5l7 7Z"/></svg>
           </button>
         </div>
         <h3 class="product-title">${p.title}</h3>
@@ -687,7 +939,8 @@ function applyFiltersAndSort(){
   const chars = getChecked('character');
   const min = parseFloat(document.getElementById('priceMin').value) || 0;
   const max = parseFloat(document.getElementById('priceMax').value) || Infinity;
-  const sortVal = document.querySelector('input[name="sort"]:checked').value;
+  const sortChecked = document.querySelector('input[data-group="sort"]:checked');
+  const sortVal = sortChecked ? sortChecked.value : 'featured';
 
   let filtered = products.filter(p=>{
     const okCat = cats.length===0 || cats.some(c=>p.category.includes(c));
@@ -723,15 +976,23 @@ document.getElementById('applyFilters').addEventListener('click', ()=>{
 
 document.getElementById('clearFilters').addEventListener('click', ()=>{
   document.querySelectorAll('input[type="checkbox"]').forEach(cb=>cb.checked=false);
-  document.querySelector('input[name="sort"][value="featured"]').checked = true;
+  document.querySelector('input[data-group="sort"][value="featured"]').checked = true;
   document.getElementById('priceMin').value='';
   document.getElementById('priceMax').value='';
   applyFiltersAndSort();
 });
 
-// live sort on radio change (common UX pattern: sort applies immediately)
-document.querySelectorAll('input[name="sort"]').forEach(r=>{
-  r.addEventListener('change', applyFiltersAndSort);
+document.querySelectorAll('input[data-group="sort"]').forEach(cb=>{
+  cb.addEventListener('change', ()=>{
+    if(cb.checked){
+      document.querySelectorAll('input[data-group="sort"]').forEach(other=>{
+        if(other !== cb) other.checked = false;
+      });
+    } else if(!document.querySelector('input[data-group="sort"]:checked')){
+      document.querySelector('input[data-group="sort"][value="featured"]').checked = true;
+    }
+    applyFiltersAndSort();
+  });
 });
 </script>
 </body>

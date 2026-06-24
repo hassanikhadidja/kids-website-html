@@ -3,144 +3,71 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kids Books — Sprout &amp; Spool</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,500&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<title>Kids Books — ToyHive</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
+  @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
   :root{
-    --moss:#2F4A3E;
-    --moss-light:#3E614F;
-    --marigold:#E8A33D;
-    --marigold-dark:#C97F22;
-    --peach:#F6DFC4;
-    --cream:#FBF6EE;
-    --ink:#26241F;
-    --berry:#C1483B;
-    --line:#E4D8C3;
+    --blue:#004ebc;
+    --blue-dark:#003894;
+    --blue-soft:#E7EBFB;
+    --sky:#BFEAFB;
+    --sky-deep:#7FD1F2;
+    --green:#7CB82F;
+    --green-dark:#5C9420;
+    --ink:#11214A;
+    --ink-soft:#5B6685;
+    --gold:#F5A623;
+    --trus-red:#ed1c24;
+    --pink:#D6196B;
+    --cream:#FFFDF8;
+    --line:#E4E7F2;
     --radius:18px;
-    --shadow:0 10px 24px rgba(38,36,29,0.10);
+    --radius-pill:999px;
+    --shadow:0 10px 24px rgba(17,33,74,0.10);
+    --page-pad:16px;
+    --section-pad:20px;
   }
 
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    font-family:'Quicksand',sans-serif;
-    background:#EFE7D6;
+    font-family:'Buenos Aires',sans-serif;
+    background:#DEE3F0;
     color:var(--ink);
     -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
   }
 
   h1,h2,h3,.display{
-    font-family:'Fraunces',serif;
+    font-family:'Buenos Aires',sans-serif;
     font-weight:600;
-    letter-spacing:-0.01em;
+    margin:0;
   }
 
-  button{font-family:inherit;cursor:pointer;}
+  button{font-family:inherit;cursor:pointer;border:none;}
   a{color:inherit;text-decoration:none;}
 
   :focus-visible{
-    outline:3px solid var(--marigold-dark);
+    outline:3px solid var(--gold);
     outline-offset:2px;
     border-radius:6px;
   }
 
-  /* ---------- Phone-frame wrapper for presentation ---------- */
-  .frame{
-    max-width:460px;
+  .app-shell{
+    max-width:100%;
+    width:100%;
     margin:0 auto;
     background:var(--cream);
     min-height:100vh;
-    box-shadow:var(--shadow);
-    overflow:hidden;
-  }
-  @media (min-width:520px){
-    body{padding:28px 0;}
-    .frame{border-radius:28px;min-height:auto;}
-  }
-
-  /* ---------- Promo bar ---------- */
-  .promo-bar{
-    background:var(--peach);
-    color:var(--moss);
-    text-align:center;
-    font-weight:700;
-    font-size:0.78rem;
-    letter-spacing:0.02em;
-    padding:9px 12px;
-  }
-
-  /* ---------- Nav ---------- */
-  .nav{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    background:var(--moss);
-    padding:13px 14px;
-    position:relative;
-  }
-  .icon-btn{
-    background:none;border:none;color:var(--cream);
-    width:36px;height:36px;display:flex;align-items:center;justify-content:center;
-    position:relative; border-radius:10px;
-    transition:background .15s ease;
-  }
-  .icon-btn:hover{background:rgba(255,255,255,0.08);}
-  .icon-btn svg{width:21px;height:21px;}
-
-  .logo{
-    font-family:'Fraunces',serif;
-    font-weight:600;
-    font-size:1.32rem;
-    color:var(--cream);
-    display:flex;
-    align-items:baseline;
-    gap:4px;
-  }
-  .logo span{color:var(--marigold);font-style:italic;font-weight:500;}
-
-  .nav-icons{display:flex;align-items:center;gap:2px;}
-
-  .cart-count{
-    position:absolute;
-    top:1px; right:1px;
-    background:var(--berry);
-    color:#fff;
-    font-size:0.62rem;
-    font-weight:700;
-    min-width:16px; height:16px;
-    border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-    transform:scale(1);
-    transition:transform .25s cubic-bezier(.34,1.56,.64,1);
-  }
-  .cart-count.bump{transform:scale(1.35);}
-  .heart-fill{display:none;}
-  .icon-btn.saved .heart-outline{display:none;}
-  .icon-btn.saved .heart-fill{display:block;fill:var(--berry);}
-
-  /* ---------- Mobile menu ---------- */
-  .mobile-menu{
-    max-height:0;
-    overflow:hidden;
-    background:var(--moss-light);
-    transition:max-height .3s ease;
-  }
-  .mobile-menu.open{max-height:240px;}
-  .mobile-menu ul{list-style:none;margin:0;padding:6px 0;}
-  .mobile-menu a{
-    display:block;
-    padding:11px 20px;
-    color:var(--cream);
-    font-weight:600;
-    font-size:0.92rem;
-    border-bottom:1px solid rgba(255,255,255,0.08);
+    min-height:100dvh;
+    overflow-x:hidden;
+    box-shadow:0 0 60px rgba(15,20,60,.25);
   }
 
   /* ---------- Hero ---------- */
   .hero{
-    background:linear-gradient(180deg,var(--peach) 0%, #F1D9B6 100%);
+    background:linear-gradient(180deg,var(--sky) 0%, var(--blue-soft) 100%);
     padding:26px 20px 18px;
     position:relative;
     text-align:center;
@@ -150,81 +77,477 @@
     margin-top:-6px;
     display:inline-flex;
     flex-direction:column;
-    background:var(--moss);
+    background:var(--blue);
     color:var(--cream);
     padding:10px 26px 12px;
     border-radius:14px;
-    box-shadow:var(--shadow);
+    box-shadow:0 4px 0 var(--blue-dark);
   }
   .badge-eyebrow{
-    font-family:'Fraunces',serif;
+    font-family:'Buenos Aires',sans-serif;
     font-style:italic;
     font-size:0.95rem;
-    color:var(--marigold);
+    color:var(--gold);
   }
   .badge-title{
-    font-family:'Fraunces',serif;
-    font-weight:600;
+    font-family:'Buenos Aires',sans-serif;
+    font-weight:700;
     font-size:1.5rem;
     letter-spacing:0.01em;
   }
 
   /* ---------- Breadcrumb ---------- */
   .breadcrumb{
-    padding:16px 20px 4px;
-    font-size:0.85rem;
-    color:#75705F;
+    padding:16px 20px 20px;
+    font-size:0.95rem;
+    color:var(--blue);
     display:flex;
     gap:8px;
+    align-items:center;
   }
-  .breadcrumb a.current{color:var(--moss);font-weight:700;}
+  .breadcrumb a{font-weight:500;text-decoration:underline;}
+  .breadcrumb .sep{color:var(--ink-soft);text-decoration:none;}
+  .breadcrumb .current{color:var(--blue);font-weight:700;}
 
-  /* ---------- Categories ---------- */
-  .categories{
+  /* ---------- Category tiles (matches home page tile-card) ---------- */
+  .carousel-track{
     display:flex;
-    gap:12px;
-    padding:14px 20px 4px;
+    gap:14px;
     overflow-x:auto;
-    scroll-snap-type:x proximity;
+    scroll-snap-type:x mandatory;
+    padding:14px var(--page-pad) 6px;
+    padding-left:var(--section-pad);
+    scroll-padding-left:var(--section-pad);
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-x:contain;
   }
-  .categories::-webkit-scrollbar{display:none;}
-  .cat-card{
-    flex:0 0 132px;
+  .carousel-track::-webkit-scrollbar{display:none;}
+  .carousel-track > .tile-card:first-child{
+    scroll-margin-left:var(--section-pad);
+  }
+  .tile-card{
+    min-width:135px;
+    max-width:135px;
     scroll-snap-align:start;
-    background:var(--cat-bg, var(--moss));
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:inherit;
+    background:none;
     border:none;
-    border-radius:var(--radius);
-    height:120px;
+    padding:0;
+    font:inherit;
+    cursor:pointer;
+  }
+  .tile-img{
+    width:135px;
+    height:135px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:2.4rem;
+    color:#fff;
+  }
+  .tile-img--photo{
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
+  .tile-label{
+    font-weight:800;
+    font-family:'Buenos Aires',sans-serif;
+    font-size:.92rem;
+    text-align:center;
+    line-height:1.2;
+  }
+
+  .progress-rail{
+    height:4px;
+    background:var(--line);
+    border-radius:99px;
+    margin:14px var(--page-pad) 0;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    width:10%;
+    background:var(--blue);
+    border-radius:99px;
+    transition:width .12s ease-out;
+  }
+
+  .category-banner{
+    width:369px;
+    max-width:calc(100% - 32px);
+    aspect-ratio:369/294;
+    height:auto;
+    margin:20px auto 24px;
+    border-radius:18px;
+    overflow:hidden;
+    display:block;
+  }
+  .category-banner svg{
+    width:100%;
+    height:100%;
+    display:block;
+  }
+
+  /* ---------- Featured carousel (matches home page carousel-wrap) ---------- */
+  .carousel-wrap{padding:22px 0 8px;}
+  .carousel-wrap.tight{padding-top:0;}
+  .category-banner + .carousel-wrap.tight{
+    padding-top:clamp(20px, 4vw, 32px);
+  }
+  #featuredTrack{
+    padding-left:var(--section-pad);
+    padding-right:var(--page-pad);
+    scroll-padding-left:var(--section-pad);
+    align-items:stretch;
+  }
+  #featuredTrack > .product-card:first-child{
+    scroll-margin-left:var(--section-pad);
+  }
+  .carousel-wrap .product-card{
+    flex:0 0 min(300px, 85vw);
+    width:min(300px, 85vw);
+    min-width:min(300px, 85vw);
+    max-width:min(300px, 85vw);
+    scroll-snap-align:start;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:16px 16px 18px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    background:#fff;
+  }
+  .carousel-wrap .product-card .img-wrap{
+    width:100%;
+    height:190px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:12px;
+  }
+  .carousel-wrap .product-card .cover{
+    width:100%;
+    height:100%;
+    margin-bottom:0;
+    border-radius:12px;
+    aspect-ratio:unset;
+    background:linear-gradient(160deg,var(--c1),var(--c2));
+    position:relative;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    gap:8px;
-    color:#fff;
-    box-shadow:var(--shadow);
+    text-align:center;
+    padding:14px 10px;
+    overflow:hidden;
   }
-  .cat-card svg{width:30px;height:30px;}
-  .cat-label{font-weight:700;font-size:0.86rem;text-align:center;padding:0 6px;}
+  .carousel-wrap .product-card .cover::before{
+    content:"";
+    position:absolute;
+    left:0; top:0; bottom:0;
+    width:9px;
+    background:rgba(0,0,0,0.15);
+  }
+  .carousel-wrap .product-card .cover-title{
+    font-family:'Buenos Aires',sans-serif;
+    font-weight:700;
+    font-size:0.92rem;
+    line-height:1.2;
+    color:#fff;
+    text-shadow:0 1px 2px rgba(0,0,0,0.18);
+  }
+  .carousel-wrap .product-card .cover-author{
+    margin-top:8px;
+    font-size:0.68rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,0.85);
+  }
+  .carousel-wrap .product-card .rating-row{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:8px;
+  }
+  .carousel-wrap .product-card .stars{
+    color:var(--trus-red);
+    font-size:18px;
+    letter-spacing:1px;
+  }
+  .carousel-wrap .product-card .rating-num{
+    font-size:15px;
+    color:#1a1a1a;
+    margin-left:6px;
+    font-weight:500;
+  }
+  .carousel-wrap .product-card .price{
+    font-size:24px;
+    font-weight:800;
+    color:#1a1a1a;
+    margin:0;
+  }
+  .carousel-wrap .product-card .product-title{
+    width:100%;
+    font-size:16px;
+    font-weight:700;
+    line-height:1.28;
+    margin:0 0 12px;
+    color:#1a1a1a;
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    min-height:calc(1.28em * 3);
+    flex-grow:0;
+  }
+  .carousel-wrap .product-card .add-cart-btn{
+    width:100%;
+    background:var(--blue);
+    color:#fff;
+    font-family:'Buenos Aires',sans-serif;
+    font-weight:700;
+    font-size:.92rem;
+    padding:11px;
+    min-height:44px;
+    border-radius:var(--radius-pill);
+    box-shadow:0 3px 0 var(--blue-dark);
+    transition:transform .08s;
+  }
+  .carousel-wrap .product-card .add-cart-btn:active{transform:translateY(2px);box-shadow:none;}
+  .carousel-wrap .product-card .add-cart-btn.added{background:var(--green);box-shadow:0 3px 0 var(--green-dark);}
 
   /* ---------- Products ---------- */
   .products{padding:26px 20px 6px;}
-  .section-head h2{font-size:1.35rem;margin:0 0 2px;}
-  .section-head p{margin:0 0 16px;color:#75705F;font-size:0.88rem;}
+  .section-head h2{font-size:1.35rem;margin:0 0 2px;color:#212427;}
+  .section-head p{margin:0 0 16px;color:var(--ink-soft);font-size:0.88rem;}
+
+  .toolbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 0 18px;
+  }
+  .filter-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    border:1.5px solid #c7ccd4;
+    background:#fff;
+    padding:10px 18px;
+    border-radius:30px;
+    font-weight:600;
+    font-size:0.98rem;
+    cursor:pointer;
+  }
+  .filter-btn svg{width:18px;height:18px;}
+  .product-count{
+    font-weight:600;
+    color:var(--ink);
+    font-size:1.05rem;
+  }
+
+  .empty-state{
+    padding:40px 20px;
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:1rem;
+    display:none;
+  }
+  .empty-state.show{display:block;}
+
+  /* ---------- Filter drawer ---------- */
+  .overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(20,30,45,0.45);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease;
+    z-index:40;
+  }
+  .overlay.show{opacity:1;pointer-events:auto;}
+
+  .filter-drawer{
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    width:min(86vw, 460px);
+    background:#fff;
+    z-index:50;
+    transform:translateX(100%);
+    transition:transform .3s cubic-bezier(.4,0,.2,1);
+    display:flex;
+    flex-direction:column;
+    box-shadow:-8px 0 30px rgba(0,0,0,0.15);
+  }
+  .filter-drawer.open{transform:translateX(0);}
+
+  .drawer-header{
+    text-align:center;
+    padding:22px 50px 18px;
+    position:relative;
+    border-bottom:1px solid var(--line);
+    flex:0 0 auto;
+  }
+  .drawer-header h2{margin:0;font-size:1.3rem;font-weight:700;}
+  .drawer-header p{margin:6px 0 0;color:var(--ink-soft);font-size:1rem;}
+  .drawer-close{
+    position:absolute;
+    top:18px;
+    right:18px;
+    width:36px;
+    height:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:0;
+  }
+  .drawer-close svg{width:22px;height:22px;}
+
+  .drawer-body{flex:1;overflow-y:auto;padding-bottom:90px;}
+
+  .accordion-section{border-bottom:1px solid var(--line);}
+  .accordion-header{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:20px 24px;
+    font-size:1.15rem;
+    font-weight:700;
+    text-align:left;
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-family:inherit;
+    color:inherit;
+  }
+  .accordion-header .chev{
+    width:18px;
+    height:18px;
+    transition:transform .25s ease;
+    flex:0 0 auto;
+  }
+  .accordion-section.open .accordion-header .chev{transform:rotate(180deg);}
+  .accordion-content{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .3s ease;
+    padding:0 24px;
+  }
+  .accordion-section.open .accordion-content{padding-bottom:22px;}
+
+  .option-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:5px 0;
+    font-size:1rem;
+    cursor:pointer;
+  }
+  .option-row input[type="checkbox"]{
+    -webkit-appearance:none;
+    appearance:none;
+    width:18px;
+    height:18px;
+    flex:0 0 auto;
+    border:1.5px solid #c7ccd4;
+    border-radius:4px;
+    background:#fff;
+    cursor:pointer;
+    position:relative;
+    margin:0;
+  }
+  .option-row input[type="checkbox"]:checked{
+    background:var(--blue);
+    border-color:var(--blue);
+  }
+  .option-row input[type="checkbox"]:checked::after{
+    content:"";
+    position:absolute;
+    left:5px;
+    top:2px;
+    width:5px;
+    height:9px;
+    border:solid #fff;
+    border-width:0 2px 2px 0;
+    transform:rotate(45deg);
+  }
+  .option-row .opt-label{flex:1;}
+  .option-row .opt-count{color:var(--ink-soft);}
+
+  .price-range{padding:8px 0 4px;}
+  .price-note{color:var(--ink-soft);font-size:0.98rem;margin:0 0 14px;}
+  .price-inputs{display:flex;align-items:center;gap:10px;}
+  .price-field{
+    flex:1;
+    display:flex;
+    align-items:center;
+    border:1.5px solid #c7ccd4;
+    border-radius:8px;
+    padding:10px 12px;
+    gap:4px;
+  }
+  .price-field input{
+    border:none;
+    outline:none;
+    width:100%;
+    font-size:1rem;
+    font-family:inherit;
+    color:var(--ink);
+  }
+  .price-to{color:var(--ink-soft);font-size:1rem;}
+
+  .drawer-footer{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    background:#fff;
+    border-top:1px solid var(--line);
+    padding:14px 20px;
+    display:flex;
+    gap:12px;
+  }
+  .drawer-footer button{
+    flex:1;
+    padding:14px 0;
+    border-radius:30px;
+    font-weight:700;
+    font-size:1rem;
+    cursor:pointer;
+  }
+  .clear-btn{border:1.5px solid #c7ccd4;color:var(--ink);background:#fff;}
+  .apply-btn{background:var(--blue);color:#fff;border:none;}
 
   .product-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:16px;
   }
-  .product-card{
+  .product-grid .product-card{
     background:#fff;
+    border:1px solid var(--line);
     border-radius:var(--radius);
     padding:10px;
-    box-shadow:var(--shadow);
+    box-shadow:none;
     display:flex;
     flex-direction:column;
   }
-  .cover{
+  .product-grid .cover{
     border-radius:12px;
     aspect-ratio:3/4;
     background:linear-gradient(160deg,var(--c1),var(--c2));
@@ -238,66 +561,66 @@
     overflow:hidden;
     margin-bottom:9px;
   }
-  .cover::before{
+  .product-grid .cover::before{
     content:"";
     position:absolute;
     left:0; top:0; bottom:0;
     width:9px;
     background:rgba(0,0,0,0.15);
   }
-  .cover-title{
-    font-family:'Fraunces',serif;
-    font-weight:600;
+  .product-grid .cover-title{
+    font-family:'Buenos Aires',sans-serif;
+    font-weight:700;
     font-size:0.92rem;
     line-height:1.2;
     color:#fff;
     text-shadow:0 1px 2px rgba(0,0,0,0.18);
   }
-  .cover-author{
+  .product-grid .cover-author{
     margin-top:8px;
     font-size:0.68rem;
     letter-spacing:0.05em;
     text-transform:uppercase;
     color:rgba(255,255,255,0.85);
   }
-  .rating{
+  .product-grid .rating{
     display:flex;
     align-items:center;
     gap:5px;
     font-size:0.75rem;
-    color:#75705F;
+    color:var(--ink-soft);
     margin-bottom:2px;
   }
-  .rating svg{width:13px;height:13px;}
-  .stars{display:flex;gap:1px;}
-  .price{
-    font-weight:700;
+  .product-grid .rating svg{width:13px;height:13px;}
+  .product-grid .stars{display:flex;gap:1px;}
+  .product-grid .price{
+    font-weight:800;
     font-size:1.02rem;
     margin:2px 0 3px;
-    color:var(--ink);
+    color:#1a1a1a;
   }
-  .product-title{
-    font-family:'Quicksand',sans-serif;
-    font-weight:600;
+  .product-grid .product-title{
+    font-family:'Buenos Aires',sans-serif;
+    font-weight:700;
     font-size:0.83rem;
     line-height:1.3;
     margin:0 0 10px;
-    color:var(--ink);
+    color:#1a1a1a;
     flex-grow:1;
   }
-  .add-cart-btn{
-    background:var(--marigold);
-    color:var(--moss);
+  .product-grid .add-cart-btn{
+    background:var(--blue);
+    color:#fff;
     border:none;
-    border-radius:30px;
+    border-radius:var(--radius-pill);
     padding:9px 0;
     font-weight:700;
     font-size:0.84rem;
-    transition:transform .12s ease, background .15s ease;
+    box-shadow:0 3px 0 var(--blue-dark);
+    transition:transform .08s ease, background .15s ease;
   }
-  .add-cart-btn:hover{background:var(--marigold-dark);color:#fff;}
-  .add-cart-btn:active{transform:scale(0.96);}
-  .add-cart-btn.added{background:var(--moss);color:#fff;}
+  .product-grid .add-cart-btn:active{transform:translateY(2px);box-shadow:none;}
+  .product-grid .add-cart-btn.added{background:var(--green);box-shadow:0 3px 0 var(--green-dark);}
 
   /* ---------- Pagination ---------- */
   .pagination{
@@ -316,8 +639,8 @@
     color:var(--ink);
     font-size:0.85rem;
   }
-  .page-btn.active{background:var(--moss);color:#fff;border-color:var(--moss);}
-  .page-dots{color:#A89B7D;font-weight:700;}
+  .page-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+  .page-dots{color:var(--ink-soft);font-weight:700;}
 
   /* ---------- Accordion ---------- */
   .info-accordion{
@@ -332,8 +655,8 @@
     align-items:center;
     justify-content:space-between;
     padding:18px 2px;
-    font-family:'Fraunces',serif;
-    font-weight:600;
+    font-family:'Buenos Aires',sans-serif;
+    font-weight:700;
     font-size:1.05rem;
     color:var(--ink);
   }
@@ -354,35 +677,8 @@
     margin:0 2px 16px;
     font-size:0.9rem;
     line-height:1.65;
-    color:#4A4636;
+    color:var(--ink-soft);
   }
-
-  /* ---------- Footer ---------- */
-  .site-footer{
-    background:var(--moss);
-    color:var(--cream);
-    padding:34px 24px 28px;
-    text-align:center;
-    position:relative;
-  }
-  .footer-mascot{width:64px;height:64px;margin:0 auto 10px;}
-  .site-footer h3{font-size:1.3rem;margin:0 0 6px;}
-  .site-footer > p{font-size:0.86rem;color:#D9D2BD;margin:0 0 20px;line-height:1.5;}
-  .footer-links{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px 18px;
-    justify-content:center;
-    margin-bottom:22px;
-  }
-  .footer-links a{
-    font-size:0.82rem;
-    font-weight:700;
-    color:var(--marigold);
-    border-bottom:1px solid transparent;
-  }
-  .footer-links a:hover{border-color:var(--marigold);}
-  .copyright{font-size:0.72rem;color:#9C9580;margin:0;}
 
   /* ---------- Toast ---------- */
   .toast{
@@ -390,10 +686,10 @@
     left:50%;
     bottom:24px;
     transform:translate(-50%,12px);
-    background:var(--ink);
+    background:var(--blue-dark);
     color:#fff;
     padding:11px 18px;
-    border-radius:30px;
+    border-radius:var(--radius-pill);
     font-size:0.85rem;
     font-weight:600;
     box-shadow:0 8px 20px rgba(0,0,0,0.25);
@@ -404,64 +700,72 @@
   }
   .toast.show{opacity:1;transform:translate(-50%,0);}
 
+  @media (min-width:768px){
+    :root{--page-pad:28px; --section-pad:32px;}
+    #categoryTrack{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(135px, 1fr));
+      overflow:visible;
+      scroll-snap-type:none;
+      gap:18px;
+      align-items:start;
+    }
+    #categoryTrack .tile-card{
+      flex:unset;
+      min-width:unset;
+      max-width:unset;
+      scroll-snap-align:unset;
+    }
+    #categoryTrack .tile-img{
+      width:100%;
+      height:auto;
+      aspect-ratio:1;
+    }
+    #categoryTrack + .progress-rail{display:none;}
+    #featuredTrack{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
+      overflow:visible;
+      scroll-snap-type:none;
+      gap:18px;
+      align-items:stretch;
+    }
+    #featuredTrack .product-card{
+      flex:unset;
+      width:auto;
+      min-width:unset;
+      max-width:unset;
+      scroll-snap-align:unset;
+    }
+    .carousel-wrap .progress-rail{display:none;}
+  }
+
   @media (prefers-reduced-motion:reduce){
     *{transition:none !important; animation:none !important;}
   }
 </style>
 </head>
 <body>
-<div class="frame">
-
-  <div class="promo-bar">Free shipping on storybook orders over $45 — code SPROUT45</div>
-
-  <header class="nav">
-    <button class="icon-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
-    </button>
-    <a href="#" class="logo">Sprout <span>&amp;</span> Spool</a>
-    <div class="nav-icons">
-      <button class="icon-btn" aria-label="Search">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      </button>
-      <button class="icon-btn" id="wishlistBtn" aria-label="Wishlist">
-        <svg class="heart-outline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20s-7-4.4-9.5-9C.8 7.1 3 4 6.2 4c2 0 3.4 1.1 4.3 2.4C11.4 5.1 12.8 4 14.8 4 18 4 20.2 7.1 18.5 11c-2.5 4.6-6.5 9-6.5 9z"/></svg>
-        <svg class="heart-fill" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9.5-9C.8 7.1 3 4 6.2 4c2 0 3.4 1.1 4.3 2.4C11.4 5.1 12.8 4 14.8 4 18 4 20.2 7.1 18.5 11c-2.5 4.6-6.5 9-6.5 9z"/></svg>
-      </button>
-      <button class="icon-btn" id="cartBtn" aria-label="Cart, 0 items">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L23 6H6"/></svg>
-        <span class="cart-count" id="cartCount">0</span>
-      </button>
-    </div>
-  </header>
-
-  <nav class="mobile-menu" id="mobileMenu">
-    <ul>
-      <li><a href="#">All Books</a></li>
-      <li><a href="#">Picture Books</a></li>
-      <li><a href="#">Story Collections</a></li>
-      <li><a href="#">Sound &amp; Touch Books</a></li>
-      <li><a href="#">Pip's Reading Nook</a></li>
-    </ul>
-  </nav>
+<div class="app-shell">
 
   <section class="hero">
     <svg class="pip-illustration" viewBox="0 0 240 180" role="img" aria-label="Pip the hedgehog peeking out from a stack of storybooks">
-      <ellipse cx="120" cy="166" rx="104" ry="11" fill="rgba(38,36,29,0.08)"/>
-      <rect x="42" y="128" width="156" height="22" rx="5" fill="#C1483B"/>
-      <rect x="52" y="106" width="136" height="22" rx="5" fill="#E8A33D"/>
-      <rect x="62" y="84" width="116" height="22" rx="5" fill="#FBF6EE" stroke="#26241F" stroke-width="2"/>
-      <path d="M148 84 C148 58 172 49 176 28 C181 53 163 69 148 84 Z" fill="#3E614F"/>
+      <ellipse cx="120" cy="166" rx="104" ry="11" fill="rgba(17,33,74,0.08)"/>
+      <rect x="42" y="128" width="156" height="22" rx="5" fill="#ed1c24"/>
+      <rect x="52" y="106" width="136" height="22" rx="5" fill="#F5A623"/>
+      <rect x="62" y="84" width="116" height="22" rx="5" fill="#FFFDF8" stroke="#11214A" stroke-width="2"/>
+      <path d="M148 84 C148 58 172 49 176 28 C181 53 163 69 148 84 Z" fill="#003894"/>
       <g>
-        <ellipse cx="112" cy="76" rx="46" ry="33" fill="#3E614F"/>
-        <polygon points="73,53 81,28 89,55" fill="#2F4A3E"/>
-        <polygon points="91,45 98,19 105,47" fill="#2F4A3E"/>
-        <polygon points="108,41 114,15 122,43" fill="#2F4A3E"/>
-        <polygon points="126,43 133,17 142,45" fill="#2F4A3E"/>
-        <polygon points="144,49 152,25 158,51" fill="#2F4A3E"/>
-        <ellipse cx="103" cy="85" rx="22" ry="18" fill="#F6DFC4"/>
-        <circle cx="95" cy="83" r="3.4" fill="#26241F"/>
-        <circle cx="111" cy="83" r="3.4" fill="#26241F"/>
-        <ellipse cx="103" cy="93" rx="3.6" ry="2.6" fill="#26241F"/>
+        <ellipse cx="112" cy="76" rx="46" ry="33" fill="#004ebc"/>
+        <polygon points="73,53 81,28 89,55" fill="#003894"/>
+        <polygon points="91,45 98,19 105,47" fill="#003894"/>
+        <polygon points="108,41 114,15 122,43" fill="#003894"/>
+        <polygon points="126,43 133,17 142,45" fill="#003894"/>
+        <polygon points="144,49 152,25 158,51" fill="#003894"/>
+        <ellipse cx="103" cy="85" rx="22" ry="18" fill="#BFEAFB"/>
+        <circle cx="95" cy="83" r="3.4" fill="#11214A"/>
+        <circle cx="111" cy="83" r="3.4" fill="#11214A"/>
+        <ellipse cx="103" cy="93" rx="3.6" ry="2.6" fill="#11214A"/>
       </g>
     </svg>
     <div class="hero-badge">
@@ -470,37 +774,88 @@
     </div>
   </section>
 
-  <div class="breadcrumb">
-    <a href="#">Home</a> <span>/</span> <a href="#" class="current">Kids Books</a>
-  </div>
+  <nav class="breadcrumb">
+    <a href="home-page.html">Home</a><span class="sep">&gt;</span><a href="#" class="current">Kids Books</a>
+  </nav>
 
-  <section class="categories" aria-label="Shop by category">
-    <button class="cat-card" style="--cat-bg:#2F4A3E;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4z"/><path d="M20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"/></svg>
-      <span class="cat-label">Picture Books</span>
-    </button>
-    <button class="cat-card" style="--cat-bg:#C1483B;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="4" y="5" width="4" height="15" rx="1"/><rect x="10" y="3" width="4" height="17" rx="1"/><rect x="16" y="6" width="4" height="14" rx="1"/></svg>
-      <span class="cat-label">Story Collections</span>
-    </button>
-    <button class="cat-card" style="--cat-bg:#C97F22;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="11" r="1.6" fill="#fff" stroke="none"/><circle cx="15" cy="11" r="1.6" fill="#fff" stroke="none"/><path d="M8 16h8"/></svg>
-      <span class="cat-label">Sound &amp; Touch Books</span>
-    </button>
-    <button class="cat-card" style="--cat-bg:#3E614F;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M4 19V6a2 2 0 0 1 2-2h9l5 5v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg>
-      <span class="cat-label">Board Books</span>
-    </button>
+  <section aria-label="Shop by category">
+    <div class="carousel-track" id="categoryTrack">
+      <button class="tile-card" type="button">
+        <div class="tile-img" style="background:linear-gradient(150deg,#87CEEB,#1E73C2);"><i class="fa-solid fa-book-open"></i></div>
+        <div class="tile-label">Picture Books</div>
+      </button>
+      <button class="tile-card" type="button">
+        <div class="tile-img" style="background:linear-gradient(150deg,#FF8A80,#ed1c24);"><i class="fa-solid fa-layer-group"></i></div>
+        <div class="tile-label">Story Collections</div>
+      </button>
+      <button class="tile-card" type="button">
+        <div class="tile-img" style="background:linear-gradient(150deg,#FFD54F,#F57C00);"><i class="fa-solid fa-hand-sparkles"></i></div>
+        <div class="tile-label">Sound &amp; Touch Books</div>
+      </button>
+      <button class="tile-card" type="button">
+        <div class="tile-img" style="background:linear-gradient(150deg,#A8E063,#7CB82F);"><i class="fa-solid fa-shapes"></i></div>
+        <div class="tile-label">Board Books</div>
+      </button>
+    </div>
+    <div class="progress-rail"><div class="progress-fill" id="categoryProgress"></div></div>
   </section>
+
+  <a class="category-banner" href="#" aria-label="Explore Pip's Reading Nook picks">
+      <svg viewBox="0 0 369 294" role="img" aria-hidden="true">
+        <defs>
+          <linearGradient id="bannerBg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#BFEAFB"/>
+            <stop offset="100%" stop-color="#E7EBFB"/>
+          </linearGradient>
+          <linearGradient id="bannerBlue" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#004ebc"/>
+            <stop offset="100%" stop-color="#003894"/>
+          </linearGradient>
+        </defs>
+        <rect width="369" height="294" fill="url(#bannerBg)"/>
+        <ellipse cx="184" cy="268" rx="130" ry="14" fill="rgba(17,33,74,0.08)"/>
+        <rect x="52" y="168" width="265" height="28" rx="6" fill="#ed1c24"/>
+        <rect x="68" y="138" width="233" height="28" rx="6" fill="#F5A623"/>
+        <rect x="84" y="108" width="201" height="28" rx="6" fill="#fff" stroke="#11214A" stroke-width="2"/>
+        <path d="M248 108 C248 82 276 72 282 48 C288 74 266 92 248 108 Z" fill="#7CB82F"/>
+        <ellipse cx="168" cy="98" rx="52" ry="36" fill="#004ebc"/>
+        <ellipse cx="156" cy="108" rx="24" ry="20" fill="#BFEAFB"/>
+        <circle cx="148" cy="106" r="3.5" fill="#11214A"/>
+        <circle cx="164" cy="106" r="3.5" fill="#11214A"/>
+        <ellipse cx="156" cy="116" rx="4" ry="3" fill="#11214A"/>
+        <rect x="28" y="36" width="180" height="52" rx="12" fill="url(#bannerBlue)"/>
+        <text x="48" y="62" fill="#F5A623" font-family="Arial,sans-serif" font-size="14" font-style="italic" font-weight="600">Pip's</text>
+        <text x="48" y="82" fill="#fff" font-family="Arial,sans-serif" font-size="22" font-weight="700">Reading Nook</text>
+        <text x="230" y="62" fill="#004ebc" font-family="Arial,sans-serif" font-size="13" font-weight="700">STORYTIME</text>
+        <text x="230" y="82" fill="#11214A" font-family="Arial,sans-serif" font-size="24" font-weight="800">Favorites</text>
+        <rect x="230" y="96" width="108" height="34" rx="17" fill="#004ebc"/>
+        <text x="284" y="118" fill="#fff" font-family="Arial,sans-serif" font-size="13" font-weight="700" text-anchor="middle">Shop Now</text>
+      </svg>
+  </a>
+
+  <div class="carousel-wrap tight">
+    <div class="carousel-track" id="featuredTrack">
+      <!-- cards injected by JS -->
+    </div>
+    <div class="progress-rail"><div class="progress-fill" id="featuredProgress"></div></div>
+  </div>
 
   <section class="products">
     <div class="section-head">
       <h2>New in Kids Books</h2>
       <p>Stories Pip is recommending this week</p>
     </div>
+    <div class="toolbar">
+      <button class="filter-btn" id="openFilter" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2" fill="#fff"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2" fill="#fff"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="11" cy="18" r="2" fill="#fff"/></svg>
+        Filter and sort
+      </button>
+      <span class="product-count" id="productCount">6 products</span>
+    </div>
     <div class="product-grid" id="productGrid">
       <!-- cards injected by JS -->
     </div>
+    <p class="empty-state" id="emptyState">No books match your filters. Try clearing a few and searching again.</p>
   </section>
 
   <nav class="pagination" id="pagination" aria-label="Pagination">
@@ -513,7 +868,7 @@
 
   <section class="info-accordion">
     <button class="accordion-toggle" id="accToggle" aria-expanded="true">
-      <span>About Kids Books at Sprout &amp; Spool</span>
+      <span>About Kids Books at ToyHive</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
     </button>
     <div class="accordion-panel open" id="accPanel">
@@ -522,28 +877,84 @@
     </div>
   </section>
 
-  <footer class="site-footer">
-    <svg class="footer-mascot" viewBox="0 0 100 100" role="img" aria-label="Pip the hedgehog">
-      <ellipse cx="50" cy="55" rx="34" ry="26" fill="#E8A33D"/>
-      <polygon points="22,38 30,16 36,40" fill="#FBF6EE"/>
-      <polygon points="36,28 43,8 48,30" fill="#FBF6EE"/>
-      <polygon points="50,24 55,4 62,26" fill="#FBF6EE"/>
-      <polygon points="64,28 71,10 76,32" fill="#FBF6EE"/>
-      <ellipse cx="44" cy="62" rx="17" ry="14" fill="#F6DFC4"/>
-      <circle cx="38" cy="60" r="2.6" fill="#26241F"/>
-      <circle cx="50" cy="60" r="2.6" fill="#26241F"/>
-      <ellipse cx="44" cy="68" rx="2.8" ry="2" fill="#26241F"/>
-    </svg>
-    <h3>Need a hand?</h3>
-    <p>Our nest of helpers answers questions about orders, shipping and gift wrap every day of the week.</p>
-    <div class="footer-links">
-      <a href="#">Customer Care</a>
-      <a href="#">Shipping &amp; Returns</a>
-      <a href="#">Track an Order</a>
-      <a href="#">Contact Us</a>
+  <div class="overlay" id="overlay"></div>
+  <aside class="filter-drawer" id="filterDrawer" aria-hidden="true">
+    <div class="drawer-header">
+      <h2>Filter and sort</h2>
+      <p id="drawerCount">6 products</p>
+      <button class="drawer-close" id="closeFilter" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+      </button>
     </div>
-    <p class="copyright">© 2026 Sprout &amp; Spool — a made-up little bookshop, made with care.</p>
-  </footer>
+
+    <div class="drawer-body" id="drawerBody">
+      <div class="accordion-section" data-section="sort">
+        <button class="accordion-header" type="button">
+          Sort by:
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <label class="option-row"><input type="checkbox" data-group="sort" value="featured" checked><span class="opt-label">Featured</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="bestselling"><span class="opt-label">Best selling</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="az"><span class="opt-label">Alphabetically, A-Z</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="za"><span class="opt-label">Alphabetically, Z-A</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="lowhigh"><span class="opt-label">Price, low to high</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="highlow"><span class="opt-label">Price, high to low</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="oldnew"><span class="opt-label">Date, old to new</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="newold"><span class="opt-label">Date, new to old</span></label>
+        </div>
+      </div>
+
+      <div class="accordion-section" data-section="type">
+        <button class="accordion-header" type="button">
+          Book type
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <label class="option-row"><input type="checkbox" data-group="type" value="Picture Book"><span class="opt-label">Picture Books</span><span class="opt-count">(2)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="type" value="Story Collection"><span class="opt-label">Story Collections</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="type" value="Board Book"><span class="opt-label">Board Books</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="type" value="Counting Book"><span class="opt-label">Counting Books</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="type" value="Sound Book"><span class="opt-label">Sound Books</span><span class="opt-count">(1)</span></label>
+        </div>
+      </div>
+
+      <div class="accordion-section" data-section="age">
+        <button class="accordion-header" type="button">
+          Age
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <label class="option-row"><input type="checkbox" data-group="age" value="0-2 years"><span class="opt-label">0-2 years</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="age" value="3-4 years"><span class="opt-label">3-4 years</span><span class="opt-count">(4)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="age" value="5-7 years"><span class="opt-label">5-7 years</span><span class="opt-count">(4)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="age" value="8-10 years"><span class="opt-label">8-10 years</span><span class="opt-count">(2)</span></label>
+        </div>
+      </div>
+
+      <div class="accordion-section" data-section="price">
+        <button class="accordion-header" type="button">
+          Price
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <div class="price-range">
+            <p class="price-note">The highest price is $21.99</p>
+            <div class="price-inputs">
+              <div class="price-field">$<input type="number" id="priceMin" placeholder="9.99" min="0" step="0.01"></div>
+              <span class="price-to">to</span>
+              <div class="price-field">$<input type="number" id="priceMax" placeholder="21.99" min="0" step="0.01"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="drawer-footer">
+      <button class="clear-btn" id="clearFilters" type="button">Clear all</button>
+      <button class="apply-btn" id="applyFilters" type="button">Apply</button>
+    </div>
+  </aside>
 
 </div>
 
@@ -552,21 +963,29 @@
 <script>
   // ---------- Data ----------
   const books = [
-    {title:"The Acorn Who Couldn't Wait", author:"M. Hollow", type:"Picture Book", price:14.99, rating:5, reviews:128, c1:"#3E614F", c2:"#2F4A3E"},
-    {title:"Bramble & the Lantern Moon", author:"R. Finch", type:"Story Collection", price:18.50, rating:4, reviews:64, c1:"#C1483B", c2:"#8F3329"},
-    {title:"Pip's Big Burrow Adventure", author:"Sprout & Spool", type:"Board Book", price:9.99, rating:5, reviews:201, c1:"#E8A33D", c2:"#C97F22"},
-    {title:"Twelve Tiny Tugboats", author:"J. Oakley", type:"Counting Book", price:12.99, rating:4, reviews:37, c1:"#5B7A68", c2:"#2F4A3E"},
-    {title:"The Quiet Loud Day", author:"N. Birch", type:"Picture Book", price:13.50, rating:5, reviews:89, c1:"#D98B6C", c2:"#C1483B"},
-    {title:"Sprout's Garden of Sounds", author:"Sprout & Spool", type:"Sound Book", price:21.99, rating:4, reviews:52, c1:"#E8A33D", c2:"#9A6A1F"},
+    {id:1, title:"The Acorn Who Couldn't Wait", author:"M. Hollow", type:"Picture Book", price:14.99, rating:5, reviews:128, dateIndex:1, age:["3-4 years","5-7 years"], c1:"#004ebc", c2:"#003894"},
+    {id:2, title:"Bramble & the Lantern Moon", author:"R. Finch", type:"Story Collection", price:18.50, rating:4, reviews:64, dateIndex:2, age:["5-7 years","8-10 years"], c1:"#ed1c24", c2:"#b8151c"},
+    {id:3, title:"Pip's Big Burrow Adventure", author:"ToyHive", type:"Board Book", price:9.99, rating:5, reviews:201, dateIndex:3, age:["0-2 years","3-4 years"], c1:"#F5A623", c2:"#c9841a"},
+    {id:4, title:"Twelve Tiny Tugboats", author:"J. Oakley", type:"Counting Book", price:12.99, rating:4, reviews:37, dateIndex:4, age:["3-4 years","5-7 years"], c1:"#7CB82F", c2:"#5C9420"},
+    {id:5, title:"The Quiet Loud Day", author:"N. Birch", type:"Picture Book", price:13.50, rating:5, reviews:89, dateIndex:5, age:["3-4 years","5-7 years"], c1:"#D6196B", c2:"#a81254"},
+    {id:6, title:"Sprout's Garden of Sounds", author:"ToyHive", type:"Sound Book", price:21.99, rating:4, reviews:52, dateIndex:6, age:["3-4 years","8-10 years"], c1:"#7FD1F2", c2:"#004ebc"},
   ];
 
-  const grid = document.getElementById('productGrid');
-
   function starSVG(filled){
-    return `<svg viewBox="0 0 20 20" fill="${filled ? '#E8A33D' : '#E4D8C3'}"><polygon points="10,1 12.6,7 19,7.6 14.2,11.9 15.6,18.2 10,14.8 4.4,18.2 5.8,11.9 1,7.6 7.4,7"/></svg>`;
+    return `<svg viewBox="0 0 20 20" fill="${filled ? '#ed1c24' : '#E4E7F2'}"><polygon points="10,1 12.6,7 19,7.6 14.2,11.9 15.6,18.2 10,14.8 4.4,18.2 5.8,11.9 1,7.6 7.4,7"/></svg>`;
   }
 
-  books.forEach((b,i)=>{
+  const grid = document.getElementById('productGrid');
+  const featuredTrack = document.getElementById('featuredTrack');
+  const productCountEl = document.getElementById('productCount');
+  const drawerCountEl = document.getElementById('drawerCount');
+  const emptyState = document.getElementById('emptyState');
+
+  function starText(rating){
+    return '★'.repeat(rating) + '☆'.repeat(5 - rating);
+  }
+
+  function buildGridCard(b, i){
     const stars = Array.from({length:5},(_,n)=>starSVG(n < b.rating)).join('');
     const card = document.createElement('article');
     card.className = 'product-card';
@@ -578,15 +997,44 @@
       <div class="rating"><span class="stars">${stars}</span>&nbsp;(${b.reviews})</div>
       <p class="price">$${b.price.toFixed(2)}</p>
       <h3 class="product-title">${b.title} — ${b.type}</h3>
-      <button class="add-cart-btn" data-index="${i}">Add to cart</button>
+      <button class="add-cart-btn" data-id="${b.id}">Add to cart</button>
     `;
-    grid.appendChild(card);
-  });
+    return card;
+  }
+
+  function buildCarouselCard(b, i){
+    const card = document.createElement('article');
+    card.className = 'product-card';
+    card.innerHTML = `
+      <div class="img-wrap">
+        <div class="cover" style="--c1:${b.c1};--c2:${b.c2};">
+          <span class="cover-title">${b.title}</span>
+          <span class="cover-author">${b.author}</span>
+        </div>
+      </div>
+      <div class="rating-row">
+        <div><span class="stars">${starText(b.rating)}</span><span class="rating-num">${b.rating}.0 (${b.reviews})</span></div>
+        <div class="price">$${b.price.toFixed(2)}</div>
+      </div>
+      <h3 class="product-title">${b.title} — ${b.type}</h3>
+      <button class="add-cart-btn" data-id="${b.id}">Add to cart</button>
+    `;
+    return card;
+  }
+
+  function renderGrid(filtered){
+    grid.innerHTML = '';
+    filtered.forEach(b => grid.appendChild(buildGridCard(b)));
+    const countText = `${filtered.length} product${filtered.length !== 1 ? 's' : ''}`;
+    productCountEl.textContent = countText;
+    drawerCountEl.textContent = countText;
+    emptyState.classList.toggle('show', filtered.length === 0);
+  }
+
+  books.forEach(b => featuredTrack.appendChild(buildCarouselCard(b)));
+  renderGrid(books);
 
   // ---------- Cart ----------
-  let cartCount = 0;
-  const cartCountEl = document.getElementById('cartCount');
-  const cartBtn = document.getElementById('cartBtn');
   const toast = document.getElementById('toast');
   let toastTimer;
 
@@ -597,34 +1045,129 @@
     toastTimer = setTimeout(()=> toast.classList.remove('show'), 2000);
   }
 
-  grid.addEventListener('click', (e)=>{
+  document.querySelector('.app-shell').addEventListener('click', (e)=>{
     const btn = e.target.closest('.add-cart-btn');
     if(!btn) return;
-    const book = books[btn.dataset.index];
-    cartCount++;
-    cartCountEl.textContent = cartCount;
-    cartCountEl.classList.add('bump');
-    setTimeout(()=> cartCountEl.classList.remove('bump'), 250);
-    cartBtn.setAttribute('aria-label', `Cart, ${cartCount} items`);
+    const book = books.find(b => String(b.id) === btn.dataset.id);
+    if(!book) return;
     btn.textContent = 'Added ✓';
     btn.classList.add('added');
     setTimeout(()=>{ btn.textContent = 'Add to cart'; btn.classList.remove('added'); }, 1400);
     showToast(`Added "${book.title}" to your cart`);
   });
 
-  // ---------- Wishlist ----------
-  const wishlistBtn = document.getElementById('wishlistBtn');
-  wishlistBtn.addEventListener('click', ()=>{
-    wishlistBtn.classList.toggle('saved');
-    showToast(wishlistBtn.classList.contains('saved') ? 'Saved to your wishlist' : 'Removed from wishlist');
+  // ---------- Category carousel progress ----------
+  function wireCarousel(trackId, fillId, minPct){
+    const track = document.getElementById(trackId);
+    const fill = document.getElementById(fillId);
+    if(!track || !fill) return;
+    function update(){
+      const max = track.scrollWidth - track.clientWidth;
+      const pct = max <= 0 ? 100 : (track.scrollLeft / max) * 100;
+      fill.style.width = Math.max(minPct, Math.min(100, pct)) + '%';
+    }
+    track.addEventListener('scroll', () => requestAnimationFrame(update));
+    window.addEventListener('resize', update);
+    update();
+  }
+  wireCarousel('categoryTrack', 'categoryProgress', 14);
+  wireCarousel('featuredTrack', 'featuredProgress', 12);
+
+  // ---------- Filter drawer ----------
+  const overlay = document.getElementById('overlay');
+  const drawer = document.getElementById('filterDrawer');
+  const openBtn = document.getElementById('openFilter');
+  const closeBtn = document.getElementById('closeFilter');
+
+  function openDrawer(){
+    drawer.classList.add('open');
+    overlay.classList.add('show');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer(){
+    drawer.classList.remove('open');
+    overlay.classList.remove('show');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  openBtn.addEventListener('click', openDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+
+  document.querySelectorAll('.accordion-section').forEach(section => {
+    const header = section.querySelector('.accordion-header');
+    const content = section.querySelector('.accordion-content');
+    header.addEventListener('click', () => {
+      const isOpen = section.classList.contains('open');
+      document.querySelectorAll('.accordion-section').forEach(s => {
+        s.classList.remove('open');
+        s.querySelector('.accordion-content').style.maxHeight = null;
+      });
+      if(!isOpen){
+        section.classList.add('open');
+        content.style.maxHeight = content.scrollHeight + 'px';
+      }
+    });
   });
 
-  // ---------- Mobile menu ----------
-  const menuBtn = document.getElementById('menuBtn');
-  const mobileMenu = document.getElementById('mobileMenu');
-  menuBtn.addEventListener('click', ()=>{
-    const open = mobileMenu.classList.toggle('open');
-    menuBtn.setAttribute('aria-expanded', open);
+  function getChecked(group){
+    return Array.from(document.querySelectorAll(`input[data-group="${group}"]:checked`)).map(i => i.value);
+  }
+
+  function applyFiltersAndSort(){
+    const types = getChecked('type');
+    const ages = getChecked('age');
+    const min = parseFloat(document.getElementById('priceMin').value) || 0;
+    const max = parseFloat(document.getElementById('priceMax').value) || Infinity;
+    const sortChecked = document.querySelector('input[data-group="sort"]:checked');
+    const sortVal = sortChecked ? sortChecked.value : 'featured';
+
+    let filtered = books.filter(b => {
+      const okType = types.length === 0 || types.includes(b.type);
+      const okAge = ages.length === 0 || ages.some(a => b.age.includes(a));
+      const okPrice = b.price >= min && b.price <= max;
+      return okType && okAge && okPrice;
+    });
+
+    switch(sortVal){
+      case 'az': filtered.sort((a,b) => a.title.localeCompare(b.title)); break;
+      case 'za': filtered.sort((a,b) => b.title.localeCompare(a.title)); break;
+      case 'lowhigh': filtered.sort((a,b) => a.price - b.price); break;
+      case 'highlow': filtered.sort((a,b) => b.price - a.price); break;
+      case 'oldnew': filtered.sort((a,b) => a.dateIndex - b.dateIndex); break;
+      case 'newold': filtered.sort((a,b) => b.dateIndex - a.dateIndex); break;
+      case 'bestselling': filtered.sort((a,b) => b.reviews - a.reviews); break;
+      default: filtered.sort((a,b) => a.id - b.id);
+    }
+
+    renderGrid(filtered);
+  }
+
+  document.getElementById('applyFilters').addEventListener('click', () => {
+    applyFiltersAndSort();
+    closeDrawer();
+  });
+
+  document.getElementById('clearFilters').addEventListener('click', () => {
+    document.querySelectorAll('#filterDrawer input[type="checkbox"]').forEach(cb => cb.checked = false);
+    document.querySelector('input[data-group="sort"][value="featured"]').checked = true;
+    document.getElementById('priceMin').value = '';
+    document.getElementById('priceMax').value = '';
+    applyFiltersAndSort();
+  });
+
+  document.querySelectorAll('input[data-group="sort"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      if(cb.checked){
+        document.querySelectorAll('input[data-group="sort"]').forEach(other => {
+          if(other !== cb) other.checked = false;
+        });
+      } else if(!document.querySelector('input[data-group="sort"]:checked')){
+        document.querySelector('input[data-group="sort"][value="featured"]').checked = true;
+      }
+      applyFiltersAndSort();
+    });
   });
 
   // ---------- Pagination ----------

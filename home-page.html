@@ -18,6 +18,7 @@
     --ink:#11214A;
     --ink-soft:#5B6685;
     --gold:#F5A623;
+    --trus-red:#ed1c24;
     --pink:#D6196B;
     --cream:#FFFDF8;
     --line:#E4E7F2;
@@ -97,6 +98,7 @@
     justify-content:space-between;
     padding:10px var(--page-pad) 12px;
     gap:4px;
+    overflow:visible;
   }
   .nav-icons{
     display:flex;
@@ -134,6 +136,7 @@
     justify-content:center;
     flex:1;
     min-width:0;
+    overflow:visible;
   }
   .logo img{
     height:clamp(47px, 12.6vw, 61px);
@@ -141,6 +144,8 @@
     max-width:min(288px, 94vw);
     object-fit:contain;
     display:block;
+    transform:scale(1.25);
+    transform-origin:center center;
   }
   .nav-default{
     display:flex;
@@ -580,6 +585,7 @@
     max-width:560px;
     margin:0 auto;
   }
+  .age-grid .age-link,
   .age-grid button{
     background:var(--blue);
     color:#fff;
@@ -591,7 +597,12 @@
     border-radius:var(--radius-pill);
     box-shadow:0 3px 0 var(--blue-dark);
     transition:transform .08s;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
   }
+  .age-grid .age-link:active,
   .age-grid button:active{transform:translateY(3px); box-shadow:0 1px 0 var(--blue-dark);}
 
   /* ---------- generic carousel shell ---------- */
@@ -619,6 +630,10 @@
     padding-left:var(--section-pad);
     padding-right:var(--page-pad);
     scroll-padding-left:var(--section-pad);
+  }
+  #productTrack,
+  #bookTrack{
+    align-items:stretch;
   }
   #productTrack > .product-card:first-child,
   #bookTrack > .product-card:first-child,
@@ -743,40 +758,87 @@
 
   /* ---------- product cards ---------- */
   .product-card{
-    min-width:min(280px, 85vw); max-width:min(280px, 85vw);
+    flex:0 0 min(300px, 85vw);
+    width:min(300px, 85vw);
+    min-width:min(300px, 85vw);
+    max-width:min(300px, 85vw);
     scroll-snap-align:start;
-    border:1px solid #DDD;
-    box-sizing:border-box;
-    border-radius:15px;
-    overflow:hidden;
-    height:100%;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:16px 16px 18px;
     display:flex;
     flex-direction:column;
-    background:#ffffff;
-    position:relative;
-    padding:16px 16px 18px;
+    align-items:center;
+    background:#fff;
   }
-  .product-img{
-    height:175px; border-radius:12px; margin-bottom:14px;
-    background:linear-gradient(135deg,var(--blue-soft),var(--sky));
-    display:flex; align-items:center; justify-content:center;
-    font-size:2.6rem; color:var(--blue);
+  .product-card .img-wrap{
+    width:100%;
+    height:190px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:12px;
+  }
+  .product-card .img-wrap i{
+    font-size:2.6rem;
+    color:var(--blue);
+  }
+  .product-card img,
+  .product-card svg{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+  }
+  .product-card .rating-row{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:8px;
+  }
+  .product-card .stars{
+    color:var(--trus-red);
+    font-size:18px;
+    letter-spacing:1px;
+  }
+  .product-card .rating-num{
+    font-size:15px;
+    color:#1a1a1a;
+    margin-left:6px;
+    font-weight:500;
+  }
+  .product-card .price{
+    font-size:24px;
+    font-weight:800;
+    color:#1a1a1a;
+  }
+  .product-card .product-title{
+    width:100%;
+    font-size:16px;
+    font-weight:700;
+    line-height:1.28;
+    margin:0 0 12px;
+    color:#1a1a1a;
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
     overflow:hidden;
+    min-height:calc(1.28em * 3);
   }
-  .rating-row{display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;}
-  .stars{color:var(--gold); font-size:.78rem; letter-spacing:1px;}
-  .stars span{color:var(--ink-soft); font-weight:700; margin-left:4px;}
-  .price{font-weight:800; font-size:1.05rem;}
-  .product-title{
-    font-size:.92rem; font-weight:700; line-height:1.3; margin-bottom:16px; flex:1;
-  }
-  .add-cart{
-    background:var(--blue); color:#fff; font-family:'Buenos Aires',sans-serif;
-    font-weight:700; padding:11px; border-radius:var(--radius-pill); width:100%;
+  .product-card .add-cart-btn{
+    width:100%;
+    background:var(--blue);
+    color:#fff;
+    font-family:'Buenos Aires',sans-serif;
+    font-weight:700;
+    font-size:.92rem;
+    padding:11px;
     min-height:44px;
+    border-radius:var(--radius-pill);
     box-shadow:0 3px 0 var(--blue-dark);
+    transition:transform .08s;
   }
-  .add-cart:active{transform:translateY(2px); box-shadow:none;}
+  .product-card .add-cart-btn:active{transform:translateY(2px);box-shadow:none;}
 
   .section-cta-wrap{padding:8px var(--page-pad) 26px; max-width:480px; margin:0 auto;}
   #productCarousel .section-cta-wrap,
@@ -816,6 +878,8 @@
     padding:0;
     box-sizing:border-box;
     flex-shrink:0;
+    text-decoration:none;
+    color:inherit;
   }
   .promo-banner-card img{
     width:100%;
@@ -847,6 +911,8 @@
     min-width:135px; max-width:135px;
     scroll-snap-align:start;
     display:flex; flex-direction:column; align-items:center; gap:10px;
+    text-decoration:none;
+    color:inherit;
   }
   .tile-img{
     width:135px; height:135px; border-radius:18px;
@@ -1076,14 +1142,17 @@
     text-align:center;
     max-width:420px;
     margin:0 auto;
+    overflow:visible;
   }
   .store-locator-brand{
-    width:313px;
+    width:300px;
     height:224px;
     max-width:100%;
     object-fit:contain;
     display:block;
-    margin:0;
+    margin:0 auto;
+    transform:scale(1.35);
+    transform-origin:center center;
   }
   .store-locator-btn{
     display:inline-block;
@@ -1099,9 +1168,244 @@
   }
   .store-locator-btn:active{transform:translateY(2px); box-shadow:0 2px 0 var(--blue-dark);}
 
-  footer.fin{
-    text-align:center; padding:38px var(--section-pad) calc(28px + env(safe-area-inset-bottom));
-    color:var(--ink-soft); font-size:.8rem; font-weight:700;
+  /* ---------- site footer (from footer.html) ---------- */
+  footer.site-footer{
+    background:linear-gradient(180deg, #004ebc 0%, #004ebc 100%);
+    padding:40px 0 32px 24px;
+    position:relative;
+    color:#fff;
+    font-family:'Buenos Aires',sans-serif;
+  }
+  footer.site-footer .footer-inner{
+    max-width:1200px;
+    margin:0 auto;
+    padding-right:24px;
+  }
+  footer.site-footer .footer-top{
+    position:relative;
+    padding-right:110px;
+  }
+  footer.site-footer .footer-grid{
+    display:flex;
+    flex-direction:column;
+  }
+  footer.site-footer .footer-grid section{margin-bottom:36px;}
+  footer.site-footer .footer-grid .newsletter{margin-bottom:12px;}
+  footer.site-footer .footer-grid section:last-child{margin-bottom:0;}
+  footer.site-footer .footer-bottom{margin-top:36px;}
+  footer.site-footer .footer-brand{text-align:center;}
+  footer.site-footer .mascot{
+    position:absolute;
+    top:28px;
+    right:0;
+    width:300px;
+    height:auto;
+    opacity:.95;
+  }
+  footer.site-footer h2.section-title{
+    font-size:30px;
+    font-weight:800;
+    margin:0 0 22px;
+    letter-spacing:-.5px;
+  }
+  footer.site-footer ul.link-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  footer.site-footer ul.link-list li{margin-bottom:26px;}
+  footer.site-footer ul.link-list li:last-child{margin-bottom:0;}
+  footer.site-footer ul.link-list a{
+    color:#fff;
+    text-decoration:none;
+    font-size:22px;
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    transition:opacity .15s ease;
+  }
+  footer.site-footer ul.link-list a:hover,
+  footer.site-footer ul.link-list a:focus-visible{opacity:.75;}
+  footer.site-footer ul.link-list a:focus-visible{
+    outline:2px solid #fff;
+    outline-offset:4px;
+  }
+  footer.site-footer .heart-icon{flex:none;}
+  footer.site-footer .newsletter p{
+    font-size:19px;
+    line-height:1.4;
+    margin:0 0 22px;
+  }
+  footer.site-footer .signup-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:16px;
+    flex-wrap:nowrap;
+  }
+  footer.site-footer .signup-row input[type="email"]{
+    width:290px;
+    height:49px;
+    flex:0 0 290px;
+    padding:0 18px;
+    border-radius:10px;
+    border:none;
+    font-size:18px;
+    color:#333;
+    background:#fff;
+    box-sizing:border-box;
+  }
+  footer.site-footer .signup-row input[type="email"]::placeholder{color:#6b6b6b;}
+  footer.site-footer .signup-row button{
+    width:89px;
+    height:49px;
+    flex:0 0 89px;
+    padding:0;
+    border-radius:10px;
+    border:2px solid #fff;
+    background:transparent;
+    color:#fff;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-sizing:border-box;
+    transition:background .15s ease, color .15s ease;
+  }
+  footer.site-footer .signup-row button:hover,
+  footer.site-footer .signup-row button:focus-visible{
+    background:#fff;
+    color:#004ebc;
+  }
+  footer.site-footer .signup-row button:focus-visible{
+    outline:2px solid #fff;
+    outline-offset:3px;
+  }
+  footer.site-footer .signup-disclaimer{
+    font-size:14px;
+    line-height:1.5;
+    margin:0;
+    opacity:.95;
+  }
+  footer.site-footer .signup-disclaimer a{color:#fff;text-decoration:underline;}
+  footer.site-footer .signup-confirm{
+    font-size:14px;
+    margin:8px 0 0;
+    min-height:0;
+  }
+  footer.site-footer .social-row{
+    display:flex;
+    justify-content:center;
+    gap:26px;
+    margin:30px 0 18px;
+    flex-wrap:wrap;
+  }
+  footer.site-footer .social-row a{
+    color:#fff;
+    display:flex;
+    transition:opacity .15s ease;
+  }
+  footer.site-footer .social-row a:hover,
+  footer.site-footer .social-row a:focus-visible{opacity:.7;}
+  footer.site-footer .social-row svg{width:30px;height:30px;}
+  footer.site-footer .handle{
+    text-align:center;
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:30px;
+  }
+  footer.site-footer hr.divider{
+    border:none;
+    border-top:1px solid rgba(255,255,255,.35);
+    margin:0 0 26px;
+  }
+  footer.site-footer .wordmark{
+    text-align:center;
+    margin-bottom:22px;
+  }
+  footer.site-footer .brand-logo{
+    display:block;
+    max-width:240px;
+    width:100%;
+    height:auto;
+    margin:0 auto;
+  }
+  footer.site-footer .copyright{
+    text-align:center;
+    font-size:14px;
+    opacity:.9;
+    padding-bottom:10px;
+  }
+  @media (max-width:380px){
+    footer.site-footer h2.section-title{font-size:26px;}
+    footer.site-footer ul.link-list a{font-size:19px;}
+    footer.site-footer .brand-logo{max-width:200px;}
+    footer.site-footer .mascot{width:220px;}
+  }
+  @media (min-width:480px){
+    footer.site-footer .footer-top{padding-right:160px;}
+  }
+  @media (min-width:768px){
+    footer.site-footer{padding:64px 0 56px 48px;}
+    footer.site-footer .footer-inner{padding-right:48px;}
+    footer.site-footer .footer-top{padding-right:420px;}
+    footer.site-footer .mascot{width:400px;top:0;}
+    footer.site-footer .footer-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:48px 40px;
+    }
+    footer.site-footer .footer-grid section{margin-bottom:0;}
+    footer.site-footer .footer-grid > section:nth-child(1){grid-column:1;grid-row:1;}
+    footer.site-footer .footer-grid > section:nth-child(2){grid-column:1 / -1;grid-row:2;}
+    footer.site-footer .footer-grid > section:nth-child(3){grid-column:2;grid-row:1;}
+    footer.site-footer .footer-grid > section:nth-child(4){grid-column:3;grid-row:1;}
+    footer.site-footer .footer-grid > section:nth-child(5){grid-column:4;grid-row:1;}
+    footer.site-footer h2.section-title{font-size:22px;margin-bottom:16px;}
+    footer.site-footer ul.link-list li{margin-bottom:14px;}
+    footer.site-footer ul.link-list a{font-size:16px;}
+    footer.site-footer .newsletter{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px 48px;
+      align-items:start;
+      padding-top:8px;
+      border-top:1px solid rgba(255,255,255,.2);
+      margin-bottom:0;
+    }
+    footer.site-footer .newsletter .section-title{grid-column:1;margin-bottom:0;}
+    footer.site-footer .newsletter p{grid-column:1;margin-bottom:0;max-width:none;font-size:17px;}
+    footer.site-footer .newsletter-intro{width:250px;max-width:250px;}
+    footer.site-footer .newsletter form{grid-column:2;grid-row:1 / span 3;}
+    footer.site-footer .newsletter .signup-disclaimer{grid-column:1;}
+    footer.site-footer .newsletter .signup-confirm{grid-column:1;margin:0;}
+    footer.site-footer .signup-row{max-width:none;flex-wrap:nowrap;}
+    footer.site-footer .footer-bottom{
+      margin-top:48px;
+      padding-top:32px;
+      border-top:1px solid rgba(255,255,255,.35);
+    }
+    footer.site-footer hr.divider{display:none;}
+    footer.site-footer .social-row{margin-top:0;}
+    footer.site-footer .footer-brand{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:32px;
+      text-align:left;
+    }
+    footer.site-footer .wordmark{margin-bottom:0;}
+    footer.site-footer .brand-logo{margin:0;max-width:220px;}
+    footer.site-footer .copyright{padding-bottom:0;text-align:right;}
+  }
+  @media (min-width:1024px){
+    footer.site-footer .footer-top{padding-right:520px;}
+    footer.site-footer .mascot{width:500px;}
+  }
+  @media (min-width:1280px){
+    footer.site-footer .footer-inner{max-width:1280px;}
   }
 
   /* ---------- small phones ---------- */
@@ -1134,16 +1438,22 @@
     #categoryTrack,
     #brandTrack{
       display:grid;
-      grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
       overflow:visible;
       scroll-snap-type:none;
       gap:18px;
+      align-items:start;
+    }
+    #productTrack,
+    #bookTrack{
+      align-items:stretch;
     }
     #productTrack .product-card,
     #bookTrack .product-card,
     #videoTrack .video-card,
     #categoryTrack .tile-card,
     #brandTrack .tile-card{
+      flex:unset;
       min-width:unset;
       max-width:unset;
       scroll-snap-align:unset;
@@ -1193,7 +1503,7 @@
   /* ---------- touch & accessibility ---------- */
   @media (hover:hover){
     .icon-btn:hover{ background:rgba(255,255,255,.15); }
-    .add-cart:hover{ filter:brightness(1.08); }
+    .add-cart-btn:hover{ filter:brightness(1.08); }
     .section-cta:hover{ filter:brightness(1.08); }
     .trivia-btn:hover{ filter:brightness(1.08); }
   }
@@ -1228,7 +1538,7 @@
         </button>
       </div>
       <a class="logo" href="#" aria-label="AJ BLOKS home">
-        <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782065376/Design_sans_titre_10_bokgdf.png" alt="AJ BLOKS">
+        <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782245376/Design_sans_titre_31_azudmo.png" alt="AJ BLOKS">
       </a>
       <div class="nav-icons">
         <button class="icon-btn" type="button" id="searchOpenBtn" aria-label="Search">
@@ -1290,7 +1600,7 @@
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="find us.html">
                 <span class="menu-item-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10z"/><circle cx="12" cy="11" r="2.5"/></svg></span>
                 Find a Store
               </a>
@@ -1379,7 +1689,7 @@
             <h2 class="menu-subtitle title">0-2 years</h2>
           </div>
           <ul class="menu-sublist">
-            <li><a href="#ageSection" class="menu-plain menu-close-link">Shop All 0-2 years</a></li>
+            <li><a href="shop by age products page.html#age-0-2" class="menu-plain menu-close-link">Shop All 0-2 years</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Activity Centers</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Baby &amp; Toddler Toys</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Bath Toys</a></li>
@@ -1398,7 +1708,7 @@
             <h2 class="menu-subtitle title">3-4 years</h2>
           </div>
           <ul class="menu-sublist">
-            <li><a href="#ageSection" class="menu-plain menu-close-link">Shop All 3-4 years</a></li>
+            <li><a href="shop by age products page.html#age-3-4" class="menu-plain menu-close-link">Shop All 3-4 years</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Preschool Learning</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Building Sets &amp; Blocks</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Dolls &amp; Playsets</a></li>
@@ -1414,7 +1724,7 @@
             <h2 class="menu-subtitle title">5-7 years</h2>
           </div>
           <ul class="menu-sublist">
-            <li><a href="#ageSection" class="menu-plain menu-close-link">Shop All 5-7 years</a></li>
+            <li><a href="shop by age products page.html#age-5-7" class="menu-plain menu-close-link">Shop All 5-7 years</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Action Figures</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Arts &amp; Crafts</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Games &amp; Puzzles</a></li>
@@ -1429,7 +1739,7 @@
             <h2 class="menu-subtitle title">8-10 years</h2>
           </div>
           <ul class="menu-sublist">
-            <li><a href="#ageSection" class="menu-plain menu-close-link">Shop All 8-10 years</a></li>
+            <li><a href="shop by age products page.html#age-8-10" class="menu-plain menu-close-link">Shop All 8-10 years</a></li>
             <li><a href="#" class="menu-plain menu-close-link">STEM &amp; Robotics</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Board Games</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Sports &amp; Outdoor</a></li>
@@ -1444,7 +1754,7 @@
             <h2 class="menu-subtitle title">11-12 years</h2>
           </div>
           <ul class="menu-sublist">
-            <li><a href="#ageSection" class="menu-plain menu-close-link">Shop All 11-12 years</a></li>
+            <li><a href="shop by age products page.html#age-11-12" class="menu-plain menu-close-link">Shop All 11-12 years</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Advanced Building Sets</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Electronics &amp; Gadgets</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Strategy Games</a></li>
@@ -1458,7 +1768,7 @@
             <h2 class="menu-subtitle title">13+ years</h2>
           </div>
           <ul class="menu-sublist">
-            <li><a href="#ageSection" class="menu-plain menu-close-link">Shop All 13+ years</a></li>
+            <li><a href="shop by age products page.html#age-13" class="menu-plain menu-close-link">Shop All 13+ years</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Model Kits</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Tech &amp; Gaming</a></li>
             <li><a href="#" class="menu-plain menu-close-link">Puzzles &amp; Brain Teasers</a></li>
@@ -1542,20 +1852,20 @@
       <div class="cart-featured">
         <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782123143/Design_sans_titre_13_qzliwu.png" alt="CAT dump truck toy">
       </div>
-      <a href="#ageSection" class="cart-shop-age" id="cartShopAge">Shop by Age →</a>
+      <a href="shop by age products page.html" class="cart-shop-age" id="cartShopAge">Shop by Age →</a>
     </div>
   </aside>
 
   <!-- shop by age -->
   <section class="age-section" id="ageSection">
-    <h2 class="title">Shop By Age</h2>
+    <h2 class="title"><a href="shop by age products page.html">Shop By Age</a></h2>
     <div class="age-grid">
-      <button>0-2</button>
-      <button>3-4</button>
-      <button>5-7</button>
-      <button>8-10</button>
-      <button>11-12</button>
-      <button>13+</button>
+      <a class="age-link" href="shop by age products page.html#age-0-2">0-2</a>
+      <a class="age-link" href="shop by age products page.html#age-3-4">3-4</a>
+      <a class="age-link" href="shop by age products page.html#age-5-7">5-7</a>
+      <a class="age-link" href="shop by age products page.html#age-8-10">8-10</a>
+      <a class="age-link" href="shop by age products page.html#age-11-12">11-12</a>
+      <a class="age-link" href="shop by age products page.html#age-13">13+</a>
     </div>
   </section>
 
@@ -1564,7 +1874,7 @@
     <div class="hero-full" style="background-image:url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782077612/Design_sans_titre_11_bgoqiu.png');">
       <div class="hero-full-content">
         <h1>OUTDOOR<br>PLAY ALL DAY</h1>
-        <a class="pill-btn" href="#productCarousel">Shop Now</a>
+        <a class="pill-btn" href="outdoor play.html">Shop Now</a>
       </div>
     </div>
   </section>
@@ -1573,48 +1883,76 @@
   <section class="carousel-wrap" id="productCarousel">
     <div class="carousel-track" id="productTrack">
 
-      <div class="product-card">
-        <div class="product-img"><i class="fa-solid fa-satellite-dish" style="font-size:2.2rem;"></i></div>
-        <div class="rating-row">
-          <span class="stars">★★★★★ <span>0.0 (0)</span></span>
+      <article class="product-card">
+        <div class="img-wrap">
+          <svg viewBox="0 0 200 200" width="190" height="190">
+            <rect x="55" y="70" width="90" height="110" rx="14" fill="#3f7ee0"/>
+            <rect x="68" y="82" width="64" height="48" rx="8" fill="#62c8f5"/>
+            <circle cx="100" cy="106" r="10" fill="#ffd400"/>
+            <rect x="92" y="45" width="16" height="28" rx="4" fill="#6bbf4e"/>
+            <circle cx="100" cy="38" r="8" fill="#e8302a"/>
+            <rect x="72" y="142" width="22" height="10" rx="3" fill="#ffd400"/>
+            <rect x="106" y="142" width="22" height="10" rx="3" fill="#ffd400"/>
+          </svg>
         </div>
-        <div class="price" style="margin-bottom:6px;">$59.99</div>
-        <div class="product-title">Pro Beam Kids Video Walkie Talkies 2-Pack With Camera &amp; Voice Changer</div>
-        <button class="add-cart">Add to cart</button>
-      </div>
+        <div class="rating-row">
+          <div><span class="stars">★★★★★</span><span class="rating-num">0.0 (0)</span></div>
+          <div class="price">$59.99</div>
+        </div>
+        <h3 class="product-title">Pro Beam Kids Video Walkie Talkies 2-Pack With Camera &amp; Voice Changer</h3>
+        <button class="add-cart-btn">Add to cart</button>
+      </article>
 
-      <div class="product-card">
-        <div class="product-img"><i class="fa-solid fa-seedling"></i></div>
-        <div class="rating-row">
-          <span class="stars">★★★☆☆ <span>3.0 (12)</span></span>
+      <article class="product-card">
+        <div class="img-wrap">
+          <svg viewBox="0 0 200 200" width="190" height="190">
+            <rect x="25" y="120" width="150" height="55" rx="8" fill="#f5a623"/>
+            <ellipse cx="100" cy="120" rx="75" ry="18" fill="#e08800"/>
+            <rect x="40" y="95" width="35" height="35" rx="6" fill="#6bbf4e"/>
+            <rect x="82" y="88" width="35" height="35" rx="6" fill="#3f7ee0"/>
+            <rect x="125" y="95" width="35" height="35" rx="6" fill="#e8302a"/>
+            <path d="M70 60 Q100 30 130 60" stroke="#6bbf4e" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <circle cx="100" cy="52" r="12" fill="#ffd400"/>
+          </svg>
         </div>
-        <div class="price" style="margin-bottom:6px;">$24.99</div>
-        <div class="product-title">Garden Adventure Sand &amp; Mold Outdoor Play Set</div>
-        <button class="add-cart">Add to cart</button>
-      </div>
+        <div class="rating-row">
+          <div><span class="stars">★★★</span><span class="rating-num">3.0 (12)</span></div>
+          <div class="price">$24.99</div>
+        </div>
+        <h3 class="product-title">Garden Adventure Sand &amp; Mold Outdoor Play Set</h3>
+        <button class="add-cart-btn">Add to cart</button>
+      </article>
 
-      <div class="product-card">
-        <div class="product-img"><i class="fa-solid fa-futbol"></i></div>
-        <div class="rating-row">
-          <span class="stars">★★★★☆ <span>4.2 (38)</span></span>
+      <article class="product-card">
+        <div class="img-wrap">
+          <svg viewBox="0 0 200 200" width="190" height="190">
+            <circle cx="100" cy="100" r="72" fill="#fff" stroke="#1a1a1a" stroke-width="3"/>
+            <polygon points="100,35 108,55 130,55 113,68 120,88 100,75 80,88 87,68 70,55 92,55" fill="#1a1a1a"/>
+            <polygon points="100,165 108,145 130,145 113,132 120,112 100,125 80,112 87,132 70,145 92,145" fill="#1a1a1a"/>
+            <polygon points="35,100 55,92 55,70 68,87 88,80 75,100 88,120 68,113 55,130 55,108" fill="#1a1a1a"/>
+            <polygon points="165,100 145,108 145,130 132,113 112,120 125,100 112,80 132,87 145,70 145,92" fill="#1a1a1a"/>
+          </svg>
         </div>
-        <div class="price" style="margin-bottom:6px;">$14.99</div>
-        <div class="product-title">All-Weather Backyard Match Soccer Ball, Size 4</div>
-        <button class="add-cart">Add to cart</button>
-      </div>
+        <div class="rating-row">
+          <div><span class="stars">★★★★</span><span class="rating-num">4.2 (38)</span></div>
+          <div class="price">$14.99</div>
+        </div>
+        <h3 class="product-title">All-Weather Backyard Match Soccer Ball, Size 4</h3>
+        <button class="add-cart-btn">Add to cart</button>
+      </article>
 
     </div>
     <div class="progress-rail"><div class="progress-fill" id="productProgress"></div></div>
     <div class="section-cta-wrap">
-      <a class="section-cta" href="#">Shop Outdoor Play</a>
+      <a class="section-cta" href="outdoor play.html">Shop Outdoor Play</a>
     </div>
     <div class="promo-cards-stack">
-      <article class="promo-banner-card">
+      <a class="promo-banner-card" href="cartoon and friends.html">
         <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782117947/Cards_on_home_page_mark_mvuszi.png" alt="Cartoon &amp; Friends">
-      </article>
-      <article class="promo-banner-card">
+      </a>
+      <a class="promo-banner-card" href="new and trending.html">
         <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782117952/Cards_on_home_page_mark_1_mmc9rc.png" alt="New &amp; Trending">
-      </article>
+      </a>
     </div>
   </section>
 
@@ -1622,14 +1960,14 @@
   <section id="categorySection">
     <h2 class="section-heading title">Shop By Category</h2>
     <div class="carousel-track" id="categoryTrack">
-      <div class="tile-card">
+      <a class="tile-card" href="new and trending.html">
         <div class="tile-img tile-img--photo" style="background-image:url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782124177/Design_sans_titre_15_lqrnsx.png');"></div>
         <div class="tile-label">New &amp; Trending</div>
-      </div>
-      <div class="tile-card">
+      </a>
+      <a class="tile-card" href="outdoor play.html">
         <div class="tile-img tile-img--photo" style="background-image:url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782124182/Design_sans_titre_16_xzh6cv.png');"></div>
         <div class="tile-label">Outdoor Play</div>
-      </div>
+      </a>
       <div class="tile-card">
         <div class="tile-img tile-img--photo" style="background-image:url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782124188/Design_sans_titre_17_a0a8bp.png');"></div>
         <div class="tile-label">Building Sets &amp; Blocks</div>
@@ -1645,7 +1983,7 @@
     </div>
     <div class="progress-rail"><div class="progress-fill" id="categoryProgress"></div></div>
     <div class="section-cta-wrap">
-      <a class="section-cta" href="#">Shop All Categories</a>
+      <a class="section-cta" href="shop all categories page.html">Shop All Categories</a>
     </div>
   </section>
 
@@ -1653,10 +1991,10 @@
   <section id="brandSection">
     <h2 class="section-heading title">Shop By Character</h2>
     <div class="carousel-track" id="brandTrack">
-      <div class="tile-card">
+      <a class="tile-card" href="spider-man.html">
         <div class="tile-img tile-img--photo" style="background-image:url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782128031/Design_sans_titre_22_itvlqi.png');"></div>
         <div class="tile-label">Spider-Man</div>
-      </div>
+      </a>
       <div class="tile-card">
         <div class="tile-img tile-img--photo" style="background-image:url('https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782127861/Design_sans_titre_21_bwt30m.png');"></div>
         <div class="tile-label">Hello Kitty</div>
@@ -1688,27 +2026,64 @@
     </div>
     <div class="carousel-wrap tight">
       <div class="carousel-track" id="bookTrack">
-        <div class="product-card">
-          <div class="product-img" style="background:linear-gradient(160deg,#1B2A52,#3E5FA8); color:#fff;"><i class="fa-solid fa-meteor"></i></div>
-          <div class="rating-row"><span class="stars">★★★★★ <span>0.0 (0)</span></span></div>
-          <div class="price" style="margin-bottom:6px;">$17.99</div>
-          <div class="product-title">Galaxy Explorers: Jedi Training Mission Activity Book</div>
-          <button class="add-cart">Add to cart</button>
-        </div>
-        <div class="product-card">
-          <div class="product-img" style="background:linear-gradient(160deg,#3E5FA8,#1B2A52); color:#fff;"><i class="fa-solid fa-meteor"></i></div>
-          <div class="rating-row"><span class="stars">★★★☆☆ <span>3.0 (4)</span></span></div>
-          <div class="price" style="margin-bottom:6px;">$12.99</div>
-          <div class="product-title">Galaxy Explorers: A Hero in Training Step-by-Step Reader</div>
-          <button class="add-cart">Add to cart</button>
-        </div>
-        <div class="product-card">
-          <div class="product-img" style="background:linear-gradient(160deg,#F4B400,#E08800); color:#fff;"><i class="fa-solid fa-paw"></i></div>
-          <div class="rating-row"><span class="stars">★★★★★ <span>5.0 (2)</span></span></div>
-          <div class="price" style="margin-bottom:6px;">$9.99</div>
-          <div class="product-title">Buddy the Giraffe: A Tall Tale Bedtime Story</div>
-          <button class="add-cart">Add to cart</button>
-        </div>
+        <article class="product-card">
+          <div class="img-wrap">
+            <svg viewBox="0 0 200 200" width="190" height="190">
+              <rect x="35" y="30" width="130" height="150" rx="8" fill="#1B2A52"/>
+              <rect x="45" y="45" width="110" height="90" rx="6" fill="#3E5FA8"/>
+              <rect x="55" y="55" width="90" height="12" rx="3" fill="#ffd400"/>
+              <rect x="55" y="75" width="70" height="8" rx="2" fill="#62c8f5"/>
+              <rect x="55" y="90" width="80" height="8" rx="2" fill="#62c8f5"/>
+              <rect x="55" y="105" width="60" height="8" rx="2" fill="#62c8f5"/>
+              <circle cx="130" cy="130" r="18" fill="#e8302a"/>
+              <text x="130" y="136" font-size="14" text-anchor="middle" font-family="Arial" font-weight="800" fill="#fff">★</text>
+            </svg>
+          </div>
+          <div class="rating-row">
+            <div><span class="stars">★★★★★</span><span class="rating-num">0.0 (0)</span></div>
+            <div class="price">$17.99</div>
+          </div>
+          <h3 class="product-title">Galaxy Explorers: Jedi Training Mission Activity Book</h3>
+          <button class="add-cart-btn">Add to cart</button>
+        </article>
+        <article class="product-card">
+          <div class="img-wrap">
+            <svg viewBox="0 0 200 200" width="190" height="190">
+              <rect x="40" y="35" width="120" height="145" rx="8" fill="#3E5FA8"/>
+              <rect x="50" y="50" width="100" height="70" rx="6" fill="#fff"/>
+              <circle cx="100" cy="85" r="28" fill="#ffd400"/>
+              <rect x="50" y="130" width="100" height="10" rx="3" fill="#1B2A52"/>
+              <rect x="50" y="148" width="75" height="8" rx="2" fill="#62c8f5"/>
+              <rect x="50" y="162" width="85" height="8" rx="2" fill="#62c8f5"/>
+            </svg>
+          </div>
+          <div class="rating-row">
+            <div><span class="stars">★★★</span><span class="rating-num">3.0 (4)</span></div>
+            <div class="price">$12.99</div>
+          </div>
+          <h3 class="product-title">Galaxy Explorers: A Hero in Training Step-by-Step Reader</h3>
+          <button class="add-cart-btn">Add to cart</button>
+        </article>
+        <article class="product-card">
+          <div class="img-wrap">
+            <svg viewBox="0 0 200 200" width="190" height="190">
+              <rect x="38" y="40" width="124" height="140" rx="8" fill="#F4B400"/>
+              <rect x="48" y="55" width="104" height="80" rx="6" fill="#fff"/>
+              <ellipse cx="85" cy="95" rx="22" ry="28" fill="#8a5a3b"/>
+              <circle cx="78" cy="85" r="4" fill="#1a1a1a"/>
+              <circle cx="92" cy="85" r="4" fill="#1a1a1a"/>
+              <path d="M78 105 Q85 112 92 105" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+              <rect x="48" y="145" width="104" height="10" rx="3" fill="#E08800"/>
+              <rect x="48" y="162" width="80" height="8" rx="2" fill="#fff"/>
+            </svg>
+          </div>
+          <div class="rating-row">
+            <div><span class="stars">★★★★★</span><span class="rating-num">5.0 (2)</span></div>
+            <div class="price">$9.99</div>
+          </div>
+          <h3 class="product-title">Buddy the Giraffe: A Tall Tale Bedtime Story</h3>
+          <button class="add-cart-btn">Add to cart</button>
+        </article>
       </div>
       <div class="progress-rail"><div class="progress-fill" id="bookProgress"></div></div>
       <div class="section-cta-wrap">
@@ -1888,11 +2263,131 @@
 
     <div class="store-locator-section">
       <div class="store-locator-card">
-        <img class="store-locator-brand" src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782141445/Design_sans_titre_29_gsu6a6.png" alt="Find Us At ajbloks" width="313" height="224">
-        <a class="store-locator-btn" href="#">Find Your Store</a>
+        <img class="store-locator-brand" src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782245939/Design_sans_titre_34_jyaoo7.png" alt="Find Us At ajbloks" width="300" height="224">
+        <a class="store-locator-btn" href="find us.html">Find Your Store</a>
       </div>
     </div>
   </section>
+
+  <footer class="site-footer">
+    <img
+      class="mascot"
+      src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782044381/Design_sans_titre_6_copetd.png"
+      alt="Bob, la mascotte ajBloks"
+    >
+
+    <div class="footer-inner">
+
+    <div class="footer-top">
+      <div class="footer-grid">
+
+    <section aria-label="Service client">
+      <h2 class="section-title">Service client</h2>
+      <ul class="link-list">
+        <li><a href="#">Guides cadeaux</a></li>
+        <li><a href="#">Centre d'aide</a></li>
+        <li><a href="#">Livraison</a></li>
+        <li><a href="#">Retours et échanges</a></li>
+        <li><a href="#">Nous contacter</a></li>
+      </ul>
+    </section>
+
+    <section class="newsletter" aria-label="Inscription à l'infolettre">
+      <h2 class="section-title">Inscrivez-vous pour vous amuser&nbsp;!</h2>
+      <p class="newsletter-intro">Recevez des nouvelles exclusives sur les jouets, des idées de jeu et des avis !</p>
+
+      <form id="footer-signup-form">
+        <div class="signup-row">
+          <input type="email" id="footer-email-input" placeholder="Entrez votre e-mail" required aria-label="Adresse e-mail">
+          <button type="submit">S'inscrire</button>
+        </div>
+        <p class="signup-disclaimer">
+          En vous inscrivant à notre infolettre, vous acceptez nos <a href="#">conditions d'utilisation</a> et notre <a href="#">politique de confidentialité</a>.
+        </p>
+        <p class="signup-confirm" id="footer-signup-confirm" role="status"></p>
+      </form>
+    </section>
+
+    <section aria-label="Compte">
+      <h2 class="section-title">Compte</h2>
+      <ul class="link-list">
+        <li><a href="#">Mon compte</a></li>
+        <li><a href="#">Suivre ma commande</a></li>
+        <li>
+          <a href="wishlist.html">
+            <svg class="heart-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+            Ma liste de souhaits
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section aria-label="À propos">
+      <h2 class="section-title">À propos</h2>
+      <ul class="link-list">
+        <li><a href="#">Notre histoire</a></li>
+        <li><a href="#">Conditions d'utilisation</a></li>
+        <li><a href="#">Politique de confidentialité</a></li>
+        <li><a href="#">Déclaration d'accessibilité</a></li>
+        <li><a href="#">Préférences de cookies</a></li>
+      </ul>
+    </section>
+
+    <section aria-label="Activités">
+      <h2 class="section-title">Activités</h2>
+      <ul class="link-list">
+        <li><a href="#">Le monde de Bob</a></li>
+        <li><a href="#">Coloriage et activités</a></li>
+      </ul>
+    </section>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+    <div class="social-row">
+      <a href="#" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.7 31.7 0 0 0 0 12a31.7 31.7 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.7 31.7 0 0 0 24 12a31.7 31.7 0 0 0-.5-5.8zM9.6 15.5V8.5L15.8 12z"/></svg>
+      </a>
+      <a href="#" aria-label="TikTok">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.4 2.3 2 4 4.4 4.2v3.1c-1.5.1-2.9-.4-4.4-1.3v6.6a5.7 5.7 0 1 1-5.7-5.7c.3 0 .6 0 .9.1v3.2a2.6 2.6 0 1 0 1.8 2.5V3z"/></svg>
+      </a>
+      <a href="#" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="Pinterest">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.219-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.17.6 2.123 1.775 2.123 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+      </a>
+      <a href="#" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-9h3l.5-3.5h-3.5V7.4c0-1 .3-1.7 1.7-1.7H17V2.6C16.6 2.5 15.5 2.4 14.2 2.4c-2.7 0-4.6 1.6-4.6 4.7v2.4H6.9V13h2.7v9z"/></svg>
+      </a>
+    </div>
+
+    <p class="handle">@ajBloks</p>
+
+    <hr class="divider">
+
+    <div class="footer-brand">
+    <div class="wordmark">
+      <img
+        class="brand-logo"
+        src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782051890/Design_sans_titre_7_mwozaj.png"
+        alt="ajBloks"
+      >
+    </div>
+
+    <p class="copyright">© 2026 ajBloks. Tous droits réservés.</p>
+    </div>
+    </div>
+
+    </div>
+  </footer>
 
 </div>
 
@@ -2221,7 +2716,7 @@
   cartShopAge.addEventListener('click', closeCart);
 
   // add to cart micro-feedback
-  document.querySelectorAll('.add-cart').forEach(btn=>{
+  document.querySelectorAll('.add-cart-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       const original = btn.textContent;
       btn.textContent = 'Added ✓';
@@ -2231,6 +2726,22 @@
 
   restorePageState();
   restoreMenuState();
+
+  const footerSignupForm = document.getElementById('footer-signup-form');
+  const footerSignupConfirm = document.getElementById('footer-signup-confirm');
+  if(footerSignupForm && footerSignupConfirm){
+    footerSignupForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      const email = document.getElementById('footer-email-input').value.trim();
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if(valid){
+        footerSignupConfirm.textContent = "Merci pour votre inscription ! Consultez votre boîte de réception pour confirmer.";
+        footerSignupForm.reset();
+      } else {
+        footerSignupConfirm.textContent = "Veuillez entrer une adresse e-mail valide.";
+      }
+    });
+  }
 </script>
 
 </body>

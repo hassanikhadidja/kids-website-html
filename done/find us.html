@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Find a Store — AJ BLOKS</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue: #004ebc;
+    --cream: #FFFDF8;
+    --page-pad: 16px;
+    --shell-max: 100%;
+    --radius-pill: 999px;
+    --trus-blue: #004ebc;
+    --trus-blue-light: #0369a8;
+    --trus-red: #EE2B30;
+    --trus-orange: #F7941D;
+    --trus-green: #54B948;
+    --white: #ffffff;
+  }
+
+  html, body {
+    min-height: 100%;
+    font-family: 'Buenos Aires', 'Helvetica Neue', Arial, sans-serif;
+    background: #DEE3F0;
+    color: #222;
+  }
+
+  a { text-decoration: none; color: inherit; }
+  button { font-family: inherit; cursor: pointer; border: none; }
+
+  .app-shell {
+    max-width: var(--shell-max);
+    margin: 0 auto;
+    background: var(--cream);
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  .promo-bar {
+    background: #BFEAFB;
+    color: #000;
+    text-align: center;
+    font-weight: 700;
+    font-size: clamp(.75rem, 2.5vw, .88rem);
+    padding: 9px var(--page-pad);
+  }
+
+  .nav {
+    background: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px var(--page-pad) 12px;
+    gap: 4px;
+    overflow: visible;
+  }
+  .nav-icons { display: flex; align-items: center; gap: 0; flex-shrink: 0; }
+  .icon-btn {
+    background: transparent;
+    color: #fff;
+    width: 35px; height: 35px;
+    min-width: 35px; min-height: 35px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    padding: 0;
+  }
+  .icon-btn:active { background: rgba(255,255,255,.15); }
+  .icon-btn .nav-icon {
+    width: 22px; height: 22px;
+    display: block;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .icon-btn.is-active .nav-icon { fill: #fff; stroke: #fff; }
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
+    overflow: visible;
+  }
+  .logo img {
+    height: clamp(47px, 12.6vw, 61px);
+    width: auto;
+    max-width: min(288px, 94vw);
+    object-fit: contain;
+    display: block;
+    transform: scale(1.25);
+    transform-origin: center center;
+  }
+  .nav-default {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 4px;
+  }
+  .nav-search {
+    display: none;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+  }
+  .nav.is-search-active .nav-default { display: none; }
+  .nav.is-search-active .nav-search { display: flex; }
+  .search-form { flex: 1; min-width: 0; }
+  .search-input {
+    width: 100%;
+    height: 44px;
+    padding: 0 16px;
+    border: none;
+    border-radius: var(--radius-pill);
+    background: #fff;
+    color: #212427;
+    font-family: 'Buenos Aires', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    outline: none;
+  }
+  .search-input::placeholder { color: #212427; opacity: .55; }
+  .search-close .nav-icon { width: 24px; height: 24px; stroke-width: 2; }
+
+  /* ── PAGE SHELL ── */
+  .page {
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+    background: #fff;
+    box-shadow: 0 0 20px rgba(0,0,0,.12);
+    padding-bottom: 32px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    width: 100%;
+    line-height: 0;
+  }
+  .hero img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ── MAP ── */
+  .map-wrap {
+    position: relative;
+    width: 356px;
+    height: 400px;
+    margin: 0 auto;
+    background: #dde8d5;
+    overflow: hidden;
+  }
+  .map-wrap iframe {
+    width: 100%; height: 100%;
+    border: none;
+    display: block;
+    pointer-events: none;
+  }
+  /* pin overlay */
+  .pins {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+  .pin {
+    position: absolute;
+    transform: translate(-50%, -100%);
+  }
+  .pin svg { display: block; }
+
+  /* user dot */
+  .user-dot {
+    position: absolute;
+    transform: translate(-50%,-50%);
+  }
+
+  .map-controls {
+    position: absolute;
+    bottom: 60px; left: 10px;
+    display: flex; flex-direction: column;
+    z-index: 10;
+  }
+  .map-btn {
+    width: 32px; height: 32px;
+    background: #fff;
+    border: 1px solid #ccc;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #444;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    line-height: 1;
+  }
+  .map-btn:first-child { border-radius: 4px 4px 0 0; border-bottom: none; }
+  .map-btn:last-child  { border-radius: 0 0 4px 4px; }
+
+  /* legend pin bottom-left */
+  .map-legend {
+    position: absolute;
+    bottom: 16px; left: 10px;
+    z-index: 10;
+    width: 34px; height: 34px;
+    background: #d0021b;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    border: 3px solid #fff;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,.3);
+  }
+  .map-legend span {
+    transform: rotate(45deg);
+    color: #fff; font-size: 14px; display: block;
+  }
+  .map-info {
+    position: absolute;
+    bottom: 16px; right: 10px;
+    z-index: 10;
+    width: 28px; height: 28px;
+    background: #fff;
+    border: 1px solid #bbb;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem; font-weight: 700; color: #555;
+    cursor: pointer;
+  }
+
+  /* ── BOTTOM PANEL ── */
+  .bottom-panel {
+    background: #fff;
+  }
+
+  /* search bar row */
+  .search-bar {
+    background: #fff;
+    padding: 14px 14px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .search-row {
+    display: flex;
+    width: 356px;
+    height: 35px;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .search-row input {
+    flex: 1;
+    width: 100%;
+    height: 35px;
+    padding: 0 14px;
+    font-size: 0.93rem;
+    border: none; outline: none;
+    background: #f7f7f7;
+    color: #888;
+  }
+  .search-row button {
+    width: 50px;
+    height: 35px;
+    background: #1a3fa8;
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .store-type-select {
+    display: block;
+    width: 356px;
+    height: 35px;
+    margin: 10px 0 14px;
+    padding: 0 14px;
+    font-size: 0.93rem;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    color: #333;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    cursor: pointer;
+  }
+
+  /* store cards */
+  .store-list {
+    width: 356px;
+    height: 800px;
+    margin: 0 auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    background: #f0f0f0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .store-card {
+    width: 326px;
+    height: auto;
+    min-width: 326px;
+    max-width: 326px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px 14px;
+    border: 1px solid #e4e4e4;
+    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  }
+  .store-card h2 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #111;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+  .meta-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.875rem;
+    color: #333;
+    line-height: 1.45;
+    margin-bottom: 8px;
+  }
+  .meta-row svg { flex-shrink: 0; width: 18px; margin-top: 1px; }
+  .meta-row a {
+    color: #1a3fa8;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .meta-row a:hover { text-decoration: underline; }
+  .meta-row .website-link {
+    color: #222;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .meta-row .website-link:hover { text-decoration: underline; }
+  .store-note {
+    font-size: 0.85rem;
+    color: #444;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+  .btn-map {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1.5px solid #1a3fa8;
+    border-radius: 6px;
+    background: #fff;
+    color: #1a3fa8;
+    font-size: 0.93rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: background .15s;
+    margin-top: 12px;
+  }
+  .btn-map:hover { background: #eef1fc; }
+
+  /* ── TABLET & LAPTOP ── */
+  @media (min-width: 768px) {
+    .page {
+      max-width: 900px;
+      margin: 24px auto;
+      padding-bottom: 40px;
+    }
+
+    .locator-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      padding: 24px 24px 0;
+      align-items: start;
+    }
+
+    .map-wrap {
+      width: 100%;
+      height: 480px;
+      margin: 0;
+    }
+
+    .map-wrap iframe {
+      pointer-events: auto;
+    }
+
+    .search-bar {
+      padding: 0 0 12px;
+      align-items: stretch;
+    }
+
+    .search-row,
+    .store-type-select {
+      width: 100%;
+    }
+
+    .store-type-select {
+      margin-bottom: 12px;
+    }
+
+    .store-list {
+      width: 100%;
+      height: auto;
+      min-height: 420px;
+      max-height: 480px;
+      margin: 0;
+    }
+
+    .store-card {
+      width: 100%;
+      min-width: 0;
+      max-width: none;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .page {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding-bottom: 48px;
+    }
+
+    .locator-body {
+      grid-template-columns: 1.15fr 1fr;
+      gap: 32px;
+      padding: 32px 40px 0;
+    }
+
+    .map-wrap {
+      height: 560px;
+    }
+
+    .store-list {
+      min-height: 500px;
+      max-height: 560px;
+      padding: 16px;
+      gap: 16px;
+    }
+
+    .store-card {
+      padding: 18px 16px;
+    }
+
+    .store-card h2 {
+      font-size: 1.05rem;
+    }
+
+    .meta-row {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .page {
+      max-width: 1200px;
+    }
+
+    .locator-body {
+      gap: 40px;
+      padding: 40px 48px 0;
+    }
+
+    .map-wrap {
+      height: 600px;
+    }
+
+    .store-list {
+      max-height: 600px;
+    }
+  }
+
+  /* ── FOOTER ── */
+
+  footer {
+    background: linear-gradient(180deg, var(--trus-blue) 0%, var(--trus-blue) 100%);
+    padding: 40px 0 32px 24px;
+    position: relative;
+    color: var(--white);
+    font-family: 'Buenos Aires', sans-serif;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-right: 24px;
+  }
+
+  .footer-top {
+    position: relative;
+    padding-right: 110px;
+  }
+
+  .footer-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer-grid section {
+    margin-bottom: 36px;
+  }
+
+  .footer-grid .newsletter {
+    margin-bottom: 12px;
+  }
+
+  .footer-grid section:last-child {
+    margin-bottom: 0;
+  }
+
+  .footer-bottom {
+    margin-top: 36px;
+  }
+
+  .footer-brand {
+    text-align: center;
+  }
+
+  .mascot {
+    position: absolute;
+    top: 28px;
+    right: 0;
+    width: 300px;
+    height: auto;
+    opacity: 0.95;
+  }
+
+  h2.section-title {
+    font-size: 30px;
+    font-weight: 800;
+    margin: 0 0 22px 0;
+    letter-spacing: -0.5px;
+  }
+
+  ul.link-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul.link-list li {
+    margin-bottom: 26px;
+  }
+
+  ul.link-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  ul.link-list a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: opacity 0.15s ease;
+  }
+
+  ul.link-list a:hover,
+  ul.link-list a:focus-visible {
+    opacity: 0.75;
+  }
+
+  ul.link-list a:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+  }
+
+  .heart-icon {
+    flex: none;
+  }
+
+  .newsletter {
+    margin-bottom: 0;
+  }
+
+  .newsletter p {
+    font-size: 19px;
+    line-height: 1.4;
+    margin: 0 0 22px 0;
+  }
+
+  .signup-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: nowrap;
+  }
+
+  .signup-row input[type="email"] {
+    width: 290px;
+    height: 49px;
+    flex: 0 0 290px;
+    padding: 0 18px;
+    border-radius: 10px;
+    border: none;
+    font-size: 18px;
+    color: #333;
+    background: var(--white);
+    box-sizing: border-box;
+  }
+
+  .signup-row input[type="email"]::placeholder {
+    color: #6b6b6b;
+  }
+
+  .signup-row button {
+    width: 89px;
+    height: 49px;
+    flex: 0 0 89px;
+    padding: 0;
+    border-radius: 10px;
+    border: 2px solid var(--white);
+    background: transparent;
+    color: var(--white);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .signup-row button:hover,
+  .signup-row button:focus-visible {
+    background: var(--white);
+    color: var(--trus-blue);
+  }
+
+  .signup-row button:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+  }
+
+  .signup-disclaimer {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    opacity: 0.95;
+  }
+
+  .signup-disclaimer a {
+    color: var(--white);
+    text-decoration: underline;
+  }
+
+  .signup-confirm {
+    font-size: 14px;
+    margin: 8px 0 0;
+    min-height: 0;
+  }
+
+  .social-row {
+    display: flex;
+    justify-content: center;
+    gap: 26px;
+    margin: 30px 0 18px;
+    flex-wrap: wrap;
+  }
+
+  .social-row a {
+    color: var(--white);
+    display: flex;
+    transition: opacity 0.15s ease;
+  }
+
+  .social-row a:hover,
+  .social-row a:focus-visible {
+    opacity: 0.7;
+  }
+
+  .social-row svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .handle {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+
+  hr.divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.35);
+    margin: 0 0 26px 0;
+  }
+
+  .wordmark {
+    text-align: center;
+    margin-bottom: 22px;
+  }
+
+  .brand-logo {
+    display: block;
+    max-width: 240px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .copyright {
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.9;
+    padding-bottom: 10px;
+  }
+
+  @media (max-width: 380px) {
+    h2.section-title { font-size: 26px; }
+    ul.link-list a { font-size: 19px; }
+    .brand-logo { max-width: 200px; }
+    .mascot { width: 220px; }
+  }
+
+  @media (min-width: 480px) {
+    .footer-top { padding-right: 160px; }
+  }
+
+  @media (min-width: 768px) {
+    footer { padding: 64px 0 56px 48px; }
+
+    .footer-inner { padding-right: 48px; }
+
+    .footer-top {
+      padding-right: 420px;
+    }
+
+    .mascot {
+      width: 400px;
+      top: 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 48px 40px;
+    }
+
+    .footer-grid section {
+      margin-bottom: 0;
+    }
+
+    .footer-grid > section:nth-child(1) { grid-column: 1; grid-row: 1; }
+    .footer-grid > section:nth-child(2) { grid-column: 1 / -1; grid-row: 2; }
+    .footer-grid > section:nth-child(3) { grid-column: 2; grid-row: 1; }
+    .footer-grid > section:nth-child(4) { grid-column: 3; grid-row: 1; }
+    .footer-grid > section:nth-child(5) { grid-column: 4; grid-row: 1; }
+
+    h2.section-title {
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+
+    ul.link-list li { margin-bottom: 14px; }
+    ul.link-list a { font-size: 16px; }
+
+    .newsletter {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 48px;
+      align-items: start;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      margin-bottom: 0;
+    }
+
+    .newsletter .section-title {
+      grid-column: 1;
+      margin-bottom: 0;
+    }
+
+    .newsletter p {
+      grid-column: 1;
+      margin-bottom: 0;
+      max-width: none;
+      font-size: 17px;
+    }
+
+    .newsletter-intro {
+      width: 250px;
+      max-width: 250px;
+    }
+
+    .newsletter form {
+      grid-column: 2;
+      grid-row: 1 / span 3;
+    }
+
+    .newsletter .signup-disclaimer {
+      grid-column: 1;
+    }
+
+    .newsletter .signup-confirm {
+      grid-column: 1;
+      margin: 0;
+    }
+
+    .signup-row {
+      max-width: none;
+      flex-wrap: nowrap;
+    }
+
+    .footer-bottom {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.35);
+    }
+
+    hr.divider { display: none; }
+
+    .social-row { margin-top: 0; }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      text-align: left;
+    }
+
+    .wordmark { margin-bottom: 0; }
+    .brand-logo { margin: 0; max-width: 220px; }
+    .copyright { padding-bottom: 0; text-align: right; }
+  }
+
+  @media (min-width: 1024px) {
+    .footer-top {
+      padding-right: 520px;
+    }
+
+    .mascot {
+      width: 500px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .footer-inner { max-width: 1280px; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <div class="promo-bar">Free Shipping for Orders Over 6500 DZD</div>
+
+  <header class="nav" id="mainNav">
+    <div class="nav-default">
+      <div class="nav-icons">
+        <a class="icon-btn" href="home-page.html" aria-label="Menu">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </a>
+        <button class="icon-btn" type="button" aria-label="Account">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+        </button>
+      </div>
+      <a class="logo" href="home-page.html" aria-label="AJ BLOKS home">
+        <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782245376/Design_sans_titre_31_azudmo.png" alt="AJ BLOKS">
+      </a>
+      <div class="nav-icons">
+        <button class="icon-btn" type="button" id="searchOpenBtn" aria-label="Search">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M16.5 16.5L21 21"/></svg>
+        </button>
+        <a class="icon-btn" href="wishlist.html" aria-label="Wishlist">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.502 5.502 0 0 0 16.503 3c-1.76 0-3 .56-4.5 2.17C10.503 3.56 9.263 3 7.503 3A5.502 5.502 0 0 0 2 8.5c0 2.29 1.5 4.04 3 5.5l7 7Z"/></svg>
+        </a>
+        <button class="icon-btn" type="button" aria-label="Cart">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="nav-search">
+      <form class="search-form" id="searchForm" role="search">
+        <input class="search-input" id="searchInput" type="search" name="q" placeholder="Search toys, brands & more" autocomplete="off" aria-label="Search">
+      </form>
+      <button class="icon-btn search-close" type="button" id="searchCloseBtn" aria-label="Close search">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </header>
+
+<div class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <img
+      src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782238616/Retrouvez_les_jouets_ajBloks_chez_nos_revendeurs_partenaires_ou_directement_aupr%C3%A8s_de_notre_usine_1_zydfdt.png"
+      alt="Retrouvez les jouets ajBloks chez nos revendeurs partenaires ou directement auprès de notre usine"
+    >
+  </section>
+
+  <div class="locator-body">
+
+  <!-- MAP -->
+  <div class="map-wrap">
+    <iframe
+      src="https://www.openstreetmap.org/export/embed.html?bbox=-74.25,40.60,-73.70,40.88&layer=mapnik"
+      title="Store Map"
+      loading="lazy">
+    </iframe>
+
+    <!-- pin overlays -->
+    <div class="pins">
+      <!-- user location dot top center -->
+      <div class="user-dot" style="top:6%;left:46%;">
+        <svg width="22" height="22"><circle cx="11" cy="11" r="10" fill="#1a3fa8" stroke="#fff" stroke-width="2"/><circle cx="11" cy="11" r="4" fill="#fff"/></svg>
+      </div>
+      <!-- pin Manhattan -->
+      <div class="pin" style="top:30%;left:70%;">
+        <svg width="32" height="42" viewBox="0 0 32 42"><path d="M16 0C7.2 0 0 7.2 0 16c0 12 16 26 16 26S32 28 32 16C32 7.2 24.8 0 16 0z" fill="#d0021b"/><text x="16" y="21" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">★</text></svg>
+      </div>
+      <!-- pin Jersey City -->
+      <div class="pin" style="top:52%;left:36%;">
+        <svg width="32" height="42" viewBox="0 0 32 42"><path d="M16 0C7.2 0 0 7.2 0 16c0 12 16 26 16 26S32 28 32 16C32 7.2 24.8 0 16 0z" fill="#d0021b"/><text x="16" y="21" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">★</text></svg>
+      </div>
+      <!-- pin Brooklyn -->
+      <div class="pin" style="top:66%;left:74%;">
+        <svg width="32" height="42" viewBox="0 0 32 42"><path d="M16 0C7.2 0 0 7.2 0 16c0 12 16 26 16 26S32 28 32 16C32 7.2 24.8 0 16 0z" fill="#d0021b"/><text x="16" y="21" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">★</text></svg>
+      </div>
+    </div>
+
+    <div class="map-controls">
+      <button class="map-btn">+</button>
+      <button class="map-btn">−</button>
+    </div>
+    <div class="map-legend"><span>★</span></div>
+    <div class="map-info">ℹ</div>
+  </div>
+
+  <!-- SCROLLABLE BOTTOM PANEL -->
+  <div class="bottom-panel">
+
+    <!-- sticky search -->
+    <div class="search-bar">
+      <div class="search-row">
+        <input type="text" id="zipInput" placeholder="Enter zip code" />
+        <button onclick="searchStores()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+      </div>
+      <select class="store-type-select" id="storeType" onchange="searchStores()">
+        <option value="">Store Type</option>
+        <option value="mall">Mall</option>
+        <option value="military">Military Exchange</option>
+        <option value="outlet">Outlet</option>
+      </select>
+    </div>
+
+    <!-- cards -->
+    <div class="store-list" id="storeList">
+
+      <div class="store-card" data-type="mall">
+        <h2>Toys"R"Us at Westroads Mall</h2>
+        <div class="meta-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>10000 California Street space 2549, Omaha, NE, USA</span>
+        </div>
+        <div class="meta-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3fa8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+          <a href="#" onclick="openDirections('Toys R Us at Westroads Mall, Omaha NE'); return false;">Directions</a>
+        </div>
+        <div class="meta-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3fa8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          <a href="https://www.westroadsmall.com/" class="website-link" target="_blank" rel="noopener noreferrer">Website</a>
+        </div>
+        <button class="btn-map" onclick="viewOnMap(this)">View On Map</button>
+      </div>
+
+      <div class="store-card" data-type="mall">
+        <h2>Toys"R"Us at American Dream Mall</h2>
+        <div class="meta-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>1 American Dream Way, East Rutherford, NJ 07073, USA</span>
+        </div>
+        <div class="meta-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3fa8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+          <a href="#" onclick="openDirections('1 American Dream Way, East Rutherford NJ 07073'); return false;">Directions</a>
+        </div>
+        <div class="meta-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3fa8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          <a href="https://www.americandream.com/" class="website-link" target="_blank" rel="noopener noreferrer">Website</a>
+        </div>
+        <button class="btn-map" onclick="viewOnMap(this)">View On Map</button>
+      </div>
+
+      <div class="store-card" data-type="military">
+        <h2>Toys"R"Us at Bangor Main Navy Exchange</h2>
+        <div class="meta-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>2600 Ohio Street, Silverdale, WA, USA</span>
+        </div>
+        <div class="meta-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3fa8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+          <a href="#" onclick="openDirections('2600 Ohio Street, Silverdale WA'); return false;">Directions</a>
+        </div>
+        <p class="store-note">This location is for authorized military personnel only.</p>
+        <button class="btn-map" onclick="viewOnMap(this)">View On Map</button>
+      </div>
+
+      <div class="store-card" data-type="outlet">
+        <h2>Toys"R"Us at Camarillo Premium Outlets</h2>
+        <div class="meta-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>740 Ventura Blvd space 1202a, Camarillo, CA, USA</span>
+        </div>
+        <div class="meta-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3fa8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+          <a href="#" onclick="openDirections('740 Ventura Blvd, Camarillo CA'); return false;">Directions</a>
+        </div>
+        <div class="meta-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3fa8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          <a href="https://www.premiumoutlets.com/outlet/camarillo" class="website-link" target="_blank" rel="noopener noreferrer">Website</a>
+        </div>
+        <button class="btn-map" onclick="viewOnMap(this)">View On Map</button>
+      </div>
+
+      <div class="store-card" data-type="military">
+        <h2>Toys"R"Us at Guam Main Navy Exchange</h2>
+        <div class="meta-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Exchange Road, Apra Harbor, Guam</span>
+        </div>
+        <div class="meta-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3fa8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+          <a href="#" onclick="openDirections('Exchange Road, Apra Harbor, Guam'); return false;">Directions</a>
+        </div>
+        <p class="store-note">This location is for authorized military personnel only.</p>
+        <button class="btn-map" onclick="viewOnMap(this)">View On Map</button>
+      </div>
+
+    </div>
+  </div><!-- end bottom-panel -->
+
+  </div><!-- end locator-body -->
+
+</div><!-- end page -->
+
+<footer>
+  <img
+    class="mascot"
+    src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782044381/Design_sans_titre_6_copetd.png"
+    alt="Bob, la mascotte ajBloks"
+  >
+
+  <div class="footer-inner">
+
+  <div class="footer-top">
+    <div class="footer-grid">
+
+  <section aria-label="Service client">
+    <h2 class="section-title">Service client</h2>
+    <ul class="link-list">
+      <li><a href="#">Guides cadeaux</a></li>
+      <li><a href="#">Centre d'aide</a></li>
+      <li><a href="#">Livraison</a></li>
+      <li><a href="#">Retours et échanges</a></li>
+      <li><a href="#">Nous contacter</a></li>
+    </ul>
+  </section>
+
+  <section class="newsletter" aria-label="Inscription à l'infolettre">
+    <h2 class="section-title">Inscrivez-vous pour vous amuser&nbsp;!</h2>
+    <p class="newsletter-intro">Recevez des nouvelles exclusives sur les jouets, des idées de jeu et des avis !</p>
+
+    <form id="signup-form">
+      <div class="signup-row">
+        <input type="email" id="email-input" placeholder="Entrez votre e-mail" required aria-label="Adresse e-mail">
+        <button type="submit">S'inscrire</button>
+      </div>
+      <p class="signup-disclaimer">
+        En vous inscrivant à notre infolettre, vous acceptez nos <a href="#">conditions d'utilisation</a> et notre <a href="#">politique de confidentialité</a>.
+      </p>
+      <p class="signup-confirm" id="signup-confirm" role="status"></p>
+    </form>
+  </section>
+
+  <section aria-label="Compte">
+    <h2 class="section-title">Compte</h2>
+    <ul class="link-list">
+      <li><a href="#">Mon compte</a></li>
+      <li><a href="#">Suivre ma commande</a></li>
+      <li>
+        <a href="#">
+          <svg class="heart-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          Ma liste de souhaits
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-label="À propos">
+    <h2 class="section-title">À propos</h2>
+    <ul class="link-list">
+      <li><a href="#">Notre histoire</a></li>
+      <li><a href="#">Conditions d'utilisation</a></li>
+      <li><a href="#">Politique de confidentialité</a></li>
+      <li><a href="#">Déclaration d'accessibilité</a></li>
+      <li><a href="#">Préférences de cookies</a></li>
+    </ul>
+  </section>
+
+  <section aria-label="Activités">
+    <h2 class="section-title">Activités</h2>
+    <ul class="link-list">
+      <li><a href="#">Le monde de Bob</a></li>
+      <li><a href="#">Coloriage et activités</a></li>
+    </ul>
+  </section>
+
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+  <div class="social-row">
+    <a href="#" aria-label="YouTube">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.7 31.7 0 0 0 0 12a31.7 31.7 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.7 31.7 0 0 0 24 12a31.7 31.7 0 0 0-.5-5.8zM9.6 15.5V8.5L15.8 12z"/></svg>
+    </a>
+    <a href="#" aria-label="TikTok">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.4 2.3 2 4 4.4 4.2v3.1c-1.5.1-2.9-.4-4.4-1.3v6.6a5.7 5.7 0 1 1-5.7-5.7c.3 0 .6 0 .9.1v3.2a2.6 2.6 0 1 0 1.8 2.5V3z"/></svg>
+    </a>
+    <a href="#" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+      </svg>
+    </a>
+    <a href="#" aria-label="Pinterest">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.219-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.17.6 2.123 1.775 2.123 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+    </a>
+    <a href="#" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-9h3l.5-3.5h-3.5V7.4c0-1 .3-1.7 1.7-1.7H17V2.6C16.6 2.5 15.5 2.4 14.2 2.4c-2.7 0-4.6 1.6-4.6 4.7v2.4H6.9V13h2.7v9z"/></svg>
+    </a>
+  </div>
+
+  <p class="handle">@ajBloks</p>
+
+  <hr class="divider">
+
+  <div class="footer-brand">
+  <div class="wordmark">
+    <img
+      class="brand-logo"
+      src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782051890/Design_sans_titre_7_mwozaj.png"
+      alt="ajBloks"
+    >
+  </div>
+
+  <p class="copyright">© 2026 ajBloks. Tous droits réservés.</p>
+  </div>
+  </div>
+
+  </div>
+</footer>
+
+</div><!-- end app-shell -->
+
+<script>
+  const mainNav = document.getElementById('mainNav');
+  const searchOpenBtn = document.getElementById('searchOpenBtn');
+  const searchCloseBtn = document.getElementById('searchCloseBtn');
+  const searchForm = document.getElementById('searchForm');
+  const searchInput = document.getElementById('searchInput');
+
+  function closeSearch() {
+    mainNav.classList.remove('is-search-active');
+    searchInput.blur();
+  }
+
+  function openSearch() {
+    mainNav.classList.add('is-search-active');
+    searchInput.value = '';
+    requestAnimationFrame(() => searchInput.focus());
+  }
+
+  searchOpenBtn.addEventListener('click', openSearch);
+  searchCloseBtn.addEventListener('click', closeSearch);
+  searchForm.addEventListener('submit', e => {
+    e.preventDefault();
+    closeSearch();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && mainNav.classList.contains('is-search-active')) closeSearch();
+  });
+
+  document.getElementById('zipInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') searchStores();
+  });
+
+  function searchStores() {
+    const type = document.getElementById('storeType').value;
+    document.querySelectorAll('.store-card').forEach(card => {
+      if (!type) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = card.dataset.type === type ? 'block' : 'none';
+      }
+    });
+  }
+
+  function openDirections(address) {
+    window.open('https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(address), '_blank');
+  }
+
+  function viewOnMap(btn) {
+    const name = btn.closest('.store-card').querySelector('h2').textContent;
+    window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(name), '_blank');
+  }
+
+  const signupForm = document.getElementById('signup-form');
+  const signupConfirm = document.getElementById('signup-confirm');
+
+  if (signupForm && signupConfirm) {
+    signupForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email-input').value.trim();
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      if (valid) {
+        signupConfirm.textContent = "Merci pour votre inscription ! Consultez votre boîte de réception pour confirmer.";
+        signupForm.reset();
+      } else {
+        signupConfirm.textContent = "Veuillez entrer une adresse e-mail valide.";
+      }
+    });
+  }
+</script>
+</body>
+</html>
