@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shop By Age — AJ BLOKS</title>
+<link rel="stylesheet" href="cart-drawer.css">
+<link rel="stylesheet" href="signup-drawer.css">
 <style>
   @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
   :root{
@@ -894,20 +896,7 @@
     updateThumb();
   });
 
-  // Simple "Add to cart" feedback
-  document.querySelectorAll('.add-cart-btn').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var original = btn.textContent;
-      btn.textContent = 'Added ✓';
-      btn.style.background = '#1d9a4c';
-      btn.style.boxShadow = 'none';
-      setTimeout(function(){
-        btn.textContent = original;
-        btn.style.background = '';
-        btn.style.boxShadow = '';
-      }, 1200);
-    });
-  });
+  // Simple "Add to cart" feedback — handled by cart-drawer.js
 
   const footerSignupForm = document.getElementById('footer-signup-form');
   const footerSignupConfirm = document.getElementById('footer-signup-confirm');
@@ -925,5 +914,9 @@
     });
   }
 </script>
+<script src="cart-drawer.js"></script>
+<script src="signup-drawer.js"></script>
+<script src="product-card-links.js"></script>
+<script src="auth-links.js"></script>
 </body>
 </html>

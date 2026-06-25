@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toys"R"Us</title>
+<link rel="stylesheet" href="signup-drawer.css">
+<style>
+  @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
+  :root{
+    --trex-blue:#0033a0;
+    --trex-skyblue:#5fd0f3;
+    --trex-red:#ed1c24;
+    --trex-orange:#f7941d;
+    --trex-yellow:#ffd200;
+    --trex-green:#39b54a;
+    --trex-purple:#92278f;
+    --trex-pink:#ec008c;
+    --ink:#1a1a1a;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Buenos Aires',sans-serif;
+    background:#fff;
+    color:var(--ink);
+    max-width:480px;
+    margin:0 auto;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  /* ---------- Top shipping banner ---------- */
+  .shipping-banner{
+    background:var(--trex-skyblue);
+    color:#06203a;
+    text-align:center;
+    font-weight:700;
+    font-size:14px;
+    padding:10px 12px;
+  }
+
+  /* ---------- Nav bar ---------- */
+  .navbar{
+    background:var(--trex-blue);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 14px;
+  }
+  .nav-group{
+    display:flex;
+    align-items:center;
+    gap:18px;
+  }
+  .icon-btn{
+    background:none;
+    border:none;
+    padding:0;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    cursor:pointer;
+  }
+  .icon-btn svg{width:23px;height:23px;}
+
+  .logo{
+    display:flex;
+    align-items:baseline;
+    font-weight:800;
+    font-size:28px;
+    font-style:italic;
+    letter-spacing:-1px;
+    user-select:none;
+  }
+  .logo span{position:relative;}
+  .logo .t{color:var(--trex-red);}
+  .logo .o{color:var(--trex-yellow);}
+  .logo .y{color:var(--trex-green);}
+  .logo .s1{color:var(--trex-skyblue);}
+  .logo .r-wrap{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background:#fff;
+    margin:0 1px;
+    transform:translateY(3px);
+  }
+  .logo .r{
+    color:var(--trex-blue);
+    font-style:italic;
+    font-weight:900;
+    transform:scaleX(-1);
+    font-size:22px;
+  }
+  .logo .u{color:var(--trex-purple);}
+  .logo .s2{color:var(--trex-pink);}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    width:100%;
+    height:230px;
+    overflow:hidden;
+    background:linear-gradient(135deg,#cdbfae 0%,#b9a98f 30%,#e8b84b 55%,#f0c34d 70%,#cdbfae 100%);
+  }
+  .hero-progress{
+    position:absolute;
+    top:0;left:0;right:0;
+    height:4px;
+    background:rgba(255,255,255,0.45);
+    z-index:3;
+  }
+  .hero-progress::after{
+    content:"";
+    display:block;
+    width:55%;
+    height:100%;
+    background:#fff;
+  }
+  .plush{
+    position:absolute;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #cdb89a, #a98f6c 70%);
+    filter:blur(1.5px);
+  }
+  .plush.p1{width:120px;height:120px;top:30px;left:-30px;opacity:.85;}
+  .plush.p2{width:90px;height:90px;top:110px;left:60px;opacity:.7;}
+  .plush.p3{width:150px;height:150px;top:50px;right:-40px;opacity:.75;}
+  .plush.p4{width:80px;height:80px;top:140px;right:40px;opacity:.6;}
+  .star-plush{
+    position:absolute;
+    top:10px;
+    left:50%;
+    transform:translateX(-50%);
+    width:130px;
+    height:230px;
+    background:linear-gradient(180deg,#ffd96b,#f4b93a);
+    border-radius:35% 35% 10% 10% / 25% 25% 10% 10%;
+  }
+  .star-plush::before{
+    content:"";
+    position:absolute;
+    top:55px;left:18px;
+    width:90px;height:90px;
+    background:var(--trex-orange);
+    clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+    opacity:.9;
+  }
+  .hero-side-icons{
+    position:absolute;
+    right:10px;
+    top:55px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
+    z-index:3;
+  }
+  .hero-side-icons .dots{
+    color:#fff;
+    font-size:20px;
+    font-weight:900;
+    line-height:1;
+    text-shadow:0 0 4px rgba(0,0,0,.4);
+  }
+  .hero-side-icons .bag{
+    width:30px;height:30px;
+    background:rgba(0,0,0,0.35);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .hero-side-icons .bag svg{width:15px;height:15px;fill:#fff;}
+
+  /* ---------- placeholder body content below hero ---------- */
+  .page-body{
+    padding:24px 16px;
+    color:#444;
+    font-size:14px;
+  }
+
+  /* ---------- Overlay ---------- */
+  .overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .35s ease;
+    z-index:10;
+    max-width:480px;
+    margin:0 auto;
+  }
+  .overlay.show{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  /* ---------- Drawer ---------- */
+  .drawer{
+    position:fixed;
+    left:0;right:0;bottom:0;
+    max-width:480px;
+    margin:0 auto;
+    background:#fff;
+    border-radius:18px 18px 0 0;
+    padding:26px 26px 34px;
+    transform:translateY(100%);
+    transition:transform .4s cubic-bezier(.32,.72,0,1);
+    z-index:11;
+    box-shadow:0 -8px 30px rgba(0,0,0,.15);
+  }
+  .drawer.show{
+    transform:translateY(0);
+  }
+
+  .close-btn{
+    position:absolute;
+    top:18px;
+    right:18px;
+    background:none;
+    border:none;
+    font-size:26px;
+    line-height:1;
+    cursor:pointer;
+    color:#1a1a1a;
+    padding:4px;
+  }
+
+  .drawer-hero{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:16px;
+  }
+
+  .giraffe-wrap{
+    flex-shrink:0;
+    margin-bottom:0;
+  }
+  .giraffe-wrap img{width:150px;height:auto;display:block;}
+
+  .drawer h2{
+    font-size:clamp(28px,7vw,36px);
+    font-weight:800;
+    line-height:1.12;
+    margin:0;
+    color:#000;
+    flex:1;
+  }
+
+  .drawer p.subtext{
+    font-family:'Buenos Aires',sans-serif;
+    font-size:20px;
+    font-weight:300;
+    color:#333;
+    margin:0 0 22px;
+    line-height:1.4;
+    text-align:center;
+    letter-spacing:0.01em;
+  }
+
+  button{font-family:inherit;cursor:pointer;}
+  .email-input{
+    width:100%;
+    padding:16px 14px;
+    font-size:16px;
+    font-family:'Buenos Aires',sans-serif;
+    border:1px solid #b9b9b9;
+    border-radius:10px;
+    margin-bottom:16px;
+    color:#1a1a1a;
+    outline:none;
+  }
+  .email-input::placeholder{color:#8a8a8a;}
+  .email-input:focus{border-color:var(--trex-blue);}
+
+  .signup-btn{
+    width:100%;
+    background:var(--trex-blue);
+    color:#fff;
+    font-size:18px;
+    font-weight:800;
+    border:none;
+    border-radius:30px;
+    padding:16px 0;
+    cursor:pointer;
+    margin-bottom:18px;
+  }
+  .signup-btn:active{opacity:.85;}
+
+  .fine-print{
+    font-size:12.5px;
+    color:#6b6b6b;
+    line-height:1.45;
+    margin:0;
+  }
+  .fine-print a{
+    color:#0033a0;
+    text-decoration:underline;
+  }
+</style>
+</head>
+<body>
+
+  <div class="shipping-banner">Free Shipping for Orders Over $49*</div>
+
+  <nav class="navbar">
+    <div class="nav-group">
+      <button class="icon-btn" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <div class="logo">
+      <span class="t">T</span><span class="o">o</span><span class="y">y</span><span class="s1">s</span><span class="r-wrap"><span class="r">R</span></span><span class="u">U</span><span class="s2">s</span>
+    </div>
+
+    <div class="nav-group">
+      <button class="icon-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke-linecap="round"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7.5-4.6-10-9.3C0.3 8.4 2 5 5.5 5c2 0 3.5 1.2 4.5 2.7C11 6.2 12.5 5 14.5 5 18 5 19.7 8.4 18 11.7 17.2 13.2 16 14.5 12 21z"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4h2l2.4 12.4a2 2 0 0 0 2 1.6h7.2a2 2 0 0 0 2-1.6L21 8H6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-progress"></div>
+    <div class="plush p1"></div>
+    <div class="plush p2"></div>
+    <div class="plush p3"></div>
+    <div class="plush p4"></div>
+    <div class="star-plush"></div>
+    <div class="hero-side-icons">
+      <span class="dots">⋮</span>
+      <div class="bag">
+        <svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0" fill="none" stroke="#fff" stroke-width="1.6"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-body">
+    <p>Welcome to the Toys"R"Us homepage. Explore the latest toys, deals, and play ideas.</p>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Email signup">
+    <button class="close-btn" id="closeBtn" aria-label="Close">&times;</button>
+
+    <div class="drawer-hero">
+      <div class="giraffe-wrap">
+        <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782319393/Design_sans_titre_39_pjdq8g.png" alt="ToyHive mascot">
+      </div>
+      <h2>Bring the fun to your inbox!</h2>
+    </div>
+    <p class="subtext">Get email updates on hot toys, play ideas &amp; more.</p>
+
+    <input type="email" class="email-input" placeholder="Email" id="emailInput">
+    <button class="signup-btn" id="signupBtn">Sign Up</button>
+
+    <p class="fine-print">
+      By clicking Sign Up, you agree to receive news about hot toys, toy reviews, DIY play and other promotional materials from Toys&quot;R&quot;Us. You also consent to Toys&quot;R&quot;Us processing your personal data for these purposes and as described in the <a href="#" id="privacyLink">privacy policy</a>. You understand you can withdraw your consent at any time.
+    </p>
+  </div>
+
+<script src="signup-drawer.js"></script>
+<script src="auth-links.js"></script>
+</body>
+</html>

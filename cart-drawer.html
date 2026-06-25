@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Cart</title>
+<style>
+  @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
+  :root{
+    --ink:#15171c;
+    --gray-700:#4b4f58;
+    --gray-500:#7a7e87;
+    --gray-300:#d8dadf;
+    --gray-100:#f3f4f6;
+    --line:#e3e5e9;
+    --red:#d23b3b;
+    --blue:#004ebc;
+    --blue-dark:#003894;
+    --white:#ffffff;
+    --radius:14px;
+    --radius-pill:999px;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Buenos Aires',sans-serif;
+    color:var(--ink);
+    background:#fafafa;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  /* ---------- mock storefront behind the drawer ---------- */
+  .page{
+    min-height:100vh;
+    padding:0;
+  }
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 28px;
+    background:var(--white);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{
+    font-weight:800;
+    font-size:18px;
+    letter-spacing:.2px;
+  }
+  .cart-trigger{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--ink);
+    color:var(--white);
+    border:none;
+    padding:10px 16px;
+    border-radius:999px;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    transition:transform .15s ease, opacity .15s ease;
+  }
+  .cart-trigger:hover{opacity:.85;}
+  .cart-trigger:active{transform:scale(.97);}
+  .badge{
+    background:var(--red);
+    color:var(--white);
+    font-size:11px;
+    font-weight:700;
+    min-width:18px;
+    height:18px;
+    border-radius:999px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 4px;
+  }
+  .hero{
+    max-width:760px;
+    margin:80px auto;
+    text-align:center;
+    padding:0 24px;
+    color:var(--gray-500);
+  }
+  .hero h1{
+    color:var(--ink);
+    font-size:28px;
+    margin-bottom:10px;
+  }
+
+  /* ---------- overlay ---------- */
+  .overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(15,17,23,.35);
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .35s ease;
+    z-index:40;
+  }
+  .overlay.open{
+    opacity:1;
+    visibility:visible;
+  }
+
+  /* ---------- cart drawer ---------- */
+  .cart-drawer{
+    position:fixed;
+    top:0;
+    right:0;
+    height:100%;
+    width:min(480px, 100%);
+    background:var(--white);
+    box-shadow:-12px 0 40px rgba(15,17,23,.18);
+    transform:translateX(100%);
+    transition:transform .38s cubic-bezier(.22,.68,0,1);
+    z-index:50;
+    display:flex;
+    flex-direction:column;
+  }
+  .cart-drawer.open{
+    transform:translateX(0);
+  }
+
+  .cart-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 24px 18px;
+  }
+  .cart-head-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .cart-head-left h2{
+    font-size:21px;
+    font-weight:800;
+    margin:0;
+  }
+  .icon-btn{
+    background:none;
+    border:none;
+    cursor:pointer;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:4px;
+    border-radius:8px;
+    transition:background .15s ease;
+  }
+  .icon-btn:hover{background:var(--gray-100);}
+
+  .cart-body{
+    flex:1;
+    overflow-y:auto;
+    padding:0 24px;
+  }
+
+  .col-headers{
+    display:flex;
+    justify-content:space-between;
+    padding-bottom:10px;
+    font-size:14px;
+    color:var(--ink);
+    font-weight:500;
+  }
+  .col-rules{
+    display:flex;
+    gap:18px;
+    margin-bottom:18px;
+  }
+  .col-rules span{
+    flex:1;
+    border-bottom:1px solid var(--gray-300);
+  }
+
+  .cart-item{
+    display:flex;
+    gap:16px;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+    align-items:flex-start;
+  }
+  .cart-item:last-of-type{border-bottom:none;}
+
+  .thumb{
+    width:78px;
+    height:112px;
+    border-radius:8px;
+    flex:none;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 1px 3px rgba(0,0,0,.18);
+  }
+  .thumb svg{position:absolute;inset:0;width:100%;height:100%;}
+
+  .item-info{
+    flex:1;
+    min-width:0;
+  }
+  .item-title{
+    font-weight:700;
+    font-size:15px;
+    line-height:1.35;
+    margin:0 0 6px;
+  }
+  .item-price{
+    color:var(--gray-500);
+    font-size:14px;
+    margin:0 0 12px;
+  }
+
+  .qty-row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .qty-pill{
+    display:flex;
+    align-items:center;
+    border:1px solid var(--gray-300);
+    border-radius:999px;
+    overflow:hidden;
+    height:34px;
+  }
+  .qty-pill button{
+    width:34px;
+    height:34px;
+    border:none;
+    background:var(--white);
+    cursor:pointer;
+    font-size:16px;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background .15s ease;
+  }
+  .qty-pill button:hover{background:var(--gray-100);}
+  .qty-pill .qty-val{
+    width:30px;
+    text-align:center;
+    font-size:14px;
+    font-weight:600;
+  }
+  .delete-btn{
+    background:none;
+    border:none;
+    cursor:pointer;
+    color:var(--red);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:6px;
+    border-radius:8px;
+    transition:background .15s ease;
+  }
+  .delete-btn:hover{background:#fdeaea;}
+
+  .item-total{
+    flex:none;
+    font-weight:700;
+    font-size:15px;
+    white-space:nowrap;
+  }
+
+  .empty-state{
+    text-align:center;
+    color:var(--gray-500);
+    padding:60px 10px;
+    font-size:14px;
+  }
+
+  .instructions{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    margin-top:6px;
+  }
+  .instructions-toggle{
+    width:100%;
+    background:none;
+    border:none;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 0;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+    color:var(--ink);
+  }
+  .instructions-toggle .chev{
+    transition:transform .25s ease;
+  }
+  .instructions-toggle.open .chev{
+    transform:rotate(180deg);
+  }
+  .instructions-panel{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .25s ease;
+  }
+  .instructions-panel textarea{
+    width:100%;
+    resize:vertical;
+    min-height:70px;
+    border:1px solid var(--gray-300);
+    border-radius:10px;
+    padding:10px 12px;
+    font-family:inherit;
+    font-size:14px;
+    margin-bottom:18px;
+  }
+
+  .cart-foot{
+    padding:18px 24px 24px;
+    flex:none;
+  }
+  .total-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-weight:800;
+    font-size:18px;
+    margin-bottom:8px;
+  }
+  .foot-note{
+    font-size:13px;
+    color:var(--gray-500);
+    margin:0 0 16px;
+  }
+  .foot-note a{
+    color:var(--blue);
+    text-decoration:underline;
+  }
+  .checkout-btn{
+    display:block;
+    width:100%;
+    background:var(--blue);
+    color:var(--white);
+    font-family:'Buenos Aires',sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+    padding:15px 24px;
+    border:none;
+    border-radius:var(--radius-pill);
+    cursor:pointer;
+    box-shadow:0 4px 0 var(--blue-dark);
+    transition:transform .08s ease;
+  }
+  .checkout-btn:active{
+    transform:translateY(2px);
+    box-shadow:0 2px 0 var(--blue-dark);
+  }
+
+  @media (max-width:480px){
+    .cart-drawer{width:100%;}
+  }
+</style>
+</head>
+<body>
+
+  <!-- mock page behind the drawer -->
+  <div class="page">
+    <div class="topbar">
+      <div class="brand">Bookish &amp; Co.</div>
+      <button class="cart-trigger" id="openCartBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        Cart <span class="badge" id="headerBadge">2</span>
+      </button>
+    </div>
+    <div class="hero">
+      <h1>Welcome to Bookish &amp; Co.</h1>
+      <p>Click "Cart" in the top right to see the slide&#8209;in cart drawer in action.</p>
+    </div>
+  </div>
+
+  <!-- overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- cart drawer -->
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart">
+    <div class="cart-head">
+      <div class="cart-head-left">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <h2>Your cart</h2>
+      </div>
+      <button class="icon-btn" id="closeCartBtn" aria-label="Close cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <div class="cart-body">
+      <div class="col-headers">
+        <span>Products</span>
+        <span>Total</span>
+      </div>
+      <div class="col-rules"><span></span><span></span></div>
+
+      <div id="itemsList">
+        <!-- item 1 -->
+        <div class="cart-item" data-price="39.99">
+          <div class="thumb">
+            <svg viewBox="0 0 78 112" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#1c2240"/>
+                  <stop offset="1" stop-color="#3a3f7a"/>
+                </linearGradient>
+              </defs>
+              <rect width="78" height="112" fill="url(#g1)"/>
+              <circle cx="55" cy="18" r="9" fill="#f4d27a" opacity="0.85"/>
+              <rect x="14" y="48" width="50" height="46" rx="3" fill="#0e1226" opacity="0.6"/>
+              <rect x="22" y="58" width="6" height="20" fill="#f4d27a" opacity="0.6"/>
+              <rect x="34" y="52" width="6" height="26" fill="#f4d27a" opacity="0.6"/>
+              <rect x="46" y="60" width="6" height="18" fill="#f4d27a" opacity="0.6"/>
+              <text x="39" y="16" font-family="Buenos Aires, sans-serif" font-size="9" font-weight="700" fill="#f4d27a" text-anchor="middle">STORYBOOK</text>
+            </svg>
+          </div>
+          <div class="item-info">
+            <p class="item-title">Harry Potter and the Prisoner of Azkaban Illustrated Edition – Hardcover</p>
+            <p class="item-price">$39.99</p>
+            <div class="qty-row">
+              <div class="qty-pill">
+                <button class="qty-minus" aria-label="Decrease quantity">−</button>
+                <span class="qty-val">1</span>
+                <button class="qty-plus" aria-label="Increase quantity">+</button>
+              </div>
+              <button class="delete-btn" aria-label="Remove item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg>
+              </button>
+            </div>
+          </div>
+          <div class="item-total">$39.99</div>
+        </div>
+
+        <!-- item 2 -->
+        <div class="cart-item" data-price="19.99">
+          <div class="thumb">
+            <svg viewBox="0 0 78 112" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#234d36"/>
+                  <stop offset="1" stop-color="#3f7a55"/>
+                </linearGradient>
+              </defs>
+              <rect width="78" height="112" fill="url(#g2)"/>
+              <path d="M39 20 L33 60 L45 60 Z" fill="#f3efe2" opacity="0.85"/>
+              <rect x="36" y="58" width="6" height="40" fill="#f3efe2" opacity="0.85"/>
+              <text x="39" y="16" font-family="Buenos Aires, sans-serif" font-size="9" font-weight="700" fill="#f3efe2" text-anchor="middle">CLASSIC TALE</text>
+            </svg>
+          </div>
+          <div class="item-info">
+            <p class="item-title">Madeline by Ludwig Bemelmans – Classic Children's Hardcover Book</p>
+            <p class="item-price">$19.99</p>
+            <div class="qty-row">
+              <div class="qty-pill">
+                <button class="qty-minus" aria-label="Decrease quantity">−</button>
+                <span class="qty-val">1</span>
+                <button class="qty-plus" aria-label="Increase quantity">+</button>
+              </div>
+              <button class="delete-btn" aria-label="Remove item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg>
+              </button>
+            </div>
+          </div>
+          <div class="item-total">$19.99</div>
+        </div>
+      </div>
+
+      <div class="empty-state" id="emptyState" style="display:none;">
+        Your cart is empty.
+      </div>
+
+      <div class="instructions">
+        <button class="instructions-toggle" id="instructionsToggle">
+          Order special instructions
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="instructions-panel" id="instructionsPanel">
+          <textarea placeholder="Add a note for your order (e.g. gift wrap, delivery notes)..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="cart-foot">
+      <div class="total-row">
+        <span>Estimated total</span>
+        <span id="estimatedTotal">$59.98</span>
+      </div>
+      <p class="foot-note">Taxes, Discounts and <a href="#" id="shippingLink">shipping</a> calculated at checkout</p>
+      <button type="button" class="checkout-btn" id="checkoutBtn">Checkout</button>
+    </div>
+  </aside>
+
+<script>
+  const drawer = document.getElementById('cartDrawer');
+  const overlay = document.getElementById('overlay');
+  const openBtn = document.getElementById('openCartBtn');
+  const closeBtn = document.getElementById('closeCartBtn');
+  const itemsList = document.getElementById('itemsList');
+  const emptyState = document.getElementById('emptyState');
+  const estimatedTotalEl = document.getElementById('estimatedTotal');
+  const headerBadge = document.getElementById('headerBadge');
+
+  function openCart(){
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeCart(){
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  openBtn.addEventListener('click', openCart);
+  closeBtn.addEventListener('click', closeCart);
+  overlay.addEventListener('click', closeCart);
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') closeCart();
+  });
+
+  function formatMoney(n){
+    return '$' + n.toFixed(2);
+  }
+
+  function recalc(){
+    let total = 0;
+    let itemCount = 0;
+    itemsList.querySelectorAll('.cart-item').forEach(item => {
+      const price = parseFloat(item.dataset.price);
+      const qty = parseInt(item.querySelector('.qty-val').textContent, 10);
+      const lineTotal = price * qty;
+      item.querySelector('.item-total').textContent = formatMoney(lineTotal);
+      total += lineTotal;
+      itemCount += qty;
+    });
+    estimatedTotalEl.textContent = formatMoney(total);
+    headerBadge.textContent = itemCount;
+
+    const hasItems = itemsList.querySelectorAll('.cart-item').length > 0;
+    emptyState.style.display = hasItems ? 'none' : 'block';
+  }
+
+  itemsList.addEventListener('click', (e) => {
+    const item = e.target.closest('.cart-item');
+    if(!item) return;
+
+    if(e.target.closest('.qty-plus')){
+      const valEl = item.querySelector('.qty-val');
+      valEl.textContent = parseInt(valEl.textContent, 10) + 1;
+      recalc();
+    }
+
+    if(e.target.closest('.qty-minus')){
+      const valEl = item.querySelector('.qty-val');
+      const current = parseInt(valEl.textContent, 10);
+      if(current > 1){
+        valEl.textContent = current - 1;
+        recalc();
+      }
+    }
+
+    if(e.target.closest('.delete-btn')){
+      item.remove();
+      recalc();
+    }
+  });
+
+  const instructionsToggle = document.getElementById('instructionsToggle');
+  const instructionsPanel = document.getElementById('instructionsPanel');
+  instructionsToggle.addEventListener('click', () => {
+    const isOpen = instructionsToggle.classList.toggle('open');
+    instructionsPanel.style.maxHeight = isOpen ? instructionsPanel.scrollHeight + 'px' : '0';
+  });
+
+  document.getElementById('shippingLink').addEventListener('click', (e) => e.preventDefault());
+
+  document.getElementById('checkoutBtn').addEventListener('click', () => {
+    const total = parseFloat(estimatedTotalEl.textContent.replace('$', '')) || 0;
+    const items = [...itemsList.querySelectorAll('.cart-item')].map(item => ({
+      title: item.querySelector('.item-title').textContent.trim(),
+      price: parseFloat(item.dataset.price),
+      qty: parseInt(item.querySelector('.qty-val').textContent, 10),
+      thumb: item.querySelector('.thumb').innerHTML
+    }));
+    sessionStorage.setItem('cartTotal', total);
+    sessionStorage.setItem('cartItems', JSON.stringify(items));
+    window.location.href = 'checkout-page.html';
+  });
+
+  // open the drawer automatically on load so it mirrors the reference screenshot
+  window.addEventListener('DOMContentLoaded', () => {
+    openCart();
+    recalc();
+  });
+</script>
+</body>
+</html>

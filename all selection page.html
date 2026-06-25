@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Outdoor Play | ToysRus</title>
+<link rel="stylesheet" href="cart-drawer.css">
+<link rel="stylesheet" href="signup-drawer.css">
 <style>
   @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
   :root{
@@ -228,19 +230,6 @@
     margin:0;font-size:1.05rem;font-weight:600;line-height:1.32;color:var(--ink);
   }
   .product-price{margin:2px 0 4px;font-size:1.15rem;font-weight:700;}
-  .add-to-cart{
-    background:var(--blue);
-    color:#fff;
-    padding:13px 0;
-    border-radius:30px;
-    font-weight:700;
-    font-size:1rem;
-    text-align:center;
-    width:100%;
-    transition:background .15s ease, transform .1s ease;
-  }
-  .add-to-cart:active{transform:scale(0.98);}
-  .add-to-cart.added{background:var(--green);}
 
   .empty-state{
     padding:60px 24px;text-align:center;color:var(--ink-soft);font-size:1rem;display:none;
@@ -853,7 +842,7 @@ function renderProducts(list){
         </div>
         <h3 class="product-title">${p.title}</h3>
         <p class="product-price">$${p.price.toFixed(2)}</p>
-        <button class="add-to-cart">Add to cart</button>
+        <button class="add-cart-btn" type="button">Add to cart</button>
       </div>`;
     grid.appendChild(card);
   });
@@ -863,13 +852,7 @@ renderProducts(products);
 /* wishlist + add to cart interactions */
 grid.addEventListener('click', e=>{
   const wish = e.target.closest('.wishlist-btn');
-  if(wish){ wish.classList.toggle('active'); return; }
-  const add = e.target.closest('.add-to-cart');
-  if(add){
-    add.textContent = 'Added ✓';
-    add.classList.add('added');
-    setTimeout(()=>{ add.textContent='Add to cart'; add.classList.remove('added'); }, 1400);
-  }
+  if(wish){ wish.classList.toggle('active'); }
 });
 
 /* ---------------- FILTER DRAWER ---------------- */
@@ -995,5 +978,9 @@ document.querySelectorAll('input[data-group="sort"]').forEach(cb=>{
   });
 });
 </script>
+<script src="cart-drawer.js"></script>
+<script src="signup-drawer.js"></script>
+<script src="product-card-links.js"></script>
+<script src="auth-links.js"></script>
 </body>
 </html>

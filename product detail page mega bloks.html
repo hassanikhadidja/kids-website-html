@@ -4,130 +4,161 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MEGA BLOKS - Camion Course Et Construction | Fisher-Price</title>
+<link rel="stylesheet" href="cart-drawer.css">
+<link rel="stylesheet" href="signup-drawer.css">
 <style>
+  @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
   :root{
+    --blue:#004ebc;
+    --blue-dark:#003894;
+    --trus-red:#ed1c24;
     --teal:#7ed3d9;
     --teal-dark:#4fb8bf;
     --red:#e2241a;
     --yellow:#ffd200;
+    --yellow-dark:#d4a900;
     --ink:#1a1a1a;
     --grey:#717171;
     --line:#e6e6e6;
     --offwhite:#f6f6f6;
+    --cream:#FFFDF8;
+    --page-pad:16px;
+    --radius-pill:999px;
+    --gray-700:#444B57;
+    --gray-500:#7A8190;
+    --gray-300:#DEE1E7;
+    --gray-100:#F4F5F7;
+    --link-blue:#1450c4;
+    --pdp-red:#D81F4B;
   }
 
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    font-family:'Nunito','Segoe UI',Helvetica,Arial,sans-serif;
+    font-family:'Buenos Aires',sans-serif;
     color:var(--ink);
-    background:#fff;
+    background:#DEE3F0;
     -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
   }
+  button,a,input{font-family:inherit;}
+  button{cursor:pointer;border:none;}
+  a{text-decoration:none;color:inherit;}
+
+  .app-shell{
+    max-width:100%;
+    margin:0 auto;
+    background:var(--cream);
+    min-height:100vh;
+    min-height:100dvh;
+    overflow-x:hidden;
+  }
+
+  .promo-bar{
+    background:#BFEAFB;
+    color:#000;
+    text-align:center;
+    font-weight:700;
+    font-size:clamp(.75rem, 2.5vw, .88rem);
+    letter-spacing:.2px;
+    padding:9px var(--page-pad);
+  }
+
+  .nav{
+    background:var(--blue);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px var(--page-pad) 12px;
+    gap:4px;
+    overflow:visible;
+  }
+  .nav-icons{display:flex;align-items:center;gap:0;flex-shrink:0;}
+  .icon-btn{
+    background:transparent;
+    color:#fff;
+    width:35px;height:35px;
+    min-width:35px;min-height:35px;
+    display:flex;align-items:center;justify-content:center;
+    border:none;border-radius:50%;padding:0;cursor:pointer;
+  }
+  .icon-btn:active{background:rgba(255,255,255,.15);}
+  .icon-btn .nav-icon{
+    width:22px;height:22px;
+    display:block;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:1.75;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:1;
+    min-width:0;
+    overflow:visible;
+  }
+  .logo img{
+    height:clamp(47px, 12.6vw, 61px);
+    width:auto;
+    max-width:min(288px, 94vw);
+    object-fit:contain;
+    display:block;
+    transform:scale(1.25);
+    transform-origin:center center;
+  }
+  .nav-default{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+    gap:4px;
+  }
+  .nav-search{
+    display:none;
+    align-items:center;
+    width:100%;
+    gap:10px;
+  }
+  .nav.is-search-active .nav-default{display:none;}
+  .nav.is-search-active .nav-search{display:flex;}
+  .search-form{flex:1;min-width:0;}
+  .search-input{
+    width:100%;
+    height:44px;
+    padding:0 16px;
+    border:none;
+    border-radius:var(--radius-pill);
+    background:#fff;
+    color:var(--ink);
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1rem;
+    font-weight:600;
+    outline:none;
+  }
+  .search-input::placeholder{color:var(--ink);opacity:.55;}
+  .search-close .nav-icon{width:24px;height:24px;stroke-width:2;}
 
   .page{
     max-width:480px;
     margin:0 auto;
     background:#fff;
-    min-height:100vh;
     box-shadow:0 0 40px rgba(0,0,0,0.08);
     position:relative;
+    padding-bottom:32px;
   }
 
-  /* ---------- brand bar ---------- */
-  .brandbar{
-    display:flex;
-    align-items:center;
-    gap:18px;
-    padding:14px 16px;
-    overflow-x:auto;
-    border-bottom:1px solid var(--line);
-    scrollbar-width:none;
-  }
-  .brandbar::-webkit-scrollbar{display:none;}
-  .brand-item{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    white-space:nowrap;
-    flex:0 0 auto;
-  }
-  .b-mattel{
-    width:26px;height:26px;border-radius:50%;
-    background:var(--red);color:#fff;
-    display:flex;align-items:center;justify-content:center;
-    font-weight:800;font-size:13px;
-  }
-  .b-barbie{font-family:'Brush Script MT',cursive;color:#e0218a;font-size:21px;font-weight:700;}
-  .b-hotwheels{display:flex;align-items:center;gap:4px;font-weight:800;font-size:13px;letter-spacing:0.5px;color:#1a1a1a;}
-  .b-hotwheels::before{content:"";width:18px;height:12px;background:linear-gradient(90deg,#ffce00,#ff9800);clip-path:polygon(0 50%,40% 0,100% 0,70% 50%,100% 100%,40% 100%);}
-  .b-fp{background:var(--red);color:#fff;font-weight:800;font-size:12px;padding:5px 9px;border-radius:14px;}
-  .b-mc{width:18px;height:18px;background:#111;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);}
-  .b-all{font-size:12.5px;color:var(--ink);line-height:1.2;text-decoration:underline;}
-
-  /* ---------- nav ---------- */
-  .navbar{
-    background:var(--teal);
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:14px 16px;
-  }
-  .fp-logo{
-    background:var(--red);
-    color:#fff;
-    font-weight:800;
-    font-style:italic;
-    font-size:16px;
-    padding:6px 12px;
-    border-radius:14px 14px 14px 0;
-    flex:0 0 auto;
-  }
-  .search-wrap{
-    flex:1;
-    background:#fff;
-    border-radius:24px;
-    display:flex;
-    align-items:center;
-    padding:9px 8px 9px 16px;
-  }
-  .search-wrap input{
-    border:none;outline:none;flex:1;
-    font-size:14.5px;font-family:inherit;color:var(--ink);
-    background:transparent;
-  }
-  .search-wrap input::placeholder{color:#9a9a9a;}
-  .search-circle{
-    width:30px;height:30px;border-radius:50%;
-    background:var(--red);
-    display:flex;align-items:center;justify-content:center;
-    flex:0 0 auto;border:none;cursor:pointer;
-  }
-  .menu-btn{
-    background:none;border:none;
-    display:flex;flex-direction:column;gap:5px;
-    cursor:pointer;padding:6px;flex:0 0 auto;
-  }
-  .menu-btn span{width:24px;height:3px;background:var(--ink);border-radius:2px;display:block;}
-
-  /* ---------- breadcrumb ---------- */
+  /* ---------- Breadcrumb ---------- */
   .breadcrumb{
-    padding:22px 18px 10px;
-    letter-spacing:2px;
+    background:rgb(249,249,249);
+    padding:22px 18px;
+    font-size:18px;
+    color:#1450c4;
   }
-  .crumb-light{
-    display:block;
-    font-size:13.5px;
-    font-weight:700;
-    color:var(--ink);
-    margin-bottom:4px;
-  }
-  .crumb-light .dots{color:var(--teal-dark);letter-spacing:1px;}
-  .crumb-bold{
-    display:block;
-    font-size:16px;
-    font-weight:800;
-  }
+  .breadcrumb a{color:#1450c4;text-decoration:underline;font-weight:500;}
+  .breadcrumb .sep{color:#1a1a1a;margin:0 6px;text-decoration:none;}
 
   /* ---------- gallery ---------- */
   .gallery{
@@ -165,9 +196,9 @@
     padding:10px 28px;
   }
   .slide svg{width:100%;height:100%;}
-  .zoom-btn{
+  .zoom-btn,
+  .heart-btn{
     position:absolute;
-    bottom:14px;right:30px;
     width:42px;height:42px;
     border-radius:50%;
     background:#fff;
@@ -175,7 +206,93 @@
     box-shadow:0 4px 10px rgba(0,0,0,0.12);
     display:flex;align-items:center;justify-content:center;
     cursor:pointer;
-    font-size:16px;
+    z-index:2;
+    padding:0;
+  }
+  .zoom-btn{
+    bottom:14px;right:30px;
+  }
+  .heart-btn{
+    top:14px;right:30px;
+    transition:background .2s ease, border-color .2s ease;
+  }
+  .heart-btn svg{
+    width:18px;height:18px;
+    display:block;
+    stroke:var(--ink);
+    fill:none;
+    stroke-width:1.75;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    transition:fill .2s ease, stroke .2s ease;
+  }
+  .heart-btn.is-active{
+    background:var(--blue);
+    border-color:var(--blue);
+  }
+  .heart-btn.is-active svg{
+    fill:#fff;
+    stroke:#fff;
+  }
+
+  /* ---------- zoom overlay ---------- */
+  body.zoom-open{overflow:hidden;}
+  .zoom-overlay{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    background:rgba(0,0,0,0.92);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .zoom-overlay[hidden]{display:none;}
+  .zoom-close{
+    position:absolute;
+    top:16px;right:16px;
+    width:44px;height:44px;
+    border-radius:50%;
+    background:#fff;
+    border:none;
+    font-size:28px;
+    line-height:1;
+    cursor:pointer;
+    z-index:2;
+    color:var(--ink);
+  }
+  .zoom-stage{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    touch-action:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .zoom-content{
+    transform-origin:center center;
+    will-change:transform;
+    cursor:grab;
+    max-width:92vw;
+    max-height:82vh;
+  }
+  .zoom-content svg{
+    width:100%;
+    height:auto;
+    display:block;
+    pointer-events:none;
+  }
+  .zoom-content.is-dragging{cursor:grabbing;}
+  .zoom-hint{
+    position:absolute;
+    bottom:24px;
+    left:50%;
+    transform:translateX(-50%);
+    color:#fff;
+    font-size:13px;
+    opacity:0.75;
+    pointer-events:none;
+    white-space:nowrap;
   }
 
   /* ---------- thumbnails ---------- */
@@ -220,46 +337,57 @@
   .thumb svg{width:100%;height:100%;}
   .thumb.active{border-color:var(--red);}
 
-  /* ---------- link / title / rating ---------- */
-  .browse-link{
-    display:block;
-    margin:6px 18px 18px;
-    font-size:15px;
-    font-weight:700;
-    color:var(--ink);
-    text-decoration:underline;
-  }
+  /* ---------- title / rating ---------- */
   .title{
-    margin:0 18px 14px;
+    margin:0 18px 8px;
     font-size:21px;
     font-weight:800;
     line-height:1.3;
+  }
+  .price{
+    margin:0 18px 12px;
+    font-size:24px;
+    font-weight:800;
+    color:var(--ink);
   }
   .rating{
     display:flex;
     align-items:center;
     gap:8px;
+    flex-wrap:wrap;
     margin:0 18px 20px;
   }
   .stars{display:flex;gap:2px;}
   .stars svg{width:18px;height:18px;}
   .count{font-size:14px;color:var(--grey);}
+  .add-review{
+    color:#1450c4;
+    text-decoration:underline;
+    font-size:14px;
+    font-weight:500;
+  }
 
   .cta{
     display:block;
     width:calc(100% - 36px);
     margin:0 18px 26px;
     background:var(--yellow);
+    color:var(--ink);
+    font-family:'Buenos Aires',sans-serif;
+    font-weight:700;
+    font-size:.92rem;
+    padding:11px;
+    min-height:44px;
     border:none;
-    border-radius:28px;
-    padding:16px;
-    font-size:16px;
-    font-weight:800;
+    border-radius:var(--radius-pill);
+    box-shadow:0 3px 0 var(--yellow-dark);
     cursor:pointer;
-    transition:filter .15s ease, transform .1s ease;
+    transition:transform .08s;
   }
-  .cta:hover{filter:brightness(0.97);}
-  .cta:active{transform:scale(0.98);}
+  .cta:active{
+    transform:translateY(2px);
+    box-shadow:none;
+  }
 
   /* ---------- accordion ---------- */
   .accordions{margin:0 18px;}
@@ -322,45 +450,382 @@
     display:flex;align-items:center;justify-content:center;
     font-size:13px;font-weight:800;
   }
-  .disclaimer{
-    margin:0 18px 40px;
+
+  .warning{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin:0 18px 32px;
+  }
+  .warning-icon{
+    flex-shrink:0;
+    width:24px;
+    height:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .warning-icon svg{
+    width:24px;
+    height:24px;
+  }
+  .warning-text p{
+    margin:0;
     font-size:13px;
-    color:var(--grey);
-    line-height:1.5;
+    line-height:1.35;
+  }
+  .warning-text .label{
+    color:#d6452a;
+    font-weight:700;
+  }
+  .warning-text .hazard,
+  .warning-text .age{
+    color:#1a1a1a;
+    font-weight:700;
+  }
+
+  .divider{
+    border:none;
+    border-top:1px solid var(--line);
+    margin:8px 18px 0;
+  }
+  .related{
+    text-align:center;
+    padding:24px 0 0;
+  }
+  .related h2{
+    font-size:24px;
+    font-weight:800;
+    color:var(--ink);
+    margin:0 0 20px;
+    padding:0 18px;
+  }
+
+  .carousel{
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    padding:0 16px 6px 20px;
+    scroll-padding-left:20px;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    align-items:stretch;
+  }
+  .carousel::-webkit-scrollbar{display:none;}
+
+  .product-card{
+    flex:0 0 300px;
+    width:300px;
+    scroll-snap-align:start;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:16px 16px 18px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    background:#fff;
+  }
+  .product-card .img-wrap{
+    width:100%;
+    height:190px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:12px;
+  }
+  .product-card img{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+  }
+  .rating-row{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:8px;
+  }
+  .rating-row .stars{
+    color:var(--trus-red);
+    font-size:18px;
+    letter-spacing:1px;
+    display:inline;
+    gap:0;
+  }
+  .rating-num{
+    font-size:15px;
+    color:#1a1a1a;
+    margin-left:6px;
+    font-weight:500;
+  }
+  .product-card .price{
+    font-size:24px;
+    font-weight:800;
+    color:#1a1a1a;
+  }
+  .product-title{
+    width:100%;
+    font-size:16px;
+    font-weight:700;
+    line-height:1.28;
+    margin:0 0 12px;
+    color:#1a1a1a;
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    min-height:calc(1.28em * 3);
+  }
+  .add-cart-btn{
+    width:100%;
+    background:var(--blue);
+    color:#fff;
+    font-family:'Buenos Aires',sans-serif;
+    font-weight:700;
+    font-size:.92rem;
+    padding:11px;
+    min-height:44px;
+    border-radius:var(--radius-pill);
+    box-shadow:0 3px 0 var(--blue-dark);
+    transition:transform .08s;
+  }
+  .add-cart-btn:active{transform:translateY(2px);box-shadow:none;}
+
+  .scroll-track{
+    height:4px;
+    background:#e3e3e3;
+    border-radius:3px;
+    margin:18px 16px 32px 20px;
+    position:relative;
+    overflow:hidden;
+  }
+  .scroll-thumb{
+    position:absolute;
+    top:0;left:0;
+    height:100%;
+    width:42px;
+    background:var(--blue);
+    border-radius:3px;
+  }
+
+  /* ---------- PDP accordion + reviews (from product detail page) ---------- */
+  .pdp-sections{padding-bottom:0;}
+  .pdp-sections a{color:var(--link-blue);text-decoration:underline;cursor:pointer;}
+  .pdp-div{border:none;border-top:1px solid var(--gray-300);margin:18px 18px;}
+
+  .pdp-sections .pdp-accordion{padding:0 18px;}
+  .pdp-sections .pdp-accordion-header{
+    width:100%;background:none;border:none;display:flex;align-items:center;gap:10px;
+    padding:6px 0;font-size:18px;font-weight:800;text-align:left;cursor:pointer;
+  }
+  .pdp-sections .pdp-accordion-header .badge-icon{
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    background:#ffd200;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    font-size:13px;
+  }
+  .pdp-sections .pdp-accordion-header .grow{flex:1;}
+  .pdp-sections .pdp-accordion-header .toggle{font-size:20px;font-weight:400;color:var(--gray-700);width:18px;text-align:center;}
+  .pdp-sections .pdp-accordion-content{display:none;padding:10px 0 4px;}
+  .pdp-sections .pdp-accordion.open .pdp-accordion-content{display:block;}
+
+  .pdp-sections .check-list{list-style:none;margin:6px 0 0;padding:0;}
+  .pdp-sections .check-list li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:15px;}
+  .pdp-sections .check-list svg{width:16px;height:16px;stroke:var(--ink);flex-shrink:0;margin-top:3px;}
+
+  .pdp-sections .sub-section{margin-top:18px;}
+  .pdp-sections .sub-h{font-size:16px;font-weight:800;margin-bottom:8px;}
+  .pdp-sections .bullet-list{margin:0;padding-left:0;list-style:none;}
+  .pdp-sections .bullet-list li{font-size:14.5px;line-height:1.55;padding:6px 0;}
+  .pdp-sections .bullet-list li b{font-weight:800;}
+  .pdp-sections .pill-list{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
+  .pdp-sections .pill{
+    background:var(--gray-100);border-radius:14px;padding:14px 16px;
+    font-size:14.5px;line-height:1.45;
+  }
+  .pdp-sections .star-bullets{font-size:14.5px;line-height:1.7;margin:0;padding-left:18px;}
+
+  .pdp-sections .qa-card{
+    border:1px solid var(--gray-300);border-radius:14px;padding:16px;margin-top:12px;
+  }
+  .pdp-sections .qa-q{font-weight:800;font-size:15px;margin-bottom:8px;}
+  .pdp-sections .qa-a{font-size:14.5px;line-height:1.55;color:var(--gray-700);}
+
+  #reviews .reviews-head{padding:18px 18px 0;}
+  #reviews .reviews-rating-line{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;}
+  #reviews .recommend-line{font-size:14px;color:var(--gray-700);margin-top:6px;}
+  #reviews .search-box{
+    margin-top:14px;border:1px solid var(--gray-300);border-radius:10px;
+    padding:11px 14px;font-size:14px;color:var(--gray-500);display:flex;align-items:center;gap:8px;
+  }
+  #reviews .search-box svg{width:16px;height:16px;stroke:var(--gray-500);flex-shrink:0;}
+  #reviews .snapshot-title{font-weight:800;font-size:15px;margin-top:20px;}
+  #reviews .snapshot-sub{font-size:13px;color:var(--gray-500);margin-top:2px;margin-bottom:10px;}
+  #reviews .bar-row{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:14px;}
+  #reviews .bar-row .star-label{width:30px;flex-shrink:0;font-weight:600;}
+  #reviews .bar-track{flex:1;height:9px;background:var(--gray-300);border-radius:6px;overflow:hidden;}
+  #reviews .bar-fill{height:100%;background:var(--pdp-red);border-radius:6px;}
+  #reviews .bar-row .count{width:26px;text-align:right;color:var(--gray-700);}
+  #reviews .review-meta{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 0;}
+  #reviews .sort-select{font-size:13px;color:var(--gray-700);}
+  #reviews .review-card{padding:16px;margin:14px 18px 0;border:1px solid var(--gray-300);border-radius:14px;}
+  #reviews .review-author{font-size:12.5px;color:var(--gray-500);margin-top:6px;}
+  #reviews .review-title{font-weight:800;font-size:15px;margin-top:8px;}
+  #reviews .review-body{font-size:14px;line-height:1.55;color:var(--gray-700);margin-top:4px;}
+  #reviews .load-more{
+    display:block;margin:18px 18px 24px;text-align:center;
+    border:1px solid var(--gray-300);border-radius:30px;padding:13px;
+    font-weight:700;font-size:14px;background:#fff;color:var(--ink);cursor:pointer;
+  }
+  #reviews .stars{position:relative;display:inline-block;font-size:15px;line-height:1;white-space:nowrap;}
+  #reviews .stars .back{color:var(--gray-300);letter-spacing:1px;}
+  #reviews .stars .front{position:absolute;top:0;left:0;overflow:hidden;color:var(--pdp-red);letter-spacing:1px;white-space:nowrap;}
+
+  /* ---------- site footer ---------- */
+  footer.site-footer{
+    background:linear-gradient(180deg, #004ebc 0%, #004ebc 100%);
+    padding:40px 0 32px 24px;
+    position:relative;
+    color:#fff;
+    font-family:'Buenos Aires',sans-serif;
+  }
+  footer.site-footer .footer-inner{max-width:1200px;margin:0 auto;padding-right:24px;}
+  footer.site-footer .footer-top{position:relative;padding-right:110px;}
+  footer.site-footer .footer-grid{display:flex;flex-direction:column;}
+  footer.site-footer .footer-grid section{margin-bottom:36px;}
+  footer.site-footer .footer-grid .newsletter{margin-bottom:12px;}
+  footer.site-footer .footer-grid section:last-child{margin-bottom:0;}
+  footer.site-footer .footer-bottom{margin-top:36px;}
+  footer.site-footer .footer-brand{text-align:center;}
+  footer.site-footer .mascot{position:absolute;top:28px;right:0;width:300px;height:auto;opacity:.95;}
+  footer.site-footer h2.section-title{font-size:30px;font-weight:800;margin:0 0 22px;letter-spacing:-.5px;}
+  footer.site-footer ul.link-list{list-style:none;margin:0;padding:0;}
+  footer.site-footer ul.link-list li{margin-bottom:26px;}
+  footer.site-footer ul.link-list li:last-child{margin-bottom:0;}
+  footer.site-footer ul.link-list a{color:#fff;text-decoration:none;font-size:22px;display:inline-flex;align-items:center;gap:12px;transition:opacity .15s ease;}
+  footer.site-footer ul.link-list a:hover,
+  footer.site-footer ul.link-list a:focus-visible{opacity:.75;}
+  footer.site-footer .heart-icon{flex:none;}
+  footer.site-footer .newsletter p{font-size:19px;line-height:1.4;margin:0 0 22px;}
+  footer.site-footer .signup-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:nowrap;}
+  footer.site-footer .signup-row input[type="email"]{width:290px;height:49px;flex:0 0 290px;padding:0 18px;border-radius:10px;border:none;font-size:18px;color:#333;background:#fff;box-sizing:border-box;}
+  footer.site-footer .signup-row input[type="email"]::placeholder{color:#6b6b6b;}
+  footer.site-footer .signup-row button{width:89px;height:49px;flex:0 0 89px;padding:0;border-radius:10px;border:2px solid #fff;background:transparent;color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;box-sizing:border-box;transition:background .15s ease, color .15s ease;}
+  footer.site-footer .signup-row button:hover,
+  footer.site-footer .signup-row button:focus-visible{background:#fff;color:#004ebc;}
+  footer.site-footer .signup-disclaimer{font-size:14px;line-height:1.5;margin:0;opacity:.95;}
+  footer.site-footer .signup-disclaimer a{color:#fff;text-decoration:underline;}
+  footer.site-footer .signup-confirm{font-size:14px;margin:8px 0 0;min-height:0;}
+  footer.site-footer .social-row{display:flex;justify-content:center;gap:26px;margin:30px 0 18px;flex-wrap:wrap;}
+  footer.site-footer .social-row a{color:#fff;display:flex;transition:opacity .15s ease;}
+  footer.site-footer .social-row a:hover,
+  footer.site-footer .social-row a:focus-visible{opacity:.7;}
+  footer.site-footer .social-row svg{width:30px;height:30px;}
+  footer.site-footer .handle{text-align:center;font-size:22px;font-weight:700;margin-bottom:30px;}
+  footer.site-footer hr.divider{border:none;border-top:1px solid rgba(255,255,255,.35);margin:0 0 26px;}
+  footer.site-footer .wordmark{text-align:center;margin-bottom:22px;}
+  footer.site-footer .brand-logo{display:block;max-width:240px;width:100%;height:auto;margin:0 auto;}
+  footer.site-footer .copyright{text-align:center;font-size:14px;opacity:.9;padding-bottom:10px;}
+  @media (max-width:380px){
+    footer.site-footer h2.section-title{font-size:26px;}
+    footer.site-footer ul.link-list a{font-size:19px;}
+    footer.site-footer .brand-logo{max-width:200px;}
+    footer.site-footer .mascot{width:220px;}
+  }
+  @media (min-width:480px){
+    footer.site-footer .footer-top{padding-right:160px;}
+  }
+  @media (min-width:768px){
+    footer.site-footer{padding:64px 0 56px 48px;}
+    footer.site-footer .footer-inner{padding-right:48px;}
+    footer.site-footer .footer-top{padding-right:420px;}
+    footer.site-footer .mascot{width:400px;top:0;}
+    footer.site-footer .footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:48px 40px;}
+    footer.site-footer .footer-grid section{margin-bottom:0;}
+    footer.site-footer .footer-grid > section:nth-child(1){grid-column:1;grid-row:1;}
+    footer.site-footer .footer-grid > section:nth-child(2){grid-column:1 / -1;grid-row:2;}
+    footer.site-footer .footer-grid > section:nth-child(3){grid-column:2;grid-row:1;}
+    footer.site-footer .footer-grid > section:nth-child(4){grid-column:3;grid-row:1;}
+    footer.site-footer .footer-grid > section:nth-child(5){grid-column:4;grid-row:1;}
+    footer.site-footer h2.section-title{font-size:22px;margin-bottom:16px;}
+    footer.site-footer ul.link-list li{margin-bottom:14px;}
+    footer.site-footer ul.link-list a{font-size:16px;}
+    footer.site-footer .newsletter{display:grid;grid-template-columns:1fr 1fr;gap:16px 48px;align-items:start;padding-top:8px;border-top:1px solid rgba(255,255,255,.2);margin-bottom:0;}
+    footer.site-footer .newsletter .section-title{grid-column:1;margin-bottom:0;}
+    footer.site-footer .newsletter p{grid-column:1;margin-bottom:0;max-width:none;font-size:17px;}
+    footer.site-footer .newsletter-intro{width:250px;max-width:250px;}
+    footer.site-footer .newsletter form{grid-column:2;grid-row:1 / span 3;}
+    footer.site-footer .newsletter .signup-disclaimer{grid-column:1;}
+    footer.site-footer .newsletter .signup-confirm{grid-column:1;margin:0;}
+    footer.site-footer .footer-bottom{margin-top:48px;padding-top:32px;border-top:1px solid rgba(255,255,255,.35);}
+    footer.site-footer hr.divider{display:none;}
+    footer.site-footer .social-row{margin-top:0;}
+    footer.site-footer .footer-brand{display:flex;align-items:center;justify-content:space-between;gap:32px;text-align:left;}
+    footer.site-footer .wordmark{margin-bottom:0;}
+    footer.site-footer .brand-logo{margin:0;max-width:220px;}
+    footer.site-footer .copyright{padding-bottom:0;text-align:right;}
+  }
+  @media (min-width:1024px){
+    footer.site-footer .footer-top{padding-right:520px;}
+    footer.site-footer .mascot{width:500px;}
+  }
+  @media (min-width:1280px){
+    footer.site-footer .footer-inner{max-width:1280px;}
   }
 </style>
 </head>
 <body>
 
-<div class="page">
+<div class="app-shell">
+  <div class="promo-bar">Free Shipping for Orders Over 6500 DZD</div>
 
-  <!-- brand bar -->
-  <div class="brandbar">
-    <div class="brand-item"><span class="b-mattel">M</span></div>
-    <div class="brand-item"><span class="b-barbie">Barbie</span></div>
-    <div class="brand-item"><span class="b-hotwheels">HOT WHEELS</span></div>
-    <div class="brand-item"><span class="b-fp">fisher·price</span></div>
-    <div class="brand-item"><span class="b-mc"></span><span style="font-size:11.5px;font-weight:700;">MATTEL CREATIONS</span></div>
-    <div class="brand-item"><span class="b-all">Toutes les<br>marques</span></div>
-  </div>
-
-  <!-- nav -->
-  <div class="navbar">
-    <div class="fp-logo">fisher·price</div>
-    <div class="search-wrap">
-      <input type="text" placeholder="Que recherchez-vous ?">
-      <button class="search-circle" aria-label="Rechercher">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#fff" stroke-width="2.4"/><line x1="16.4" y1="16.4" x2="22" y2="22" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>
+  <header class="nav" id="mainNav">
+    <div class="nav-default">
+      <div class="nav-icons">
+        <a class="icon-btn" href="home-page.html" aria-label="Menu">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </a>
+        <button class="icon-btn" type="button" aria-label="Account">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+        </button>
+      </div>
+      <a class="logo" href="home-page.html" aria-label="AJ BLOKS home">
+        <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782245376/Design_sans_titre_31_azudmo.png" alt="AJ BLOKS">
+      </a>
+      <div class="nav-icons">
+        <button class="icon-btn" type="button" id="searchOpenBtn" aria-label="Search">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M16.5 16.5L21 21"/></svg>
+        </button>
+        <a class="icon-btn" href="done/wishlist.html" aria-label="Wishlist">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.502 5.502 0 0 0 16.503 3c-1.76 0-3 .56-4.5 2.17C10.503 3.56 9.263 3 7.503 3A5.502 5.502 0 0 0 2 8.5c0 2.29 1.5 4.04 3 5.5l7 7Z"/></svg>
+        </a>
+        <button class="icon-btn" type="button" aria-label="Cart">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="nav-search">
+      <form class="search-form" id="searchForm" role="search">
+        <input class="search-input" id="searchInput" type="search" name="q" placeholder="Search" autocomplete="off" aria-label="Search">
+      </form>
+      <button class="icon-btn search-close" type="button" id="searchCloseBtn" aria-label="Close search">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
     </div>
-    <button class="menu-btn" aria-label="Menu"><span></span><span></span><span></span></button>
-  </div>
+  </header>
 
-  <!-- breadcrumb -->
-  <div class="breadcrumb">
-    <span class="crumb-light">TOUT PARCOURIR <span class="dots">···</span></span>
-    <span class="crumb-bold">BRIQUES DE CONSTRUCTION</span>
-  </div>
+<div class="page">
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a href="home-page.html">Home</a><span class="sep">›</span><a href="#">Briques de Construction</a>
+  </nav>
 
   <!-- gallery -->
   <div class="gallery">
@@ -508,9 +973,21 @@
       </div>
     </div>
 
-    <button class="zoom-btn" aria-label="Zoom">
+    <button class="heart-btn" id="heartBtn" type="button" aria-label="Add to wishlist" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.502 5.502 0 0 0 16.503 3c-1.76 0-3 .56-4.5 2.17C10.503 3.56 9.263 3 7.503 3A5.502 5.502 0 0 0 2 8.5c0 2.29 1.5 4.04 3 5.5l7 7Z"/></svg>
+    </button>
+
+    <button class="zoom-btn" id="zoomBtn" aria-label="Zoom">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#1a1a1a" stroke-width="2"/><line x1="16.4" y1="16.4" x2="21" y2="21" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/><line x1="11" y1="8" x2="11" y2="14" stroke="#1a1a1a" stroke-width="1.6"/><line x1="8" y1="11" x2="14" y2="11" stroke="#1a1a1a" stroke-width="1.6"/></svg>
     </button>
+  </div>
+
+  <div class="zoom-overlay" id="zoomOverlay" hidden>
+    <button class="zoom-close" id="zoomClose" aria-label="Fermer">&times;</button>
+    <div class="zoom-stage" id="zoomStage">
+      <div class="zoom-content" id="zoomContent"></div>
+    </div>
+    <p class="zoom-hint">Scroll or pinch to zoom · Drag to move</p>
   </div>
 
   <!-- thumbnails -->
@@ -520,16 +997,16 @@
     <button class="thumb-arrow" id="nextBtn" aria-label="Suivant">›</button>
   </div>
 
-  <a class="browse-link" href="#">Parcourir les jouets MEGA BLOKS</a>
-
-  <h1 class="title">MEGA BLOKS-Camion Course Et Construction-Coffret Avec 19 Pièces</h1>
+  <h1 class="title" id="productTitle">MEGA BLOKS-Camion Course Et Construction-Coffret Avec 19 Pièces</h1>
+  <p class="price" id="productPrice">$24.99</p>
 
   <div class="rating">
     <div class="stars" id="stars"></div>
     <span class="count">(0)</span>
+    <a class="add-review" href="#reviews">Add review</a>
   </div>
 
-  <button class="cta">Où l'acheter</button>
+  <button class="cta">Add to cart</button>
 
   <div class="accordions" id="accordions">
     <div class="accordion-item">
@@ -565,11 +1042,324 @@
     <span>Aucun avertissement applicable</span>
   </div>
 
-  <p class="disclaimer">*Ce prix conseillé est donné à titre indicatif – le prix de chaque vendeur peut varier.</p>
+  <div class="warning">
+    <div class="warning-icon">
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11 2H25L34 11V25L25 34H11L2 25V11L11 2Z" stroke="#d6452a" stroke-width="2"/>
+        <rect x="17" y="10" width="2" height="11" rx="1" fill="#d6452a"/>
+        <circle cx="18" cy="25" r="1.4" fill="#d6452a"/>
+      </svg>
+    </div>
+    <div class="warning-text">
+      <p class="label">WARNING:</p>
+      <p class="hazard">CHOKING HAZARD</p>
+      <p class="age">Small parts. Not for children under 3 yrs.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <section class="related">
+    <h2>You May Also Like</h2>
+
+    <div class="carousel" id="relatedCarousel">
+      <article class="product-card">
+        <div class="img-wrap">
+          <svg viewBox="0 0 200 200" width="190" height="190">
+            <rect x="20" y="40" width="160" height="120" rx="10" fill="#ffd400"/>
+            <circle cx="70" cy="100" r="34" fill="#fff"/>
+            <circle cx="130" cy="100" r="34" fill="#fff"/>
+            <circle cx="70" cy="100" r="22" fill="#e8302a"/>
+            <circle cx="130" cy="100" r="22" fill="#3f7ee0"/>
+            <circle cx="70" cy="100" r="10" fill="#fff"/>
+            <circle cx="130" cy="100" r="10" fill="#fff"/>
+          </svg>
+        </div>
+        <div class="rating-row">
+          <div><span class="stars">★★★</span><span class="rating-num">‎</span></div>
+          <div class="price">$—</div>
+        </div>
+        <h3 class="product-title">Fisher-Price Colorful Toddler Toy</h3>
+        <button class="add-cart-btn" type="button">Add to cart</button>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap">
+          <svg viewBox="0 0 200 200" width="190" height="190">
+            <polygon points="100,20 170,55 100,90 30,55" fill="#e8302a"/>
+            <polygon points="30,55 100,90 100,170 30,135" fill="#f5a623"/>
+            <polygon points="170,55 100,90 100,170 170,135" fill="#6bbf4e"/>
+            <circle cx="65" cy="40" r="6" fill="#ffd400"/>
+            <circle cx="90" cy="30" r="6" fill="#3f7ee0"/>
+            <circle cx="115" cy="30" r="6" fill="#6bbf4e"/>
+            <circle cx="140" cy="40" r="6" fill="#ff5fa2"/>
+            <circle cx="60" cy="95" r="9" fill="#ffd400"/>
+            <circle cx="55" cy="120" r="9" fill="#8e6bd6"/>
+            <circle cx="140" cy="100" r="10" fill="#e8302a"/>
+            <rect x="25" y="50" width="8" height="95" rx="4" fill="#3f7ee0"/>
+            <rect x="167" y="50" width="8" height="95" rx="4" fill="#ffd400"/>
+            <rect x="96" y="86" width="8" height="95" rx="4" fill="#ffd400"/>
+            <rect x="20" y="140" width="160" height="14" rx="7" fill="#62c8f5"/>
+          </svg>
+        </div>
+        <div class="rating-row">
+          <div><span class="stars">★★★★★</span><span class="rating-num">4.9 (11)</span></div>
+          <div class="price">$19.99</div>
+        </div>
+        <h3 class="product-title">VTech Busy Learners Activity Cube – Interactive Educational Toy with Music and Lights</h3>
+        <button class="add-cart-btn" type="button">Add to cart</button>
+      </article>
+
+      <article class="product-card">
+        <div class="img-wrap">
+          <svg viewBox="0 0 200 200" width="190" height="190">
+            <rect x="20" y="30" width="160" height="140" rx="8" fill="#8a5a3b"/>
+            <rect x="35" y="50" width="50" height="50" rx="4" fill="#e8302a"/>
+            <rect x="95" y="50" width="50" height="50" rx="4" fill="#3f7ee0"/>
+            <rect x="35" y="110" width="50" height="40" rx="4" fill="#6bbf4e"/>
+            <rect x="95" y="110" width="50" height="40" rx="4" fill="#ffd400"/>
+          </svg>
+        </div>
+        <div class="rating-row">
+          <div><span class="stars">★★★</span><span class="rating-num">‎</span></div>
+          <div class="price">$—</div>
+        </div>
+        <h3 class="product-title">Melissa &amp; Doug Wooden Building Blocks Set</h3>
+        <button class="add-cart-btn" type="button">Add to cart</button>
+      </article>
+    </div>
+    <div class="scroll-track"><div class="scroll-thumb"></div></div>
+  </section>
+
+  <div class="pdp-sections">
+    <hr class="pdp-div">
+
+    <div class="pdp-accordion open" id="acc-love">
+      <button class="pdp-accordion-header" type="button" data-target="acc-love">
+        <span class="badge-icon">★</span>
+        <span class="grow">Why They'll Love It</span>
+        <span class="toggle">−</span>
+      </button>
+      <div class="pdp-accordion-content">
+        <ul class="check-list">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Two toys in one: transport truck and buildable race cars
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Large pieces designed for little hands to stack and assemble
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Articulated ramp rolls vehicles out for extended racing fun
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="pdp-div">
+
+    <div class="pdp-accordion" id="acc-qa">
+      <button class="pdp-accordion-header" type="button" data-target="acc-qa">
+        <span class="grow" style="font-size:20px;">Customer Q&amp;A</span>
+        <span class="toggle">+</span>
+      </button>
+      <div class="pdp-accordion-content">
+        <div class="qa-card">
+          <div class="qa-q">How many pieces are in the set?</div>
+          <div class="qa-a">The coffret includes 19 blocks and pieces: 1 transport truck, 2 race cars, 1 articulated ramp, and an illustrated assembly guide.</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">Is this suitable for a 1-year-old?</div>
+          <div class="qa-a">Yes — MEGA BLOKS pieces are large, rounded, and designed for little hands. The recommended age is 1 year and up.</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">Does the ramp actually move?</div>
+          <div class="qa-a">Yes — the articulated ramp lets kids roll the built cars out of the truck for extended racing play.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="reviews">
+      <div class="reviews-head">
+        <div class="reviews-rating-line">
+          <span class="stars" style="font-size:18px;"><span class="back">★★★★★</span><span class="front" style="width:0%">★★★★★</span></span>
+          0 &nbsp;|&nbsp; 0 Reviews
+        </div>
+        <div class="recommend-line">Be the first to review this product</div>
+
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Search topics and reviews
+        </div>
+
+        <div class="snapshot-title">Rating Snapshot</div>
+        <div class="snapshot-sub">Select a row below to filter reviews.</div>
+
+        <div class="bar-row"><span class="star-label">5 ★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="count">0</span></div>
+        <div class="bar-row"><span class="star-label">4 ★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="count">0</span></div>
+        <div class="bar-row"><span class="star-label">3 ★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="count">0</span></div>
+        <div class="bar-row"><span class="star-label">2 ★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="count">0</span></div>
+        <div class="bar-row"><span class="star-label">1 ★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="count">0</span></div>
+      </div>
+
+      <div class="review-meta">
+        <span>0 Reviews</span>
+        <span class="sort-select">Sort by: Most Relevant ▾</span>
+      </div>
+
+      <button class="load-more" type="button">Show more reviews</button>
+    </div>
+  </div>
 
 </div>
 
+  <footer class="site-footer">
+    <img
+      class="mascot"
+      src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782044381/Design_sans_titre_6_copetd.png"
+      alt="Bob, la mascotte ajBloks"
+    >
+
+    <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-grid">
+
+    <section aria-label="Service client">
+      <h2 class="section-title">Service client</h2>
+      <ul class="link-list">
+        <li><a href="#">Guides cadeaux</a></li>
+        <li><a href="toysrus-faq (2).html">Centre d'aide</a></li>
+        <li><a href="#">Livraison</a></li>
+        <li><a href="#">Retours et échanges</a></li>
+        <li><a href="#">Nous contacter</a></li>
+      </ul>
+    </section>
+
+    <section class="newsletter" aria-label="Inscription à l'infolettre">
+      <h2 class="section-title">Inscrivez-vous pour vous amuser&nbsp;!</h2>
+      <p class="newsletter-intro">Recevez des nouvelles exclusives sur les jouets, des idées de jeu et des avis !</p>
+      <form id="footer-signup-form">
+        <div class="signup-row">
+          <input type="email" id="footer-email-input" placeholder="Entrez votre e-mail" required aria-label="Adresse e-mail">
+          <button type="submit">S'inscrire</button>
+        </div>
+        <p class="signup-disclaimer">
+          En vous inscrivant à notre infolettre, vous acceptez nos <a href="#">conditions d'utilisation</a> et notre <a href="#">politique de confidentialité</a>.
+        </p>
+        <p class="signup-confirm" id="footer-signup-confirm" role="status"></p>
+      </form>
+    </section>
+
+    <section aria-label="Compte">
+      <h2 class="section-title">Compte</h2>
+      <ul class="link-list">
+        <li><a href="#">Mon compte</a></li>
+        <li><a href="#">Suivre ma commande</a></li>
+        <li>
+          <a href="done/wishlist.html">
+            <svg class="heart-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+            Ma liste de souhaits
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section aria-label="À propos">
+      <h2 class="section-title">À propos</h2>
+      <ul class="link-list">
+        <li><a href="#">Notre histoire</a></li>
+        <li><a href="#">Conditions d'utilisation</a></li>
+        <li><a href="#">Politique de confidentialité</a></li>
+        <li><a href="#">Déclaration d'accessibilité</a></li>
+        <li><a href="#">Préférences de cookies</a></li>
+      </ul>
+    </section>
+
+    <section aria-label="Activités">
+      <h2 class="section-title">Activités</h2>
+      <ul class="link-list">
+        <li><a href="#">Le monde de Bob</a></li>
+        <li><a href="#">Coloriage et activités</a></li>
+      </ul>
+    </section>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+    <div class="social-row">
+      <a href="#" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.7 31.7 0 0 0 0 12a31.7 31.7 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.7 31.7 0 0 0 24 12a31.7 31.7 0 0 0-.5-5.8zM9.6 15.5V8.5L15.8 12z"/></svg>
+      </a>
+      <a href="#" aria-label="TikTok">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.4 2.3 2 4 4.4 4.2v3.1c-1.5.1-2.9-.4-4.4-1.3v6.6a5.7 5.7 0 1 1-5.7-5.7c.3 0 .6 0 .9.1v3.2a2.6 2.6 0 1 0 1.8 2.5V3z"/></svg>
+      </a>
+      <a href="#" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="Pinterest">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.219-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.17.6 2.123 1.775 2.123 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+      </a>
+      <a href="#" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-9h3l.5-3.5h-3.5V7.4c0-1 .3-1.7 1.7-1.7H17V2.6C16.6 2.5 15.5 2.4 14.2 2.4c-2.7 0-4.6 1.6-4.6 4.7v2.4H6.9V13h2.7v9z"/></svg>
+      </a>
+    </div>
+
+    <p class="handle">@ajBloks</p>
+    <hr class="divider">
+
+    <div class="footer-brand">
+    <div class="wordmark">
+      <img
+        class="brand-logo"
+        src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782051890/Design_sans_titre_7_mwozaj.png"
+        alt="ajBloks"
+      >
+    </div>
+    <p class="copyright">© 2026 ajBloks. Tous droits réservés.</p>
+    </div>
+    </div>
+
+    </div>
+  </footer>
+
+</div>
+
+<script src="cart-drawer.js"></script>
+<script src="signup-drawer.js"></script>
+<script src="product-card-links.js"></script>
+<script src="auth-links.js"></script>
 <script>
+  const mainNav = document.getElementById('mainNav');
+  const searchOpenBtn = document.getElementById('searchOpenBtn');
+  const searchCloseBtn = document.getElementById('searchCloseBtn');
+  const searchForm = document.getElementById('searchForm');
+  const searchInput = document.getElementById('searchInput');
+
+  function closeSearch(){
+    mainNav.classList.remove('is-search-active');
+    searchInput.blur();
+  }
+  function openSearch(){
+    mainNav.classList.add('is-search-active');
+    searchInput.value = '';
+    requestAnimationFrame(() => searchInput.focus());
+  }
+  searchOpenBtn.addEventListener('click', openSearch);
+  searchCloseBtn.addEventListener('click', closeSearch);
+  searchForm.addEventListener('submit', e => { e.preventDefault(); closeSearch(); });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && mainNav.classList.contains('is-search-active')) closeSearch();
+  });
+
   const slidesEl = document.getElementById('slides');
   const slides = Array.from(slidesEl.children);
   const progressFill = document.getElementById('progressFill');
@@ -611,15 +1401,168 @@
 
   goTo(0);
 
+  const heartBtn = document.getElementById('heartBtn');
+  heartBtn.addEventListener('click', () => {
+    const saved = heartBtn.classList.toggle('is-active');
+    heartBtn.setAttribute('aria-pressed', saved ? 'true' : 'false');
+    heartBtn.setAttribute('aria-label', saved ? 'Remove from wishlist' : 'Add to wishlist');
+  });
+
+  // zoom lightbox
+  const zoomBtn = document.getElementById('zoomBtn');
+  const zoomOverlay = document.getElementById('zoomOverlay');
+  const zoomClose = document.getElementById('zoomClose');
+  const zoomStage = document.getElementById('zoomStage');
+  const zoomContent = document.getElementById('zoomContent');
+
+  let zoomScale = 1;
+  let zoomPanX = 0;
+  let zoomPanY = 0;
+  let isDragging = false;
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let panStartX = 0;
+  let panStartY = 0;
+  let pinchStartDist = 0;
+  let pinchStartScale = 1;
+  const MIN_ZOOM = 1;
+  const MAX_ZOOM = 4;
+
+  function applyZoomTransform(){
+    zoomContent.style.transform = `translate(${zoomPanX}px, ${zoomPanY}px) scale(${zoomScale})`;
+  }
+
+  function resetZoomView(){
+    zoomScale = 1;
+    zoomPanX = 0;
+    zoomPanY = 0;
+    applyZoomTransform();
+  }
+
+  function openZoom(){
+    zoomContent.innerHTML = slides[current].querySelector('svg').outerHTML;
+    resetZoomView();
+    zoomOverlay.hidden = false;
+    document.body.classList.add('zoom-open');
+  }
+
+  function closeZoom(){
+    zoomOverlay.hidden = true;
+    document.body.classList.remove('zoom-open');
+    resetZoomView();
+  }
+
+  function clampZoom(value){
+    return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, value));
+  }
+
+  function setZoom(nextScale, originX, originY){
+    const prevScale = zoomScale;
+    zoomScale = clampZoom(nextScale);
+    if (originX != null && originY != null && zoomScale !== prevScale){
+      const rect = zoomContent.getBoundingClientRect();
+      const offsetX = originX - rect.left - rect.width / 2;
+      const offsetY = originY - rect.top - rect.height / 2;
+      const ratio = zoomScale / prevScale;
+      zoomPanX -= offsetX * (ratio - 1);
+      zoomPanY -= offsetY * (ratio - 1);
+    }
+    applyZoomTransform();
+  }
+
+  zoomBtn.addEventListener('click', openZoom);
+  zoomClose.addEventListener('click', closeZoom);
+  zoomOverlay.addEventListener('click', e => {
+    if (e.target === zoomOverlay || e.target === zoomStage) closeZoom();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !zoomOverlay.hidden) closeZoom();
+  });
+
+  zoomStage.addEventListener('wheel', e => {
+    e.preventDefault();
+    const delta = e.deltaY < 0 ? 0.15 : -0.15;
+    setZoom(zoomScale + delta, e.clientX, e.clientY);
+  }, {passive:false});
+
+  zoomStage.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    zoomStage.setPointerCapture(e.pointerId);
+    zoomStage._pointers = zoomStage._pointers || new Map();
+    zoomStage._pointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
+
+    if (zoomStage._pointers.size === 1){
+      isDragging = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      panStartX = zoomPanX;
+      panStartY = zoomPanY;
+      zoomContent.classList.add('is-dragging');
+    } else if (zoomStage._pointers.size === 2){
+      const pts = [...zoomStage._pointers.values()];
+      pinchStartDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      pinchStartScale = zoomScale;
+      isDragging = false;
+      zoomContent.classList.remove('is-dragging');
+    }
+  });
+
+  zoomStage.addEventListener('pointermove', e => {
+    if (!zoomStage._pointers || !zoomStage._pointers.has(e.pointerId)) return;
+    zoomStage._pointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
+
+    if (zoomStage._pointers.size === 2){
+      const pts = [...zoomStage._pointers.values()];
+      const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      const midX = (pts[0].x + pts[1].x) / 2;
+      const midY = (pts[0].y + pts[1].y) / 2;
+      if (pinchStartDist > 0){
+        setZoom(pinchStartScale * (dist / pinchStartDist), midX, midY);
+      }
+    } else if (isDragging && zoomScale > 1){
+      zoomPanX = panStartX + (e.clientX - dragStartX);
+      zoomPanY = panStartY + (e.clientY - dragStartY);
+      applyZoomTransform();
+    }
+  });
+
+  function endPointer(e){
+    if (!zoomStage._pointers) return;
+    zoomStage._pointers.delete(e.pointerId);
+    if (zoomStage._pointers.size < 2){
+      pinchStartDist = 0;
+      if (zoomStage._pointers.size === 1){
+        const remaining = [...zoomStage._pointers.values()][0];
+        dragStartX = remaining.x;
+        dragStartY = remaining.y;
+        panStartX = zoomPanX;
+        panStartY = zoomPanY;
+        isDragging = zoomScale > 1;
+      } else {
+        isDragging = false;
+        zoomContent.classList.remove('is-dragging');
+      }
+    }
+  }
+
+  zoomStage.addEventListener('pointerup', endPointer);
+  zoomStage.addEventListener('pointercancel', endPointer);
+
+  zoomStage.addEventListener('dblclick', e => {
+    if (zoomScale > 1) resetZoomView();
+    else setZoom(2.5, e.clientX, e.clientY);
+  });
+
   // star rating (0 reviews -> empty outline stars)
   const starsEl = document.getElementById('stars');
   const starOutline = `<svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6-5.9-3.3-5.9 3.3 1.3-6.6L2.5 9.4l6.6-.8L12 2.5z" stroke="#1a1a1a" stroke-width="1.5" fill="none"/></svg>`;
   for (let i = 0; i < 5; i++){
     starsEl.insertAdjacentHTML('beforeend', starOutline);
   }
+  if(typeof loadProductDetailFromQuery === 'function') loadProductDetailFromQuery();
 
   // accordion
-  document.querySelectorAll('.accordion-header').forEach(header => {
+  document.querySelectorAll('.accordions .accordion-header').forEach(header => {
     header.addEventListener('click', () => {
       const item = header.parentElement;
       const content = header.nextElementSibling;
@@ -633,6 +1576,52 @@
       }
     });
   });
+
+  document.querySelectorAll('.pdp-accordion-header').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var acc = document.getElementById(btn.dataset.target);
+      acc.classList.toggle('open');
+      var icon = btn.querySelector('.toggle');
+      icon.textContent = acc.classList.contains('open') ? '−' : '+';
+    });
+  });
+
+  document.querySelectorAll('.carousel').forEach(function(carousel){
+    var track = carousel.nextElementSibling;
+    if(!track || !track.classList.contains('scroll-track')) return;
+    var thumb = track.querySelector('.scroll-thumb');
+
+    function updateThumb(){
+      var maxScroll = carousel.scrollWidth - carousel.clientWidth;
+      var trackWidth = track.clientWidth;
+      var thumbWidth = thumb.clientWidth;
+      var maxThumbTravel = trackWidth - thumbWidth;
+      var ratio = maxScroll > 0 ? (carousel.scrollLeft / maxScroll) : 0;
+      thumb.style.left = (ratio * maxThumbTravel) + 'px';
+    }
+
+    carousel.addEventListener('scroll', updateThumb);
+    window.addEventListener('resize', updateThumb);
+    updateThumb();
+  });
+
+  // Add to cart handled by cart-drawer.js
+
+  const footerSignupForm = document.getElementById('footer-signup-form');
+  const footerSignupConfirm = document.getElementById('footer-signup-confirm');
+  if(footerSignupForm && footerSignupConfirm){
+    footerSignupForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      const email = document.getElementById('footer-email-input').value.trim();
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if(valid){
+        footerSignupConfirm.textContent = "Merci pour votre inscription ! Consultez votre boîte de réception pour confirmer.";
+        footerSignupForm.reset();
+      } else {
+        footerSignupConfirm.textContent = "Veuillez entrer une adresse e-mail valide.";
+      }
+    });
+  }
 </script>
 
 </body>

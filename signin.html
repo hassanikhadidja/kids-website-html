@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign up · AJ BLOKS</title>
+<style>
+  @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
+
+  :root{
+    --bg: #FAF6EF;
+    --card: #FFFFFF;
+    --ink: #1C1B1F;
+    --ink-soft: #6B6770;
+    --line: #E6E0D2;
+    --purple: #5B4CFF;
+    --purple-dark: #4636DB;
+    --coral: #FF6B5B;
+    --yellow: #FFC857;
+    --teal: #2EC4B6;
+    --focus: #004ebc;
+    --brand: #004ebc;
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    background:#fff;
+    font-family:'Buenos Aires', sans-serif;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 16px;
+  }
+
+  .back-btn{
+    position:fixed;
+    top:16px;
+    left:16px;
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:none;
+    border-radius:50%;
+    background:transparent;
+    color:var(--ink);
+    cursor:pointer;
+    padding:0;
+    z-index:2;
+    transition: background 0.15s ease;
+  }
+  .back-btn:hover{ background:rgba(0,0,0,0.06); }
+  .back-btn svg{
+    width:22px;
+    height:22px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+
+  .screen{
+    width:100%;
+    max-width:420px;
+    position:relative;
+    background:#fff;
+  }
+
+  /* ---------- Logo ---------- */
+  .logo{
+    display:flex;
+    justify-content:center;
+    margin-bottom:56px;
+    user-select:none;
+    text-decoration:none;
+  }
+  .logo img{
+    height:clamp(72px, 20vw, 110px);
+    width:auto;
+    max-width:min(400px, 94vw);
+    object-fit:contain;
+    display:block;
+  }
+
+  /* ---------- Auth tabs ---------- */
+  .auth-tabs{
+    display:flex;
+    gap:0;
+    margin-bottom:28px;
+    border-bottom:2px solid var(--line);
+  }
+  .auth-tab{
+    flex:1;
+    background:none;
+    border:none;
+    border-bottom:3px solid transparent;
+    margin-bottom:-2px;
+    padding:12px 8px;
+    font-family:'Buenos Aires', sans-serif;
+    font-size:17px;
+    font-weight:700;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .auth-tab:hover{ color:var(--ink); }
+  .auth-tab.active{
+    color:var(--brand);
+    border-bottom-color:var(--brand);
+  }
+  .auth-tab:focus-visible{
+    outline:3px solid var(--focus);
+    outline-offset:2px;
+  }
+
+  .auth-panel{ display:none; }
+  .auth-panel.active{ display:block; }
+
+  /* ---------- Heading ---------- */
+  h1{
+    font-size:28px;
+    font-weight:800;
+    margin:0 0 6px 0;
+    letter-spacing:-0.3px;
+  }
+  .subtext{
+    margin:0 0 28px 0;
+    color:var(--ink-soft);
+    font-size:15px;
+  }
+
+  /* ---------- Form fields ---------- */
+  .auth-form{
+    margin-bottom:18px;
+  }
+
+  .field-block{
+    margin-bottom:14px;
+  }
+  .field-label{
+    display:block;
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:6px;
+    color:var(--ink);
+  }
+  .text-field{
+    width:100%;
+    border:2px solid var(--line);
+    border-radius:var(--radius-md);
+    padding:16px 14px;
+    font-size:15px;
+    font-family:'Buenos Aires', sans-serif;
+    color:var(--ink);
+    outline:none;
+    background:#fff;
+    transition: border-color 0.15s ease;
+  }
+  .text-field:focus{ border-color:var(--focus); }
+
+  .password-wrap{
+    position:relative;
+  }
+  .password-wrap .text-field{
+    padding-right:48px;
+  }
+  .password-toggle{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    width:34px;
+    height:34px;
+    border:none;
+    background:transparent;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    border-radius:50%;
+    padding:0;
+  }
+  .password-toggle:hover{ color:var(--ink); }
+  .password-toggle svg{
+    width:20px;
+    height:20px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:1.75;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .password-toggle .icon-hide{ display:none; }
+  .password-toggle.is-visible .icon-show{ display:none; }
+  .password-toggle.is-visible .icon-hide{ display:block; }
+
+  .form-error{
+    color:var(--coral);
+    font-size:13px;
+    margin:8px 2px 0 2px;
+    min-height:16px;
+  }
+
+  .btn-primary{
+    width:100%;
+    background:var(--brand);
+    color:#fff;
+    border:none;
+    border-radius:var(--radius-md);
+    padding:16px;
+    font-size:15px;
+    font-weight:700;
+    font-family:'Buenos Aires', sans-serif;
+    cursor:pointer;
+    margin-top:6px;
+    transition: background 0.15s ease;
+  }
+  .btn-primary:hover{ background:#003894; }
+
+  /* ---------- Checkbox row ---------- */
+  .check-row{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin-bottom:22px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .check-row input{
+    appearance:none;
+    width:20px;
+    height:20px;
+    border-radius:5px;
+    border:2px solid var(--line);
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+    margin-top:1px;
+    position:relative;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .check-row input:checked{
+    background:var(--brand);
+    border-color:var(--brand);
+  }
+  .check-row input:checked::after{
+    content:"";
+    position:absolute;
+    left:5px;
+    top:1px;
+    width:6px;
+    height:11px;
+    border:solid #fff;
+    border-width:0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .check-row input:focus-visible{
+    outline:3px solid var(--focus);
+    outline-offset:2px;
+  }
+  .check-row label{
+    font-size:14px;
+    color:var(--ink);
+    line-height:1.4;
+    cursor:pointer;
+  }
+
+  /* ---------- Terms ---------- */
+  .terms{
+    text-align:center;
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-bottom:28px;
+    line-height:1.5;
+  }
+  .terms a{
+    color:var(--ink-soft);
+    text-decoration:underline;
+  }
+
+  .privacy{
+    text-align:center;
+    margin-top:32px;
+  }
+  .privacy a,
+  #privacyLink{
+    color:#004ebc;
+    font-size:14px;
+    text-decoration:underline;
+    font-weight:600;
+  }
+  .privacy a:hover{ color:#003894; }
+
+  @media (prefers-reduced-motion: reduce){
+    .btn-primary{ transition:none; }
+  }
+
+  @media (max-width:380px){
+    .logo img{ height:64px; }
+    h1{ font-size:24px; }
+  }
+</style>
+</head>
+<body>
+
+<button type="button" class="back-btn" id="backBtn" aria-label="Go back">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+</button>
+
+<div class="screen">
+
+  <a class="logo" href="home-page.html" aria-label="AJ BLOKS home">
+    <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782245376/Design_sans_titre_31_azudmo.png" alt="AJ BLOKS">
+  </a>
+
+  <div class="auth-tabs" role="tablist" aria-label="Account">
+    <button type="button" class="auth-tab active" id="tabSignup" role="tab" aria-selected="true" aria-controls="signupPanel">Sign up</button>
+    <button type="button" class="auth-tab" id="tabLogin" role="tab" aria-selected="false" aria-controls="loginPanel">Log in</button>
+  </div>
+
+  <section class="auth-panel active" id="signupPanel" role="tabpanel" aria-labelledby="tabSignup">
+    <p class="subtext">Create an account to get started</p>
+
+    <form class="auth-form" id="signupForm" novalidate>
+      <div class="field-block">
+        <label class="field-label" for="signupName">Name</label>
+        <input type="text" id="signupName" class="text-field" placeholder="Your name" autocomplete="name" required>
+      </div>
+      <div class="field-block">
+        <label class="field-label" for="signupEmail">Email</label>
+        <input type="email" id="signupEmail" class="text-field" placeholder="Email" autocomplete="email" required>
+      </div>
+      <div class="field-block">
+        <label class="field-label" for="signupPassword">Password</label>
+        <div class="password-wrap">
+          <input type="password" id="signupPassword" class="text-field" placeholder="Password" autocomplete="new-password" required>
+          <button type="button" class="password-toggle" id="signupPasswordToggle" aria-label="Show password">
+            <svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c6.5 0 10 7 10 7a17.2 17.2 0 0 1-3.17 4.32"/>
+              <path d="M6.06 6.06A17.2 17.2 0 0 0 2 12s3.5 7 10 7a10.9 10.9 0 0 0 5.06-1.24"/>
+              <path d="M14.12 14.12a3 3 0 0 1-4.24-4.24"/>
+              <path d="M1 1l22 22"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="form-error" id="signupError"></div>
+      <button type="submit" class="btn-primary">Sign up</button>
+    </form>
+
+    <div class="check-row" id="checkRow">
+      <input type="checkbox" id="newsCheck" checked>
+      <label for="newsCheck">Email me with news and offers</label>
+    </div>
+
+    <p class="terms">By continuing, you agree to our <a href="#" id="termsLink">Terms of service</a></p>
+  </section>
+
+  <section class="auth-panel" id="loginPanel" role="tabpanel" aria-labelledby="tabLogin" hidden>
+    <p class="subtext">Welcome back! Sign in to your account</p>
+
+    <form id="loginForm" novalidate>
+      <div class="field-block">
+        <label class="field-label" for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" class="text-field" placeholder="Email" autocomplete="email" required>
+      </div>
+      <div class="field-block">
+        <label class="field-label" for="loginPassword">Password</label>
+        <div class="password-wrap">
+          <input type="password" id="loginPassword" class="text-field" placeholder="Password" autocomplete="current-password" required>
+          <button type="button" class="password-toggle" id="loginPasswordToggle" aria-label="Show password">
+            <svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c6.5 0 10 7 10 7a17.2 17.2 0 0 1-3.17 4.32"/>
+              <path d="M6.06 6.06A17.2 17.2 0 0 0 2 12s3.5 7 10 7a10.9 10.9 0 0 0 5.06-1.24"/>
+              <path d="M14.12 14.12a3 3 0 0 1-4.24-4.24"/>
+              <path d="M1 1l22 22"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="form-error" id="loginError"></div>
+      <button type="submit" class="btn-primary">Log in</button>
+    </form>
+  </section>
+
+  <p class="privacy"><a href="#" id="privacyLink">Privacy policy</a></p>
+
+</div>
+
+<script>
+  document.getElementById('backBtn').addEventListener('click', function(){
+    if(document.referrer && new URL(document.referrer).origin === window.location.origin){
+      window.history.back();
+    } else {
+      window.location.href = 'home-page.html';
+    }
+  });
+
+  const tabSignup    = document.getElementById('tabSignup');
+  const tabLogin     = document.getElementById('tabLogin');
+  const signupPanel  = document.getElementById('signupPanel');
+  const loginPanel   = document.getElementById('loginPanel');
+
+  const signupForm       = document.getElementById('signupForm');
+  const signupName       = document.getElementById('signupName');
+  const signupEmail      = document.getElementById('signupEmail');
+  const signupPassword   = document.getElementById('signupPassword');
+  const signupPasswordToggle = document.getElementById('signupPasswordToggle');
+  const signupError      = document.getElementById('signupError');
+
+  const loginForm     = document.getElementById('loginForm');
+  const loginEmail    = document.getElementById('loginEmail');
+  const loginPassword = document.getElementById('loginPassword');
+  const loginPasswordToggle = document.getElementById('loginPasswordToggle');
+  const loginError    = document.getElementById('loginError');
+
+  function switchTab(mode){
+    const isSignup = mode === 'signup';
+    tabSignup.classList.toggle('active', isSignup);
+    tabLogin.classList.toggle('active', !isSignup);
+    tabSignup.setAttribute('aria-selected', isSignup);
+    tabLogin.setAttribute('aria-selected', !isSignup);
+    signupPanel.classList.toggle('active', isSignup);
+    loginPanel.classList.toggle('active', !isSignup);
+    signupPanel.hidden = !isSignup;
+    loginPanel.hidden = isSignup;
+  }
+
+  tabSignup.addEventListener('click', () => switchTab('signup'));
+  tabLogin.addEventListener('click', () => switchTab('login'));
+
+  if(new URLSearchParams(window.location.search).get('tab') === 'login'){
+    switchTab('login');
+  }
+
+  function isValidEmail(value){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  function setupPasswordToggle(button, input){
+    button.addEventListener('click', () => {
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      button.classList.toggle('is-visible', isHidden);
+      button.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+    });
+  }
+
+  setupPasswordToggle(signupPasswordToggle, signupPassword);
+  setupPasswordToggle(loginPasswordToggle, loginPassword);
+
+  signupForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = signupName.value.trim();
+    const email = signupEmail.value.trim();
+    const password = signupPassword.value;
+
+    if(!name){
+      signupError.textContent = 'Enter your name';
+      return;
+    }
+    if(!isValidEmail(email)){
+      signupError.textContent = 'Enter a valid email address';
+      return;
+    }
+    if(!password){
+      signupError.textContent = 'Enter a password';
+      return;
+    }
+    signupError.textContent = '';
+    alert('Account created for ' + name);
+  });
+
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = loginEmail.value.trim();
+    const password = loginPassword.value.trim();
+    if(!isValidEmail(email)){
+      loginError.textContent = 'Enter a valid email address';
+      return;
+    }
+    if(!password){
+      loginError.textContent = 'Enter your password';
+      return;
+    }
+    loginError.textContent = '';
+    alert('Logged in as ' + email);
+  });
+
+  // Placeholder links — wire up real destinations as needed.
+  document.getElementById('termsLink').addEventListener('click', (e) => e.preventDefault());
+  document.getElementById('privacyLink').addEventListener('click', (e) => e.preventDefault());
+</script>
+
+</body>
+</html>

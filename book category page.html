@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kids Books | ToyHive</title>
+<link rel="stylesheet" href="cart-drawer.css">
+<link rel="stylesheet" href="signup-drawer.css">
+<style>
+  @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
+  :root{
+    --blue:#004ebc;
+    --blue-dark:#003894;
+    --green:#7CB82F;
+    --red:#ed1c24;
+    --ink:#11214A;
+    --ink-soft:#5B6685;
+    --line:#E4E7F2;
+    --bg:#f9f9f9;
+    --card-bg:#ffffff;
+    --cream:#FFFDF8;
+    --radius-md:14px;
+    --radius-pill:999px;
+    --page-pad:16px;
+    font-size:16px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Buenos Aires',sans-serif;
+    background:#DEE3F0;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+
+  .app-shell{
+    max-width:100%;
+    width:100%;
+    margin:0 auto;
+    background:var(--cream);
+    min-height:100vh;
+    min-height:100dvh;
+    overflow-x:hidden;
+    box-shadow:0 0 60px rgba(15,20,60,.25);
+  }
+
+  .page{max-width:600px;margin:0 auto;background:var(--bg);position:relative;}
+
+  .breadcrumb{
+    padding:16px 20px 8px;
+    font-size:0.95rem;
+    display:flex;gap:8px;align-items:center;
+    flex-wrap:wrap;
+    color:var(--blue);
+  }
+  .breadcrumb a{text-decoration:underline;font-weight:500;}
+  .breadcrumb .sep{color:var(--ink-soft);text-decoration:none;}
+  .breadcrumb .current{color:var(--blue);font-weight:700;}
+
+  .toolbar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:4px 20px 18px;
+  }
+  .filter-btn{
+    display:flex;align-items:center;gap:8px;
+    border:1.5px solid #c7ccd4;
+    background:#fff;
+    padding:10px 18px;
+    border-radius:30px;
+    font-weight:600;
+    font-size:0.98rem;
+    cursor:pointer;
+  }
+  .filter-btn svg{width:18px;height:18px;}
+  .product-count{font-weight:600;color:var(--ink);font-size:1.05rem;}
+
+  .product-grid{
+    display:flex;flex-direction:column;
+    padding:0 0 24px;
+    background:var(--card-bg);
+  }
+  .product-card{
+    display:flex;gap:16px;
+    padding:22px 20px;
+    background:var(--card-bg);
+    border-top:1px solid #d9dce1;
+  }
+  .product-card:first-child{border-top:none;}
+
+  .product-cover{
+    flex:0 0 130px;
+    height:200px;
+    border-radius:var(--radius-md);
+    background:linear-gradient(160deg,var(--c1),var(--c2));
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:12px 10px;
+    overflow:hidden;
+  }
+  .product-cover::before{
+    content:"";
+    position:absolute;
+    left:0;top:0;bottom:0;
+    width:8px;
+    background:rgba(0,0,0,0.15);
+  }
+  .product-cover .cover-title{
+    font-weight:700;
+    font-size:0.78rem;
+    line-height:1.2;
+    color:#fff;
+    text-shadow:0 1px 2px rgba(0,0,0,0.18);
+  }
+  .product-cover .cover-author{
+    margin-top:6px;
+    font-size:0.6rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,0.85);
+  }
+
+  .product-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;}
+  .rating-row{display:flex;align-items:center;gap:8px;}
+  .stars{
+    position:relative;
+    font-size:0.95rem;
+    letter-spacing:2px;
+    color:#d9dce1;
+    white-space:nowrap;
+  }
+  .stars::before{content:"★★★★★";}
+  .stars-fill{
+    position:absolute;top:0;left:0;overflow:hidden;
+    color:var(--red);
+    white-space:nowrap;
+  }
+  .stars-fill::before{content:"★★★★★";}
+  .rating-text{font-size:0.92rem;color:var(--ink-soft);}
+  .wishlist-btn{
+    margin-left:auto;
+    width:30px;height:30px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--ink);
+    flex:0 0 auto;
+    cursor:pointer;
+  }
+  .wishlist-btn svg{
+    width:22px;height:22px;display:block;
+    stroke:currentColor;fill:none;
+    stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .wishlist-btn.active svg path{fill:var(--blue);stroke:var(--blue);}
+  .product-title{margin:0;font-size:1.05rem;font-weight:600;line-height:1.32;color:var(--ink);}
+  .product-price{margin:2px 0 4px;font-size:1.15rem;font-weight:700;}
+
+  .empty-state{
+    padding:60px 24px;text-align:center;color:var(--ink-soft);font-size:1rem;display:none;
+  }
+  .empty-state.show{display:block;}
+
+  .overlay{
+    position:fixed;inset:0;background:rgba(20,30,45,0.45);
+    opacity:0;pointer-events:none;transition:opacity .25s ease;
+    z-index:40;
+  }
+  .overlay.show{opacity:1;pointer-events:auto;}
+
+  .filter-drawer{
+    position:fixed;top:0;right:0;bottom:0;
+    width:min(86vw, 460px);
+    background:#fff;
+    z-index:50;
+    transform:translateX(100%);
+    transition:transform .3s cubic-bezier(.4,0,.2,1);
+    display:flex;flex-direction:column;
+    box-shadow:-8px 0 30px rgba(0,0,0,0.15);
+  }
+  .filter-drawer.open{transform:translateX(0);}
+
+  .drawer-header{
+    text-align:center;
+    padding:22px 50px 18px;
+    position:relative;
+    border-bottom:1px solid var(--line);
+    flex:0 0 auto;
+  }
+  .drawer-header h2{margin:0;font-size:1.3rem;font-weight:700;}
+  .drawer-header p{margin:6px 0 0;color:var(--ink-soft);font-size:1rem;}
+  .drawer-close{
+    position:absolute;top:18px;right:18px;
+    width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .drawer-close svg{width:22px;height:22px;}
+
+  .drawer-body{flex:1;overflow-y:auto;padding-bottom:90px;}
+
+  .accordion-section{border-bottom:1px solid var(--line);}
+  .accordion-header{
+    width:100%;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:20px 24px;
+    font-size:1.15rem;font-weight:700;
+    text-align:left;
+    cursor:pointer;
+  }
+  .accordion-header .chev{
+    width:18px;height:18px;transition:transform .25s ease;flex:0 0 auto;
+  }
+  .accordion-section.open .accordion-header .chev{transform:rotate(180deg);}
+  .accordion-content{
+    max-height:0;overflow:hidden;
+    transition:max-height .3s ease;
+    padding:0 24px;
+  }
+  .accordion-section.open .accordion-content{padding-bottom:22px;}
+
+  .option-row{
+    display:flex;align-items:center;gap:10px;
+    padding:5px 0;
+    font-size:1rem;
+    cursor:pointer;
+  }
+  .option-row input[type="checkbox"]{
+    -webkit-appearance:none;appearance:none;
+    width:18px;height:18px;flex:0 0 auto;
+    border:1.5px solid #c7ccd4;border-radius:4px;
+    background:#fff;cursor:pointer;position:relative;margin:0;
+  }
+  .option-row input[type="checkbox"]:checked{
+    background:var(--blue);border-color:var(--blue);
+  }
+  .option-row input[type="checkbox"]:checked::after{
+    content:"";position:absolute;left:5px;top:2px;
+    width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;
+    transform:rotate(45deg);
+  }
+  .option-row .opt-label{flex:1;}
+  .option-row .opt-count{color:var(--ink-soft);}
+
+  .price-range{padding:8px 0 4px;}
+  .price-note{color:var(--ink-soft);font-size:0.98rem;margin:0 0 14px;}
+  .price-inputs{display:flex;align-items:center;gap:10px;}
+  .price-field{
+    flex:1;display:flex;align-items:center;
+    border:1.5px solid #c7ccd4;border-radius:8px;
+    padding:10px 12px;gap:4px;
+  }
+  .price-field input{
+    border:none;outline:none;width:100%;font-size:1rem;font-family:inherit;color:var(--ink);
+  }
+  .price-to{color:var(--ink-soft);font-size:1rem;}
+
+  .drawer-footer{
+    position:absolute;left:0;right:0;bottom:0;
+    background:#fff;border-top:1px solid var(--line);
+    padding:14px 20px;
+    display:flex;gap:12px;
+  }
+  .drawer-footer button{
+    flex:1;padding:14px 0;border-radius:30px;font-weight:700;font-size:1rem;cursor:pointer;
+  }
+  .clear-btn{border:1.5px solid #c7ccd4;color:var(--ink);background:#fff;}
+  .apply-btn{background:var(--blue);color:#fff;border:none;}
+
+  @media (min-width:601px){
+    .page{box-shadow:0 0 40px rgba(0,0,0,0.06);}
+  }
+</style>
+</head>
+<body>
+<div class="app-shell">
+<div class="page">
+
+  <nav class="breadcrumb" id="breadcrumb">
+    <a href="home-page.html">Home</a><span class="sep">&gt;</span><a href="books page.html">Kids Books</a><span class="sep">&gt;</span><span class="current" id="breadcrumbCurrent">Books</span>
+  </nav>
+
+  <div class="toolbar">
+    <button class="filter-btn" id="openFilter" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2" fill="#fff"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2" fill="#fff"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="11" cy="18" r="2" fill="#fff"/></svg>
+      Filter and sort
+    </button>
+    <span class="product-count" id="productCount">0 products</span>
+  </div>
+
+  <main class="product-grid" id="productGrid"></main>
+  <p class="empty-state" id="emptyState">No books match your filters. Try clearing a few and searching again.</p>
+
+  <div class="overlay" id="overlay"></div>
+  <aside class="filter-drawer" id="filterDrawer" aria-hidden="true">
+    <div class="drawer-header">
+      <h2>Filter and sort</h2>
+      <p id="drawerCount">0 products</p>
+      <button class="drawer-close" id="closeFilter" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+      <div class="accordion-section" data-section="sort">
+        <button class="accordion-header" type="button">
+          Sort by:
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <label class="option-row"><input type="checkbox" data-group="sort" value="featured" checked><span class="opt-label">Featured</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="bestselling"><span class="opt-label">Best selling</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="az"><span class="opt-label">Alphabetically, A-Z</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="za"><span class="opt-label">Alphabetically, Z-A</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="lowhigh"><span class="opt-label">Price, low to high</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="highlow"><span class="opt-label">Price, high to low</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="oldnew"><span class="opt-label">Date, old to new</span></label>
+          <label class="option-row"><input type="checkbox" data-group="sort" value="newold"><span class="opt-label">Date, new to old</span></label>
+        </div>
+      </div>
+
+      <div class="accordion-section" data-section="age">
+        <button class="accordion-header" type="button">
+          Age
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <label class="option-row"><input type="checkbox" data-group="age" value="0-2 years"><span class="opt-label">0-2 years</span></label>
+          <label class="option-row"><input type="checkbox" data-group="age" value="3-4 years"><span class="opt-label">3-4 years</span></label>
+          <label class="option-row"><input type="checkbox" data-group="age" value="5-7 years"><span class="opt-label">5-7 years</span></label>
+          <label class="option-row"><input type="checkbox" data-group="age" value="8-10 years"><span class="opt-label">8-10 years</span></label>
+        </div>
+      </div>
+
+      <div class="accordion-section" data-section="price">
+        <button class="accordion-header" type="button">
+          Price
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <div class="price-range">
+            <p class="price-note" id="priceNote">The highest price is $24.99</p>
+            <div class="price-inputs">
+              <div class="price-field">$<input type="number" id="priceMin" placeholder="9.99" min="0" step="0.01"></div>
+              <span class="price-to">to</span>
+              <div class="price-field">$<input type="number" id="priceMax" placeholder="24.99" min="0" step="0.01"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="drawer-footer">
+      <button class="clear-btn" id="clearFilters" type="button">Clear all</button>
+      <button class="apply-btn" id="applyFilters" type="button">Apply</button>
+    </div>
+  </aside>
+
+</div>
+</div>
+
+<script>
+const categories = {
+  'picture-books': {
+    title: 'Picture Books',
+    types: ['Picture Book', 'Counting Book']
+  },
+  'story-collections': {
+    title: 'Story Collections',
+    types: ['Story Collection']
+  },
+  'sound-touch-books': {
+    title: 'Sound & Touch Books',
+    types: ['Sound Book']
+  },
+  'board-books': {
+    title: 'Board Books',
+    types: ['Board Book']
+  }
+};
+
+const allBooks = [
+  {title:"The Acorn Who Couldn't Wait", author:"M. Hollow", type:"Picture Book", price:14.99, rating:5, reviews:128, dateIndex:1, age:["3-4 years","5-7 years"], c1:"#004ebc", c2:"#003894"},
+  {title:"The Quiet Loud Day", author:"N. Birch", type:"Picture Book", price:13.50, rating:5, reviews:89, dateIndex:2, age:["3-4 years","5-7 years"], c1:"#D6196B", c2:"#a81254"},
+  {title:"Moonlight in the Meadow", author:"L. Crane", type:"Picture Book", price:15.99, rating:4, reviews:42, dateIndex:3, age:["3-4 years"], c1:"#7CB82F", c2:"#5C9420"},
+  {title:"Pip and the Falling Leaf", author:"ToyHive", type:"Picture Book", price:12.99, rating:5, reviews:156, dateIndex:4, age:["3-4 years","5-7 years"], c1:"#F5A623", c2:"#c9841a"},
+  {title:"Twelve Tiny Tugboats", author:"J. Oakley", type:"Counting Book", price:12.99, rating:4, reviews:37, dateIndex:5, age:["3-4 years","5-7 years"], c1:"#7CB82F", c2:"#5C9420"},
+  {title:"Bramble & the Lantern Moon", author:"R. Finch", type:"Story Collection", price:18.50, rating:4, reviews:64, dateIndex:6, age:["5-7 years","8-10 years"], c1:"#ed1c24", c2:"#b8151c"},
+  {title:"Tales from the Burrow", author:"ToyHive", type:"Story Collection", price:19.99, rating:5, reviews:91, dateIndex:7, age:["5-7 years"], c1:"#004ebc", c2:"#003894"},
+  {title:"Bedtime Stories for Busy Bears", author:"A. Moss", type:"Story Collection", price:16.99, rating:4, reviews:53, dateIndex:8, age:["3-4 years","5-7 years"], c1:"#D6196B", c2:"#a81254"},
+  {title:"Sprout's Garden of Sounds", author:"ToyHive", type:"Sound Book", price:21.99, rating:4, reviews:52, dateIndex:9, age:["3-4 years","8-10 years"], c1:"#7FD1F2", c2:"#004ebc"},
+  {title:"Farmyard Noises & Nibbles", author:"K. Reed", type:"Sound Book", price:22.50, rating:5, reviews:78, dateIndex:10, age:["3-4 years"], c1:"#F5A623", c2:"#c9841a"},
+  {title:"Touch & Feel Forest Friends", author:"ToyHive", type:"Sound Book", price:24.99, rating:4, reviews:44, dateIndex:11, age:["0-2 years","3-4 years"], c1:"#7CB82F", c2:"#5C9420"},
+  {title:"Pip's Big Burrow Adventure", author:"ToyHive", type:"Board Book", price:9.99, rating:5, reviews:201, dateIndex:12, age:["0-2 years","3-4 years"], c1:"#F5A623", c2:"#c9841a"},
+  {title:"Colors in the Garden", author:"S. Vale", type:"Board Book", price:8.99, rating:4, reviews:67, dateIndex:13, age:["0-2 years"], c1:"#ed1c24", c2:"#b8151c"},
+  {title:"Goodnight Little Hedgehog", author:"ToyHive", type:"Board Book", price:10.99, rating:5, reviews:134, dateIndex:14, age:["0-2 years","3-4 years"], c1:"#004ebc", c2:"#003894"},
+];
+allBooks.forEach((b,i)=>{ b.id = i; });
+
+const params = new URLSearchParams(location.search);
+const categorySlug = params.get('category') || 'picture-books';
+const category = categories[categorySlug] || categories['picture-books'];
+
+document.title = category.title + ' | ToyHive';
+document.getElementById('breadcrumbCurrent').textContent = category.title;
+
+let products = allBooks.filter(b => category.types.includes(b.type));
+const maxPrice = products.length ? Math.max(...products.map(p => p.price)) : 24.99;
+document.getElementById('priceNote').textContent = `The highest price is $${maxPrice.toFixed(2)}`;
+document.getElementById('priceMax').placeholder = maxPrice.toFixed(2);
+
+const grid = document.getElementById('productGrid');
+const productCountEl = document.getElementById('productCount');
+const drawerCountEl = document.getElementById('drawerCount');
+const emptyState = document.getElementById('emptyState');
+
+function starsMarkup(rating){
+  const pct = Math.max(0, Math.min(100, (rating / 5) * 100));
+  return `<span class="stars"><span class="stars-fill" style="width:${pct}%"></span></span>`;
+}
+
+function renderProducts(list){
+  grid.innerHTML = '';
+  list.forEach(p => {
+    const card = document.createElement('article');
+    card.className = 'product-card';
+    card.innerHTML = `
+      <div class="product-cover" style="--c1:${p.c1};--c2:${p.c2};">
+        <span class="cover-title">${p.title}</span>
+        <span class="cover-author">${p.author}</span>
+      </div>
+      <div class="product-info">
+        <div class="rating-row">
+          ${starsMarkup(p.rating)}
+          <span class="rating-text">${p.rating.toFixed(1)} (${p.reviews})</span>
+          <button class="wishlist-btn" type="button" aria-label="Add to wishlist">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.502 5.502 0 0 0 16.503 3c-1.76 0-3 .56-4.5 2.17C10.503 3.56 9.263 3 7.503 3A5.502 5.502 0 0 0 2 8.5c0 2.29 1.5 4.04 3 5.5l7 7Z"/></svg>
+          </button>
+        </div>
+        <h3 class="product-title">${p.title} — ${p.type}</h3>
+        <p class="product-price">$${p.price.toFixed(2)}</p>
+        <button class="add-cart-btn" type="button">Add to cart</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+  const countText = `${list.length} product${list.length !== 1 ? 's' : ''}`;
+  productCountEl.textContent = countText;
+  drawerCountEl.textContent = countText;
+  emptyState.classList.toggle('show', list.length === 0);
+}
+
+renderProducts(products);
+
+grid.addEventListener('click', e => {
+  const wish = e.target.closest('.wishlist-btn');
+  if(wish){ wish.classList.toggle('active'); }
+});
+
+const overlay = document.getElementById('overlay');
+const drawer = document.getElementById('filterDrawer');
+const openBtn = document.getElementById('openFilter');
+const closeBtn = document.getElementById('closeFilter');
+
+function openDrawer(){
+  drawer.classList.add('open');
+  overlay.classList.add('show');
+  drawer.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer(){
+  drawer.classList.remove('open');
+  overlay.classList.remove('show');
+  drawer.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+openBtn.addEventListener('click', openDrawer);
+closeBtn.addEventListener('click', closeDrawer);
+overlay.addEventListener('click', closeDrawer);
+
+document.querySelectorAll('.accordion-section').forEach(section => {
+  const header = section.querySelector('.accordion-header');
+  const content = section.querySelector('.accordion-content');
+  header.addEventListener('click', () => {
+    const isOpen = section.classList.contains('open');
+    document.querySelectorAll('.accordion-section').forEach(s => {
+      s.classList.remove('open');
+      s.querySelector('.accordion-content').style.maxHeight = null;
+    });
+    if(!isOpen){
+      section.classList.add('open');
+      content.style.maxHeight = content.scrollHeight + 'px';
+    }
+  });
+});
+
+function getChecked(group){
+  return Array.from(document.querySelectorAll(`input[data-group="${group}"]:checked`)).map(i => i.value);
+}
+
+function applyFiltersAndSort(){
+  const ages = getChecked('age');
+  const min = parseFloat(document.getElementById('priceMin').value) || 0;
+  const max = parseFloat(document.getElementById('priceMax').value) || Infinity;
+  const sortChecked = document.querySelector('input[data-group="sort"]:checked');
+  const sortVal = sortChecked ? sortChecked.value : 'featured';
+
+  let filtered = products.filter(p => {
+    const okAge = ages.length === 0 || ages.some(a => p.age.includes(a));
+    const okPrice = p.price >= min && p.price <= max;
+    return okAge && okPrice;
+  });
+
+  switch(sortVal){
+    case 'az': filtered.sort((a,b) => a.title.localeCompare(b.title)); break;
+    case 'za': filtered.sort((a,b) => b.title.localeCompare(a.title)); break;
+    case 'lowhigh': filtered.sort((a,b) => a.price - b.price); break;
+    case 'highlow': filtered.sort((a,b) => b.price - a.price); break;
+    case 'oldnew': filtered.sort((a,b) => a.dateIndex - b.dateIndex); break;
+    case 'newold': filtered.sort((a,b) => b.dateIndex - a.dateIndex); break;
+    case 'bestselling': filtered.sort((a,b) => b.reviews - a.reviews); break;
+    default: filtered.sort((a,b) => a.id - b.id);
+  }
+
+  renderProducts(filtered);
+}
+
+document.getElementById('applyFilters').addEventListener('click', () => {
+  applyFiltersAndSort();
+  closeDrawer();
+});
+
+document.getElementById('clearFilters').addEventListener('click', () => {
+  document.querySelectorAll('#filterDrawer input[type="checkbox"]').forEach(cb => cb.checked = false);
+  document.querySelector('input[data-group="sort"][value="featured"]').checked = true;
+  document.getElementById('priceMin').value = '';
+  document.getElementById('priceMax').value = '';
+  applyFiltersAndSort();
+});
+
+document.querySelectorAll('input[data-group="sort"]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    if(cb.checked){
+      document.querySelectorAll('input[data-group="sort"]').forEach(other => {
+        if(other !== cb) other.checked = false;
+      });
+    } else if(!document.querySelector('input[data-group="sort"]:checked')){
+      document.querySelector('input[data-group="sort"][value="featured"]').checked = true;
+    }
+    applyFiltersAndSort();
+  });
+});
+</script>
+<script src="cart-drawer.js"></script>
+<script src="signup-drawer.js"></script>
+<script src="product-card-links.js"></script>
+<script src="auth-links.js"></script>
+</body>
+</html>

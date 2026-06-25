@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign up for fun!</title>
+<style>
+  @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
+
+  :root{
+    --blue: #004ebc;
+    --blue-dark: #003894;
+    --sky: #BFEAFB;
+    --ink: #11214A;
+    --text-dark: #11214A;
+    --text-gray: #5B6685;
+    --border: #E4E7F2;
+    --placeholder: #9a9a9a;
+    --cream: #FFFDF8;
+    --radius-pill: 999px;
+    --page-pad: 16px;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin: 0;
+    font-family: 'Buenos Aires', sans-serif;
+    background: #DEE3F0;
+    color: var(--text-dark);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a{ text-decoration: none; color: inherit; }
+
+  .app-shell{
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    background: var(--cream);
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    box-shadow: 0 0 60px rgba(15,20,60,.25);
+  }
+
+  .promo-bar{
+    background: var(--sky);
+    color: #000;
+    text-align: center;
+    font-weight: 700;
+    font-size: clamp(.75rem, 2.5vw, .88rem);
+    padding: 9px var(--page-pad);
+  }
+
+  .nav{
+    background: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px var(--page-pad) 12px;
+    gap: 4px;
+    overflow: visible;
+  }
+  .nav-icons{
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-shrink: 0;
+  }
+  .icon-btn{
+    background: transparent;
+    color: #fff;
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
+    min-height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    padding: 0;
+    cursor: pointer;
+  }
+  .icon-btn:active{ background: rgba(255,255,255,.15); }
+  .icon-btn .nav-icon{
+    width: 22px;
+    height: 22px;
+    display: block;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
+    overflow: visible;
+  }
+  .logo img{
+    height: clamp(47px, 12.6vw, 61px);
+    width: auto;
+    max-width: min(288px, 94vw);
+    object-fit: contain;
+    display: block;
+    transform: scale(1.25);
+    transform-origin: center center;
+  }
+  .nav-default{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 4px;
+  }
+  .nav-search{
+    display: none;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+  }
+  .nav.is-search-active .nav-default{ display: none; }
+  .nav.is-search-active .nav-search{ display: flex; }
+  .search-form{ flex: 1; min-width: 0; }
+  .search-input{
+    width: 100%;
+    height: 44px;
+    padding: 0 16px;
+    border: none;
+    border-radius: var(--radius-pill);
+    background: #fff;
+    color: var(--ink);
+    font-family: 'Buenos Aires', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    outline: none;
+  }
+  .search-input::placeholder{ color: var(--ink); opacity: .55; }
+  .search-close .nav-icon{ width: 24px; height: 24px; stroke-width: 2; }
+
+  .signup-page{
+    padding: 32px var(--page-pad) 40px;
+  }
+
+  button{
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+  }
+
+  h1{
+    font-family: 'Buenos Aires', sans-serif;
+    font-size: 26px;
+    margin: 0 0 6px;
+    font-weight: 800;
+    max-width: 75%;
+  }
+
+  #signupForm{
+    position: relative;
+    background: #ffffff;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 32px 32px 36px;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+
+  .signup-mascot{
+    position: absolute;
+    top: 60px;
+    right: 36px;
+    width: 110px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  .subtitle{
+    margin: 0 0 26px;
+    color: var(--text-gray);
+    font-size: 15px;
+    max-width: 78%;
+    font-weight: 600;
+  }
+
+  label.field-label{
+    display: block;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 6px;
+    font-family: 'Buenos Aires', sans-serif;
+  }
+
+  .row{
+    display: flex;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .row .field{
+    flex: 1;
+    min-width: 0;
+  }
+
+  .field{
+    margin-bottom: 18px;
+  }
+
+  input[type="text"],
+  input[type="email"]{
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    font-size: 15px;
+    font-family: 'Buenos Aires', sans-serif;
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color .15s ease;
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  select:focus{
+    border-color: var(--blue);
+  }
+
+  input::placeholder{
+    color: var(--placeholder);
+  }
+
+  select{
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    font-size: 15px;
+    font-family: 'Buenos Aires', sans-serif;
+    color: var(--text-dark);
+    background: #fff;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%23555' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+  }
+
+  .interests-title{
+    font-weight: 700;
+    font-size: 15px;
+    margin: 0 0 14px;
+    font-family: 'Buenos Aires', sans-serif;
+  }
+
+  .interests-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 18px;
+    row-gap: 14px;
+    margin-bottom: 26px;
+  }
+
+  .checkbox-item{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14.5px;
+    color: var(--text-dark);
+    user-select: none;
+  }
+
+  .checkbox-item input{
+    display: none;
+  }
+
+  .box{
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    border: 1.6px solid #888;
+    border-radius: 3px;
+    position: relative;
+    transition: background .15s ease, border-color .15s ease;
+  }
+
+  .checkbox-item input:checked + .box{
+    background: var(--blue);
+    border-color: var(--blue);
+  }
+
+  .checkbox-item input:checked + .box::after{
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(40deg);
+  }
+
+  .signup-btn{
+    width: 100%;
+    background: var(--blue);
+    color: #fff;
+    font-family: 'Buenos Aires', sans-serif;
+    font-weight: 700;
+    font-size: 1.02rem;
+    padding: 15px;
+    min-height: 48px;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 4px 0 var(--blue-dark);
+    transition: transform .08s ease;
+  }
+
+  .signup-btn:hover{
+    filter: brightness(1.08);
+  }
+
+  .signup-btn:active{
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--blue-dark);
+  }
+
+  .signup-btn:disabled{
+    background: #a9bbdc;
+    box-shadow: none;
+    cursor: not-allowed;
+    filter: none;
+  }
+
+  .consent{
+    margin-top: 18px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-gray);
+  }
+
+  .consent a{
+    color: var(--blue);
+    font-weight: 700;
+    text-decoration: underline;
+  }
+
+  .success{
+    display: none;
+    background: #e8f4ea;
+    color: #246b3a;
+    border: 1px solid #bfe3c6;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    margin-bottom: 18px;
+  }
+
+  @media (max-width: 420px){
+    .row{ flex-direction: column; gap: 18px; margin-bottom: 0; }
+    h1, .subtitle{ max-width: 100%; }
+  }
+
+  footer.site-footer{
+    background: linear-gradient(180deg, #004ebc 0%, #004ebc 100%);
+    padding: 40px 0 32px 24px;
+    position: relative;
+    color: #fff;
+    font-family: 'Buenos Aires', sans-serif;
+  }
+  footer.site-footer .footer-inner{ max-width: 1200px; margin: 0 auto; padding-right: 24px; }
+  footer.site-footer .footer-top{ position: relative; padding-right: 110px; }
+  footer.site-footer .footer-grid{ display: flex; flex-direction: column; }
+  footer.site-footer .footer-grid section{ margin-bottom: 36px; }
+  footer.site-footer .footer-grid .newsletter{ margin-bottom: 12px; }
+  footer.site-footer .footer-grid section:last-child{ margin-bottom: 0; }
+  footer.site-footer .footer-bottom{ margin-top: 36px; }
+  footer.site-footer .footer-brand{ text-align: center; }
+  footer.site-footer .mascot{ position: absolute; top: 28px; right: 0; width: 300px; height: auto; opacity: .95; }
+  footer.site-footer h2.section-title{ font-size: 30px; font-weight: 800; margin: 0 0 22px; letter-spacing: -.5px; }
+  footer.site-footer ul.link-list{ list-style: none; margin: 0; padding: 0; }
+  footer.site-footer ul.link-list li{ margin-bottom: 26px; }
+  footer.site-footer ul.link-list li:last-child{ margin-bottom: 0; }
+  footer.site-footer ul.link-list a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: opacity .15s ease;
+  }
+  footer.site-footer ul.link-list a:hover,
+  footer.site-footer ul.link-list a:focus-visible{ opacity: .75; }
+  footer.site-footer .heart-icon{ flex: none; }
+  footer.site-footer .newsletter p{ font-size: 19px; line-height: 1.4; margin: 0 0 22px; }
+  footer.site-footer .signup-row{ display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: nowrap; }
+  footer.site-footer .signup-row input[type="email"]{
+    width: 290px; height: 49px; flex: 0 0 290px; padding: 0 18px; border-radius: 10px;
+    border: none; font-size: 18px; color: #333; background: #fff; box-sizing: border-box;
+  }
+  footer.site-footer .signup-row input[type="email"]::placeholder{ color: #6b6b6b; }
+  footer.site-footer .signup-row button{
+    width: 89px; height: 49px; flex: 0 0 89px; padding: 0; border-radius: 10px;
+    border: 2px solid #fff; background: transparent; color: #fff; font-size: 15px;
+    font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    box-sizing: border-box; transition: background .15s ease, color .15s ease;
+  }
+  footer.site-footer .signup-row button:hover,
+  footer.site-footer .signup-row button:focus-visible{ background: #fff; color: #004ebc; }
+  footer.site-footer .signup-disclaimer{ font-size: 14px; line-height: 1.5; margin: 0; opacity: .95; }
+  footer.site-footer .signup-disclaimer a{ color: #fff; text-decoration: underline; }
+  footer.site-footer .signup-confirm{ font-size: 14px; margin: 8px 0 0; min-height: 0; }
+  footer.site-footer .social-row{ display: flex; justify-content: center; gap: 26px; margin: 30px 0 18px; flex-wrap: wrap; }
+  footer.site-footer .social-row a{ color: #fff; display: flex; transition: opacity .15s ease; }
+  footer.site-footer .social-row a:hover,
+  footer.site-footer .social-row a:focus-visible{ opacity: .7; }
+  footer.site-footer .social-row svg{ width: 30px; height: 30px; }
+  footer.site-footer .handle{ text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 30px; }
+  footer.site-footer hr.divider{ border: none; border-top: 1px solid rgba(255,255,255,.35); margin: 0 0 26px; }
+  footer.site-footer .wordmark{ text-align: center; margin-bottom: 22px; }
+  footer.site-footer .brand-logo{ display: block; max-width: 240px; width: 100%; height: auto; margin: 0 auto; }
+  footer.site-footer .copyright{ text-align: center; font-size: 14px; opacity: .9; padding-bottom: 10px; }
+
+  @media (min-width: 768px){
+    :root{ --page-pad: 28px; }
+    footer.site-footer{ padding: 64px 0 56px 48px; }
+    footer.site-footer .footer-inner{ padding-right: 48px; }
+    footer.site-footer .footer-top{ padding-right: 420px; }
+    footer.site-footer .mascot{ width: 400px; top: 0; }
+    footer.site-footer .footer-grid{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 48px 40px; }
+    footer.site-footer .footer-grid section{ margin-bottom: 0; }
+    footer.site-footer .footer-grid > section:nth-child(1){ grid-column: 1; grid-row: 1; }
+    footer.site-footer .footer-grid > section:nth-child(2){ grid-column: 1 / -1; grid-row: 2; }
+    footer.site-footer .footer-grid > section:nth-child(3){ grid-column: 2; grid-row: 1; }
+    footer.site-footer .footer-grid > section:nth-child(4){ grid-column: 3; grid-row: 1; }
+    footer.site-footer .footer-grid > section:nth-child(5){ grid-column: 4; grid-row: 1; }
+    footer.site-footer h2.section-title{ font-size: 22px; margin-bottom: 16px; }
+    footer.site-footer ul.link-list li{ margin-bottom: 14px; }
+    footer.site-footer ul.link-list a{ font-size: 16px; }
+    footer.site-footer .newsletter{
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px 48px; align-items: start;
+      padding-top: 8px; border-top: 1px solid rgba(255,255,255,.2); margin-bottom: 0;
+    }
+    footer.site-footer .newsletter .section-title{ grid-column: 1; margin-bottom: 0; }
+    footer.site-footer .newsletter p{ grid-column: 1; margin-bottom: 0; max-width: none; font-size: 17px; }
+    footer.site-footer .newsletter-intro{ width: 250px; max-width: 250px; }
+    footer.site-footer .newsletter form{ grid-column: 2; grid-row: 1 / span 3; }
+    footer.site-footer .newsletter .signup-disclaimer{ grid-column: 1; }
+    footer.site-footer .newsletter .signup-confirm{ grid-column: 1; margin: 0; }
+    footer.site-footer .footer-bottom{ margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.35); }
+    footer.site-footer hr.divider{ display: none; }
+    footer.site-footer .social-row{ margin-top: 0; }
+    footer.site-footer .footer-brand{ display: flex; align-items: center; justify-content: space-between; gap: 32px; text-align: left; }
+    footer.site-footer .wordmark{ margin-bottom: 0; }
+    footer.site-footer .brand-logo{ margin: 0; max-width: 220px; }
+    footer.site-footer .copyright{ padding-bottom: 0; text-align: right; }
+  }
+  @media (max-width: 380px){
+    footer.site-footer h2.section-title{ font-size: 26px; }
+    footer.site-footer ul.link-list a{ font-size: 19px; }
+    footer.site-footer .brand-logo{ max-width: 200px; }
+    footer.site-footer .mascot{ width: 220px; }
+  }
+  @media (min-width: 480px){
+    footer.site-footer .footer-top{ padding-right: 160px; }
+  }
+  @media (min-width: 1024px){
+    footer.site-footer .footer-top{ padding-right: 520px; }
+    footer.site-footer .mascot{ width: 500px; }
+  }
+  @media (min-width: 1280px){
+    footer.site-footer .footer-inner{ max-width: 1280px; }
+  }
+</style>
+</head>
+<body>
+<div class="app-shell">
+
+  <div class="promo-bar">Free Shipping for Orders Over 6500 DZD</div>
+
+  <header class="nav" id="mainNav">
+    <div class="nav-default">
+      <div class="nav-icons">
+        <a class="icon-btn" href="home-page.html" aria-label="Menu">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </a>
+        <button class="icon-btn" type="button" aria-label="Account">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+        </button>
+      </div>
+      <a class="logo" href="home-page.html" aria-label="AJ BLOKS home">
+        <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782245376/Design_sans_titre_31_azudmo.png" alt="AJ BLOKS">
+      </a>
+      <div class="nav-icons">
+        <button class="icon-btn" type="button" id="searchOpenBtn" aria-label="Search">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M16.5 16.5L21 21"/></svg>
+        </button>
+        <a class="icon-btn" href="done/wishlist.html" aria-label="Wishlist">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.502 5.502 0 0 0 16.503 3c-1.76 0-3 .56-4.5 2.17C10.503 3.56 9.263 3 7.503 3A5.502 5.502 0 0 0 2 8.5c0 2.29 1.5 4.04 3 5.5l7 7Z"/></svg>
+        </a>
+        <button class="icon-btn" type="button" aria-label="Cart">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="nav-search">
+      <form class="search-form" id="searchForm" role="search">
+        <input class="search-input" id="searchInput" type="search" name="q" placeholder="Search toys, brands & more" autocomplete="off" aria-label="Search">
+      </form>
+      <button class="icon-btn search-close" type="button" id="searchCloseBtn" aria-label="Close search">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="signup-page">
+  <form id="signupForm" novalidate>
+
+    <img
+      class="signup-mascot"
+      src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782319393/Design_sans_titre_39_pjdq8g.png"
+      alt="Builder bear mascot"
+    >
+
+    <h1>Sign up for fun!</h1>
+    <p class="subtitle">Get email updates on new toys &amp; play ideas.</p>
+
+    <div class="success" id="successMsg">You're all set! Thanks for signing up.</div>
+
+    <div class="field">
+      <label class="field-label" for="email">Email*</label>
+      <input type="email" id="email" placeholder="example@example.com" required>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="name">Name*</label>
+      <input type="text" id="name" placeholder="Name" required>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label class="field-label" for="zip">Zip Code*</label>
+        <input type="text" id="zip" placeholder="Zip Code" inputmode="numeric" maxlength="10" required>
+      </div>
+      <div class="field">
+        <label class="field-label" for="age">Age Range</label>
+        <select id="age">
+          <option>0 - 2</option>
+          <option>3 - 5</option>
+          <option>6 - 8</option>
+          <option>9 - 11</option>
+          <option>12+</option>
+        </select>
+      </div>
+    </div>
+
+    <p class="interests-title">What are your top interests?</p>
+    <div class="interests-grid">
+      <label class="checkbox-item"><input type="checkbox" value="New & Featured Toys"><span class="box"></span>New &amp; Featured Toys</label>
+      <label class="checkbox-item"><input type="checkbox" value="Games & Puzzles"><span class="box"></span>Games &amp; Puzzles</label>
+      <label class="checkbox-item"><input type="checkbox" value="Dolls & Collectibles"><span class="box"></span>Dolls &amp; Collectibles</label>
+      <label class="checkbox-item"><input type="checkbox" value="Electronics & RC"><span class="box"></span>Electronics &amp; RC</label>
+      <label class="checkbox-item"><input type="checkbox" value="Building Blocks & Sets"><span class="box"></span>Building Blocks &amp; Sets</label>
+      <label class="checkbox-item"><input type="checkbox" value="Pretend Play"><span class="box"></span>Pretend Play</label>
+      <label class="checkbox-item"><input type="checkbox" value="Learning & Art"><span class="box"></span>Learning &amp; Art</label>
+      <label class="checkbox-item"><input type="checkbox" value="Outdoor Play"><span class="box"></span>Outdoor Play</label>
+    </div>
+
+    <button type="submit" class="signup-btn" id="submitBtn">Sign Up</button>
+
+    <p class="consent">
+      By clicking Sign Up, you agree to receive news about hot toys, toy reviews, DIY play
+      and other promotional materials. You also consent to processing your personal data
+      for these purposes and as described in the <a href="#" id="privacyLink">privacy policy</a>.
+      You understand that you can withdraw your consent at any time.
+    </p>
+
+  </form>
+  </main>
+
+  <footer class="site-footer">
+    <img class="mascot" src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782044381/Design_sans_titre_6_copetd.png" alt="Bob, la mascotte ajBloks">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-grid">
+          <section aria-label="Service client">
+            <h2 class="section-title">Service client</h2>
+            <ul class="link-list">
+              <li><a href="#">Guides cadeaux</a></li>
+              <li><a href="#">Centre d'aide</a></li>
+              <li><a href="#">Livraison</a></li>
+              <li><a href="#">Retours et échanges</a></li>
+              <li><a href="#">Nous contacter</a></li>
+            </ul>
+          </section>
+          <section class="newsletter" aria-label="Inscription à l'infolettre">
+            <h2 class="section-title">Inscrivez-vous pour vous amuser&nbsp;!</h2>
+            <p class="newsletter-intro">Recevez des nouvelles exclusives sur les jouets, des idées de jeu et des avis !</p>
+            <form id="footer-signup-form">
+              <div class="signup-row">
+                <input type="email" id="footer-email-input" placeholder="Entrez votre e-mail" required aria-label="Adresse e-mail">
+                <button type="submit">S'inscrire</button>
+              </div>
+              <p class="signup-disclaimer">En vous inscrivant à notre infolettre, vous acceptez nos <a href="#">conditions d'utilisation</a> et notre <a href="#">politique de confidentialité</a>.</p>
+              <p class="signup-confirm" id="footer-signup-confirm" role="status"></p>
+            </form>
+          </section>
+          <section aria-label="Compte">
+            <h2 class="section-title">Compte</h2>
+            <ul class="link-list">
+              <li><a href="#">Mon compte</a></li>
+              <li><a href="#">Suivre ma commande</a></li>
+              <li>
+                <a href="done/wishlist.html">
+                  <svg class="heart-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  Ma liste de souhaits
+                </a>
+              </li>
+            </ul>
+          </section>
+          <section aria-label="À propos">
+            <h2 class="section-title">À propos</h2>
+            <ul class="link-list">
+              <li><a href="#">Notre histoire</a></li>
+              <li><a href="#">Conditions d'utilisation</a></li>
+              <li><a href="#">Politique de confidentialité</a></li>
+              <li><a href="#">Déclaration d'accessibilité</a></li>
+              <li><a href="#">Préférences de cookies</a></li>
+            </ul>
+          </section>
+          <section aria-label="Activités">
+            <h2 class="section-title">Activités</h2>
+            <ul class="link-list">
+              <li><a href="#">Le monde de Bob</a></li>
+              <li><a href="#">Coloriage et activités</a></li>
+            </ul>
+          </section>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="social-row">
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.7 31.7 0 0 0 0 12a31.7 31.7 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.7 31.7 0 0 0 24 12a31.7 31.7 0 0 0-.5-5.8zM9.6 15.5V8.5L15.8 12z"/></svg></a>
+          <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.4 2.3 2 4 4.4 4.2v3.1c-1.5.1-2.9-.4-4.4-1.3v6.6a5.7 5.7 0 1 1-5.7-5.7c.3 0 .6 0 .9.1v3.2a2.6 2.6 0 1 0 1.8 2.5V3z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.219-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.17.6 2.123 1.775 2.123 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-9h3l.5-3.5h-3.5V7.4c0-1 .3-1.7 1.7-1.7H17V2.6C16.6 2.5 15.5 2.4 14.2 2.4c-2.7 0-4.6 1.6-4.6 4.7v2.4H6.9V13h2.7v9z"/></svg></a>
+        </div>
+        <p class="handle">@ajBloks</p>
+        <hr class="divider">
+        <div class="footer-brand">
+          <div class="wordmark">
+            <img class="brand-logo" src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782051890/Design_sans_titre_7_mwozaj.png" alt="ajBloks">
+          </div>
+          <p class="copyright">© 2026 ajBloks. Tous droits réservés.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const mainNav = document.getElementById('mainNav');
+  const searchOpenBtn = document.getElementById('searchOpenBtn');
+  const searchCloseBtn = document.getElementById('searchCloseBtn');
+  const searchForm = document.getElementById('searchForm');
+  const searchInput = document.getElementById('searchInput');
+
+  function closeSearch(){
+    mainNav.classList.remove('is-search-active');
+    searchInput.blur();
+  }
+  function openSearch(){
+    mainNav.classList.add('is-search-active');
+    searchInput.value = '';
+    requestAnimationFrame(() => searchInput.focus());
+  }
+  searchOpenBtn.addEventListener('click', openSearch);
+  searchCloseBtn.addEventListener('click', closeSearch);
+  searchForm.addEventListener('submit', e => { e.preventDefault(); closeSearch(); });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && mainNav.classList.contains('is-search-active')) closeSearch();
+  });
+
+  const footerSignupForm = document.getElementById('footer-signup-form');
+  const footerSignupConfirm = document.getElementById('footer-signup-confirm');
+  if(footerSignupForm && footerSignupConfirm){
+    footerSignupForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      const email = document.getElementById('footer-email-input').value.trim();
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if(valid){
+        footerSignupConfirm.textContent = "Merci pour votre inscription ! Consultez votre boîte de réception pour confirmer.";
+        footerSignupForm.reset();
+      } else {
+        footerSignupConfirm.textContent = "Veuillez entrer une adresse e-mail valide.";
+      }
+    });
+  }
+</script>
+
+<script>
+  const form = document.getElementById('signupForm');
+  const successMsg = document.getElementById('successMsg');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const name = document.getElementById('name').value.trim();
+    const zip = document.getElementById('zip').value.trim();
+
+    if(!email || !name || !zip){
+      successMsg.style.display = 'none';
+      alert('Please fill in all required fields (Email, Name, Zip Code).');
+      return;
+    }
+
+    const interests = Array.from(document.querySelectorAll('.checkbox-item input:checked'))
+                            .map(cb => cb.value);
+
+    const submission = {
+      email,
+      name,
+      zip,
+      ageRange: document.getElementById('age').value,
+      interests
+    };
+
+    console.log('Signup submitted:', submission);
+
+    successMsg.style.display = 'block';
+    form.reset();
+  });
+
+  document.getElementById('privacyLink').addEventListener('click', function(e){
+    e.preventDefault();
+    alert('Privacy policy link goes here.');
+  });
+</script>
+
+<script src="auth-links.js"></script>
+</body>
+</html>

@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout</title>
+<style>
+  @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
+
+  :root{
+    --blue:#004ebc;
+    --blue-dark:#003894;
+    --blue-soft:#E7EBFB;
+    --ink:#11214A;
+    --text-gray:#5B6685;
+    --border:#E4E7F2;
+    --placeholder:#9a9a9a;
+    --cream:#FFFDF8;
+    --green:#2e8b57;
+    --radius-pill:999px;
+    --page-pad:16px;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Buenos Aires',sans-serif;
+    background:#DEE3F0;
+    color:var(--ink);
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  body.picker-open{overflow:hidden;}
+  button{font-family:inherit;cursor:pointer;border:none;}
+  a{text-decoration:none;color:inherit;}
+
+  .app-shell{
+    max-width:720px;
+    margin:0 auto;
+    background:var(--cream);
+    min-height:100vh;
+    min-height:100dvh;
+    box-shadow:0 0 60px rgba(15,20,60,.18);
+  }
+
+  .topbar{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:16px var(--page-pad);
+    border-bottom:1px solid var(--border);
+    background:#fff;
+  }
+  .back-btn{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:transparent;
+    color:var(--ink);
+    flex:none;
+  }
+  .back-btn:hover{background:var(--blue-soft);}
+  .topbar h1{
+    margin:0;
+    font-size:1.35rem;
+    font-weight:800;
+    flex:1;
+    min-width:0;
+  }
+  .success-close-btn{
+    display:none;
+    width:40px;
+    height:40px;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:transparent;
+    color:var(--ink);
+    flex:none;
+    margin-left:auto;
+  }
+  .success-close-btn.show{display:flex;}
+  .success-close-btn:hover{background:var(--blue-soft);}
+
+  .checkout-page{
+    padding:24px var(--page-pad) 40px;
+  }
+
+  .summary-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:18px 20px;
+    margin-bottom:20px;
+  }
+  .summary-card h2{
+    margin:0 0 14px;
+    font-size:1rem;
+    font-weight:800;
+  }
+  .summary-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:.95rem;
+    margin-bottom:8px;
+    color:var(--text-gray);
+  }
+  .summary-row strong{color:var(--ink);}
+  .summary-row.discount{
+    color:var(--green);
+    font-weight:700;
+  }
+  .summary-row.total{
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px solid var(--border);
+    font-size:1.1rem;
+    font-weight:800;
+    color:var(--ink);
+  }
+
+  .form-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:22px 20px 26px;
+    margin-bottom:20px;
+  }
+  .form-card h2{
+    margin:0 0 18px;
+    font-size:1rem;
+    font-weight:800;
+  }
+
+  label.field-label{
+    display:block;
+    font-weight:700;
+    font-size:14px;
+    margin-bottom:6px;
+  }
+
+  .field{margin-bottom:16px;}
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"]{
+    width:100%;
+    padding:12px 16px;
+    border:1px solid var(--border);
+    border-radius:22px;
+    font-size:15px;
+    font-family:'Buenos Aires',sans-serif;
+    color:var(--ink);
+    outline:none;
+    background:#fff;
+    transition:border-color .15s ease;
+  }
+  input:focus{border-color:var(--blue);}
+  input::placeholder{color:var(--placeholder);}
+
+  .picker-trigger{
+    width:100%;
+    padding:12px 40px 12px 16px;
+    border:1px solid var(--border);
+    border-radius:22px;
+    font-size:15px;
+    font-family:'Buenos Aires',sans-serif;
+    color:var(--ink);
+    background:#fff;
+    text-align:left;
+    position:relative;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .picker-trigger::after{
+    content:'';
+    position:absolute;
+    right:16px;
+    top:50%;
+    width:14px;
+    height:9px;
+    transform:translateY(-50%);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%23555' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:center;
+  }
+  .picker-trigger:focus{border-color:var(--blue);}
+  .picker-trigger:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    background:#f8f9fc;
+  }
+  .picker-trigger .picker-value.placeholder{color:var(--placeholder);}
+
+  .picker-overlay{
+    position:fixed;
+    inset:0;
+    z-index:200;
+    background:rgba(17,33,74,.45);
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .28s ease, visibility .28s ease;
+  }
+  .picker-overlay.open{
+    opacity:1;
+    visibility:visible;
+  }
+  .picker-sheet{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    max-height:min(78dvh, 560px);
+    background:#fff;
+    border-radius:20px 20px 0 0;
+    display:flex;
+    flex-direction:column;
+    transform:translateY(100%);
+    transition:transform .32s cubic-bezier(.22,.68,0,1);
+    padding-bottom:env(safe-area-inset-bottom, 0px);
+    box-shadow:0 -8px 40px rgba(17,33,74,.18);
+  }
+  .picker-overlay.open .picker-sheet{transform:translateY(0);}
+  .picker-handle{
+    width:40px;
+    height:4px;
+    background:var(--border);
+    border-radius:999px;
+    margin:10px auto 0;
+    flex:none;
+  }
+  .picker-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 20px 10px;
+    flex:none;
+    border-bottom:1px solid var(--border);
+  }
+  .picker-header h3{
+    margin:0;
+    font-size:1.05rem;
+    font-weight:800;
+  }
+  .picker-close{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    background:var(--blue-soft);
+    color:var(--ink);
+    font-size:1.4rem;
+    line-height:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .picker-search-wrap{
+    padding:12px 16px;
+    flex:none;
+    border-bottom:1px solid var(--border);
+  }
+  .picker-search{
+    width:100%;
+    padding:11px 16px;
+    border:1px solid var(--border);
+    border-radius:var(--radius-pill);
+    font-size:15px;
+    font-family:'Buenos Aires',sans-serif;
+    outline:none;
+    background:#f8f9fc;
+  }
+  .picker-search:focus{border-color:var(--blue);background:#fff;}
+  .picker-list{
+    list-style:none;
+    margin:0;
+    padding:6px 0 16px;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+    flex:1;
+    min-height:0;
+  }
+  .picker-list li button{
+    width:100%;
+    text-align:left;
+    padding:13px 20px;
+    background:transparent;
+    color:var(--ink);
+    font-size:.95rem;
+    font-weight:600;
+    border:none;
+    transition:background .12s ease;
+  }
+  .picker-list li button:hover,
+  .picker-list li button:focus{background:var(--blue-soft);}
+  .picker-list li button.selected{
+    color:var(--blue);
+    font-weight:800;
+    background:var(--blue-soft);
+  }
+  .picker-empty{
+    padding:28px 20px;
+    text-align:center;
+    color:var(--text-gray);
+    font-weight:600;
+    font-size:.92rem;
+  }
+
+  .payment-options{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .payment-option{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:14px 16px;
+    border:2px solid var(--border);
+    border-radius:14px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .payment-option:has(input:checked){
+    border-color:var(--blue);
+    background:var(--blue-soft);
+  }
+  .payment-option input{
+    margin-top:3px;
+    accent-color:var(--blue);
+    flex:none;
+  }
+  .payment-option-body{flex:1;min-width:0;}
+  .payment-option-title{
+    font-weight:800;
+    font-size:.98rem;
+    margin-bottom:4px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .discount-badge{
+    background:var(--green);
+    color:#fff;
+    font-size:.72rem;
+    font-weight:800;
+    padding:3px 8px;
+    border-radius:var(--radius-pill);
+    letter-spacing:.02em;
+  }
+  .payment-option-desc{
+    font-size:.88rem;
+    color:var(--text-gray);
+    font-weight:600;
+    line-height:1.4;
+  }
+
+  .pay-btn{
+    display:block;
+    width:100%;
+    background:var(--blue);
+    color:#fff;
+    font-weight:700;
+    font-size:1.05rem;
+    padding:15px 24px;
+    border-radius:var(--radius-pill);
+    box-shadow:0 4px 0 var(--blue-dark);
+    transition:transform .08s ease;
+  }
+  .pay-btn:active{
+    transform:translateY(2px);
+    box-shadow:0 2px 0 var(--blue-dark);
+  }
+  .pay-btn:disabled{
+    opacity:.55;
+    cursor:not-allowed;
+    transform:none;
+    box-shadow:0 4px 0 var(--blue-dark);
+  }
+
+  .success-msg{
+    display:none;
+    padding:24px var(--page-pad) 40px;
+  }
+  .success-msg.show{display:block;}
+  .success-hero{
+    text-align:center;
+    margin-bottom:22px;
+  }
+  .success-hero svg{margin-bottom:12px;}
+  .success-hero h2{
+    margin:0 0 8px;
+    font-size:1.45rem;
+    font-weight:800;
+  }
+  .success-hero p{
+    margin:0;
+    color:var(--text-gray);
+    font-weight:600;
+    font-size:.95rem;
+    line-height:1.45;
+  }
+  .success-tracker{
+    background:var(--blue-soft);
+    border:1px dashed var(--blue);
+    border-radius:14px;
+    padding:16px 18px;
+    text-align:center;
+    margin-bottom:20px;
+  }
+  .success-tracker-label{
+    display:block;
+    font-size:.82rem;
+    font-weight:700;
+    color:var(--text-gray);
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    margin-bottom:6px;
+  }
+  .success-tracker-code{
+    font-size:1.35rem;
+    font-weight:800;
+    color:var(--blue);
+    letter-spacing:.06em;
+  }
+  .success-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:18px 20px;
+    margin-bottom:16px;
+    text-align:left;
+  }
+  .success-card h3{
+    margin:0 0 14px;
+    font-size:.95rem;
+    font-weight:800;
+  }
+  .success-product{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    padding:12px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .success-product:last-child{
+    border-bottom:none;
+    padding-bottom:0;
+  }
+  .success-product:first-child{padding-top:0;}
+  .success-product-thumb{
+    width:64px;
+    height:92px;
+    border-radius:8px;
+    overflow:hidden;
+    flex:none;
+    box-shadow:0 1px 3px rgba(0,0,0,.15);
+  }
+  .success-product-thumb svg{
+    width:100%;
+    height:100%;
+    display:block;
+  }
+  .success-product-info{flex:1;min-width:0;}
+  .success-product-name{
+    margin:0 0 6px;
+    font-size:.92rem;
+    font-weight:700;
+    line-height:1.35;
+  }
+  .success-product-meta{
+    margin:0;
+    font-size:.85rem;
+    color:var(--text-gray);
+    font-weight:600;
+  }
+  .success-details{
+    margin:0;
+    display:grid;
+    gap:10px;
+  }
+  .success-detail{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    font-size:.92rem;
+    line-height:1.4;
+  }
+  .success-detail dt{
+    margin:0;
+    color:var(--text-gray);
+    font-weight:600;
+    flex:none;
+  }
+  .success-detail dd{
+    margin:0;
+    font-weight:700;
+    text-align:right;
+  }
+  .success-home-btn{
+    display:block;
+    width:100%;
+    margin-top:8px;
+    background:var(--blue);
+    color:#fff;
+    font-weight:700;
+    font-size:1rem;
+    padding:14px 24px;
+    border-radius:var(--radius-pill);
+    box-shadow:0 4px 0 var(--blue-dark);
+    text-align:center;
+  }
+  .success-home-btn:active{
+    transform:translateY(2px);
+    box-shadow:0 2px 0 var(--blue-dark);
+  }
+
+  @media (min-width:600px){
+    .checkout-page{padding:32px 28px 48px;}
+    .form-card,.summary-card{padding:24px 26px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <header class="topbar">
+    <a href="home-page.html" class="back-btn" id="backBtn" aria-label="Back to shop">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </a>
+    <h1>Checkout</h1>
+    <button type="button" class="success-close-btn" id="successCloseBtn" aria-label="Close">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+  </header>
+
+  <main class="checkout-page" id="checkoutMain">
+    <form id="checkoutForm" novalidate>
+      <section class="form-card">
+        <h2>Contact &amp; delivery</h2>
+
+        <div class="field">
+          <label class="field-label" for="fullName">Full name</label>
+          <input type="text" id="fullName" name="fullName" placeholder="Your full name" required autocomplete="name">
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" placeholder="05XX XX XX XX" required autocomplete="tel">
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+
+        <div class="field">
+          <label class="field-label" id="wilayaLabel">Wilaya</label>
+          <button type="button" class="picker-trigger" id="wilayaTrigger" aria-labelledby="wilayaLabel" aria-haspopup="listbox">
+            <span class="picker-value placeholder" id="wilayaDisplay">Select wilaya</span>
+          </button>
+          <input type="hidden" id="wilaya" name="wilaya" required>
+        </div>
+
+        <div class="field">
+          <label class="field-label" id="communeLabel">Commune</label>
+          <button type="button" class="picker-trigger" id="communeTrigger" aria-labelledby="communeLabel" aria-haspopup="listbox" disabled>
+            <span class="picker-value placeholder" id="communeDisplay">Select commune</span>
+          </button>
+          <input type="hidden" id="commune" name="commune" required>
+        </div>
+      </section>
+
+      <section class="form-card">
+        <h2>Payment method</h2>
+        <div class="payment-options">
+          <label class="payment-option">
+            <input type="radio" name="payment" value="cod" checked>
+            <div class="payment-option-body">
+              <div class="payment-option-title">Cash on delivery</div>
+              <p class="payment-option-desc">Pay when your order arrives. No online discount applies.</p>
+            </div>
+          </label>
+          <label class="payment-option">
+            <input type="radio" name="payment" value="online">
+            <div class="payment-option-body">
+              <div class="payment-option-title">
+                Pay online
+                <span class="discount-badge">5% OFF</span>
+              </div>
+              <p class="payment-option-desc">Pay securely by card or mobile wallet and save 5% on your order.</p>
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <section class="summary-card" aria-label="Order summary">
+        <h2>Order summary</h2>
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <strong id="subtotalDisplay">$0.00</strong>
+        </div>
+        <div class="summary-row discount" id="discountRow">
+          <span>Online payment discount (5%)</span>
+          <strong id="discountDisplay">−$0.00</strong>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <strong id="totalDisplay">$0.00</strong>
+        </div>
+      </section>
+
+      <button type="submit" class="pay-btn" id="payBtn">Place order — $0.00</button>
+    </form>
+  </main>
+
+  <div class="success-msg" id="successMsg">
+    <div class="success-hero">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#2e8b57" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+      <h2>Order placed!</h2>
+      <p>Thank you. We'll contact you shortly to confirm delivery.</p>
+    </div>
+
+    <div class="success-tracker">
+      <span class="success-tracker-label">Tracking code</span>
+      <div class="success-tracker-code" id="successTracker">BK-00000000</div>
+    </div>
+
+    <section class="success-card" aria-label="Ordered products">
+      <h3>Products</h3>
+      <div id="successProducts"></div>
+    </section>
+
+    <section class="success-card" aria-label="Order details">
+      <h3>Order details</h3>
+      <dl class="success-details">
+        <div class="success-detail">
+          <dt>Name</dt>
+          <dd id="successName">—</dd>
+        </div>
+        <div class="success-detail">
+          <dt>Phone</dt>
+          <dd id="successPhone">—</dd>
+        </div>
+        <div class="success-detail">
+          <dt>Email</dt>
+          <dd id="successEmail">—</dd>
+        </div>
+        <div class="success-detail">
+          <dt>Wilaya</dt>
+          <dd id="successWilaya">—</dd>
+        </div>
+        <div class="success-detail">
+          <dt>Commune</dt>
+          <dd id="successCommune">—</dd>
+        </div>
+        <div class="success-detail">
+          <dt>Payment</dt>
+          <dd id="successPayment">—</dd>
+        </div>
+        <div class="success-detail">
+          <dt>Total</dt>
+          <dd id="successTotal">—</dd>
+        </div>
+      </dl>
+    </section>
+
+    <a href="home-page.html" class="success-home-btn">Back to shop</a>
+  </div>
+</div>
+
+<div class="picker-overlay" id="pickerOverlay" aria-hidden="true">
+  <div class="picker-sheet" role="dialog" aria-modal="true" aria-labelledby="pickerTitle">
+    <div class="picker-handle" aria-hidden="true"></div>
+    <div class="picker-header">
+      <h3 id="pickerTitle">Select wilaya</h3>
+      <button type="button" class="picker-close" id="pickerClose" aria-label="Close">&times;</button>
+    </div>
+    <div class="picker-search-wrap">
+      <input type="search" class="picker-search" id="pickerSearch" placeholder="Search…" autocomplete="off">
+    </div>
+    <ul class="picker-list" id="pickerList" role="listbox"></ul>
+  </div>
+</div>
+
+<script src="algeria-locations.js"></script>
+<script>
+  const subtotalEl = document.getElementById('subtotalDisplay');
+  const discountEl = document.getElementById('discountDisplay');
+  const totalEl = document.getElementById('totalDisplay');
+  const payBtn = document.getElementById('payBtn');
+  const discountRow = document.getElementById('discountRow');
+  const wilayaInput = document.getElementById('wilaya');
+  const communeInput = document.getElementById('commune');
+  const wilayaTrigger = document.getElementById('wilayaTrigger');
+  const communeTrigger = document.getElementById('communeTrigger');
+  const wilayaDisplay = document.getElementById('wilayaDisplay');
+  const communeDisplay = document.getElementById('communeDisplay');
+  const pickerOverlay = document.getElementById('pickerOverlay');
+  const pickerTitle = document.getElementById('pickerTitle');
+  const pickerSearch = document.getElementById('pickerSearch');
+  const pickerList = document.getElementById('pickerList');
+  const pickerClose = document.getElementById('pickerClose');
+  const form = document.getElementById('checkoutForm');
+  const checkoutMain = document.getElementById('checkoutMain');
+  const successMsg = document.getElementById('successMsg');
+  const successProducts = document.getElementById('successProducts');
+  const topbarTitle = document.querySelector('.topbar h1');
+  const backBtn = document.getElementById('backBtn');
+  const successCloseBtn = document.getElementById('successCloseBtn');
+
+  const defaultCartItems = [
+    {
+      title: 'Harry Potter and the Prisoner of Azkaban Illustrated Edition – Hardcover',
+      price: 39.99,
+      qty: 1,
+      thumb: '<svg viewBox="0 0 78 112" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1c2240"/><stop offset="1" stop-color="#3a3f7a"/></linearGradient></defs><rect width="78" height="112" fill="url(#sg1)"/><circle cx="55" cy="18" r="9" fill="#f4d27a" opacity="0.85"/><rect x="14" y="48" width="50" height="46" rx="3" fill="#0e1226" opacity="0.6"/></svg>'
+    },
+    {
+      title: "Madeline by Ludwig Bemelmans – Classic Children's Hardcover Book",
+      price: 19.99,
+      qty: 1,
+      thumb: '<svg viewBox="0 0 78 112" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#234d36"/><stop offset="1" stop-color="#3f7a55"/></linearGradient></defs><rect width="78" height="112" fill="url(#sg2)"/><path d="M39 20 L33 60 L45 60 Z" fill="#f3efe2" opacity="0.85"/></svg>'
+    }
+  ];
+
+  let subtotal = (() => {
+    try{
+      const items = JSON.parse(sessionStorage.getItem('cartItems'));
+      if(Array.isArray(items) && items.length){
+        return items.reduce((sum, item) => sum + item.price * item.qty, 0);
+      }
+    }catch(e){}
+    return parseFloat(sessionStorage.getItem('cartTotal')) || 59.98;
+  })();
+  let selectedWilayaCode = '';
+  let activePicker = null;
+
+  function formatMoney(n){
+    return '$' + n.toFixed(2);
+  }
+
+  function setPickerValue(type, value, label){
+    if(type === 'wilaya'){
+      selectedWilayaCode = value;
+      wilayaInput.value = value;
+      wilayaDisplay.textContent = label;
+      wilayaDisplay.classList.remove('placeholder');
+      communeInput.value = '';
+      communeDisplay.textContent = 'Select commune';
+      communeDisplay.classList.add('placeholder');
+      communeTrigger.disabled = !value;
+    } else {
+      communeInput.value = value;
+      communeDisplay.textContent = label;
+      communeDisplay.classList.remove('placeholder');
+    }
+  }
+
+  function renderPickerItems(items, selectedValue){
+    pickerList.innerHTML = '';
+    if(!items.length){
+      pickerList.innerHTML = '<li class="picker-empty">No results found</li>';
+      return;
+    }
+    items.forEach(item => {
+      const li = document.createElement('li');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.role = 'option';
+      btn.textContent = item.label;
+      btn.dataset.value = item.value;
+      if(item.value === selectedValue) btn.classList.add('selected');
+      btn.addEventListener('click', () => {
+        if(activePicker === 'wilaya'){
+          setPickerValue('wilaya', item.value, item.label);
+        } else {
+          setPickerValue('commune', item.value, item.label);
+        }
+        closePicker();
+      });
+      li.appendChild(btn);
+      pickerList.appendChild(li);
+    });
+  }
+
+  function getWilayaItems(filter){
+    const q = filter.trim().toLowerCase();
+    return WILAYAS
+      .filter(w => !q || w.code.includes(q) || w.name.toLowerCase().includes(q))
+      .map(w => ({ value: w.code, label: w.code + ' — ' + w.name }));
+  }
+
+  function getCommuneItems(filter){
+    if(!selectedWilayaCode) return [];
+    const communes = COMMUNES_BY_WILAYA[selectedWilayaCode] || [];
+    const q = filter.trim().toLowerCase();
+    return communes
+      .filter(c => !q || c.toLowerCase().includes(q))
+      .map(c => ({ value: c, label: c }));
+  }
+
+  function openPicker(type){
+    activePicker = type;
+    pickerTitle.textContent = type === 'wilaya' ? 'Select wilaya' : 'Select commune';
+    pickerSearch.value = '';
+    pickerSearch.placeholder = type === 'wilaya' ? 'Search wilaya…' : 'Search commune…';
+    const items = type === 'wilaya'
+      ? getWilayaItems('')
+      : getCommuneItems('');
+    const selected = type === 'wilaya' ? selectedWilayaCode : communeInput.value;
+    renderPickerItems(items, selected);
+    pickerOverlay.classList.add('open');
+    pickerOverlay.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('picker-open');
+    setTimeout(() => pickerSearch.focus(), 320);
+  }
+
+  function closePicker(){
+    pickerOverlay.classList.remove('open');
+    pickerOverlay.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('picker-open');
+    activePicker = null;
+  }
+
+  wilayaTrigger.addEventListener('click', () => openPicker('wilaya'));
+  communeTrigger.addEventListener('click', () => {
+    if(!communeTrigger.disabled) openPicker('commune');
+  });
+  pickerClose.addEventListener('click', closePicker);
+  pickerOverlay.addEventListener('click', (e) => {
+    if(e.target === pickerOverlay) closePicker();
+  });
+  pickerSearch.addEventListener('input', () => {
+    const items = activePicker === 'wilaya'
+      ? getWilayaItems(pickerSearch.value)
+      : getCommuneItems(pickerSearch.value);
+    const selected = activePicker === 'wilaya' ? selectedWilayaCode : communeInput.value;
+    renderPickerItems(items, selected);
+  });
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && pickerOverlay.classList.contains('open')) closePicker();
+  });
+
+  function validatePickers(){
+    wilayaInput.setCustomValidity(selectedWilayaCode ? '' : 'Please select a wilaya');
+    communeInput.setCustomValidity(communeInput.value ? '' : 'Please select a commune');
+  }
+
+  function getPaymentLabel(method){
+    return method === 'online' ? 'Pay online' : 'Cash on delivery';
+  }
+
+  function generateTrackerCode(){
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = 'BK-';
+    for(let i = 0; i < 8; i++){
+      code += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return code;
+  }
+
+  function getCartItems(){
+    try{
+      const stored = JSON.parse(sessionStorage.getItem('cartItems'));
+      if(Array.isArray(stored) && stored.length) return stored;
+    } catch(e){}
+    return defaultCartItems;
+  }
+
+  function showOrderSuccess(){
+    const items = getCartItems();
+    const paymentMethod = getPaymentMethod();
+    const isOnline = paymentMethod === 'online';
+    const discount = isOnline ? subtotal * 0.05 : 0;
+    const total = subtotal - discount;
+
+    document.getElementById('successTracker').textContent = generateTrackerCode();
+    document.getElementById('successName').textContent = document.getElementById('fullName').value.trim();
+    document.getElementById('successPhone').textContent = document.getElementById('phone').value.trim();
+    document.getElementById('successEmail').textContent = document.getElementById('email').value.trim();
+    document.getElementById('successWilaya').textContent = wilayaDisplay.textContent;
+    document.getElementById('successCommune').textContent = communeDisplay.textContent;
+    document.getElementById('successPayment').textContent = getPaymentLabel(paymentMethod);
+    document.getElementById('successTotal').textContent = formatMoney(total);
+
+    successProducts.innerHTML = items.map(item => `
+      <article class="success-product">
+        <div class="success-product-thumb">${item.thumb || ''}</div>
+        <div class="success-product-info">
+          <p class="success-product-name">${item.title}</p>
+          <p class="success-product-meta">Qty ${item.qty} · ${formatMoney(item.price * item.qty)}</p>
+        </div>
+      </article>
+    `).join('');
+
+    checkoutMain.style.display = 'none';
+    topbarTitle.textContent = 'Order confirmed';
+    backBtn.style.display = 'none';
+    successCloseBtn.classList.add('show');
+    successMsg.classList.add('show');
+    sessionStorage.removeItem('cartTotal');
+    sessionStorage.removeItem('cartItems');
+  }
+
+  function getPaymentMethod(){
+    return document.querySelector('input[name="payment"]:checked').value;
+  }
+
+  function updateTotals(){
+    const isOnline = getPaymentMethod() === 'online';
+    const discount = isOnline ? subtotal * 0.05 : 0;
+    const total = subtotal - discount;
+
+    subtotalEl.textContent = formatMoney(subtotal);
+    discountEl.textContent = '−' + formatMoney(discount);
+    totalEl.textContent = formatMoney(total);
+    discountRow.style.display = isOnline ? 'flex' : 'none';
+
+    if(isOnline){
+      payBtn.innerHTML = 'Pay online — <span id="payAmount">' + formatMoney(total) + '</span>';
+    } else {
+      payBtn.textContent = 'Place order — ' + formatMoney(total);
+    }
+  }
+
+  document.querySelectorAll('input[name="payment"]').forEach(radio => {
+    radio.addEventListener('change', updateTotals);
+  });
+
+  successCloseBtn.addEventListener('click', () => {
+    window.location.href = 'home-page.html';
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    validatePickers();
+    if(!form.checkValidity()){
+      form.reportValidity();
+      return;
+    }
+    payBtn.disabled = true;
+    payBtn.textContent = 'Processing…';
+    setTimeout(() => {
+      showOrderSuccess();
+    }, 900);
+  });
+
+  updateTotals();
+</script>
+</body>
+</html>

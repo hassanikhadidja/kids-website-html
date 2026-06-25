@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlayMart — Build-It Brick Construction Set</title>
+<style>
+  :root{
+    --blue:#0747C9;
+    --blue-dark:#04308f;
+    --pink:#ff3d77;
+    --pink-deep:#e0186a;
+    --yellow:#ffce32;
+    --ink:#16182b;
+    --ink-soft:#5b5e72;
+    --line:#e7e8ee;
+    --bg:#f4f5f9;
+    --white:#ffffff;
+    --green:#1c8a4b;
+    --red:#e23b3b;
+    --radius:18px;
+    --radius-sm:10px;
+    --shadow:0 12px 30px rgba(16,20,40,.14);
+    --shadow-sm:0 4px 14px rgba(16,20,40,.10);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ===== Phone-frame stage (the page lives in a mobile-width column, like the source screenshots) ===== */
+  .stage{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    background:linear-gradient(180deg,#e9ebf3,#dfe2ee);
+    padding:18px 0 60px;
+  }
+  .app{
+    width:100%;
+    max-width:430px;
+    background:var(--white);
+    min-height:100vh;
+    position:relative;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    border-radius:26px;
+  }
+  @media (min-width:480px){
+    .app{ min-height:880px; border-radius:30px; }
+  }
+
+  button{font-family:inherit;cursor:pointer;}
+  .icon-btn{
+    border:none;background:transparent;color:inherit;
+    width:38px;height:38px;display:flex;align-items:center;justify-content:center;
+    border-radius:50%;flex:none;
+  }
+  .icon-btn svg{width:20px;height:20px;}
+  .icon-btn:active{background:rgba(255,255,255,.18);}
+
+  /* ===== Header ===== */
+  .topbar{
+    position:sticky;top:0;z-index:30;
+    background:var(--blue);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px;
+    color:#fff;
+  }
+  .topbar-left,.topbar-right{display:flex;align-items:center;gap:2px;}
+  .topbar .icon-btn{color:#fff;}
+  .logo{
+    display:flex;align-items:baseline;gap:1px;
+    font-weight:800;font-size:20px;letter-spacing:.2px;
+    user-select:none;
+  }
+  .logo-toys{color:var(--pink);text-shadow:0 1px 0 rgba(0,0,0,.08);}
+  .logo-star{
+    color:var(--yellow);
+    font-size:23px;
+    transform:scaleX(-1);
+    display:inline-block;
+    margin:0 1px;
+  }
+  .logo-us{color:#fff;}
+  .cart-wrap{position:relative;}
+  .cart-badge{
+    position:absolute;top:2px;right:2px;
+    background:var(--yellow);color:var(--blue-dark);
+    font-size:10px;font-weight:800;
+    min-width:16px;height:16px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    padding:0 2px;
+  }
+  .progress-track{height:3px;background:rgba(0,0,0,.08);}
+  .progress-fill{height:100%;width:35%;background:var(--blue);transition:width .25s linear;}
+
+  /* ===== Shoppable video stage ===== */
+  .video-stage{
+    position:relative;
+    background:
+      radial-gradient(circle at 14% 18%, rgba(255,255,255,.35) 0 3px, transparent 4px) 0 0/46px 46px,
+      radial-gradient(circle at 70% 65%, rgba(255,255,255,.3) 0 2px, transparent 3px) 0 0/60px 60px,
+      linear-gradient(160deg,var(--pink),var(--pink-deep) 60%, #b40e54);
+    height:560px;
+    overflow:hidden;
+  }
+  .promo-banner{
+    text-align:center;
+    padding:16px 10px 6px;
+    color:#fff;
+  }
+  .promo-title{
+    font-size:30px;font-weight:900;letter-spacing:1px;
+    color:var(--yellow);
+    -webkit-text-stroke:1.5px #b40e54;
+    text-shadow:0 3px 0 #b40e54;
+    margin:0;transform:rotate(-2deg);
+  }
+  .promo-sub{
+    font-size:11px;font-weight:700;letter-spacing:3px;
+    margin-top:4px;opacity:.9;
+  }
+  .promo-sub b{color:var(--yellow);}
+
+  .video-scroll{
+    position:absolute; inset:96px 0 78px 0;
+    overflow-y:auto; overflow-x:hidden;
+    scroll-snap-type:y mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .video-scroll::-webkit-scrollbar{display:none;}
+  .video-page{
+    height:100%;
+    scroll-snap-align:start; scroll-snap-stop:always;
+    display:flex;align-items:flex-end;justify-content:center;
+    position:relative;
+  }
+  .video-visual{
+    width:80%;height:84%;margin-bottom:8px;
+    border-radius:16px;
+    background:rgba(0,0,0,.18);
+    display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;
+  }
+  .scene{width:100%;height:100%;}
+
+  /* tiny CSS scenes standing in for the UGC video content */
+  .scene-bricks{background:linear-gradient(180deg,#cfe8ff,#9fd0ff 60%, #7fbdf5);position:relative;}
+  .brick-stack{position:absolute;bottom:14%;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:4px;animation:stackUp 3.2s ease-in-out infinite;}
+  .brick{height:22px;border-radius:4px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.15);}
+  .brick:nth-child(1){width:70px;background:#ff5d5d;}
+  .brick:nth-child(2){width:90px;background:#ffd23f;}
+  .brick:nth-child(3){width:60px;background:#3aa6ff;}
+  .brick:nth-child(4){width:100px;background:#39c06b;}
+  @keyframes stackUp{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-6px);}}
+  .hand{position:absolute;bottom:0;left:50%;transform:translateX(-30%);width:54px;height:70px;background:#e7b690;border-radius:30px 30px 10px 10px;}
+
+  .scene-horse{background:linear-gradient(180deg,#bfe6c8,#8fd19f 70%,#6cb87f);position:relative;}
+  .horse-body{position:absolute;bottom:18%;left:50%;transform:translateX(-50%);width:120px;height:60px;background:#cdb6e8;border-radius:50px 60px 40px 40px;}
+  .horse-mane{position:absolute;bottom:32%;left:calc(50% + 18px);width:48px;height:30px;background:linear-gradient(90deg,#ff7ab8,#ffd23f,#6fe0d8);border-radius:0 30px 30px 0;animation:sway 2.6s ease-in-out infinite;}
+  @keyframes sway{0%,100%{transform:rotate(0deg);}50%{transform:rotate(6deg);}}
+  .horse-horn{position:absolute;bottom:58%;left:calc(50% + 42px);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:22px solid #ffd23f;border-radius:2px;}
+
+  .scene-vending{background:linear-gradient(180deg,#ffe2ae,#ffcf78 70%,#f2b65a);position:relative;}
+  .vend-box{position:absolute;bottom:10%;left:50%;transform:translateX(-50%);width:90px;height:120px;background:#fff7e6;border:4px solid #c98a2b;border-radius:8px;display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:8px;}
+  .vend-box span{background:#5fb8ff;border-radius:3px;animation:blink 2.4s ease-in-out infinite;}
+  .vend-box span:nth-child(2){background:#ff8fb1;animation-delay:.3s;}
+  .vend-box span:nth-child(3){background:#ffd23f;animation-delay:.6s;}
+  .vend-box span:nth-child(4){background:#7ce0a0;animation-delay:.9s;}
+  @keyframes blink{0%,100%{opacity:.55;}50%{opacity:1;}}
+
+  .video-username{
+    position:absolute; left:14px; bottom:14px;
+    color:#fff; font-weight:700; font-size:13px;
+    text-shadow:0 1px 4px rgba(0,0,0,.5);
+    background:rgba(0,0,0,.18);
+    padding:4px 10px;border-radius:20px;
+  }
+  .video-caption{
+    position:absolute; left:14px; bottom:38px; right:90px;
+    color:#fff; font-size:12px; line-height:1.3;
+    text-shadow:0 1px 4px rgba(0,0,0,.5);
+  }
+
+  .video-top-controls{
+    position:absolute; top:108px; right:8px; z-index:5;
+    display:flex; flex-direction:column; gap:14px; align-items:center;
+  }
+  .video-top-controls .icon-btn{color:#fff;background:rgba(0,0,0,.22);}
+
+  .video-nav{
+    position:absolute; right:10px; top:50%; transform:translateY(-50%);
+    display:flex;flex-direction:column;gap:10px;z-index:5;
+  }
+  .video-nav .icon-btn{color:#fff;background:rgba(0,0,0,.22);}
+  .video-nav .icon-btn:disabled{opacity:.35;}
+
+  .video-dots{
+    position:absolute; right:17px; top:calc(50% + 62px);
+    display:flex;flex-direction:column;gap:6px;z-index:5;
+    transform:translateY(-50%);
+  }
+  .video-dots .dot{
+    width:4px;height:4px;border-radius:3px;background:rgba(255,255,255,.45);
+    transition:height .25s,background .25s;
+  }
+  .video-dots .dot.active{height:16px;background:#fff;}
+
+  .mute-btn{
+    position:absolute; right:10px; bottom:14px; z-index:5;
+    color:#fff;background:rgba(0,0,0,.28);
+  }
+
+  .view-products-toggle{
+    position:absolute; left:50%; bottom:6px; transform:translateX(-50%);
+    display:flex;align-items:center;gap:6px;
+    background:rgba(0,0,0,.32);color:#fff;border:none;
+    font-size:12px;font-weight:600;
+    padding:6px 14px;border-radius:20px;z-index:5;
+  }
+  .view-products-toggle svg{width:12px;height:12px;transition:transform .25s;}
+  .view-products-toggle.open svg{transform:rotate(180deg);}
+
+  .mini-products{
+    position:absolute; left:0; right:0; bottom:0; z-index:6;
+    background:rgba(15,16,30,.92);
+    transform:translateY(100%); transition:transform .3s ease;
+    padding:14px 14px 16px;
+    border-radius:16px 16px 0 0;
+  }
+  .mini-products.open{transform:translateY(0);}
+  .mini-products h4{color:#fff;margin:0 0 10px;font-size:13px;}
+  .mini-row{
+    display:flex;align-items:center;gap:10px;
+    background:rgba(255,255,255,.06);
+    border-radius:12px;padding:8px;margin-bottom:8px;
+  }
+  .mini-thumb{width:42px;height:42px;border-radius:8px;flex:none;background:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;}
+  .mini-info{flex:1;color:#fff;}
+  .mini-info .name{font-size:12px;font-weight:600;}
+  .mini-info .price{font-size:12px;color:var(--yellow);font-weight:700;}
+  .mini-add{
+    background:#fff;color:var(--ink);border:none;border-radius:16px;
+    padding:6px 12px;font-size:11px;font-weight:700;
+  }
+
+  /* peek carousel under the video (next item teaser) */
+  .peek-strip{
+    position:absolute; left:0; right:0; bottom:0; height:78px;
+    background:linear-gradient(0deg, rgba(0,0,0,.55), rgba(0,0,0,0));
+    display:flex; align-items:center; gap:6px; padding:0 8px; z-index:4;
+  }
+  .peek-arrow{
+    background:rgba(255,255,255,.85); border:none; border-radius:50%;
+    width:30px;height:30px;flex:none;display:flex;align-items:center;justify-content:center;
+    font-size:16px;font-weight:700;color:var(--ink);
+  }
+  .peek-card{
+    flex:1; background:#fff; border-radius:12px; padding:8px 10px;
+    display:flex;align-items:center;gap:10px; box-shadow:var(--shadow-sm);
+  }
+  .peek-thumb{width:40px;height:40px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-size:18px;background:var(--bg);}
+  .peek-text{flex:1;min-width:0;}
+  .peek-text .name{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .peek-text .price{font-size:12px;color:var(--ink-soft);}
+
+  /* ===== Product detail section ===== */
+  .pdp{padding:18px 16px 24px;}
+  .gallery{margin-bottom:14px;}
+  .gallery-main{
+    width:100%;aspect-ratio:1/1;border-radius:var(--radius);
+    background:var(--bg);display:flex;align-items:center;justify-content:center;
+    font-size:64px; overflow:hidden; position:relative;
+  }
+  .gallery-thumbs{display:flex;gap:8px;margin-top:8px;}
+  .gallery-thumbs button{
+    width:56px;height:56px;border-radius:10px;border:2px solid transparent;
+    background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:24px;
+  }
+  .gallery-thumbs button.active{border-color:var(--blue);}
+
+  .pdp-eyebrow{font-size:12px;font-weight:700;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+  .pdp-title{font-size:20px;font-weight:800;margin:0 0 8px;line-height:1.3;}
+  .price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:2px;}
+  .price{font-size:22px;font-weight:800;}
+  .price-strike{font-size:14px;color:var(--ink-soft);text-decoration:line-through;}
+  .stock{font-size:13px;font-weight:700;margin-bottom:16px;}
+  .stock.in{color:var(--green);}
+  .stock.out{color:var(--red);}
+
+  .field-label{font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;}
+  select.variant{
+    width:100%;padding:12px 14px;border-radius:var(--radius-sm);
+    border:1px solid var(--line);font-size:14px;margin-bottom:16px;background:#fff;
+    appearance:none;
+  }
+
+  .btn-add,.btn-buy{
+    width:100%;padding:15px;border-radius:30px;font-size:15px;font-weight:700;
+    margin-bottom:10px;border:2px solid var(--ink);
+  }
+  .btn-add{background:var(--ink);color:#fff;}
+  .btn-add:active{transform:scale(.98);}
+  .btn-buy{background:#fff;color:var(--ink);}
+  .btn-buy:active{transform:scale(.98);}
+  .btn-add:disabled{background:#cfd1da;border-color:#cfd1da;color:#777;}
+
+  .trust-row{
+    display:flex;gap:14px;margin:14px 0 6px;font-size:11.5px;color:var(--ink-soft);
+  }
+  .trust-row div{display:flex;align-items:center;gap:5px;}
+
+  /* You may also like */
+  .recs{margin-top:28px;}
+  .recs h2{font-size:16px;font-weight:800;margin:0 0 12px;}
+  .recs-scroll{
+    display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;
+    scroll-snap-type:x mandatory;
+  }
+  .recs-scroll::-webkit-scrollbar{height:0;}
+  .rec-card{
+    flex:0 0 132px;scroll-snap-align:start;cursor:pointer;
+  }
+  .rec-thumb{
+    width:100%;height:120px;border-radius:14px;background:var(--bg);
+    display:flex;align-items:center;justify-content:center;font-size:38px;margin-bottom:8px;
+  }
+  .rec-name{font-size:12.5px;font-weight:600;line-height:1.3;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;height:32px;}
+  .rec-price{font-size:13px;font-weight:800;margin-top:4px;}
+
+  footer.site-footer{
+    margin-top:30px;padding:24px 16px 100px;background:var(--bg);
+    text-align:center;font-size:11.5px;color:var(--ink-soft);
+  }
+  footer.site-footer .foot-logo{font-weight:800;color:var(--ink);margin-bottom:6px;display:block;}
+
+  /* ===== Email FAB (replaces chat bubble) ===== */
+  .email-fab{
+    position:absolute; right:16px; bottom:20px; z-index:25;
+    background:var(--blue); color:#fff; border:none;
+    border-radius:30px; padding:12px 16px;
+    display:flex;align-items:center;gap:8px;
+    box-shadow:0 8px 20px rgba(7,71,201,.4);
+    font-size:13px;font-weight:700;
+  }
+  .email-fab svg{width:18px;height:18px;}
+
+  /* ===== Drawers (share + email) ===== */
+  .backdrop{
+    position:absolute;inset:0;background:rgba(10,12,24,.5);
+    opacity:0;visibility:hidden;transition:opacity .25s;z-index:40;
+  }
+  .backdrop.open{opacity:1;visibility:visible;}
+
+  .drawer{
+    position:absolute; left:0; right:0; bottom:0; z-index:41;
+    background:#fff; border-radius:22px 22px 0 0;
+    transform:translateY(100%); transition:transform .32s cubic-bezier(.32,.9,.3,1);
+    padding:10px 18px 22px; box-shadow:0 -10px 30px rgba(0,0,0,.18);
+    max-height:80%; overflow-y:auto;
+  }
+  .drawer.open{transform:translateY(0);}
+  .drawer-handle{width:40px;height:4px;background:var(--line);border-radius:4px;margin:4px auto 14px;}
+  .drawer-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .drawer-header h3{font-size:16px;margin:0;}
+  .drawer-close{background:var(--bg);border:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+
+  .share-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;text-align:center;}
+  .share-item{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;font-size:11px;color:var(--ink);}
+  .share-circle{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;}
+  .sc-fb{background:#1877F2;} .sc-li{background:#0A66C2;} .sc-wa{background:#25D366;} .sc-x{background:#111;}
+  .sc-pin{background:#E60023;} .sc-copy{background:var(--ink-soft);}
+
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;}
+  .field input,.field textarea{
+    width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:var(--radius-sm);
+    font-size:14px;font-family:inherit;resize:none;
+  }
+  .field input:focus,.field textarea:focus{outline:2px solid var(--blue);outline-offset:1px;}
+  .field-error{color:var(--red);font-size:11.5px;margin-top:4px;display:none;}
+  .field.invalid input,.field.invalid textarea{border-color:var(--red);}
+  .field.invalid .field-error{display:block;}
+
+  .send-btn{
+    width:100%;padding:14px;border-radius:30px;border:none;
+    background:var(--blue);color:#fff;font-weight:700;font-size:14px;
+  }
+  .send-btn:active{transform:scale(.98);}
+
+  .email-success{
+    display:none;text-align:center;padding:30px 10px;
+  }
+  .email-success.show{display:block;}
+  .email-success .tick{
+    width:54px;height:54px;border-radius:50%;background:#e8f7ee;color:var(--green);
+    display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:26px;
+  }
+  .email-success h4{margin:0 0 6px;font-size:15px;}
+  .email-success p{margin:0;font-size:13px;color:var(--ink-soft);}
+
+  /* toast */
+  .toast{
+    position:absolute; left:50%; bottom:90px; transform:translate(-50%,12px);
+    background:var(--ink); color:#fff; padding:10px 18px; border-radius:24px;
+    font-size:13px; opacity:0; transition:opacity .25s, transform .25s; z-index:60;
+    pointer-events:none;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0);}
+
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+<div class="app" id="app">
+
+  <!-- ===== Header ===== -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="icon-btn" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+      </button>
+    </div>
+    <div class="logo" aria-label="PlayMart">
+      <span class="logo-toys">Toy</span><span class="logo-star">Я</span><span class="logo-us">Mart</span>
+    </div>
+    <div class="topbar-right">
+      <button class="icon-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.6" y2="16.6"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7.5-4.6-10-9.3C.5 8.2 2.3 5 5.6 5 7.7 5 9.5 6.1 12 8.6 14.5 6.1 16.3 5 18.4 5 21.7 5 23.5 8.2 22 11.7 19.5 16.4 12 21 12 21z"/></svg>
+      </button>
+      <button class="icon-btn cart-wrap" aria-label="Cart, items in cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4h2l2.4 12.2a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="9" cy="21" r="1.2"/><circle cx="18" cy="21" r="1.2"/></svg>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+    </div>
+  </header>
+  <div class="progress-track"><div class="progress-fill" id="scrollProgress"></div></div>
+
+  <!-- ===== Shoppable video carousel ===== -->
+  <section class="video-stage" aria-label="Customer video reviews">
+    <div class="promo-banner">
+      <p class="promo-title">PLAYDAY PICKS</p>
+      <p class="promo-sub">REAL FAMILIES · REAL REVIEWS · <b>ONLY AT TOYMART</b></p>
+    </div>
+
+    <div class="video-scroll" id="videoScroll"></div>
+
+    <div class="video-top-controls">
+      <button class="icon-btn" aria-label="More options">
+        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="View bag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+      </button>
+      <button class="icon-btn" id="shareBtn" aria-label="Share this video">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><line x1="8.2" y1="10.7" x2="15.8" y2="6.3"/><line x1="8.2" y1="13.3" x2="15.8" y2="17.7"/></svg>
+      </button>
+    </div>
+
+    <div class="video-nav">
+      <button class="icon-btn" id="prevVideoBtn" aria-label="Previous video">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><polyline points="6 15 12 9 18 15"/></svg>
+      </button>
+      <button class="icon-btn" id="nextVideoBtn" aria-label="Next video">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+    </div>
+    <div class="video-dots" id="videoDots"></div>
+
+    <button class="mute-btn icon-btn" id="muteBtn" aria-label="Unmute video">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="4 9 9 9 14 4 14 20 9 15 4 15 4 9"/><line x1="17" y1="9" x2="22" y2="14"/><line x1="22" y1="9" x2="17" y2="14"/></svg>
+    </button>
+
+    <button class="view-products-toggle" id="viewProductsToggle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      View products
+    </button>
+
+    <div class="mini-products" id="miniProducts">
+      <h4>Featured in this video</h4>
+      <div id="miniProductsList"></div>
+    </div>
+
+    <div class="peek-strip">
+      <button class="peek-arrow" id="peekPrev" aria-label="Previous featured product">‹</button>
+      <div class="peek-card" id="peekCard"></div>
+      <button class="peek-arrow" id="peekNext" aria-label="Next featured product">›</button>
+    </div>
+  </section>
+
+  <!-- ===== Product detail ===== -->
+  <main class="pdp">
+    <div class="gallery">
+      <div class="gallery-main" id="galleryMain">🧱</div>
+      <div class="gallery-thumbs" id="galleryThumbs"></div>
+    </div>
+
+    <p class="pdp-eyebrow">Building Sets</p>
+    <h1 class="pdp-title">Build-It Brick Construction Set — Dock &amp; Garage</h1>
+    <div class="price-row">
+      <span class="price">$26.99</span>
+      <span class="price-strike">$32.99</span>
+    </div>
+    <p class="stock in" id="stockLabel">● In stock</p>
+
+    <p class="field-label">Title</p>
+    <select class="variant" id="variantSelect">
+      <option>Default Title</option>
+      <option>2-Pack Bundle</option>
+      <option>Gift Wrapped</option>
+    </select>
+
+    <button class="btn-add" id="addToCartBtn">Add to cart</button>
+    <button class="btn-buy" id="buyNowBtn">Buy now</button>
+
+    <div class="trust-row">
+      <div>🚚 Free shipping $35+</div>
+      <div>↩ Free 90-day returns</div>
+    </div>
+
+    <section class="recs">
+      <h2>You may also like</h2>
+      <div class="recs-scroll" id="recsScroll"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span class="foot-logo">ToyMart</span>
+    © 2026 ToyMart Demo Storefront — built for layout practice only.
+  </footer>
+
+  <!-- ===== Email FAB (replaces chat widget) ===== -->
+  <button class="email-fab" id="emailFab" aria-haspopup="dialog">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+    Email us
+  </button>
+
+  <!-- ===== Share drawer ===== -->
+  <div class="backdrop" id="shareBackdrop"></div>
+  <div class="drawer" id="shareDrawer" role="dialog" aria-label="Share this video">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <h3>Share</h3>
+      <button class="drawer-close" id="shareCloseBtn" aria-label="Close share menu">✕</button>
+    </div>
+    <div class="share-grid">
+      <button class="share-item" data-share="facebook"><span class="share-circle sc-fb">f</span>Facebook</button>
+      <button class="share-item" data-share="linkedin"><span class="share-circle sc-li">in</span>LinkedIn</button>
+      <button class="share-item" data-share="whatsapp"><span class="share-circle sc-wa">✆</span>WhatsApp</button>
+      <button class="share-item" data-share="x"><span class="share-circle sc-x">X</span>X</button>
+      <button class="share-item" data-share="pinterest"><span class="share-circle sc-pin">P</span>Pinterest</button>
+      <button class="share-item" data-share="copy"><span class="share-circle sc-copy">⎘</span>Copy link</button>
+    </div>
+  </div>
+
+  <!-- ===== Email drawer (slides up from the bottom of the page) ===== -->
+  <div class="backdrop" id="emailBackdrop"></div>
+  <div class="drawer" id="emailDrawer" role="dialog" aria-label="Email us">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <h3>Email us</h3>
+      <button class="drawer-close" id="emailCloseBtn" aria-label="Close email form">✕</button>
+    </div>
+
+    <form id="emailForm" novalidate>
+      <div class="field" id="nameField">
+        <label for="nameInput">Your name</label>
+        <input type="text" id="nameInput" placeholder="Jordan Avery" required>
+        <p class="field-error">Please tell us your name.</p>
+      </div>
+      <div class="field" id="emailField">
+        <label for="emailInput">Email address</label>
+        <input type="email" id="emailInput" placeholder="you@example.com" required>
+        <p class="field-error">Enter a valid email address.</p>
+      </div>
+      <div class="field" id="messageField">
+        <label for="messageInput">Message</label>
+        <textarea id="messageInput" rows="4" placeholder="How can we help?" required></textarea>
+        <p class="field-error">Let us know what you need.</p>
+      </div>
+      <button type="submit" class="send-btn">Send message</button>
+    </form>
+
+    <div class="email-success" id="emailSuccess">
+      <div class="tick">✓</div>
+      <h4>Message sent</h4>
+      <p>Thanks — our team will reply to your email shortly.</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var app = document.getElementById('app');
+
+  /* ---------- shared toast ---------- */
+  var toastEl = document.getElementById('toast');
+  var toastTimer;
+  function showToast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 2200);
+  }
+
+  /* ---------- header scroll progress (cosmetic, mirrors the thin bar in the source) ---------- */
+  var progressFill = document.getElementById('scrollProgress');
+  app.addEventListener('scroll', function(){
+    var max = app.scrollHeight - app.clientHeight;
+    var pct = max > 0 ? (app.scrollTop / max) * 100 : 0;
+    progressFill.style.width = Math.min(100, Math.max(4, pct)) + '%';
+  });
+
+  /* =====================================================================
+     VIDEO CAROUSEL DATA
+  ===================================================================== */
+  var videos = [
+    {
+      handle:'@brick_builder_jay',
+      caption:'"My kids built the whole dock in one sitting!"',
+      scene:'bricks',
+      icon:'🧱', emoji:'hand',
+      product:{ name:'Build-It Brick Construction Set', price:'$26.99', emoji:'🧱' }
+    },
+    {
+      handle:'@toycollector_mia',
+      caption:'"The mane colors are so vivid in person."',
+      scene:'horse',
+      product:{ name:'Mystic Horse & Rider Doll Set', price:'$34.99', emoji:'🦄' }
+    },
+    {
+      handle:'@playtime_with_sam',
+      caption:'"Best gift this year — the coins really click in!"',
+      scene:'vending',
+      product:{ name:'Snack Time Wooden Vending Playset', price:'$79.99', emoji:'🏪' }
+    }
+  ];
+  var videoIndex = 0;
+
+  var videoScroll = document.getElementById('videoScroll');
+  var peekCard = document.getElementById('peekCard');
+  var miniProductsList = document.getElementById('miniProductsList');
+  var videoDots = document.getElementById('videoDots');
+  var prevBtn = document.getElementById('prevVideoBtn');
+  var nextBtn = document.getElementById('nextVideoBtn');
+
+  function sceneMarkup(scene){
+    if(scene === 'bricks'){
+      return '<div class="scene scene-bricks"><div class="brick-stack">'+
+        '<div class="brick"></div><div class="brick"></div><div class="brick"></div><div class="brick"></div>'+
+        '</div><div class="hand"></div></div>';
+    }
+    if(scene === 'horse'){
+      return '<div class="scene scene-horse"><div class="horse-body"></div><div class="horse-mane"></div><div class="horse-horn"></div></div>';
+    }
+    return '<div class="scene scene-vending"><div class="vend-box"><span></span><span></span><span></span><span></span></div></div>';
+  }
+
+  /* Build every video as a real page in one tall scroller. With scroll-snap
+     on the container, the browser's native swipe (touch) and wheel (desktop)
+     handling gives the up/down TikTok-style paging for free — no JS needed
+     to move between videos, only to keep the overlay chrome in sync. */
+  videos.forEach(function(v){
+    var page = document.createElement('div');
+    page.className = 'video-page';
+    page.innerHTML =
+      '<div class="video-visual">'+ sceneMarkup(v.scene) +'</div>'+
+      '<div class="video-caption">'+ v.caption +'</div>'+
+      '<div class="video-username">'+ v.handle +'</div>';
+    videoScroll.appendChild(page);
+  });
+  videos.forEach(function(v, i){
+    var dot = document.createElement('span');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    videoDots.appendChild(dot);
+  });
+
+  function closeMiniProducts(){
+    miniProducts.classList.remove('open');
+    viewToggle.classList.remove('open');
+    viewToggle.lastChild.textContent = ' View products';
+  }
+
+  function updateChrome(idx){
+    var product = videos[idx].product;
+    peekCard.innerHTML =
+      '<div class="peek-thumb">'+ product.emoji +'</div>'+
+      '<div class="peek-text"><div class="name">'+ product.name +'</div><div class="price">'+ product.price +'</div></div>';
+    miniProductsList.innerHTML =
+      '<div class="mini-row">'+
+        '<div class="mini-thumb">'+ product.emoji +'</div>'+
+        '<div class="mini-info"><div class="name">'+ product.name +'</div><div class="price">'+ product.price +'</div></div>'+
+        '<button class="mini-add" data-quick-add>Add</button>'+
+      '</div>';
+    prevBtn.disabled = idx === 0;
+    nextBtn.disabled = idx === videos.length - 1;
+    Array.prototype.forEach.call(videoDots.children, function(d, i){ d.classList.toggle('active', i === idx); });
+  }
+
+  function goToVideo(idx){
+    idx = Math.max(0, Math.min(videos.length - 1, idx));
+    videoIndex = idx;
+    videoScroll.scrollTo({ top: idx * videoScroll.clientHeight, behavior:'smooth' });
+    updateChrome(idx);
+    closeMiniProducts();
+  }
+
+  /* keep the peek card / mini-products / dots / arrows synced to whichever
+     video is actually centered after a swipe or scroll settles */
+  var scrollSettleTimer;
+  videoScroll.addEventListener('scroll', function(){
+    clearTimeout(scrollSettleTimer);
+    scrollSettleTimer = setTimeout(function(){
+      var idx = Math.round(videoScroll.scrollTop / videoScroll.clientHeight);
+      idx = Math.max(0, Math.min(videos.length - 1, idx));
+      if(idx !== videoIndex){
+        videoIndex = idx;
+        updateChrome(idx);
+        closeMiniProducts();
+      }
+    }, 90);
+  }, { passive:true });
+
+  updateChrome(videoIndex);
+
+  nextBtn.addEventListener('click', function(){ if(videoIndex < videos.length - 1) goToVideo(videoIndex + 1); });
+  prevBtn.addEventListener('click', function(){ if(videoIndex > 0) goToVideo(videoIndex - 1); });
+  document.getElementById('peekNext').addEventListener('click', function(){ if(videoIndex < videos.length - 1) goToVideo(videoIndex + 1); });
+  document.getElementById('peekPrev').addEventListener('click', function(){ if(videoIndex > 0) goToVideo(videoIndex - 1); });
+
+  /* mute toggle */
+  var muteBtn = document.getElementById('muteBtn');
+  var muted = true;
+  muteBtn.addEventListener('click', function(){
+    muted = !muted;
+    muteBtn.setAttribute('aria-label', muted ? 'Unmute video' : 'Mute video');
+    muteBtn.innerHTML = muted
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="4 9 9 9 14 4 14 20 9 15 4 15 4 9"/><line x1="17" y1="9" x2="22" y2="14"/><line x1="22" y1="9" x2="17" y2="14"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="4 9 9 9 14 4 14 20 9 15 4 15 4 9"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M19 7a7 7 0 0 1 0 10"/></svg>';
+  });
+
+  /* "View products" expandable mini panel */
+  var viewToggle = document.getElementById('viewProductsToggle');
+  var miniProducts = document.getElementById('miniProducts');
+  viewToggle.addEventListener('click', function(){
+    var open = miniProducts.classList.toggle('open');
+    viewToggle.classList.toggle('open', open);
+    viewToggle.lastChild.textContent = open ? ' Hide products' : ' View products';
+  });
+  miniProductsList.addEventListener('click', function(e){
+    if(e.target.matches('[data-quick-add]')){
+      bumpCart();
+      showToast('Added to cart');
+    }
+  });
+
+  /* =====================================================================
+     PRODUCT DETAIL DATA + RENDER
+  ===================================================================== */
+  var mainProduct = {
+    eyebrow:'Building Sets', name:'Build-It Brick Construction Set — Dock & Garage',
+    price:'$26.99', strike:'$32.99', inStock:true, emoji:'🧱',
+    thumbs:['🧱','📦','🖼️']
+  };
+
+  var recs = [
+    { name:'Mix It Up Science Lab Kit', price:'$19.99', emoji:'🧪' },
+    { name:'Snack Time Wooden Vending Playset', price:'$79.99', emoji:'🏪' },
+    { name:'Dough Dentist Play Set', price:'$17.49', emoji:'🦷' },
+    { name:'Mystic Horse & Rider Doll Set', price:'$34.99', emoji:'🦄' }
+  ];
+
+  function renderPDP(p){
+    document.querySelector('.pdp-eyebrow').textContent = p.eyebrow;
+    document.querySelector('.pdp-title').textContent = p.name;
+    document.querySelector('.price').textContent = p.price;
+    document.querySelector('.price-strike').style.display = p.strike ? '' : 'none';
+    if(p.strike) document.querySelector('.price-strike').textContent = p.strike;
+    var stock = document.getElementById('stockLabel');
+    stock.textContent = p.inStock ? '● In stock' : '● Out of stock';
+    stock.className = 'stock ' + (p.inStock ? 'in' : 'out');
+    document.getElementById('addToCartBtn').disabled = !p.inStock;
+    document.getElementById('addToCartBtn').textContent = p.inStock ? 'Add to cart' : 'Out of stock';
+    document.getElementById('galleryMain').textContent = p.emoji;
+
+    var thumbWrap = document.getElementById('galleryThumbs');
+    thumbWrap.innerHTML = '';
+    p.thumbs.forEach(function(t, i){
+      var b = document.createElement('button');
+      b.textContent = t;
+      if(i === 0) b.classList.add('active');
+      b.addEventListener('click', function(){
+        thumbWrap.querySelectorAll('button').forEach(function(x){ x.classList.remove('active'); });
+        b.classList.add('active');
+        document.getElementById('galleryMain').textContent = t;
+      });
+      thumbWrap.appendChild(b);
+    });
+  }
+  renderPDP(mainProduct);
+
+  var recsScroll = document.getElementById('recsScroll');
+  recs.forEach(function(r){
+    var card = document.createElement('div');
+    card.className = 'rec-card';
+    card.innerHTML =
+      '<div class="rec-thumb">'+ r.emoji +'</div>'+
+      '<div class="rec-name">'+ r.name +'</div>'+
+      '<div class="rec-price">'+ r.price +'</div>';
+    card.addEventListener('click', function(){
+      renderPDP({ eyebrow:'Recommended', name:r.name, price:r.price, strike:null, inStock:true, emoji:r.emoji, thumbs:[r.emoji,'📦','🖼️'] });
+      document.querySelector('.pdp').scrollIntoView({ behavior:'smooth', block:'start' });
+      showToast('Now viewing: ' + r.name);
+    });
+    recsScroll.appendChild(card);
+  });
+
+  /* cart + buy actions */
+  var cartBadge = document.getElementById('cartBadge');
+  var cartCount = 0;
+  function bumpCart(){
+    cartCount++;
+    cartBadge.textContent = cartCount;
+  }
+  document.getElementById('addToCartBtn').addEventListener('click', function(){
+    if(this.disabled) return;
+    bumpCart();
+    showToast('Added to cart');
+  });
+  document.getElementById('buyNowBtn').addEventListener('click', function(){
+    showToast('Heading to checkout…');
+  });
+
+  /* =====================================================================
+     DRAWERS — share + email (the email drawer replaces the chat widget)
+  ===================================================================== */
+  function wireDrawer(drawerId, backdropId, openTriggers, closeBtnId){
+    var drawer = document.getElementById(drawerId);
+    var backdrop = document.getElementById(backdropId);
+    var closeBtn = document.getElementById(closeBtnId);
+
+    function open(){
+      drawer.classList.add('open');
+      backdrop.classList.add('open');
+    }
+    function close(){
+      drawer.classList.remove('open');
+      backdrop.classList.remove('open');
+    }
+
+    openTriggers.forEach(function(el){ el.addEventListener('click', open); });
+    closeBtn.addEventListener('click', close);
+    backdrop.addEventListener('click', close);
+
+    /* simple swipe-down-to-dismiss on the handle/header */
+    var startY = null;
+    drawer.addEventListener('touchstart', function(e){ startY = e.touches[0].clientY; }, {passive:true});
+    drawer.addEventListener('touchmove', function(e){
+      if(startY === null) return;
+      var dy = e.touches[0].clientY - startY;
+      if(dy > 0) drawer.style.transform = 'translateY(' + dy + 'px)';
+    }, {passive:true});
+    drawer.addEventListener('touchend', function(e){
+      var dy = (e.changedTouches[0].clientY - startY);
+      drawer.style.transform = '';
+      if(dy > 90) close();
+      startY = null;
+    });
+
+    return { open: open, close: close };
+  }
+
+  var shareDrawer = wireDrawer('shareDrawer', 'shareBackdrop', [document.getElementById('shareBtn')], 'shareCloseBtn');
+
+  document.querySelectorAll('.share-item').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var kind = btn.getAttribute('data-share');
+      if(kind === 'copy'){
+        showToast('Link copied');
+      } else {
+        showToast('Opening ' + btn.textContent + ' share…');
+      }
+      shareDrawer.close();
+    });
+  });
+
+  var emailDrawer = wireDrawer('emailDrawer', 'emailBackdrop', [document.getElementById('emailFab')], 'emailCloseBtn');
+
+  /* email form validation + fake-send flow */
+  var emailForm = document.getElementById('emailForm');
+  var emailSuccess = document.getElementById('emailSuccess');
+
+  function validateField(fieldId, inputEl, test){
+    var field = document.getElementById(fieldId);
+    var ok = test(inputEl.value.trim());
+    field.classList.toggle('invalid', !ok);
+    return ok;
+  }
+
+  emailForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var nameInput = document.getElementById('nameInput');
+    var emailInput = document.getElementById('emailInput');
+    var messageInput = document.getElementById('messageInput');
+
+    var nameOk = validateField('nameField', nameInput, function(v){ return v.length > 0; });
+    var emailOk = validateField('emailField', emailInput, function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); });
+    var msgOk = validateField('messageField', messageInput, function(v){ return v.length > 3; });
+
+    if(!(nameOk && emailOk && msgOk)) return;
+
+    emailForm.style.display = 'none';
+    emailSuccess.classList.add('show');
+
+    setTimeout(function(){
+      emailDrawer.close();
+      setTimeout(function(){
+        emailForm.reset();
+        emailForm.style.display = '';
+        emailSuccess.classList.remove('show');
+        document.querySelectorAll('.field.invalid').forEach(function(f){ f.classList.remove('invalid'); });
+      }, 350);
+    }, 1700);
+  });
+
+})();
+</script>
+</body>
+</html>

@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kids Books — ToyHive</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="cart-drawer.css">
+<link rel="stylesheet" href="signup-drawer.css">
 <style>
   @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
   :root{
@@ -65,35 +67,105 @@
     box-shadow:0 0 60px rgba(15,20,60,.25);
   }
 
+  .promo-bar{
+    background:var(--sky);
+    color:#000;
+    text-align:center;
+    font-weight:700;
+    font-size:clamp(.75rem, 2.5vw, .88rem);
+    padding:9px var(--page-pad);
+  }
+
+  .nav{
+    background:var(--blue);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px var(--page-pad) 12px;
+    gap:4px;
+    overflow:visible;
+  }
+  .nav-icons{display:flex;align-items:center;gap:0;flex-shrink:0;}
+  .icon-btn{
+    background:transparent;
+    color:#fff;
+    width:35px;height:35px;
+    min-width:35px;min-height:35px;
+    display:flex;align-items:center;justify-content:center;
+    border:none;border-radius:50%;padding:0;cursor:pointer;
+  }
+  .icon-btn:active{background:rgba(255,255,255,.15);}
+  .icon-btn .nav-icon{
+    width:22px;height:22px;
+    display:block;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:1.75;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:1;
+    min-width:0;
+    overflow:visible;
+  }
+  .logo img{
+    height:clamp(47px, 12.6vw, 61px);
+    width:auto;
+    max-width:min(288px, 94vw);
+    object-fit:contain;
+    display:block;
+    transform:scale(1.25);
+    transform-origin:center center;
+  }
+  .nav-default{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+    gap:4px;
+  }
+  .nav-search{
+    display:none;
+    align-items:center;
+    width:100%;
+    gap:10px;
+  }
+  .nav.is-search-active .nav-default{display:none;}
+  .nav.is-search-active .nav-search{display:flex;}
+  .search-form{flex:1;min-width:0;}
+  .search-input{
+    width:100%;
+    height:44px;
+    padding:0 16px;
+    border:none;
+    border-radius:var(--radius-pill);
+    background:#fff;
+    color:var(--ink);
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1rem;
+    font-weight:600;
+    outline:none;
+  }
+  .search-input::placeholder{color:var(--ink);opacity:.55;}
+  .search-close .nav-icon{width:24px;height:24px;stroke-width:2;}
+
   /* ---------- Hero ---------- */
   .hero{
-    background:linear-gradient(180deg,var(--sky) 0%, var(--blue-soft) 100%);
-    padding:26px 20px 18px;
-    position:relative;
-    text-align:center;
+    width:100%;
+    height:380px;
+    line-height:0;
+    overflow:hidden;
   }
-  .pip-illustration{width:200px;height:auto;display:block;margin:0 auto;}
-  .hero-badge{
-    margin-top:-6px;
-    display:inline-flex;
-    flex-direction:column;
-    background:var(--blue);
-    color:var(--cream);
-    padding:10px 26px 12px;
-    border-radius:14px;
-    box-shadow:0 4px 0 var(--blue-dark);
-  }
-  .badge-eyebrow{
-    font-family:'Buenos Aires',sans-serif;
-    font-style:italic;
-    font-size:0.95rem;
-    color:var(--gold);
-  }
-  .badge-title{
-    font-family:'Buenos Aires',sans-serif;
-    font-weight:700;
-    font-size:1.5rem;
-    letter-spacing:0.01em;
+  .hero img{
+    width:100%;
+    height:380px;
+    object-fit:cover;
+    object-position:center;
+    display:block;
   }
 
   /* ---------- Breadcrumb ---------- */
@@ -190,9 +262,10 @@
     overflow:hidden;
     display:block;
   }
-  .category-banner svg{
+  .category-banner img{
     width:100%;
     height:100%;
+    object-fit:cover;
     display:block;
   }
 
@@ -700,6 +773,51 @@
   }
   .toast.show{opacity:1;transform:translate(-50%,0);}
 
+  footer.site-footer{
+    background:linear-gradient(180deg, #004ebc 0%, #004ebc 100%);
+    padding:40px 0 32px 24px;
+    position:relative;
+    color:#fff;
+    font-family:'Buenos Aires',sans-serif;
+  }
+  footer.site-footer .footer-inner{max-width:1200px;margin:0 auto;padding-right:24px;}
+  footer.site-footer .footer-top{position:relative;padding-right:110px;}
+  footer.site-footer .footer-grid{display:flex;flex-direction:column;}
+  footer.site-footer .footer-grid section{margin-bottom:36px;}
+  footer.site-footer .footer-grid .newsletter{margin-bottom:12px;}
+  footer.site-footer .footer-grid section:last-child{margin-bottom:0;}
+  footer.site-footer .footer-bottom{margin-top:36px;}
+  footer.site-footer .footer-brand{text-align:center;}
+  footer.site-footer .mascot{position:absolute;top:28px;right:0;width:300px;height:auto;opacity:.95;}
+  footer.site-footer h2.section-title{font-size:30px;font-weight:800;margin:0 0 22px;letter-spacing:-.5px;}
+  footer.site-footer ul.link-list{list-style:none;margin:0;padding:0;}
+  footer.site-footer ul.link-list li{margin-bottom:26px;}
+  footer.site-footer ul.link-list li:last-child{margin-bottom:0;}
+  footer.site-footer ul.link-list a{color:#fff;text-decoration:none;font-size:22px;display:inline-flex;align-items:center;gap:12px;transition:opacity .15s ease;}
+  footer.site-footer ul.link-list a:hover,
+  footer.site-footer ul.link-list a:focus-visible{opacity:.75;}
+  footer.site-footer .heart-icon{flex:none;}
+  footer.site-footer .newsletter p{font-size:19px;line-height:1.4;margin:0 0 22px;}
+  footer.site-footer .signup-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:nowrap;}
+  footer.site-footer .signup-row input[type="email"]{width:290px;height:49px;flex:0 0 290px;padding:0 18px;border-radius:10px;border:none;font-size:18px;color:#333;background:#fff;box-sizing:border-box;}
+  footer.site-footer .signup-row input[type="email"]::placeholder{color:#6b6b6b;}
+  footer.site-footer .signup-row button{width:89px;height:49px;flex:0 0 89px;padding:0;border-radius:10px;border:2px solid #fff;background:transparent;color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;box-sizing:border-box;transition:background .15s ease, color .15s ease;}
+  footer.site-footer .signup-row button:hover,
+  footer.site-footer .signup-row button:focus-visible{background:#fff;color:#004ebc;}
+  footer.site-footer .signup-disclaimer{font-size:14px;line-height:1.5;margin:0;opacity:.95;}
+  footer.site-footer .signup-disclaimer a{color:#fff;text-decoration:underline;}
+  footer.site-footer .signup-confirm{font-size:14px;margin:8px 0 0;min-height:0;}
+  footer.site-footer .social-row{display:flex;justify-content:center;gap:26px;margin:30px 0 18px;flex-wrap:wrap;}
+  footer.site-footer .social-row a{color:#fff;display:flex;transition:opacity .15s ease;}
+  footer.site-footer .social-row a:hover,
+  footer.site-footer .social-row a:focus-visible{opacity:.7;}
+  footer.site-footer .social-row svg{width:30px;height:30px;}
+  footer.site-footer .handle{text-align:center;font-size:22px;font-weight:700;margin-bottom:30px;}
+  footer.site-footer hr.divider{border:none;border-top:1px solid rgba(255,255,255,.35);margin:0 0 26px;}
+  footer.site-footer .wordmark{text-align:center;margin-bottom:22px;}
+  footer.site-footer .brand-logo{display:block;max-width:240px;width:100%;height:auto;margin:0 auto;}
+  footer.site-footer .copyright{text-align:center;font-size:14px;opacity:.9;padding-bottom:10px;}
+
   @media (min-width:768px){
     :root{--page-pad:28px; --section-pad:32px;}
     #categoryTrack{
@@ -738,6 +856,51 @@
       scroll-snap-align:unset;
     }
     .carousel-wrap .progress-rail{display:none;}
+    footer.site-footer{padding:64px 0 56px 48px;}
+    footer.site-footer .footer-inner{padding-right:48px;}
+    footer.site-footer .footer-top{padding-right:420px;}
+    footer.site-footer .mascot{width:400px;top:0;}
+    footer.site-footer .footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:48px 40px;}
+    footer.site-footer .footer-grid section{margin-bottom:0;}
+    footer.site-footer .footer-grid > section:nth-child(1){grid-column:1;grid-row:1;}
+    footer.site-footer .footer-grid > section:nth-child(2){grid-column:1 / -1;grid-row:2;}
+    footer.site-footer .footer-grid > section:nth-child(3){grid-column:2;grid-row:1;}
+    footer.site-footer .footer-grid > section:nth-child(4){grid-column:3;grid-row:1;}
+    footer.site-footer .footer-grid > section:nth-child(5){grid-column:4;grid-row:1;}
+    footer.site-footer h2.section-title{font-size:22px;margin-bottom:16px;}
+    footer.site-footer ul.link-list li{margin-bottom:14px;}
+    footer.site-footer ul.link-list a{font-size:16px;}
+    footer.site-footer .newsletter{display:grid;grid-template-columns:1fr 1fr;gap:16px 48px;align-items:start;padding-top:8px;border-top:1px solid rgba(255,255,255,.2);margin-bottom:0;}
+    footer.site-footer .newsletter .section-title{grid-column:1;margin-bottom:0;}
+    footer.site-footer .newsletter p{grid-column:1;margin-bottom:0;max-width:none;font-size:17px;}
+    footer.site-footer .newsletter-intro{width:250px;max-width:250px;}
+    footer.site-footer .newsletter form{grid-column:2;grid-row:1 / span 3;}
+    footer.site-footer .newsletter .signup-disclaimer{grid-column:1;}
+    footer.site-footer .newsletter .signup-confirm{grid-column:1;margin:0;}
+    footer.site-footer .footer-bottom{margin-top:48px;padding-top:32px;border-top:1px solid rgba(255,255,255,.35);}
+    footer.site-footer hr.divider{display:none;}
+    footer.site-footer .social-row{margin-top:0;}
+    footer.site-footer .footer-brand{display:flex;align-items:center;justify-content:space-between;gap:32px;text-align:left;}
+    footer.site-footer .wordmark{margin-bottom:0;}
+    footer.site-footer .brand-logo{margin:0;max-width:220px;}
+    footer.site-footer .copyright{padding-bottom:0;text-align:right;}
+  }
+
+  @media (max-width:380px){
+    footer.site-footer h2.section-title{font-size:26px;}
+    footer.site-footer ul.link-list a{font-size:19px;}
+    footer.site-footer .brand-logo{max-width:200px;}
+    footer.site-footer .mascot{width:220px;}
+  }
+  @media (min-width:480px){
+    footer.site-footer .footer-top{padding-right:160px;}
+  }
+  @media (min-width:1024px){
+    footer.site-footer .footer-top{padding-right:520px;}
+    footer.site-footer .mascot{width:500px;}
+  }
+  @media (min-width:1280px){
+    footer.site-footer .footer-inner{max-width:1280px;}
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -748,89 +911,75 @@
 <body>
 <div class="app-shell">
 
-  <section class="hero">
-    <svg class="pip-illustration" viewBox="0 0 240 180" role="img" aria-label="Pip the hedgehog peeking out from a stack of storybooks">
-      <ellipse cx="120" cy="166" rx="104" ry="11" fill="rgba(17,33,74,0.08)"/>
-      <rect x="42" y="128" width="156" height="22" rx="5" fill="#ed1c24"/>
-      <rect x="52" y="106" width="136" height="22" rx="5" fill="#F5A623"/>
-      <rect x="62" y="84" width="116" height="22" rx="5" fill="#FFFDF8" stroke="#11214A" stroke-width="2"/>
-      <path d="M148 84 C148 58 172 49 176 28 C181 53 163 69 148 84 Z" fill="#003894"/>
-      <g>
-        <ellipse cx="112" cy="76" rx="46" ry="33" fill="#004ebc"/>
-        <polygon points="73,53 81,28 89,55" fill="#003894"/>
-        <polygon points="91,45 98,19 105,47" fill="#003894"/>
-        <polygon points="108,41 114,15 122,43" fill="#003894"/>
-        <polygon points="126,43 133,17 142,45" fill="#003894"/>
-        <polygon points="144,49 152,25 158,51" fill="#003894"/>
-        <ellipse cx="103" cy="85" rx="22" ry="18" fill="#BFEAFB"/>
-        <circle cx="95" cy="83" r="3.4" fill="#11214A"/>
-        <circle cx="111" cy="83" r="3.4" fill="#11214A"/>
-        <ellipse cx="103" cy="93" rx="3.6" ry="2.6" fill="#11214A"/>
-      </g>
-    </svg>
-    <div class="hero-badge">
-      <span class="badge-eyebrow">Pip's</span>
-      <span class="badge-title">Reading Nook</span>
+  <div class="promo-bar">Free Shipping for Orders Over 6500 DZD</div>
+
+  <header class="nav" id="mainNav">
+    <div class="nav-default">
+      <div class="nav-icons">
+        <a class="icon-btn" href="home-page.html" aria-label="Menu">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </a>
+        <button class="icon-btn" type="button" aria-label="Account">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+        </button>
+      </div>
+      <a class="logo" href="home-page.html" aria-label="AJ BLOKS home">
+        <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782245376/Design_sans_titre_31_azudmo.png" alt="AJ BLOKS">
+      </a>
+      <div class="nav-icons">
+        <button class="icon-btn" type="button" id="searchOpenBtn" aria-label="Search">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M16.5 16.5L21 21"/></svg>
+        </button>
+        <a class="icon-btn" href="done/wishlist.html" aria-label="Wishlist">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.502 5.502 0 0 0 16.503 3c-1.76 0-3 .56-4.5 2.17C10.503 3.56 9.263 3 7.503 3A5.502 5.502 0 0 0 2 8.5c0 2.29 1.5 4.04 3 5.5l7 7Z"/></svg>
+        </a>
+        <button class="icon-btn" type="button" aria-label="Cart">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+        </button>
+      </div>
     </div>
+    <div class="nav-search">
+      <form class="search-form" id="searchForm" role="search">
+        <input class="search-input" id="searchInput" type="search" name="q" placeholder="Search toys, brands & more" autocomplete="off" aria-label="Search">
+      </form>
+      <button class="icon-btn search-close" type="button" id="searchCloseBtn" aria-label="Close search">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782300413/Design_sans_titre_37_ci66xo.png" alt="Kids reading books on a sofa">
   </section>
 
   <nav class="breadcrumb">
-    <a href="home-page.html">Home</a><span class="sep">&gt;</span><a href="#" class="current">Kids Books</a>
+    <a href="home-page.html">Home</a><span class="sep">&gt;</span><a href="books page.html" class="current">Kids Books</a>
   </nav>
 
   <section aria-label="Shop by category">
     <div class="carousel-track" id="categoryTrack">
-      <button class="tile-card" type="button">
+      <a class="tile-card" href="book category page.html?category=picture-books">
         <div class="tile-img" style="background:linear-gradient(150deg,#87CEEB,#1E73C2);"><i class="fa-solid fa-book-open"></i></div>
         <div class="tile-label">Picture Books</div>
-      </button>
-      <button class="tile-card" type="button">
+      </a>
+      <a class="tile-card" href="book category page.html?category=story-collections">
         <div class="tile-img" style="background:linear-gradient(150deg,#FF8A80,#ed1c24);"><i class="fa-solid fa-layer-group"></i></div>
         <div class="tile-label">Story Collections</div>
-      </button>
-      <button class="tile-card" type="button">
+      </a>
+      <a class="tile-card" href="book category page.html?category=sound-touch-books">
         <div class="tile-img" style="background:linear-gradient(150deg,#FFD54F,#F57C00);"><i class="fa-solid fa-hand-sparkles"></i></div>
         <div class="tile-label">Sound &amp; Touch Books</div>
-      </button>
-      <button class="tile-card" type="button">
+      </a>
+      <a class="tile-card" href="book category page.html?category=board-books">
         <div class="tile-img" style="background:linear-gradient(150deg,#A8E063,#7CB82F);"><i class="fa-solid fa-shapes"></i></div>
         <div class="tile-label">Board Books</div>
-      </button>
+      </a>
     </div>
     <div class="progress-rail"><div class="progress-fill" id="categoryProgress"></div></div>
   </section>
 
-  <a class="category-banner" href="#" aria-label="Explore Pip's Reading Nook picks">
-      <svg viewBox="0 0 369 294" role="img" aria-hidden="true">
-        <defs>
-          <linearGradient id="bannerBg" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#BFEAFB"/>
-            <stop offset="100%" stop-color="#E7EBFB"/>
-          </linearGradient>
-          <linearGradient id="bannerBlue" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#004ebc"/>
-            <stop offset="100%" stop-color="#003894"/>
-          </linearGradient>
-        </defs>
-        <rect width="369" height="294" fill="url(#bannerBg)"/>
-        <ellipse cx="184" cy="268" rx="130" ry="14" fill="rgba(17,33,74,0.08)"/>
-        <rect x="52" y="168" width="265" height="28" rx="6" fill="#ed1c24"/>
-        <rect x="68" y="138" width="233" height="28" rx="6" fill="#F5A623"/>
-        <rect x="84" y="108" width="201" height="28" rx="6" fill="#fff" stroke="#11214A" stroke-width="2"/>
-        <path d="M248 108 C248 82 276 72 282 48 C288 74 266 92 248 108 Z" fill="#7CB82F"/>
-        <ellipse cx="168" cy="98" rx="52" ry="36" fill="#004ebc"/>
-        <ellipse cx="156" cy="108" rx="24" ry="20" fill="#BFEAFB"/>
-        <circle cx="148" cy="106" r="3.5" fill="#11214A"/>
-        <circle cx="164" cy="106" r="3.5" fill="#11214A"/>
-        <ellipse cx="156" cy="116" rx="4" ry="3" fill="#11214A"/>
-        <rect x="28" y="36" width="180" height="52" rx="12" fill="url(#bannerBlue)"/>
-        <text x="48" y="62" fill="#F5A623" font-family="Arial,sans-serif" font-size="14" font-style="italic" font-weight="600">Pip's</text>
-        <text x="48" y="82" fill="#fff" font-family="Arial,sans-serif" font-size="22" font-weight="700">Reading Nook</text>
-        <text x="230" y="62" fill="#004ebc" font-family="Arial,sans-serif" font-size="13" font-weight="700">STORYTIME</text>
-        <text x="230" y="82" fill="#11214A" font-family="Arial,sans-serif" font-size="24" font-weight="800">Favorites</text>
-        <rect x="230" y="96" width="108" height="34" rx="17" fill="#004ebc"/>
-        <text x="284" y="118" fill="#fff" font-family="Arial,sans-serif" font-size="13" font-weight="700" text-anchor="middle">Shop Now</text>
-      </svg>
+  <a class="category-banner" href="#" aria-label="Ensembles de Livres">
+    <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782310747/Design_sans_titre_38_uw5cl6.png" alt="Ensembles de Livres — book sets">
   </a>
 
   <div class="carousel-wrap tight">
@@ -876,6 +1025,85 @@
       <p>Look for board books sized for the smallest hands, sound books that turn page-turning into a game, and growing-up collections your reader can keep coming back to. New favorites land in Pip's Nook every season.</p>
     </div>
   </section>
+
+  <footer class="site-footer">
+    <img class="mascot" src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782044381/Design_sans_titre_6_copetd.png" alt="Bob, la mascotte ajBloks">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-grid">
+          <section aria-label="Service client">
+            <h2 class="section-title">Service client</h2>
+            <ul class="link-list">
+              <li><a href="#">Guides cadeaux</a></li>
+              <li><a href="#">Centre d'aide</a></li>
+              <li><a href="#">Livraison</a></li>
+              <li><a href="#">Retours et échanges</a></li>
+              <li><a href="#">Nous contacter</a></li>
+            </ul>
+          </section>
+          <section class="newsletter" aria-label="Inscription à l'infolettre">
+            <h2 class="section-title">Inscrivez-vous pour vous amuser&nbsp;!</h2>
+            <p class="newsletter-intro">Recevez des nouvelles exclusives sur les jouets, des idées de jeu et des avis !</p>
+            <form id="footer-signup-form">
+              <div class="signup-row">
+                <input type="email" id="footer-email-input" placeholder="Entrez votre e-mail" required aria-label="Adresse e-mail">
+                <button type="submit">S'inscrire</button>
+              </div>
+              <p class="signup-disclaimer">En vous inscrivant à notre infolettre, vous acceptez nos <a href="#">conditions d'utilisation</a> et notre <a href="#">politique de confidentialité</a>.</p>
+              <p class="signup-confirm" id="footer-signup-confirm" role="status"></p>
+            </form>
+          </section>
+          <section aria-label="Compte">
+            <h2 class="section-title">Compte</h2>
+            <ul class="link-list">
+              <li><a href="#">Mon compte</a></li>
+              <li><a href="#">Suivre ma commande</a></li>
+              <li>
+                <a href="done/wishlist.html">
+                  <svg class="heart-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  Ma liste de souhaits
+                </a>
+              </li>
+            </ul>
+          </section>
+          <section aria-label="À propos">
+            <h2 class="section-title">À propos</h2>
+            <ul class="link-list">
+              <li><a href="#">Notre histoire</a></li>
+              <li><a href="#">Conditions d'utilisation</a></li>
+              <li><a href="#">Politique de confidentialité</a></li>
+              <li><a href="#">Déclaration d'accessibilité</a></li>
+              <li><a href="#">Préférences de cookies</a></li>
+            </ul>
+          </section>
+          <section aria-label="Activités">
+            <h2 class="section-title">Activités</h2>
+            <ul class="link-list">
+              <li><a href="#">Le monde de Bob</a></li>
+              <li><a href="#">Coloriage et activités</a></li>
+            </ul>
+          </section>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="social-row">
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.7 31.7 0 0 0 0 12a31.7 31.7 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.7 31.7 0 0 0 24 12a31.7 31.7 0 0 0-.5-5.8zM9.6 15.5V8.5L15.8 12z"/></svg></a>
+          <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.4 2.3 2 4 4.4 4.2v3.1c-1.5.1-2.9-.4-4.4-1.3v6.6a5.7 5.7 0 1 1-5.7-5.7c.3 0 .6 0 .9.1v3.2a2.6 2.6 0 1 0 1.8 2.5V3z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.219-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.17.6 2.123 1.775 2.123 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-9h3l.5-3.5h-3.5V7.4c0-1 .3-1.7 1.7-1.7H17V2.6C16.6 2.5 15.5 2.4 14.2 2.4c-2.7 0-4.6 1.6-4.6 4.7v2.4H6.9V13h2.7v9z"/></svg></a>
+        </div>
+        <p class="handle">@ajBloks</p>
+        <hr class="divider">
+        <div class="footer-brand">
+          <div class="wordmark">
+            <img class="brand-logo" src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782051890/Design_sans_titre_7_mwozaj.png" alt="ajBloks">
+          </div>
+          <p class="copyright">© 2026 ajBloks. Tous droits réservés.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <div class="overlay" id="overlay"></div>
   <aside class="filter-drawer" id="filterDrawer" aria-hidden="true">
@@ -961,6 +1189,44 @@
 <div class="toast" id="toast"></div>
 
 <script>
+  const mainNav = document.getElementById('mainNav');
+  const searchOpenBtn = document.getElementById('searchOpenBtn');
+  const searchCloseBtn = document.getElementById('searchCloseBtn');
+  const searchForm = document.getElementById('searchForm');
+  const searchInput = document.getElementById('searchInput');
+
+  function closeSearch(){
+    mainNav.classList.remove('is-search-active');
+    searchInput.blur();
+  }
+  function openSearch(){
+    mainNav.classList.add('is-search-active');
+    searchInput.value = '';
+    requestAnimationFrame(() => searchInput.focus());
+  }
+  searchOpenBtn.addEventListener('click', openSearch);
+  searchCloseBtn.addEventListener('click', closeSearch);
+  searchForm.addEventListener('submit', e => { e.preventDefault(); closeSearch(); });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && mainNav.classList.contains('is-search-active')) closeSearch();
+  });
+
+  const footerSignupForm = document.getElementById('footer-signup-form');
+  const footerSignupConfirm = document.getElementById('footer-signup-confirm');
+  if(footerSignupForm && footerSignupConfirm){
+    footerSignupForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      const email = document.getElementById('footer-email-input').value.trim();
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if(valid){
+        footerSignupConfirm.textContent = "Merci pour votre inscription ! Consultez votre boîte de réception pour confirmer.";
+        footerSignupForm.reset();
+      } else {
+        footerSignupConfirm.textContent = "Veuillez entrer une adresse e-mail valide.";
+      }
+    });
+  }
+
   // ---------- Data ----------
   const books = [
     {id:1, title:"The Acorn Who Couldn't Wait", author:"M. Hollow", type:"Picture Book", price:14.99, rating:5, reviews:128, dateIndex:1, age:["3-4 years","5-7 years"], c1:"#004ebc", c2:"#003894"},
@@ -1046,14 +1312,8 @@
   }
 
   document.querySelector('.app-shell').addEventListener('click', (e)=>{
-    const btn = e.target.closest('.add-cart-btn');
-    if(!btn) return;
-    const book = books.find(b => String(b.id) === btn.dataset.id);
-    if(!book) return;
-    btn.textContent = 'Added ✓';
-    btn.classList.add('added');
-    setTimeout(()=>{ btn.textContent = 'Add to cart'; btn.classList.remove('added'); }, 1400);
-    showToast(`Added "${book.title}" to your cart`);
+    const wish = e.target.closest('.wishlist-btn');
+    if(wish){ wish.classList.toggle('active'); }
   });
 
   // ---------- Category carousel progress ----------
@@ -1186,5 +1446,9 @@
     accToggle.setAttribute('aria-expanded', open);
   });
 </script>
+<script src="cart-drawer.js"></script>
+<script src="signup-drawer.js"></script>
+<script src="product-card-links.js"></script>
+<script src="auth-links.js"></script>
 </body>
 </html>
