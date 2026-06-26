@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>New &amp; Trending | ToysRus</title>
+<title>La Boutique de Bob | ToysRus</title>
 <link rel="stylesheet" href="cart-drawer.css">
 <link rel="stylesheet" href="signup-drawer.css">
 <style>
@@ -143,7 +143,7 @@
 
   /* ---------- BREADCRUMB ---------- */
   .breadcrumb{
-    padding:16px 20px 0;
+    padding:16px 20px 8px;
     font-size:0.95rem;
     display:flex;gap:8px;align-items:center;
     color:var(--blue);
@@ -151,22 +151,6 @@
   .breadcrumb a{text-decoration:underline;font-weight:500;}
   .breadcrumb .sep{color:var(--ink-soft);text-decoration:none;}
   .breadcrumb .current{color:var(--blue);}
-
-  /* ---------- HERO BANNER ---------- */
-  .hero-banner{
-    width:396px;
-    max-width:calc(100% - 40px);
-    height:160px;
-    margin:16px auto 16px;
-    border-radius:var(--radius-md);
-    overflow:hidden;
-  }
-  .hero-banner img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-  }
 
   /* ---------- TOOLBAR ---------- */
   .toolbar{
@@ -251,6 +235,46 @@
     padding:60px 24px;text-align:center;color:var(--ink-soft);font-size:1rem;display:none;
   }
   .empty-state.show{display:block;}
+
+  /* ---------- info accordion (before footer) ---------- */
+  .info-accordion{
+    margin:0 20px 26px;
+    border-top:1px solid var(--line);
+    background:var(--card-bg);
+  }
+  .info-accordion .accordion-toggle{
+    width:100%;
+    background:none;
+    border:none;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 2px;
+    font-family:'Buenos Aires',sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+    color:var(--ink);
+    cursor:pointer;
+  }
+  .info-accordion .accordion-toggle svg{
+    width:18px;height:18px;
+    transition:transform .25s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .info-accordion .accordion-toggle[aria-expanded="true"] svg{transform:rotate(180deg);}
+  .info-accordion .accordion-panel{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .3s ease;
+  }
+  .info-accordion .accordion-panel.open{max-height:480px;}
+  .info-accordion .accordion-panel p{
+    margin:0 2px 16px;
+    font-size:0.9rem;
+    line-height:1.65;
+    color:var(--ink-soft);
+  }
 
   /* ---------- FILTER DRAWER ---------- */
   .overlay{
@@ -426,12 +450,8 @@
 
   <!-- BREADCRUMB -->
   <nav class="breadcrumb">
-    <a href="home-page.html">Home</a><span class="sep">&gt;</span><a href="#" class="current">New &amp; Trending</a>
+    <a href="home-page.html">Home</a><span class="sep">&gt;</span><a href="toysrus-bobs-world.html">Bob's World</a><span class="sep">&gt;</span><a href="#" class="current">La Boutique de Bob</a>
   </nav>
-
-  <div class="hero-banner">
-    <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782117952/Cards_on_home_page_mark_1_mmc9rc.png" alt="New &amp; Trending">
-  </div>
 
   <!-- TOOLBAR -->
   <div class="toolbar">
@@ -439,7 +459,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2" fill="#fff"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2" fill="#fff"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="11" cy="18" r="2" fill="#fff"/></svg>
       Filter and sort
     </button>
-    <span class="product-count" id="productCount">20 products</span>
+    <span class="product-count" id="productCount">8 products</span>
   </div>
 
   <!-- PRODUCT GRID -->
@@ -451,7 +471,7 @@
   <aside class="filter-drawer" id="filterDrawer" aria-hidden="true">
     <div class="drawer-header">
       <h2>Filter and sort</h2>
-      <p id="drawerCount">20 products</p>
+      <p id="drawerCount">8 products</p>
       <button class="drawer-close" id="closeFilter" aria-label="Close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
       </button>
@@ -484,13 +504,18 @@
           <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="accordion-content">
-          <label class="option-row"><input type="checkbox" data-group="category" value="Action Figures and Accessories"><span class="opt-label">Action Figures and Accessories</span><span class="opt-count">(5)</span></label>
-          <label class="option-row"><input type="checkbox" data-group="category" value="Building Sets & blocks"><span class="opt-label">Building Sets &amp; blocks</span><span class="opt-count">(4)</span></label>
-          <label class="option-row"><input type="checkbox" data-group="category" value="Plush Stuffed Animals"><span class="opt-label">Plush Stuffed Animals</span><span class="opt-count">(3)</span></label>
-          <label class="option-row"><input type="checkbox" data-group="category" value="Pretend Play and Role Play"><span class="opt-label">Pretend Play and Role Play</span><span class="opt-count">(3)</span></label>
-          <label class="option-row"><input type="checkbox" data-group="category" value="Vehicles"><span class="opt-label">Vehicles</span><span class="opt-count">(2)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="Action Figures and Accessories"><span class="opt-label">Action Figures and Accessories</span><span class="opt-count">(8)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="Adult Collector Guide"><span class="opt-label">Adult Collector Guide</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="Building Blocks and Construction"><span class="opt-label">Building Blocks and Construction</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="Building Sets & blocks"><span class="opt-label">Building Sets &amp; blocks</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="LEGO"><span class="opt-label">LEGO</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="LEGO Disney"><span class="opt-label">LEGO Disney</span><span class="opt-count">(1)</span></label>
           <label class="option-row"><input type="checkbox" data-group="category" value="Learning Systems"><span class="opt-label">Learning Systems</span><span class="opt-count">(2)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="Playsets Child Size"><span class="opt-label">Playsets Child Size</span><span class="opt-count">(2)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="Plush Stuffed Animals"><span class="opt-label">Plush Stuffed Animals</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="category" value="Pretend Play and Role Play"><span class="opt-label">Pretend Play and Role Play</span><span class="opt-count">(1)</span></label>
           <div class="extra-options hide">
+            <label class="option-row"><input type="checkbox" data-group="category" value="Vehicles"><span class="opt-label">Vehicles</span><span class="opt-count">(1)</span></label>
             <label class="option-row"><input type="checkbox" data-group="category" value="Games"><span class="opt-label">Games</span><span class="opt-count">(1)</span></label>
           </div>
           <button class="show-more-btn" id="showMoreCategory">+ <span>SHOW MORE</span></button>
@@ -504,10 +529,11 @@
           <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="accordion-content">
-          <label class="option-row"><input type="checkbox" data-group="age" value="3-4 years"><span class="opt-label">3-4 years</span><span class="opt-count">(4)</span></label>
-          <label class="option-row"><input type="checkbox" data-group="age" value="5-7 years"><span class="opt-label">5-7 years</span><span class="opt-count">(8)</span></label>
-          <label class="option-row"><input type="checkbox" data-group="age" value="8-10 years"><span class="opt-label">8-10 years</span><span class="opt-count">(6)</span></label>
           <label class="option-row"><input type="checkbox" data-group="age" value="11-12 years"><span class="opt-label">11-12 years</span><span class="opt-count">(2)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="age" value="13+ years"><span class="opt-label">13+ years</span><span class="opt-count">(1)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="age" value="3-4 years"><span class="opt-label">3-4 years</span><span class="opt-count">(15)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="age" value="5-7 years"><span class="opt-label">5-7 years</span><span class="opt-count">(13)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="age" value="8-10 years"><span class="opt-label">8-10 years</span><span class="opt-count">(2)</span></label>
         </div>
       </div>
 
@@ -518,10 +544,8 @@
           <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="accordion-content">
-          <label class="option-row"><input type="checkbox" data-group="brand" value="LEGO"><span class="opt-label">LEGO</span><span class="opt-count">(3)</span></label>
-          <label class="option-row"><input type="checkbox" data-group="brand" value="Fisher-Price"><span class="opt-label">Fisher-Price</span><span class="opt-count">(2)</span></label>
-          <label class="option-row"><input type="checkbox" data-group="brand" value="Hot Wheels"><span class="opt-label">Hot Wheels</span><span class="opt-count">(2)</span></label>
-          <label class="option-row"><input type="checkbox" data-group="brand" value="VTech"><span class="opt-label">VTech</span><span class="opt-count">(2)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="brand" value="Disney"><span class="opt-label">Disney</span><span class="opt-count">(2)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="brand" value="Disney Pixar"><span class="opt-label">Disney Pixar</span><span class="opt-count">(1)</span></label>
         </div>
       </div>
 
@@ -533,28 +557,24 @@
         </button>
         <div class="accordion-content">
           <div class="price-range">
-            <p class="price-note">The highest price is $79.99</p>
+            <p class="price-note">The highest price is $59.99</p>
             <div class="price-inputs">
-              <div class="price-field">$<input type="number" id="priceMin" placeholder="14.99" min="0"></div>
+              <div class="price-field">$<input type="number" id="priceMin" placeholder="9.99" min="0"></div>
               <span class="price-to">to</span>
-              <div class="price-field">$<input type="number" id="priceMax" placeholder="79.99" min="0"></div>
+              <div class="price-field">$<input type="number" id="priceMax" placeholder="59.99" min="0"></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- COLLECTION -->
+      <!-- CHARACTER -->
       <div class="accordion-section" data-section="character">
         <button class="accordion-header">
-          Collection
+          Character
           <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="accordion-content">
-          <label class="option-row"><input type="checkbox" data-group="character" value="New Arrivals"><span class="opt-label">New Arrivals</span><span class="opt-count">(8)</span></label>
-          <label class="option-row"><input type="checkbox" data-group="character" value="Best Sellers"><span class="opt-label">Best Sellers</span><span class="opt-count">(5)</span></label>
-          <label class="option-row"><input type="checkbox" data-group="character" value="Limited Edition"><span class="opt-label">Limited Edition</span><span class="opt-count">(3)</span></label>
-          <label class="option-row"><input type="checkbox" data-group="character" value="Seasonal Picks"><span class="opt-label">Seasonal Picks</span><span class="opt-count">(2)</span></label>
-          <label class="option-row"><input type="checkbox" data-group="character" value="Staff Favorites"><span class="opt-label">Staff Favorites</span><span class="opt-count">(2)</span></label>
+          <label class="option-row"><input type="checkbox" data-group="character" value="Bob"><span class="opt-label">Bob</span><span class="opt-count">(8)</span></label>
         </div>
       </div>
 
@@ -565,6 +585,16 @@
       <button class="apply-btn" id="applyFilters">Apply</button>
     </div>
   </aside>
+
+  <section class="info-accordion">
+    <button class="accordion-toggle" id="bobInfoToggle" type="button" aria-expanded="false">
+      <span>Bob</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="accordion-panel" id="bobInfoPanel">
+      <p>Exclusive Excitement! Bob toys, exclusive to Toys&quot;R&quot;Us, bring unique fun to your child's toy collection. From plush toys to educational games, Geoffrey products are designed with quality and creativity in mind. Discover the exclusive range of toys that can only be found here, and give your child a one-of-a-kind play experience with Geoffrey!</p>
+    </div>
+  </section>
 
 </div>
 
@@ -710,26 +740,14 @@ document.addEventListener('keydown', e => {
 });
 /* ---------------- PRODUCT DATA ---------------- */
 const products = [
-  {title:"Pro Beam Kids Video Walkie Talkies 2-Pack With Camera & Voice Changer", price:59.99, rating:4.9, reviews:124, icon:"📡", grad:["#cfe2ff","#8eb8ff"], category:["Pretend Play and Role Play"], age:["5-7 years","8-10 years"], brand:["VTech"], character:["New Arrivals","Best Sellers"]},
-  {title:"LEGO Creator 3-in-1 Space Shuttle Adventure Set", price:49.99, rating:4.8, reviews:98, icon:"🚀", grad:["#fff3b0","#ffd54f"], category:["Building Sets & blocks"], age:["8-10 years","11-12 years"], brand:["LEGO"], character:["New Arrivals","Staff Favorites"]},
-  {title:"Fisher-Price Laugh & Learn Smart Stages Puppy", price:24.99, rating:4.7, reviews:210, icon:"🐶", grad:["#ffe0b2","#ffcc80"], category:["Learning Systems"], age:["3-4 years"], brand:["Fisher-Price"], character:["Best Sellers"]},
-  {title:"Hot Wheels Ultimate Garage Playset with Shark Attack", price:79.99, rating:4.8, reviews:87, icon:"🏎️", grad:["#ffcdd2","#ef5350"], category:["Vehicles"], age:["5-7 years","8-10 years"], brand:["Hot Wheels"], character:["New Arrivals","Limited Edition"]},
-  {title:"VTech KidiZoom Creator Cam HD Video Camera for Kids", price:39.99, rating:4.6, reviews:56, icon:"📷", grad:["#e1bee7","#ce93d8"], category:["Learning Systems"], age:["5-7 years","8-10 years"], brand:["VTech"], character:["New Arrivals"]},
-  {title:"Limited Edition Glow-in-the-Dark Building Blocks Set", price:34.99, rating:4.9, reviews:42, icon:"✨", grad:["#1a1a2e","#7c4dff"], category:["Building Sets & blocks"], age:["5-7 years","8-10 years"], brand:[], character:["Limited Edition","Seasonal Picks"]},
-  {title:"Seasonal Spring Garden Playset with Watering Can", price:19.99, rating:4.5, reviews:33, icon:"🌸", grad:["#c8e6c9","#81c784"], category:["Pretend Play and Role Play"], age:["3-4 years","5-7 years"], brand:["Fisher-Price"], character:["Seasonal Picks"]},
-  {title:"Staff Pick: Interactive STEM Robot Building Kit", price:44.99, rating:4.8, reviews:71, icon:"🤖", grad:["#b3e5fc","#4fc3f7"], category:["Building Sets & blocks"], age:["8-10 years"], brand:[], character:["Staff Favorites","New Arrivals"]},
-  {title:"Trending Now: Mini Collectible Figure Blind Box Series 1", price:14.99, rating:4.4, reviews:189, icon:"🎁", grad:["#fce4ec","#f48fb1"], category:["Action Figures and Accessories"], age:["5-7 years","8-10 years"], brand:[], character:["New Arrivals","Best Sellers"]},
-  {title:"Hot Wheels Color Shifters Car 5-Pack", price:22.99, rating:4.7, reviews:64, icon:"🚗", grad:["#ffab91","#ff7043"], category:["Vehicles"], age:["5-7 years"], brand:["Hot Wheels"], character:["Best Sellers"]},
-  {title:"LEGO Friends Heartlake City Community Center", price:54.99, rating:4.9, reviews:45, icon:"🧱", grad:["#ffe0f0","#ff80ab"], category:["Building Sets & blocks"], age:["8-10 years","11-12 years"], brand:["LEGO"], character:["New Arrivals","Staff Favorites"]},
-  {title:"Fisher-Price Little People Big City Playset", price:29.99, rating:4.6, reviews:52, icon:"🏙️", grad:["#fff9c4","#fff176"], category:["Pretend Play and Role Play"], age:["3-4 years","5-7 years"], brand:["Fisher-Price"], character:["Best Sellers"]},
-  {title:"Limited Edition Holiday Collector Plush Bear", price:27.99, rating:4.8, reviews:28, icon:"🧸", grad:["#ffcdd2","#e57373"], category:["Plush Stuffed Animals"], age:["3-4 years","5-7 years"], brand:[], character:["Limited Edition","Seasonal Picks"]},
-  {title:"New Arrival: Musical Light-Up Dance Mat", price:32.99, rating:4.5, reviews:39, icon:"💃", grad:["#e1bee7","#ba68c8"], category:["Games"], age:["5-7 years","8-10 years"], brand:[], character:["New Arrivals"]},
-  {title:"VTech Touch & Learn Activity Desk Deluxe", price:54.99, rating:4.7, reviews:93, icon:"📚", grad:["#bbdefb","#64b5f6"], category:["Learning Systems"], age:["3-4 years","5-7 years"], brand:["VTech"], character:["Best Sellers","Staff Favorites"]},
-  {title:"Trending Plush Squishmallow-Style Character 12\"", price:16.99, rating:4.9, reviews:156, icon:"☁️", grad:["#f3e5f5","#e1bee7"], category:["Plush Stuffed Animals"], age:["3-4 years","5-7 years"], brand:[], character:["Best Sellers","New Arrivals"]},
-  {title:"Action Heroes Battle Arena Playset with 4 Figures", price:36.99, rating:4.6, reviews:47, icon:"⚔️", grad:["#cfd8dc","#90a4ae"], category:["Action Figures and Accessories"], age:["5-7 years","8-10 years"], brand:[], character:["New Arrivals"]},
-  {title:"Staff Favorite: Creative Art Studio Carry Case", price:25.99, rating:4.8, reviews:61, icon:"🎨", grad:["#fff3e0","#ffcc80"], category:["Pretend Play and Role Play"], age:["5-7 years","8-10 years"], brand:[], character:["Staff Favorites"]},
-  {title:"Seasonal Summer Splash Water Table Playset", price:49.99, rating:4.7, reviews:38, icon:"💦", grad:["#b2ebf2","#4dd0e1"], category:["Pretend Play and Role Play"], age:["3-4 years","5-7 years"], brand:[], character:["Seasonal Picks","New Arrivals"]},
-  {title:"LEGO Speed Champions Racing Car Limited Release", price:24.99, rating:4.9, reviews:74, icon:"🏁", grad:["#ffcdd2","#ef5350"], category:["Building Sets & blocks"], age:["8-10 years"], brand:["LEGO"], character:["Limited Edition","Best Sellers"]},
+  {title:"Bob Plush Bear with Signature Top Hat", price:29.99, rating:4.9, reviews:128, icon:"🧸", grad:["#e8e8e8","#c8c8c8"], category:["Plush Stuffed Animals"], age:["3-4 years","5-7 years"], brand:[], character:["Bob"]},
+  {title:"Bob's Adventure Backpack & Explorer Kit", price:34.99, rating:4.5, reviews:64, icon:"🎒", grad:["#cfe8ff","#a9d4ff"], category:["Pretend Play and Role Play"], age:["5-7 years","8-10 years"], brand:[], character:["Bob"]},
+  {title:"Bob Building Blocks Starter Set – 120 Pieces", price:19.99, rating:5.0, reviews:42, icon:"🧱", grad:["#ffd6d6","#ffb3b3"], category:["Building Sets & blocks"], age:["3-4 years","5-7 years"], brand:[], character:["Bob"]},
+  {title:"Bob's World Activity & Coloring Book", price:9.99, rating:4.3, reviews:31, icon:"📖", grad:["#d8f5d0","#aee6a0"], category:["Learning Systems"], age:["3-4 years"], brand:[], character:["Bob"]},
+  {title:"Bob Top Hat Dress-Up Set with Bow Tie", price:24.99, rating:4.7, reviews:56, icon:"🎩", grad:["#f4e3ff","#e0c2ff"], category:["Pretend Play and Role Play"], age:["3-4 years","5-7 years"], brand:[], character:["Bob"]},
+  {title:"Bob's Block Party Building Set", price:44.99, rating:4.6, reviews:38, icon:"🏗️", grad:["#ffe0c2","#ffc78a"], category:["Building Blocks and Construction"], age:["5-7 years","8-10 years"], brand:[], character:["Bob"]},
+  {title:"Bob Collectible Figure with Waving Paw", price:15.99, rating:4.8, reviews:89, icon:"🐻", grad:["#fff3b0","#ffe680"], category:["Action Figures and Accessories"], age:["3-4 years"], brand:[], character:["Bob"]},
+  {title:"Bob's World Deluxe Gift Set with Plush & Book", price:59.99, rating:4.9, reviews:22, icon:"🎁", grad:["#cfe2ff","#a6c4ff"], category:["Plush Stuffed Animals"], age:["3-4 years","5-7 years"], brand:[], character:["Bob"]},
 ];
 products.forEach((p,i)=>{p.id=i;p.dateIndex=i;});
 
@@ -896,6 +914,15 @@ document.querySelectorAll('input[data-group="sort"]').forEach(cb=>{
     applyFiltersAndSort();
   });
 });
+
+const bobInfoToggle = document.getElementById('bobInfoToggle');
+const bobInfoPanel = document.getElementById('bobInfoPanel');
+if (bobInfoToggle && bobInfoPanel) {
+  bobInfoToggle.addEventListener('click', function () {
+    const open = bobInfoPanel.classList.toggle('open');
+    bobInfoToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+}
 </script>
 <script src="cart-drawer.js"></script>
 <script src="signup-drawer.js"></script>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bob Coloring Sheet – Toys"R"Us</title>
+<link rel="stylesheet" href="cart-drawer.css">
+<link rel="stylesheet" href="signup-drawer.css">
+<link rel="stylesheet" href="site-menu.css">
+<link rel="stylesheet" href="diy-shell.css">
+<link rel="stylesheet" href="site-footer.css">
+<link rel="stylesheet" href="diy-article-newsletter.css">
+<style>
+@import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
+
+:root {
+  --blue: #004ebc;
+  --blue-dark: #003894;
+  --ink: #11214A;
+  --radius-pill: 999px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Buenos Aires', sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+.diy-content { background: #fff; }
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; }
+
+.detail-top { background: rgb(249, 249, 249); }
+.bc { padding: 18px 18px 6px; font-size: 14px; }
+.bc a { color: #1565c0; text-decoration: underline; }
+
+.detail-h {
+  font-family: 'Buenos Aires', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  text-align: center;
+  padding: 14px 22px 12px;
+  line-height: 1.2;
+}
+.detail-tag-wrap { text-align: center; padding: 0 18px 18px; }
+.detail-img { margin: 0 14px; border-radius: 16px; overflow: hidden; }
+.detail-img svg,
+.detail-img img { display: block; width: 100%; height: auto; }
+.detail-body { padding: 20px 18px 8px; font-size: 17px; line-height: 1.6; }
+.detail-body p { margin-bottom: 14px; }
+.detail-sep { height: 1px; background: #e0e0e0; margin: 6px 18px 22px; }
+.btn-dl {
+  display: inline-block;
+  background: var(--blue);
+  color: #fff;
+  font-family: 'Buenos Aires', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 14px 36px;
+  border-radius: var(--radius-pill);
+  margin: 0 18px 34px;
+  box-shadow: 0 4px 0 var(--blue-dark);
+  transition: transform .08s ease;
+}
+.btn-dl:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--blue-dark); }
+
+.printable-tag {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 18px;
+  border-radius: 999px;
+}
+.printable-tag.green { background: #D5F5E3; color: #1E8449; box-shadow: 0 3px 0 #1E8449; }
+
+.more-section { margin-top: 32px; padding-bottom: 8px; }
+.more-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 18px 8px;
+  gap: 12px;
+}
+.more-section-title {
+  font-size: 27px;
+  font-weight: 800;
+  color: #111;
+  line-height: 1.15;
+  margin: 0;
+}
+.more-see-all {
+  color: var(--blue);
+  text-decoration: underline;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.printable-card { display: block; }
+.photo-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  margin: 16px 14px 0;
+  min-height: 0;
+  background: #f5f5f5;
+}
+.photo-card svg,
+.photo-card img { display: block; width: 100%; height: auto; }
+.card-text { padding: 6px 18px 18px; }
+.card-title {
+  font-family: 'Buenos Aires', sans-serif;
+  font-size: 27px;
+  font-weight: 800;
+  color: #111;
+  margin: 0 0 4px;
+  line-height: 1.15;
+}
+.card-desc { font-size: 16px; color: #111; line-height: 1.55; margin: 0; }
+
+#painting-sources { display: none; }
+</style>
+</head>
+<body>
+
+<div class="diy-content">
+
+<section class="detail-top">
+  <nav class="bc">
+    <a href="home-page.html">Home</a> &gt;
+    <a href="toysrus-bobs-world.html" id="backToBobsWorld">Bob's World</a> &gt;
+    <span id="detailBreadcrumbTitle">Bob coloring sheet</span>
+  </nav>
+
+  <h1 class="detail-h" id="detailTitle">Bob coloring sheet</h1>
+  <div class="detail-tag-wrap">
+    <span class="printable-tag green" id="detailTag">Bob</span>
+  </div>
+</section>
+
+<div class="detail-img" id="detailImg"></div>
+
+<div class="detail-body" id="detailBody"></div>
+<div class="detail-sep"></div>
+<button class="btn-dl" type="button" onclick="alert('Downloading your printable!')">download printable</button>
+
+<section class="more-section" aria-label="More Bob coloring sheets">
+  <div class="more-section-head">
+    <h2 class="more-section-title">Check Out More!</h2>
+    <a href="toysrus-bobs-world.html" class="more-see-all">See All</a>
+  </div>
+  <div id="morePaintingCards"></div>
+</section>
+
+<section class="article-newsletter" aria-label="Newsletter signup">
+  <h2>Sign Up for Fun!</h2>
+  <p class="article-newsletter-intro">Get exclusive updates on new toys, playtime ideas, and reviews!</p>
+  <form id="article-signup-form">
+    <div class="signup-row">
+      <input type="email" id="article-email-input" placeholder="Enter email" required aria-label="Email address">
+      <button type="submit">Sign Up</button>
+    </div>
+    <p class="signup-disclaimer">By signing up for our newsletter, you agree to our <a href="#">terms &amp; conditions</a> &amp; <a href="#">privacy policy</a>.</p>
+    <p class="signup-confirm" id="article-signup-confirm" role="status"></p>
+  </form>
+</section>
+
+<div style="height: 80px"></div>
+
+</div>
+
+<div id="painting-sources">
+  <div id="src-bobs-bubble-fun">
+    <svg viewBox="0 0 390 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="390" height="220" fill="#fff5e0" rx="12"/>
+      <rect x="280" y="0" width="110" height="220" fill="#ff9800" opacity=".35"/>
+      <ellipse cx="120" cy="130" rx="48" ry="42" fill="none" stroke="#9a9a9a" stroke-width="2"/>
+      <circle cx="120" cy="88" r="34" fill="none" stroke="#9a9a9a" stroke-width="2"/>
+      <circle cx="108" cy="82" r="4" fill="#333"/>
+      <circle cx="132" cy="82" r="4" fill="#333"/>
+      <path d="M112 96 Q120 102 128 96" stroke="#333" stroke-width="2" fill="none"/>
+      <rect x="98" y="52" width="44" height="12" rx="3" fill="none" stroke="#333" stroke-width="2"/>
+      <text x="195" y="40" font-family="sans-serif" font-size="14" font-weight="800" fill="#3772ff" text-anchor="middle">BOB COLORING PAGE 1</text>
+    </svg>
+  </div>
+  <div id="src-bobs-bike-ride">
+    <svg viewBox="0 0 390 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="390" height="220" fill="#e8f4ff" rx="12"/>
+      <rect x="0" y="0" width="90" height="220" fill="#3772ff" opacity=".2"/>
+      <circle cx="95" cy="175" r="28" fill="none" stroke="#555" stroke-width="2"/>
+      <circle cx="175" cy="175" r="28" fill="none" stroke="#555" stroke-width="2"/>
+      <line x1="95" y1="175" x2="130" y2="140" stroke="#555" stroke-width="2.5"/>
+      <line x1="130" y1="140" x2="175" y2="155" stroke="#555" stroke-width="2.5"/>
+      <circle cx="130" cy="118" r="18" fill="none" stroke="#9a9a9a" stroke-width="2"/>
+      <text x="260" y="50" font-family="sans-serif" font-size="14" font-weight="800" fill="#3772ff" text-anchor="middle">BOB ON HIS BIKE</text>
+    </svg>
+  </div>
+  <div id="src-bobs-block-tower">
+    <svg viewBox="0 0 390 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="390" height="220" fill="#fff8e8" rx="12"/>
+      <rect x="50" y="120" width="36" height="36" rx="4" fill="none" stroke="#e8302a" stroke-width="2"/>
+      <rect x="92" y="120" width="36" height="36" rx="4" fill="none" stroke="#6bbf4e" stroke-width="2"/>
+      <rect x="134" y="120" width="36" height="36" rx="4" fill="none" stroke="#3f7ee0" stroke-width="2"/>
+      <rect x="71" y="78" width="36" height="36" rx="4" fill="none" stroke="#ffd400" stroke-width="2"/>
+      <rect x="113" y="78" width="36" height="36" rx="4" fill="none" stroke="#f5a623" stroke-width="2"/>
+      <circle cx="290" cy="90" r="28" fill="none" stroke="#9a9a9a" stroke-width="2"/>
+      <text x="290" y="160" font-family="sans-serif" font-size="13" font-weight="800" fill="#3772ff" text-anchor="middle">BLOCK TOWER</text>
+    </svg>
+  </div>
+</div>
+
+<script src="site-menu.js"></script>
+<script src="site-footer.js"></script>
+<script src="diy-shell.js"></script>
+<script src="cart-drawer.js"></script>
+<script src="signup-drawer.js"></script>
+<script src="auth-links.js"></script>
+<script>
+(function () {
+  var PAINTINGS = {
+    'bobs-bubble-fun': {
+      title: "bob's bubble fun",
+      tag: 'Bob',
+      desc: 'Grab your crayons and help Bob blow the biggest bubbles in the whole wide world!',
+      body: [
+        'Grab your crayons and help Bob blow the biggest bubbles in the whole wide world! Color Bob, his top hat, and every shimmering bubble floating through the sunny sky.',
+        'Parents, use <strong>#ShareThePlay</strong> on social media so we can see how they did!'
+      ]
+    },
+    'bobs-bike-ride': {
+      title: "bob's colorful bike ride",
+      tag: 'Bob',
+      desc: "Color in Bob's bike, helmet, and the sunny park path on this printable adventure sheet.",
+      body: [
+        "Send Bob on a colorful bike ride through the park! Fill in his helmet, wheels, and the winding path with your brightest crayons and markers.",
+        'Parents, use <strong>#ShareThePlay</strong> on social media so we can see how they did!'
+      ]
+    },
+    'bobs-block-tower': {
+      title: "bob's block tower",
+      tag: 'Bob',
+      desc: "Stack, color, and decorate Bob's tallest block tower with every color of the rainbow.",
+      body: [
+        "Stack, color, and decorate Bob's tallest block tower with every color of the rainbow. Add patterns to each block and draw Bob cheering beside his masterpiece!",
+        'Parents, use <strong>#ShareThePlay</strong> on social media so we can see how they did!'
+      ]
+    }
+  };
+
+  var PAINTING_IDS = Object.keys(PAINTINGS);
+  var defaultId = 'bobs-bubble-fun';
+
+  function getImageHtml(id) {
+    var src = document.getElementById('src-' + id);
+    return src ? src.innerHTML : '';
+  }
+
+  function renderMoreCards(currentId) {
+    var container = document.getElementById('morePaintingCards');
+    var startIndex = PAINTING_IDS.indexOf(currentId);
+    var html = '';
+
+    for (var i = 1; i <= 2; i++) {
+      var id = PAINTING_IDS[(startIndex + i) % PAINTING_IDS.length];
+      var data = PAINTINGS[id];
+      html += '<a class="printable-card more-card" href="toysrus-bobs-painting.html#' + id + '" data-id="' + id + '">' +
+        '<div class="photo-card">' + getImageHtml(id) + '</div>' +
+        '<div class="card-text">' +
+          '<h2 class="card-title">' + data.title + '</h2>' +
+          '<p class="card-desc">' + data.desc + '</p>' +
+        '</div>' +
+      '</a>';
+    }
+
+    container.innerHTML = html;
+  }
+
+  function openPainting(id, replaceHistory) {
+    var data = PAINTINGS[id];
+    if (!data) {
+      id = defaultId;
+      data = PAINTINGS[id];
+    }
+
+    document.title = data.title + ' – Toys"R"Us';
+    document.getElementById('detailTitle').textContent = data.title;
+    document.getElementById('detailBreadcrumbTitle').textContent = data.title;
+    document.getElementById('detailTag').textContent = data.tag;
+    document.getElementById('detailImg').innerHTML = getImageHtml(id);
+    document.getElementById('detailBody').innerHTML = data.body.map(function (p) {
+      return '<p>' + p + '</p>';
+    }).join('');
+    renderMoreCards(id);
+    window.scrollTo(0, 0);
+
+    var state = { id: id };
+    if (replaceHistory) {
+      history.replaceState(state, '', '#' + id);
+    } else {
+      history.pushState(state, '', '#' + id);
+    }
+  }
+
+  function getHashId() {
+    var hash = location.hash.replace(/^#/, '');
+    return PAINTINGS[hash] ? hash : defaultId;
+  }
+
+  window.addEventListener('popstate', function () {
+    openPainting(getHashId(), true);
+  });
+
+  window.addEventListener('hashchange', function () {
+    openPainting(getHashId(), true);
+  });
+
+  openPainting(getHashId(), true);
+})();
+</script>
+</body>
+</html>

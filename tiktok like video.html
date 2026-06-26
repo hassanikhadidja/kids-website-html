@@ -685,6 +685,7 @@
     *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
   }
 </style>
+<link rel="stylesheet" href="site-menu.css">
 </head>
 <body>
 <div class="stage">
@@ -944,11 +945,6 @@
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape' && mainNav.classList.contains('is-search-active')) closeSearch();
   });
-  if(menuOpenBtn){
-    menuOpenBtn.addEventListener('click', function(){
-      window.location.href = 'home-page.html';
-    });
-  }
 
   /* ---------- PDP nav (same icons + search as main) ---------- */
   var pdpNav = document.getElementById('pdpNav');
@@ -976,7 +972,7 @@
   if(pdpSearchForm) pdpSearchForm.addEventListener('submit', function(e){ e.preventDefault(); closePdpSearch(); });
   if(pdpMenuOpenBtn){
     pdpMenuOpenBtn.addEventListener('click', function(){
-      window.location.href = 'home-page.html';
+      if(window.SiteMenu && window.SiteMenu.open) window.SiteMenu.open();
     });
   }
   document.addEventListener('keydown', function(e){
@@ -1424,6 +1420,7 @@
 
 })();
 </script>
+<script src="site-menu.js"></script>
 <script src="cart-drawer.js"></script>
 <script src="signup-drawer.js"></script>
 <script src="auth-links.js"></script>

@@ -350,101 +350,23 @@
   .clear-btn{border:1.5px solid #c7ccd4;color:var(--ink);background:#fff;}
   .apply-btn{background:var(--blue);color:#fff;}
 
-  footer.site-footer{
-    background:linear-gradient(180deg, #004ebc 0%, #004ebc 100%);
-    padding:40px 0 32px 24px;
-    position:relative;
-    color:#fff;
-    font-family:'Buenos Aires',sans-serif;
-  }
-  footer.site-footer .footer-inner{max-width:1200px;margin:0 auto;padding-right:24px;}
-  footer.site-footer .footer-top{position:relative;padding-right:110px;}
-  footer.site-footer .footer-grid{display:flex;flex-direction:column;}
-  footer.site-footer .footer-grid section{margin-bottom:36px;}
-  footer.site-footer .footer-grid .newsletter{margin-bottom:12px;}
-  footer.site-footer .footer-grid section:last-child{margin-bottom:0;}
-  footer.site-footer .footer-bottom{margin-top:36px;}
-  footer.site-footer .footer-brand{text-align:center;}
-  footer.site-footer .mascot{position:absolute;top:28px;right:0;width:300px;height:auto;opacity:.95;}
-  footer.site-footer h2.section-title{font-size:30px;font-weight:800;margin:0 0 22px;letter-spacing:-.5px;}
-  footer.site-footer ul.link-list{list-style:none;margin:0;padding:0;}
-  footer.site-footer ul.link-list li{margin-bottom:26px;}
-  footer.site-footer ul.link-list li:last-child{margin-bottom:0;}
-  footer.site-footer ul.link-list a{color:#fff;text-decoration:none;font-size:22px;display:inline-flex;align-items:center;gap:12px;transition:opacity .15s ease;}
-  footer.site-footer ul.link-list a:hover,
-  footer.site-footer ul.link-list a:focus-visible{opacity:.75;}
-  footer.site-footer .heart-icon{flex:none;}
-  footer.site-footer .newsletter p{font-size:19px;line-height:1.4;margin:0 0 22px;}
-  footer.site-footer .signup-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:nowrap;}
-  footer.site-footer .signup-row input[type="email"]{width:290px;height:49px;flex:0 0 290px;padding:0 18px;border-radius:10px;border:none;font-size:18px;color:#333;background:#fff;box-sizing:border-box;}
-  footer.site-footer .signup-row input[type="email"]::placeholder{color:#6b6b6b;}
-  footer.site-footer .signup-row button{width:89px;height:49px;flex:0 0 89px;padding:0;border-radius:10px;border:2px solid #fff;background:transparent;color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;box-sizing:border-box;transition:background .15s ease, color .15s ease;}
-  footer.site-footer .signup-row button:hover,
-  footer.site-footer .signup-row button:focus-visible{background:#fff;color:#004ebc;}
-  footer.site-footer .signup-disclaimer{font-size:14px;line-height:1.5;margin:0;opacity:.95;}
-  footer.site-footer .signup-disclaimer a{color:#fff;text-decoration:underline;}
-  footer.site-footer .signup-confirm{font-size:14px;margin:8px 0 0;min-height:0;}
-  footer.site-footer .social-row{display:flex;justify-content:center;gap:26px;margin:30px 0 18px;flex-wrap:wrap;}
-  footer.site-footer .social-row a{color:#fff;display:flex;transition:opacity .15s ease;}
-  footer.site-footer .social-row a:hover,
-  footer.site-footer .social-row a:focus-visible{opacity:.7;}
-  footer.site-footer .social-row svg{width:30px;height:30px;}
-  footer.site-footer .handle{text-align:center;font-size:22px;font-weight:700;margin-bottom:30px;}
-  footer.site-footer hr.divider{border:none;border-top:1px solid rgba(255,255,255,.35);margin:0 0 26px;}
-  footer.site-footer .wordmark{text-align:center;margin-bottom:22px;}
-  footer.site-footer .brand-logo{display:block;max-width:240px;width:100%;height:auto;margin:0 auto;}
-  footer.site-footer .copyright{text-align:center;font-size:14px;opacity:.9;padding-bottom:10px;}
 
   @media (min-width:601px){
     .page{box-shadow:0 0 40px rgba(0,0,0,0.06);}
   }
   @media (max-width:380px){
-    footer.site-footer h2.section-title{font-size:26px;}
-    footer.site-footer ul.link-list a{font-size:19px;}
-    footer.site-footer .brand-logo{max-width:200px;}
-    footer.site-footer .mascot{width:220px;}
   }
   @media (min-width:480px){
-    footer.site-footer .footer-top{padding-right:160px;}
   }
   @media (min-width:768px){
-    footer.site-footer{padding:64px 0 56px 48px;}
-    footer.site-footer .footer-inner{padding-right:48px;}
-    footer.site-footer .footer-top{padding-right:420px;}
-    footer.site-footer .mascot{width:400px;top:0;}
-    footer.site-footer .footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:48px 40px;}
-    footer.site-footer .footer-grid section{margin-bottom:0;}
-    footer.site-footer .footer-grid > section:nth-child(1){grid-column:1;grid-row:1;}
-    footer.site-footer .footer-grid > section:nth-child(2){grid-column:1 / -1;grid-row:2;}
-    footer.site-footer .footer-grid > section:nth-child(3){grid-column:2;grid-row:1;}
-    footer.site-footer .footer-grid > section:nth-child(4){grid-column:3;grid-row:1;}
-    footer.site-footer .footer-grid > section:nth-child(5){grid-column:4;grid-row:1;}
-    footer.site-footer h2.section-title{font-size:22px;margin-bottom:16px;}
-    footer.site-footer ul.link-list li{margin-bottom:14px;}
-    footer.site-footer ul.link-list a{font-size:16px;}
-    footer.site-footer .newsletter{display:grid;grid-template-columns:1fr 1fr;gap:16px 48px;align-items:start;padding-top:8px;border-top:1px solid rgba(255,255,255,.2);margin-bottom:0;}
-    footer.site-footer .newsletter .section-title{grid-column:1;margin-bottom:0;}
-    footer.site-footer .newsletter p{grid-column:1;margin-bottom:0;max-width:none;font-size:17px;}
-    footer.site-footer .newsletter-intro{width:250px;max-width:250px;}
-    footer.site-footer .newsletter form{grid-column:2;grid-row:1 / span 3;}
-    footer.site-footer .newsletter .signup-disclaimer{grid-column:1;}
-    footer.site-footer .newsletter .signup-confirm{grid-column:1;margin:0;}
-    footer.site-footer .footer-bottom{margin-top:48px;padding-top:32px;border-top:1px solid rgba(255,255,255,.35);}
-    footer.site-footer hr.divider{display:none;}
-    footer.site-footer .social-row{margin-top:0;}
-    footer.site-footer .footer-brand{display:flex;align-items:center;justify-content:space-between;gap:32px;text-align:left;}
-    footer.site-footer .wordmark{margin-bottom:0;}
-    footer.site-footer .brand-logo{margin:0;max-width:220px;}
-    footer.site-footer .copyright{padding-bottom:0;text-align:right;}
   }
   @media (min-width:1024px){
-    footer.site-footer .footer-top{padding-right:520px;}
-    footer.site-footer .mascot{width:500px;}
   }
   @media (min-width:1280px){
-    footer.site-footer .footer-inner{max-width:1280px;}
   }
 </style>
+<link rel="stylesheet" href="site-footer.css">
+<link rel="stylesheet" href="site-menu.css">
 </head>
 <body>
 <div class="app-shell">
@@ -453,9 +375,8 @@
   <header class="nav" id="mainNav">
     <div class="nav-default">
       <div class="nav-icons">
-        <a class="icon-btn" href="home-page.html" aria-label="Menu">
-          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-        </a>
+        <button class="icon-btn" type="button" id="menuOpenBtn" aria-label="Menu"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
         <button class="icon-btn" type="button" aria-label="Account">
           <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
         </button>
@@ -730,7 +651,7 @@
       </a>
     </div>
 
-    <p class="handle">@ajBloks</p>
+    <p class="handle">@ajbloks</p>
     <hr class="divider">
 
     <div class="footer-brand">
@@ -772,23 +693,6 @@ searchForm.addEventListener('submit', e => { e.preventDefault(); closeSearch(); 
 document.addEventListener('keydown', e => {
   if(e.key === 'Escape' && mainNav.classList.contains('is-search-active')) closeSearch();
 });
-
-const footerSignupForm = document.getElementById('footer-signup-form');
-const footerSignupConfirm = document.getElementById('footer-signup-confirm');
-if(footerSignupForm && footerSignupConfirm){
-  footerSignupForm.addEventListener('submit', function(e){
-    e.preventDefault();
-    const email = document.getElementById('footer-email-input').value.trim();
-    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if(valid){
-      footerSignupConfirm.textContent = "Merci pour votre inscription ! Consultez votre boîte de réception pour confirmer.";
-      footerSignupForm.reset();
-    } else {
-      footerSignupConfirm.textContent = "Veuillez entrer une adresse e-mail valide.";
-    }
-  });
-}
-
 /* ---------------- PRODUCT DATA ---------------- */
 const products = [
   {title:"Imaginext Toy Story Pizza Planet Truck with Buzz Lightyear and Alien Figures", price:21.99, rating:4.8, reviews:47, icon:"🚚", grad:["#ffe9b3","#ffd27a"], category:["Action Figures and Accessories"], age:["5-7 years","8-10 years"], brand:[], character:["Buzz Lightyear","Toy Story"]},
@@ -982,5 +886,7 @@ document.querySelectorAll('input[data-group="sort"]').forEach(cb=>{
 <script src="signup-drawer.js"></script>
 <script src="product-card-links.js"></script>
 <script src="auth-links.js"></script>
+<script src="site-menu.js"></script>
+<script src="site-footer.js"></script>
 </body>
 </html>

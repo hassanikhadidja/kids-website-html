@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ToyHive — Shop By Age, Trending & More</title>
+<title>ToyHive ÔÇö Shop By Age, Trending & More</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="signup-drawer.css">
 <style>
@@ -194,6 +194,258 @@
   }
 
   /* ---------- mobile menu ---------- */
+  .mobile-menu{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    background:#fff;
+    display:flex;
+    flex-direction:column;
+    transform:translateX(-100%);
+    transition:transform .28s ease, visibility .28s;
+    visibility:hidden;
+    overflow:hidden;
+  }
+  .mobile-menu.is-open{
+    transform:translateX(0);
+    visibility:visible;
+  }
+  body.menu-open{overflow:hidden;}
+  .mobile-menu-header{
+    background:var(--blue);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px var(--page-pad);
+    flex-shrink:0;
+  }
+  .menu-search-form{
+    flex:1;
+    min-width:0;
+    position:relative;
+  }
+  .menu-search-input{
+    width:100%;
+    height:44px;
+    padding:0 44px 0 16px;
+    border:none;
+    border-radius:var(--radius-pill);
+    background:#fff;
+    color:#212427;
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1rem;
+    font-weight:600;
+    outline:none;
+  }
+  .menu-search-input::placeholder{
+    color:#212427;
+    opacity:.45;
+  }
+  .menu-search-btn{
+    position:absolute;
+    right:6px;
+    top:50%;
+    transform:translateY(-50%);
+    width:32px;
+    height:32px;
+    border:none;
+    background:transparent;
+    color:#212427;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    padding:0;
+  }
+  .menu-search-btn svg{
+    width:20px;
+    height:20px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .menu-close .nav-icon{
+    width:24px;
+    height:24px;
+    stroke-width:2;
+  }
+  .mobile-menu-body{
+    flex:1;
+    overflow:hidden;
+    position:relative;
+  }
+  .menu-panels{
+    position:relative;
+    height:100%;
+    overflow:hidden;
+  }
+  .menu-panel{
+    position:absolute;
+    inset:0;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    background:#fff;
+    transform:translateX(100%);
+    transition:transform .32s cubic-bezier(.4,0,.2,1);
+    pointer-events:none;
+    z-index:1;
+    will-change:transform;
+  }
+  .menu-panel.is-active{
+    transform:translateX(0);
+    pointer-events:auto;
+    z-index:3;
+  }
+  .menu-panel.is-left{
+    transform:translateX(-100%);
+    z-index:1;
+  }
+  .menu-panel.is-right{
+    transform:translateX(100%);
+    z-index:2;
+  }
+  .menu-no-transition .menu-panel{
+    transition:none !important;
+  }
+  .menu-subheader{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:18px var(--page-pad) 14px;
+  }
+  .menu-back{
+    background:transparent;
+    border:none;
+    color:#212427;
+    width:36px;
+    height:36px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    padding:0;
+  }
+  .menu-back svg{
+    width:22px;
+    height:22px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .menu-subtitle{
+    margin:0;
+    font-size:clamp(1.35rem, 5vw, 30px);
+  }
+  .menu-sublist{
+    list-style:none;
+    margin:0;
+    padding:0 0 24px;
+  }
+  .menu-sublist li{
+    border-bottom:1px solid var(--line);
+  }
+  .menu-plain,
+  .menu-drill{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+    padding:16px var(--page-pad);
+    color:#212427;
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1.05rem;
+    font-weight:600;
+    text-align:left;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    text-decoration:none;
+  }
+  .menu-plain:active,
+  .menu-drill:active{background:#f5f6f8;}
+  .menu-sublist .menu-plain{
+    justify-content:flex-start;
+  }
+  .menu-primary{
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  .menu-primary a,
+  .menu-drill-root{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+    padding:18px var(--page-pad);
+    color:#212427;
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1.05rem;
+    font-weight:600;
+    border-bottom:1px solid var(--line);
+    background:transparent;
+    border-left:none;
+    border-right:none;
+    border-top:none;
+    cursor:pointer;
+    text-align:left;
+  }
+  .menu-primary a:active,
+  .menu-drill-root:active{background:#f5f6f8;}
+  .menu-chevron{
+    color:#212427;
+    opacity:.55;
+    font-size:1.1rem;
+    line-height:1;
+  }
+  .menu-secondary{
+    list-style:none;
+    margin:0;
+    padding:20px var(--page-pad) 32px;
+  }
+  .menu-secondary li + li{margin-top:18px;}
+  .menu-secondary a{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    color:#212427;
+    font-family:'Buenos Aires',sans-serif;
+    font-size:1rem;
+    font-weight:600;
+    line-height:1.3;
+  }
+  .menu-secondary a.menu-link-blue{color:var(--blue);}
+  .menu-secondary a.menu-link-grey{color:var(--ink-soft);}
+  .menu-secondary a:active{opacity:.75;}
+  .menu-item-icon{
+    width:22px;
+    height:22px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .menu-item-icon svg{
+    width:22px;
+    height:22px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:1.75;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .menu-item-icon.icon-fill svg{
+    fill:currentColor;
+    stroke:none;
+  }
+  .menu-item-icon.icon-blue{color:var(--blue);}
+  .menu-item-icon.icon-grey{color:var(--ink-soft);}
+
   /* ---------- cart drawer ---------- */
   .cart-overlay{
     position:fixed;
@@ -1118,6 +1370,246 @@
   }
   .store-locator-btn:active{transform:translateY(2px); box-shadow:0 2px 0 var(--blue-dark);}
 
+  /* ---------- site footer (from footer.html) ---------- */
+  footer.site-footer{
+    background:linear-gradient(180deg, #004ebc 0%, #004ebc 100%);
+    padding:40px 0 32px 24px;
+    position:relative;
+    color:#fff;
+    font-family:'Buenos Aires',sans-serif;
+  }
+  footer.site-footer .footer-inner{
+    max-width:1200px;
+    margin:0 auto;
+    padding-right:24px;
+  }
+  footer.site-footer .footer-top{
+    position:relative;
+    padding-right:110px;
+  }
+  footer.site-footer .footer-grid{
+    display:flex;
+    flex-direction:column;
+  }
+  footer.site-footer .footer-grid section{margin-bottom:36px;}
+  footer.site-footer .footer-grid .newsletter{margin-bottom:12px;}
+  footer.site-footer .footer-grid section:last-child{margin-bottom:0;}
+  footer.site-footer .footer-bottom{margin-top:36px;}
+  footer.site-footer .footer-brand{text-align:center;}
+  footer.site-footer .mascot{
+    position:absolute;
+    top:28px;
+    right:0;
+    width:300px;
+    height:auto;
+    opacity:.95;
+  }
+  footer.site-footer h2.section-title{
+    font-size:30px;
+    font-weight:800;
+    margin:0 0 22px;
+    letter-spacing:-.5px;
+  }
+  footer.site-footer ul.link-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  footer.site-footer ul.link-list li{margin-bottom:26px;}
+  footer.site-footer ul.link-list li:last-child{margin-bottom:0;}
+  footer.site-footer ul.link-list a{
+    color:#fff;
+    text-decoration:none;
+    font-size:22px;
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    transition:opacity .15s ease;
+  }
+  footer.site-footer ul.link-list a:hover,
+  footer.site-footer ul.link-list a:focus-visible{opacity:.75;}
+  footer.site-footer ul.link-list a:focus-visible{
+    outline:2px solid #fff;
+    outline-offset:4px;
+  }
+  footer.site-footer .heart-icon{flex:none;}
+  footer.site-footer .newsletter p{
+    font-size:19px;
+    line-height:1.4;
+    margin:0 0 22px;
+  }
+  footer.site-footer .signup-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:16px;
+    flex-wrap:nowrap;
+  }
+  footer.site-footer .signup-row input[type="email"]{
+    width:290px;
+    height:49px;
+    flex:0 0 290px;
+    padding:0 18px;
+    border-radius:10px;
+    border:none;
+    font-size:18px;
+    color:#333;
+    background:#fff;
+    box-sizing:border-box;
+  }
+  footer.site-footer .signup-row input[type="email"]::placeholder{color:#6b6b6b;}
+  footer.site-footer .signup-row button{
+    width:89px;
+    height:49px;
+    flex:0 0 89px;
+    padding:0;
+    border-radius:10px;
+    border:2px solid #fff;
+    background:transparent;
+    color:#fff;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-sizing:border-box;
+    transition:background .15s ease, color .15s ease;
+  }
+  footer.site-footer .signup-row button:hover,
+  footer.site-footer .signup-row button:focus-visible{
+    background:#fff;
+    color:#004ebc;
+  }
+  footer.site-footer .signup-row button:focus-visible{
+    outline:2px solid #fff;
+    outline-offset:3px;
+  }
+  footer.site-footer .signup-disclaimer{
+    font-size:14px;
+    line-height:1.5;
+    margin:0;
+    opacity:.95;
+  }
+  footer.site-footer .signup-disclaimer a{color:#fff;text-decoration:underline;}
+  footer.site-footer .signup-confirm{
+    font-size:14px;
+    margin:8px 0 0;
+    min-height:0;
+  }
+  footer.site-footer .social-row{
+    display:flex;
+    justify-content:center;
+    gap:26px;
+    margin:30px 0 18px;
+    flex-wrap:wrap;
+  }
+  footer.site-footer .social-row a{
+    color:#fff;
+    display:flex;
+    transition:opacity .15s ease;
+  }
+  footer.site-footer .social-row a:hover,
+  footer.site-footer .social-row a:focus-visible{opacity:.7;}
+  footer.site-footer .social-row svg{width:30px;height:30px;}
+  footer.site-footer .handle{
+    text-align:center;
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:30px;
+  }
+  footer.site-footer hr.divider{
+    border:none;
+    border-top:1px solid rgba(255,255,255,.35);
+    margin:0 0 26px;
+  }
+  footer.site-footer .wordmark{
+    text-align:center;
+    margin-bottom:22px;
+  }
+  footer.site-footer .brand-logo{
+    display:block;
+    max-width:240px;
+    width:100%;
+    height:auto;
+    margin:0 auto;
+  }
+  footer.site-footer .copyright{
+    text-align:center;
+    font-size:14px;
+    opacity:.9;
+    padding-bottom:10px;
+  }
+  @media (max-width:380px){
+    footer.site-footer h2.section-title{font-size:26px;}
+    footer.site-footer ul.link-list a{font-size:19px;}
+    footer.site-footer .brand-logo{max-width:200px;}
+    footer.site-footer .mascot{width:220px;}
+  }
+  @media (min-width:480px){
+    footer.site-footer .footer-top{padding-right:160px;}
+  }
+  @media (min-width:768px){
+    footer.site-footer{padding:64px 0 56px 48px;}
+    footer.site-footer .footer-inner{padding-right:48px;}
+    footer.site-footer .footer-top{padding-right:420px;}
+    footer.site-footer .mascot{width:400px;top:0;}
+    footer.site-footer .footer-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:48px 40px;
+    }
+    footer.site-footer .footer-grid section{margin-bottom:0;}
+    footer.site-footer .footer-grid > section:nth-child(1){grid-column:1;grid-row:1;}
+    footer.site-footer .footer-grid > section:nth-child(2){grid-column:1 / -1;grid-row:2;}
+    footer.site-footer .footer-grid > section:nth-child(3){grid-column:2;grid-row:1;}
+    footer.site-footer .footer-grid > section:nth-child(4){grid-column:3;grid-row:1;}
+    footer.site-footer .footer-grid > section:nth-child(5){grid-column:4;grid-row:1;}
+    footer.site-footer h2.section-title{font-size:22px;margin-bottom:16px;}
+    footer.site-footer ul.link-list li{margin-bottom:14px;}
+    footer.site-footer ul.link-list a{font-size:16px;}
+    footer.site-footer .newsletter{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px 48px;
+      align-items:start;
+      padding-top:8px;
+      border-top:1px solid rgba(255,255,255,.2);
+      margin-bottom:0;
+    }
+    footer.site-footer .newsletter .section-title{grid-column:1;margin-bottom:0;}
+    footer.site-footer .newsletter p{grid-column:1;margin-bottom:0;max-width:none;font-size:17px;}
+    footer.site-footer .newsletter-intro{width:250px;max-width:250px;}
+    footer.site-footer .newsletter form{grid-column:2;grid-row:1 / span 3;}
+    footer.site-footer .newsletter .signup-disclaimer{grid-column:1;}
+    footer.site-footer .newsletter .signup-confirm{grid-column:1;margin:0;}
+    footer.site-footer .signup-row{max-width:none;flex-wrap:nowrap;}
+    footer.site-footer .footer-bottom{
+      margin-top:48px;
+      padding-top:32px;
+      border-top:1px solid rgba(255,255,255,.35);
+    }
+    footer.site-footer hr.divider{display:none;}
+    footer.site-footer .social-row{margin-top:0;}
+    footer.site-footer .footer-brand{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:32px;
+      text-align:left;
+    }
+    footer.site-footer .wordmark{margin-bottom:0;}
+    footer.site-footer .brand-logo{margin:0;max-width:220px;}
+    footer.site-footer .copyright{padding-bottom:0;text-align:right;}
+  }
+  @media (min-width:1024px){
+    footer.site-footer .footer-top{padding-right:520px;}
+    footer.site-footer .mascot{width:500px;}
+  }
+  @media (min-width:1280px){
+    footer.site-footer .footer-inner{max-width:1280px;}
+  }
+
   /* ---------- small phones ---------- */
   @media (max-width:359px){
     :root{ --page-pad:12px; --section-pad:14px; }
@@ -1226,8 +1718,6 @@
     }
   }
 </style>
-<link rel="stylesheet" href="site-footer.css">
-<link rel="stylesheet" href="site-menu.css">
 </head>
 <body>
 
@@ -1275,6 +1765,289 @@
     </div>
   </header>
 
+  <!-- mobile menu -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <div class="mobile-menu-header">
+      <form class="menu-search-form" id="menuSearchForm" role="search">
+        <input class="menu-search-input" id="menuSearchInput" type="search" name="q" placeholder="Search for fun!" autocomplete="off" aria-label="Search for fun">
+        <button class="menu-search-btn" type="submit" aria-label="Search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+        </button>
+      </form>
+      <button class="icon-btn menu-close" type="button" id="menuCloseBtn" aria-label="Close menu">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <nav class="mobile-menu-body">
+      <div class="menu-panels" id="menuPanels">
+
+        <!-- root -->
+        <div class="menu-panel is-active" data-panel="root">
+          <ul class="menu-primary">
+            <li><button type="button" class="menu-drill-root" data-panel="category">Shop By Category <span class="menu-chevron" aria-hidden="true">ÔÇ║</span></button></li>
+            <li><button type="button" class="menu-drill-root" data-panel="age">Shop By Age <span class="menu-chevron" aria-hidden="true">ÔÇ║</span></button></li>
+            <li><button type="button" class="menu-drill-root" data-panel="brand">Shop By Character <span class="menu-chevron" aria-hidden="true">ÔÇ║</span></button></li>
+            <li><button type="button" class="menu-drill-root" data-panel="play">Play <span class="menu-chevron" aria-hidden="true">ÔÇ║</span></button></li>
+          </ul>
+          <ul class="menu-secondary">
+            <li>
+              <a href="signup-email form.html" class="menu-link-blue menu-close-link">
+                <span class="menu-item-icon icon-blue"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+                Email Signup for Deals &amp; Updates!
+              </a>
+            </li>
+            <li>
+              <a href="done/wishlist.html" class="menu-close-link">
+                <span class="menu-item-icon icon-blue icon-fill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.502 5.502 0 0 0 16.503 3c-1.76 0-3 .56-4.5 2.17C10.503 3.56 9.263 3 7.503 3A5.502 5.502 0 0 0 2 8.5c0 2.29 1.5 4.04 3 5.5l7 7Z"/></svg></span>
+                Wishlist
+              </a>
+            </li>
+            <li>
+              <a href="toysrus-account.html" class="menu-link-grey menu-close-link">
+                <span class="menu-item-icon icon-grey"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg></span>
+                Account
+              </a>
+            </li>
+            <li>
+              <a href="done/find us.html">
+                <span class="menu-item-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10z"/><circle cx="12" cy="11" r="2.5"/></svg></span>
+                Find a Store
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span class="menu-item-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1 6h13v9H1z"/><path d="M14 9h4l3 4v2h-7V9z"/><circle cx="5.5" cy="17.5" r="1.5"/><circle cx="17.5" cy="17.5" r="1.5"/></svg></span>
+                Track Your Order
+              </a>
+            </li>
+            <li>
+              <a href="toysrus-faq (2).html" class="menu-close-link">
+                <span class="menu-item-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 3.5c-.9.9-1.5 1.2-1.5 2"/><circle cx="12" cy="17" r=".75" fill="currentColor" stroke="none"/></svg></span>
+                Help Center
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span class="menu-item-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h12a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V5z"/><path d="M7 5a3 3 0 0 1 3-3h9v16H10a3 3 0 0 1-3-3"/></svg></span>
+                Catalogue grossiste
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- shop by category -->
+        <div class="menu-panel" data-panel="category">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="root" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">Shop By Category</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="#categorySection" class="menu-plain menu-close-link">Shop All Categories</a></li>
+            <li><button type="button" class="menu-drill" data-panel="category-trending">New &amp; Trending <span class="menu-chevron">ÔÇ║</span></button></li>
+            <li><a href="#" class="menu-plain menu-close-link">Action Figures &amp; Playsets</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Arts &amp; Crafts</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Baby &amp; Toddler Toys</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Books</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Building Sets &amp; Blocks</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Dolls, Collectibles &amp; Stuffed Animals</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Electronics</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Games &amp; Puzzles</a></li>
+            <li><a href="#productCarousel" class="menu-plain menu-close-link">Outdoor Play</a></li>
+          </ul>
+        </div>
+
+        <!-- new & trending -->
+        <div class="menu-panel" data-panel="category-trending">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="category" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">New &amp; Trending</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="#" class="menu-plain menu-close-link">Shop All New &amp; Trending</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Action Figures &amp; Playsets</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Arts &amp; Crafts</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Baby &amp; Toddler Toys</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Building Sets &amp; Blocks</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Dolls, Collectibles &amp; Stuffed Animals</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Electronics</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Games &amp; Puzzles</a></li>
+            <li><a href="#productCarousel" class="menu-plain menu-close-link">Outdoor Play</a></li>
+          </ul>
+        </div>
+
+        <!-- shop by age -->
+        <div class="menu-panel" data-panel="age">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="root" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">Shop By Age</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><button type="button" class="menu-drill" data-panel="age-0-2">0-2 years <span class="menu-chevron">ÔÇ║</span></button></li>
+            <li><button type="button" class="menu-drill" data-panel="age-3-4">3-4 years <span class="menu-chevron">ÔÇ║</span></button></li>
+            <li><button type="button" class="menu-drill" data-panel="age-5-7">5-7 years <span class="menu-chevron">ÔÇ║</span></button></li>
+            <li><button type="button" class="menu-drill" data-panel="age-8-10">8-10 years <span class="menu-chevron">ÔÇ║</span></button></li>
+            <li><button type="button" class="menu-drill" data-panel="age-11-12">11-12 years <span class="menu-chevron">ÔÇ║</span></button></li>
+            <li><button type="button" class="menu-drill" data-panel="age-13">13+ years <span class="menu-chevron">ÔÇ║</span></button></li>
+          </ul>
+        </div>
+
+        <!-- 0-2 years -->
+        <div class="menu-panel" data-panel="age-0-2">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="age" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">0-2 years</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="shop by age products page.html#age-0-2" class="menu-plain menu-close-link">Shop All 0-2 years</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Activity Centers</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Baby &amp; Toddler Toys</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Bath Toys</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Blocks, Sorting &amp; Stacking</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Development &amp; Learning</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Musical &amp; Sound Toys</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Dolls &amp; Stuffed Animals</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Rattles &amp; Teethers</a></li>
+          </ul>
+        </div>
+
+        <!-- 3-4 years -->
+        <div class="menu-panel" data-panel="age-3-4">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="age" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">3-4 years</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="shop by age products page.html#age-3-4" class="menu-plain menu-close-link">Shop All 3-4 years</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Preschool Learning</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Building Sets &amp; Blocks</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Dolls &amp; Playsets</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Ride-Ons &amp; Scooters</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Pretend Play</a></li>
+          </ul>
+        </div>
+
+        <!-- 5-7 years -->
+        <div class="menu-panel" data-panel="age-5-7">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="age" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">5-7 years</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="shop by age products page.html#age-5-7" class="menu-plain menu-close-link">Shop All 5-7 years</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Action Figures</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Arts &amp; Crafts</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Games &amp; Puzzles</a></li>
+            <li><a href="#productCarousel" class="menu-plain menu-close-link">Outdoor Play</a></li>
+          </ul>
+        </div>
+
+        <!-- 8-10 years -->
+        <div class="menu-panel" data-panel="age-8-10">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="age" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">8-10 years</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="shop by age products page.html#age-8-10" class="menu-plain menu-close-link">Shop All 8-10 years</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">STEM &amp; Robotics</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Board Games</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Sports &amp; Outdoor</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Collectibles</a></li>
+          </ul>
+        </div>
+
+        <!-- 11-12 years -->
+        <div class="menu-panel" data-panel="age-11-12">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="age" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">11-12 years</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="shop by age products page.html#age-11-12" class="menu-plain menu-close-link">Shop All 11-12 years</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Advanced Building Sets</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Electronics &amp; Gadgets</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Strategy Games</a></li>
+          </ul>
+        </div>
+
+        <!-- 13+ years -->
+        <div class="menu-panel" data-panel="age-13">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="age" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">13+ years</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="shop by age products page.html#age-13" class="menu-plain menu-close-link">Shop All 13+ years</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Model Kits</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Tech &amp; Gaming</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Puzzles &amp; Brain Teasers</a></li>
+          </ul>
+        </div>
+
+        <!-- shop by character -->
+        <div class="menu-panel" data-panel="brand">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="root" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">Shop By Character</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><button type="button" class="menu-drill" data-panel="brand-all">Explore All Brands <span class="menu-chevron">ÔÇ║</span></button></li>
+            <li><button type="button" class="menu-drill" data-panel="brand-characters">Explore All Characters <span class="menu-chevron">ÔÇ║</span></button></li>
+          </ul>
+        </div>
+
+        <!-- explore all brands -->
+        <div class="menu-panel" data-panel="brand-all">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="brand" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">Explore All Brands</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="#brandSection" class="menu-plain menu-close-link">Shop All Characters</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Made For AJ BLOKS</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">little tikes</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Bella Doll Co.</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">BrickWorks</a></li>
+          </ul>
+        </div>
+
+        <!-- explore all characters -->
+        <div class="menu-panel" data-panel="brand-characters">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="brand" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">Explore All Characters</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="#" class="menu-plain menu-close-link">Bluey</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">DC Heroes</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Disney Princess</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Harry Potter</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Hello Kitty</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Lilo &amp; Stitch</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Marvel Heroes</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Minecraft</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Mickey Mouse &amp; Minnie Mouse</a></li>
+          </ul>
+        </div>
+
+        <!-- play -->
+        <div class="menu-panel" data-panel="play">
+          <div class="menu-subheader">
+            <button type="button" class="menu-back" data-panel="root" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+            <h2 class="menu-subtitle title">Play</h2>
+          </div>
+          <ul class="menu-sublist">
+            <li><a href="tiktok like video.html" class="menu-plain menu-close-link">Toys in Action</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">DIY Activities</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Printables</a></li>
+            <li><a href="#" class="menu-plain menu-close-link">Buddy's World</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+  </div>
+
   <!-- cart drawer -->
   <div class="cart-overlay" id="cartOverlay" aria-hidden="true"></div>
   <aside class="cart-drawer" id="cartDrawer" aria-hidden="true" aria-label="Shopping cart">
@@ -1305,7 +2078,7 @@
         <div class="cart-featured">
           <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782123143/Design_sans_titre_13_qzliwu.png" alt="CAT dump truck toy">
         </div>
-        <a href="shop by age products page.html" class="cart-shop-age" id="cartShopAge">Shop by Age →</a>
+        <a href="shop by age products page.html" class="cart-shop-age" id="cartShopAge">Shop by Age ÔåÆ</a>
       </div>
     </div>
 
@@ -1359,7 +2132,7 @@
           </svg>
         </div>
         <div class="rating-row">
-          <div><span class="stars">★★★★★</span><span class="rating-num">0.0 (0)</span></div>
+          <div><span class="stars">ÔÿàÔÿàÔÿàÔÿàÔÿà</span><span class="rating-num">0.0 (0)</span></div>
           <div class="price">$59.99</div>
         </div>
         <h3 class="product-title">Pro Beam Kids Video Walkie Talkies 2-Pack With Camera &amp; Voice Changer</h3>
@@ -1379,7 +2152,7 @@
           </svg>
         </div>
         <div class="rating-row">
-          <div><span class="stars">★★★</span><span class="rating-num">3.0 (12)</span></div>
+          <div><span class="stars">ÔÿàÔÿàÔÿà</span><span class="rating-num">3.0 (12)</span></div>
           <div class="price">$24.99</div>
         </div>
         <h3 class="product-title">Garden Adventure Sand &amp; Mold Outdoor Play Set</h3>
@@ -1397,7 +2170,7 @@
           </svg>
         </div>
         <div class="rating-row">
-          <div><span class="stars">★★★★</span><span class="rating-num">4.2 (38)</span></div>
+          <div><span class="stars">ÔÿàÔÿàÔÿàÔÿà</span><span class="rating-num">4.2 (38)</span></div>
           <div class="price">$14.99</div>
         </div>
         <h3 class="product-title">All-Weather Backyard Match Soccer Ball, Size 4</h3>
@@ -1499,11 +2272,11 @@
               <rect x="55" y="90" width="80" height="8" rx="2" fill="#62c8f5"/>
               <rect x="55" y="105" width="60" height="8" rx="2" fill="#62c8f5"/>
               <circle cx="130" cy="130" r="18" fill="#e8302a"/>
-              <text x="130" y="136" font-size="14" text-anchor="middle" font-family="Arial" font-weight="800" fill="#fff">★</text>
+              <text x="130" y="136" font-size="14" text-anchor="middle" font-family="Arial" font-weight="800" fill="#fff">Ôÿà</text>
             </svg>
           </div>
           <div class="rating-row">
-            <div><span class="stars">★★★★★</span><span class="rating-num">0.0 (0)</span></div>
+            <div><span class="stars">ÔÿàÔÿàÔÿàÔÿàÔÿà</span><span class="rating-num">0.0 (0)</span></div>
             <div class="price">$17.99</div>
           </div>
           <h3 class="product-title">Galaxy Explorers: Jedi Training Mission Activity Book</h3>
@@ -1521,7 +2294,7 @@
             </svg>
           </div>
           <div class="rating-row">
-            <div><span class="stars">★★★</span><span class="rating-num">3.0 (4)</span></div>
+            <div><span class="stars">ÔÿàÔÿàÔÿà</span><span class="rating-num">3.0 (4)</span></div>
             <div class="price">$12.99</div>
           </div>
           <h3 class="product-title">Galaxy Explorers: A Hero in Training Step-by-Step Reader</h3>
@@ -1541,7 +2314,7 @@
             </svg>
           </div>
           <div class="rating-row">
-            <div><span class="stars">★★★★★</span><span class="rating-num">5.0 (2)</span></div>
+            <div><span class="stars">ÔÿàÔÿàÔÿàÔÿàÔÿà</span><span class="rating-num">5.0 (2)</span></div>
             <div class="price">$9.99</div>
           </div>
           <h3 class="product-title">Buddy the Giraffe: A Tall Tale Bedtime Story</h3>
@@ -1577,8 +2350,8 @@
 
   <!-- follow / social -->
   <section class="follow-section">
-    <h2 class="follow-heading title">Follow the fun! @ajbloks</h2>
-    <div class="follow-handle">@ajbloks</div>
+    <h2 class="follow-heading title">Follow the fun! @ajBloks</h2>
+    <div class="follow-handle">@ajBloks</div>
     <div class="social-row">
       <a href="#" aria-label="YouTube">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.7 31.7 0 0 0 0 12a31.7 31.7 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.7 31.7 0 0 0 24 12a31.7 31.7 0 0 0-.5-5.8zM9.6 15.5V8.5L15.8 12z"/></svg>
@@ -1747,17 +2520,17 @@
     <section aria-label="Service client">
       <h2 class="section-title">Service client</h2>
       <ul class="link-list">
-        <li><a href="toysrus-gift-guides.html">Guides cadeaux</a></li>
-        <li><a href="toysrus-faq (2).html">Centre d'aide</a></li>
-        <li><a href="toysrus-livraison.html">Livraison</a></li>
-        <li><a href="#">Retours et échanges</a></li>
+        <li><a href="#">Guides cadeaux</a></li>
+        <li><a href="#">Centre d'aide</a></li>
+        <li><a href="#">Livraison</a></li>
+        <li><a href="#">Retours et ├®changes</a></li>
         <li><a href="#">Nous contacter</a></li>
       </ul>
     </section>
 
-    <section class="newsletter" aria-label="Inscription à l'infolettre">
+    <section class="newsletter" aria-label="Inscription ├á l'infolettre">
       <h2 class="section-title">Inscrivez-vous pour vous amuser&nbsp;!</h2>
-      <p class="newsletter-intro">Recevez des nouvelles exclusives sur les jouets, des idées de jeu et des avis !</p>
+      <p class="newsletter-intro">Recevez des nouvelles exclusives sur les jouets, des id├®es de jeu et des avis !</p>
 
       <form id="footer-signup-form">
         <div class="signup-row">
@@ -1765,7 +2538,7 @@
           <button type="submit">S'inscrire</button>
         </div>
         <p class="signup-disclaimer">
-          En vous inscrivant à notre infolettre, vous acceptez nos <a href="#">conditions d'utilisation</a> et notre <a href="#">politique de confidentialité</a>.
+          En vous inscrivant ├á notre infolettre, vous acceptez nos <a href="#">conditions d'utilisation</a> et notre <a href="#">politique de confidentialit├®</a>.
         </p>
         <p class="signup-confirm" id="footer-signup-confirm" role="status"></p>
       </form>
@@ -1787,22 +2560,22 @@
       </ul>
     </section>
 
-    <section aria-label="À propos">
-      <h2 class="section-title">À propos</h2>
+    <section aria-label="├Ç propos">
+      <h2 class="section-title">├Ç propos</h2>
       <ul class="link-list">
         <li><a href="#">Notre histoire</a></li>
         <li><a href="#">Conditions d'utilisation</a></li>
-        <li><a href="#">Politique de confidentialité</a></li>
-        <li><a href="#">Déclaration d'accessibilité</a></li>
-        <li><a href="#">Préférences de cookies</a></li>
+        <li><a href="#">Politique de confidentialit├®</a></li>
+        <li><a href="#">D├®claration d'accessibilit├®</a></li>
+        <li><a href="#">Pr├®f├®rences de cookies</a></li>
       </ul>
     </section>
 
-    <section aria-label="Activités">
-      <h2 class="section-title">Activités</h2>
+    <section aria-label="Activit├®s">
+      <h2 class="section-title">Activit├®s</h2>
       <ul class="link-list">
         <li><a href="#">Le monde de Bob</a></li>
-        <li><a href="#">Coloriage et activités</a></li>
+        <li><a href="#">Coloriage et activit├®s</a></li>
       </ul>
     </section>
 
@@ -1832,7 +2605,7 @@
       </a>
     </div>
 
-    <p class="handle">@ajbloks</p>
+    <p class="handle">@ajBloks</p>
 
     <hr class="divider">
 
@@ -1845,7 +2618,7 @@
       >
     </div>
 
-    <p class="copyright">© 2026 ajBloks. Tous droits réservés.</p>
+    <p class="copyright">┬® 2026 ajBloks. Tous droits r├®serv├®s.</p>
     </div>
     </div>
 
@@ -1991,13 +2764,131 @@
   const searchInput = document.getElementById('searchInput');
   const searchForm = document.getElementById('searchForm');
 
+  // mobile menu toggle
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuOpenBtn = document.getElementById('menuOpenBtn');
+  const menuCloseBtn = document.getElementById('menuCloseBtn');
+  const menuSearchForm = document.getElementById('menuSearchForm');
+  const menuPanels = document.querySelectorAll('.menu-panel');
+  const menuPanelStack = ['root'];
+  window.menuPanelStack = menuPanelStack;
+
+  function getMenuPanel(panelId){
+    return document.querySelector(`.menu-panel[data-panel="${panelId}"]`);
+  }
+
+  function applyMenuPanelClasses(){
+    const activeId = menuPanelStack[menuPanelStack.length - 1];
+    const activeIndex = menuPanelStack.indexOf(activeId);
+    menuPanels.forEach(panel=>{
+      const id = panel.dataset.panel;
+      const index = menuPanelStack.indexOf(id);
+      panel.classList.remove('is-active','is-left','is-right');
+      if(id === activeId) panel.classList.add('is-active');
+      else if(index !== -1 && index < activeIndex) panel.classList.add('is-left');
+      else panel.classList.add('is-right');
+    });
+  }
+
+  window.applyMenuStack = function(stack){
+    menuPanelStack.length = 0;
+    stack.forEach(id=> menuPanelStack.push(id));
+    applyMenuPanelClasses();
+    mobileMenu.classList.add('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('menu-open');
+  };
+
+  function resetMenuPanels(instant){
+    menuPanelStack.length = 0;
+    menuPanelStack.push('root');
+    if(instant) mobileMenu.classList.add('menu-no-transition');
+    applyMenuPanelClasses();
+    menuPanels.forEach(panel=>{ panel.scrollTop = 0; });
+    if(instant){
+      void mobileMenu.offsetWidth;
+      mobileMenu.classList.remove('menu-no-transition');
+    }
+  }
+
+  function pushMenuPanel(panelId){
+    const currentId = menuPanelStack[menuPanelStack.length - 1];
+    const currentPanel = getMenuPanel(currentId);
+    const nextPanel = getMenuPanel(panelId);
+    if(!currentPanel || !nextPanel) return;
+
+    menuPanelStack.push(panelId);
+
+    nextPanel.classList.remove('is-left','is-right');
+    nextPanel.classList.add('is-right');
+    void nextPanel.offsetWidth;
+
+    currentPanel.classList.remove('is-active');
+    currentPanel.classList.add('is-left');
+
+    nextPanel.classList.remove('is-right');
+    nextPanel.classList.add('is-active');
+    nextPanel.scrollTop = 0;
+    savePageState();
+  }
+
+  function popMenuPanel(){
+    if(menuPanelStack.length <= 1) return;
+    const currentId = menuPanelStack.pop();
+    const previousId = menuPanelStack[menuPanelStack.length - 1];
+    const currentPanel = getMenuPanel(currentId);
+    const previousPanel = getMenuPanel(previousId);
+    if(!currentPanel || !previousPanel) return;
+
+    if(!previousPanel.classList.contains('is-left')){
+      previousPanel.classList.remove('is-active','is-right');
+      previousPanel.classList.add('is-left');
+      void previousPanel.offsetWidth;
+    }
+
+    currentPanel.classList.remove('is-active');
+    currentPanel.classList.add('is-right');
+
+    previousPanel.classList.remove('is-left');
+    previousPanel.classList.add('is-active');
+    previousPanel.scrollTop = 0;
+    savePageState();
+  }
+
+  function openMenu(){
+    closeSearch();
+    closeCart();
+    resetMenuPanels(true);
+    mobileMenu.classList.add('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('menu-open');
+    savePageState();
+  }
+  function closeMenu(){
+    mobileMenu.classList.remove('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('menu-open');
+    resetMenuPanels(true);
+    savePageState();
+  }
+
+  menuOpenBtn.addEventListener('click', openMenu);
+  menuCloseBtn.addEventListener('click', closeMenu);
+  menuSearchForm.addEventListener('submit', e=> e.preventDefault());
+
+  document.querySelectorAll('[data-panel].menu-drill-root, [data-panel].menu-drill').forEach(btn=>{
+    btn.addEventListener('click', ()=> pushMenuPanel(btn.dataset.panel));
+  });
+  document.querySelectorAll('.menu-back').forEach(btn=>{
+    btn.addEventListener('click', popMenuPanel);
+  });
+  document.querySelectorAll('.menu-close-link').forEach(link=>{
+    link.addEventListener('click', closeMenu);
+  });
+
   function closeSearch(){
     mainNav.classList.remove('is-search-active');
     searchInput.blur();
-  }
-
-  function closeMenu(){
-    if(window.SiteMenu && window.SiteMenu.close) window.SiteMenu.close();
   }
 
   function openSearch(){
@@ -2019,6 +2910,10 @@
     if(e.key === 'Escape'){
       if(cartDrawer.classList.contains('is-open')) closeCart();
       else if(mainNav.classList.contains('is-search-active')) closeSearch();
+      else if(mobileMenu.classList.contains('is-open')){
+        if(menuPanelStack.length > 1) popMenuPanel();
+        else closeMenu();
+      }
     }
   });
 
@@ -2088,7 +2983,7 @@
         <p class="item-price"></p>
         <div class="qty-row">
           <div class="qty-pill">
-            <button type="button" class="qty-minus" aria-label="Decrease quantity">−</button>
+            <button type="button" class="qty-minus" aria-label="Decrease quantity">ÔêÆ</button>
             <span class="qty-val">${item.qty}</span>
             <button type="button" class="qty-plus" aria-label="Increase quantity">+</button>
           </div>
@@ -2197,7 +3092,7 @@
       if(!card) return;
       addToCart(getProductFromCard(card));
       const original = btn.textContent;
-      btn.textContent = 'Added ✓';
+      btn.textContent = 'Added Ô£ô';
       setTimeout(() => { btn.textContent = original; }, 1200);
     });
   });
@@ -2207,12 +3102,26 @@
 
   restorePageState();
   restoreMenuState();
+
+  const footerSignupForm = document.getElementById('footer-signup-form');
+  const footerSignupConfirm = document.getElementById('footer-signup-confirm');
+  if(footerSignupForm && footerSignupConfirm){
+    footerSignupForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      const email = document.getElementById('footer-email-input').value.trim();
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if(valid){
+        footerSignupConfirm.textContent = "Merci pour votre inscription ! Consultez votre bo├«te de r├®ception pour confirmer.";
+        footerSignupForm.reset();
+      } else {
+        footerSignupConfirm.textContent = "Veuillez entrer une adresse e-mail valide.";
+      }
+    });
+  }
 </script>
 
 <script src="product-card-links.js"></script>
 <script src="auth-links.js"></script>
 <script src="signup-drawer.js"></script>
-<script src="site-menu.js"></script>
-<script src="site-footer.js"></script>
 </body>
 </html>

@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Printables – Toys"R"Us</title>
+<link rel="stylesheet" href="cart-drawer.css">
+<link rel="stylesheet" href="signup-drawer.css">
+<link rel="stylesheet" href="site-menu.css">
+<link rel="stylesheet" href="diy-shell.css">
+<link rel="stylesheet" href="site-footer.css">
+<link rel="stylesheet" href="diy-article-newsletter.css">
+<style>
+@import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
+
+:root{
+  --blue:#004ebc;
+  --blue-dark:#003894;
+  --ink:#11214A;
+  --radius-pill:999px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Buenos Aires',sans-serif;
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+}
+.diy-content{background:#fff;}
+h1,h2,h3,button{font-family:'Buenos Aires',sans-serif;}
+button{cursor:pointer;border:none;}
+a{text-decoration:none;color:inherit;}
+
+.view{display:none;}
+.view.active{display:block;}
+
+.printable-card{
+  display:block;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.printable-card:active .photo-card{opacity:.94;}
+
+/* â”€â”€ HERO â”€â”€ */
+.hero{width:100%;line-height:0;overflow:hidden;}
+.hero img{display:block;width:100%;height:auto;}
+
+/* â”€â”€ PHOTO CARD â”€â”€ */
+.photo-card{
+  position:relative;overflow:hidden;
+  border-radius:16px;margin:16px 14px 0;
+  min-height:200px;background:#f5f5f5;
+}
+.hero + .photo-card{margin-top:50px;}
+.photo-card svg,
+.photo-card img{display:block;width:100%;height:auto;}
+
+.card-text{padding:14px 18px 18px;}
+.card-title{
+  font-family:'Buenos Aires',sans-serif;
+  font-size:27px;font-weight:800;color:#111;
+  margin-bottom:8px;line-height:1.15;
+}
+.card-desc{font-size:16px;color:#111;line-height:1.55;}
+
+/* â”€â”€ VIEW ALL â”€â”€ */
+.view-all{display:flex;justify-content:center;padding:22px 0 30px;}
+.btn-all{
+  display:inline-block;
+  background:var(--blue);color:#fff;
+  font-family:'Buenos Aires',sans-serif;font-size:1rem;font-weight:700;
+  padding:14px 36px;border-radius:var(--radius-pill);
+  box-shadow:0 4px 0 var(--blue-dark);
+  transition:transform .08s ease;
+  letter-spacing:.3px;
+}
+.btn-all:active{transform:translateY(2px);box-shadow:0 2px 0 var(--blue-dark);}
+
+/* ── BREADCRUMB ── */
+.detail-top{background:rgb(249 249 249);}
+.bc{padding:18px 18px 6px;font-size:14px;}
+.bc a{color:#1565c0;text-decoration:underline;}
+
+/* ── DETAIL ── */
+.detail-h{
+  font-family:'Buenos Aires',sans-serif;
+  font-size:32px;font-weight:800;
+  text-align:center;padding:14px 22px 12px;
+  line-height:1.2;
+}
+.detail-tag-wrap{text-align:center;padding:0 18px 18px;}
+.detail-tag-wrap .printable-tag{margin-top:0;}
+.detail-img{margin:0 14px;border-radius:16px;overflow:hidden;}
+.detail-img svg,
+.detail-img img{display:block;width:100%;height:auto;}
+.detail-body{padding:20px 18px 8px;font-size:17px;line-height:1.6;}
+.detail-body p{margin-bottom:14px;}
+.detail-sep{height:1px;background:#e0e0e0;margin:6px 18px 22px;}
+.btn-dl{
+  display:inline-block;
+  background:var(--blue);color:#fff;
+  font-family:'Buenos Aires',sans-serif;font-size:1rem;font-weight:700;
+  padding:14px 36px;border-radius:var(--radius-pill);
+  margin:0 18px 34px;
+  box-shadow:0 4px 0 var(--blue-dark);
+  transition:transform .08s ease;
+}
+.btn-dl:active{transform:translateY(2px);box-shadow:0 2px 0 var(--blue-dark);}
+
+/* ── CHECK OUT MORE ── */
+.more-section{margin-top:32px;padding-bottom:8px;}
+.more-section-head{
+  display:flex;align-items:baseline;justify-content:space-between;
+  padding:0 18px 8px;gap:12px;
+}
+.more-section-title{
+  font-size:27px;font-weight:800;color:#111;line-height:1.15;margin:0;
+}
+.more-see-all{
+  color:var(--blue);text-decoration:underline;
+  font-size:16px;font-weight:700;flex-shrink:0;
+}
+.more-card-body{
+  font-size:17px;line-height:1.6;color:var(--ink);
+}
+.more-card-body p{margin-bottom:14px;}
+.more-card-body p:last-child{margin-bottom:0;}
+.printable-tag{
+  display:inline-block;margin-top:14px;
+  font-weight:700;font-size:14px;
+  padding:10px 18px;border-radius:999px;
+}
+.printable-tag.blue{background:#D6EAF8;color:#1A6FA0;box-shadow:0 3px 0 #1A6FA0;}
+.printable-tag.green{background:#D5F5E3;color:#1E8449;box-shadow:0 3px 0 #1E8449;}
+.printable-tag.purple{background:#E8D5F5;color:#7B2D8B;box-shadow:0 3px 0 #7B2D8B;}
+.printable-tag.red{background:#FADBD8;color:#C0392B;box-shadow:0 3px 0 #C0392B;}
+.printable-tag.orange{background:#FDEBD0;color:#CA6F1E;box-shadow:0 3px 0 #CA6F1E;}
+
+/* ── SECTION VIEW ALL ── */
+.section-bc{background:rgb(249 249 249);}
+.tags-section{padding:20px 16px;}
+.tags-label{
+  font-size:15px;font-weight:800;margin-bottom:12px;
+}
+.tags-grid{display:flex;flex-wrap:wrap;gap:10px;}
+.tag{
+  display:inline-block;font-weight:700;font-size:14px;
+  padding:10px 18px;border-radius:999px;cursor:pointer;
+  border:none;font-family:'Buenos Aires',sans-serif;
+  transition:transform .08s ease;
+}
+.tag:active{transform:translateY(2px);box-shadow:none !important;}
+.tag.blue{background:#D6EAF8;color:#1A6FA0;box-shadow:0 3px 0 #1A6FA0;}
+.tag.green{background:#D5F5E3;color:#1E8449;box-shadow:0 3px 0 #1E8449;}
+.tag.purple{background:#E8D5F5;color:#7B2D8B;box-shadow:0 3px 0 #7B2D8B;}
+.tag.red{background:#FADBD8;color:#C0392B;box-shadow:0 3px 0 #C0392B;}
+.tag.orange{background:#FDEBD0;color:#CA6F1E;box-shadow:0 3px 0 #CA6F1E;}
+#sectionPrintablesCards{padding-bottom:32px;}
+
+.tagged-header{
+  padding:24px 16px 28px;
+  text-align:center;
+  font-size:24px;
+  font-weight:800;
+  line-height:1.3;
+}
+#tagPrintablesCards{padding-bottom:32px;}
+.detail-tag-wrap .printable-tag{cursor:pointer;}
+</style>
+</head>
+<body>
+
+<div class="diy-content">
+
+<div id="view-listing" class="view active">
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• HERO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<section class="hero">
+  <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782401079/Design_sans_titre_52_pr3lfa.png" alt="Imprimables â€“ ActivitÃ©s et fiches d'exercices Ã  tÃ©lÃ©charger pour les enfants !">
+</section>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• LISTING SECTION â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+
+<!-- Card 1 â€“ bubble time with Geoffrey -->
+<a class="printable-card" href="#bubble-time" data-id="bubble-time">
+<div class="photo-card">
+  <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782421811/Design_sans_titre_55_sewcro.png" alt="Bubble time with Geoffrey printable activity sheet">
+</div>
+<div class="card-text">
+  <h2 class="card-title">bubble time with Geoffrey</h2>
+  <p class="card-desc">Kids just love to blow bubbles and giraffes do, too! Geoffrey's spending time outside doingâ€¦</p>
+</div>
+</a>
+
+<!-- Card 2 â€“ Geoffrey's colorful bike ride -->
+<a class="printable-card" href="#geoffrey-bike" data-id="geoffrey-bike">
+<div class="photo-card">
+  <svg viewBox="0 0 390 265" xmlns="http://www.w3.org/2000/svg">
+    <rect width="390" height="265" fill="#F5E8E8"/>
+    <!-- red corner -->
+    <rect x="300" y="0" width="90" height="265" fill="#b52040"/>
+    <rect x="310" y="0" width="80" height="265" fill="#c42848"/>
+
+    <!-- paper -->
+    <g transform="rotate(-2,195,132)">
+      <rect x="20" y="12" width="270" height="240" rx="8" fill="#fff" filter="url(#sh2)"/>
+      <text x="145" y="36" font-family="Nunito,sans-serif" font-size="11" font-weight="800" fill="#222" text-anchor="middle">Geoffrey's coloâ€¦</text>
+      <text x="145" y="50" font-family="Nunito Sans,sans-serif" font-size="7" fill="#666" text-anchor="middle">Geoffrey's off on a bike-riding adventuâ€¦</text>
+      <text x="145" y="60" font-family="Nunito Sans,sans-serif" font-size="7" fill="#666" text-anchor="middle">so he has a lot to look at as he rideâ€“</text>
+
+      <!-- background arch bridge -->
+      <path d="M30 230 Q70 185 110 230" stroke="#d0d0d0" stroke-width="1.5" fill="none"/>
+      <path d="M95 230 Q135 185 175 230" stroke="#d0d0d0" stroke-width="1.5" fill="none"/>
+      <!-- bridge base -->
+      <line x1="30" y1="230" x2="175" y2="230" stroke="#ccc" stroke-width="1.5"/>
+      <!-- fence/railing lines -->
+      <line x1="50" y1="215" x2="50" y2="230" stroke="#ccc" stroke-width="1"/>
+      <line x1="70" y1="210" x2="70" y2="230" stroke="#ccc" stroke-width="1"/>
+      <line x1="90" y1="207" x2="90" y2="230" stroke="#ccc" stroke-width="1"/>
+      <line x1="110" y1="208" x2="110" y2="230" stroke="#ccc" stroke-width="1"/>
+      <line x1="130" y1="211" x2="130" y2="230" stroke="#ccc" stroke-width="1"/>
+      <line x1="150" y1="217" x2="150" y2="230" stroke="#ccc" stroke-width="1"/>
+      <!-- clouds -->
+      <ellipse cx="210" cy="85" rx="22" ry="11" fill="none" stroke="#ccc" stroke-width="1.2"/>
+      <ellipse cx="228" cy="82" rx="16" ry="10" fill="none" stroke="#ccc" stroke-width="1.2"/>
+      <ellipse cx="240" cy="94" rx="20" ry="12" fill="none" stroke="#ccc" stroke-width="1.2"/>
+      <ellipse cx="220" cy="140" rx="16" ry="8" fill="none" stroke="#ccc" stroke-width="1.2"/>
+      <ellipse cx="234" cy="138" rx="12" ry="7" fill="none" stroke="#ccc" stroke-width="1.2"/>
+
+      <!-- BIKE -->
+      <!-- rear wheel -->
+      <circle cx="80" cy="205" r="36" stroke="#333" stroke-width="2.2" fill="none"/>
+      <!-- spokes rear -->
+      <line x1="80" y1="169" x2="80" y2="241" stroke="#555" stroke-width="1.3"/>
+      <line x1="44" y1="205" x2="116" y2="205" stroke="#555" stroke-width="1.3"/>
+      <line x1="55" y1="180" x2="105" y2="230" stroke="#555" stroke-width="1.3"/>
+      <line x1="105" y1="180" x2="55" y2="230" stroke="#555" stroke-width="1.3"/>
+      <circle cx="80" cy="205" r="5" fill="#555"/>
+      <!-- front wheel -->
+      <circle cx="175" cy="205" r="36" stroke="#333" stroke-width="2.2" fill="none"/>
+      <line x1="175" y1="169" x2="175" y2="241" stroke="#555" stroke-width="1.3"/>
+      <line x1="139" y1="205" x2="211" y2="205" stroke="#555" stroke-width="1.3"/>
+      <line x1="150" y1="180" x2="200" y2="230" stroke="#555" stroke-width="1.3"/>
+      <line x1="200" y1="180" x2="150" y2="230" stroke="#555" stroke-width="1.3"/>
+      <circle cx="175" cy="205" r="5" fill="#555"/>
+      <!-- chain stay -->
+      <line x1="80" y1="205" x2="128" y2="168" stroke="#555" stroke-width="3.5"/>
+      <!-- seat stay -->
+      <line x1="80" y1="205" x2="108" y2="145" stroke="#555" stroke-width="3.5"/>
+      <!-- top tube -->
+      <line x1="108" y1="145" x2="155" y2="168" stroke="#555" stroke-width="3.5"/>
+      <!-- down tube -->
+      <line x1="128" y1="168" x2="155" y2="168" stroke="#555" stroke-width="3.5"/>
+      <!-- fork -->
+      <line x1="155" y1="168" x2="175" y2="205" stroke="#555" stroke-width="3.5"/>
+      <!-- seat post -->
+      <line x1="108" y1="145" x2="115" y2="122" stroke="#555" stroke-width="3.5"/>
+      <rect x="104" y="118" width="24" height="8" rx="4" fill="#222"/>
+      <!-- stem + handlebar -->
+      <line x1="155" y1="168" x2="160" y2="144" stroke="#555" stroke-width="3.5"/>
+      <line x1="150" y1="142" x2="170" y2="142" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+      <!-- pedal crank -->
+      <circle cx="128" cy="168" r="8" stroke="#444" stroke-width="2" fill="#fff"/>
+      <line x1="120" y1="173" x2="136" y2="163" stroke="#444" stroke-width="2.5"/>
+
+      <!-- Geoffrey on bike -->
+      <!-- body -->
+      <ellipse cx="122" cy="135" rx="22" ry="24" fill="#F5A020"/>
+      <!-- body spots -->
+      <ellipse cx="112" cy="130" rx="5" ry="7" fill="#d07800" opacity=".45"/>
+      <ellipse cx="130" cy="126" rx="6" ry="7" fill="#d07800" opacity=".45"/>
+      <text x="110" y="145" font-size="11" fill="#e53935">â˜…</text>
+      <text x="124" y="152" font-size="10" fill="#e53935">â˜…</text>
+      <!-- neck -->
+      <rect x="114" y="96" width="16" height="44" rx="7" fill="#F5A020"/>
+      <ellipse cx="118" cy="110" rx="4" ry="5" fill="#d07800" opacity=".4"/>
+      <!-- head -->
+      <ellipse cx="136" cy="84" rx="20" ry="16" fill="#F5A020"/>
+      <!-- helmet -->
+      <ellipse cx="136" cy="70" rx="21" ry="12" fill="#1565c0"/>
+      <rect x="117" y="74" width="38" height="9" rx="4.5" fill="#1a3a9a"/>
+      <!-- helmet stripe -->
+      <path d="M120 70 Q136 62 152 70" stroke="#fff" stroke-width="2.5" fill="none" opacity=".5"/>
+      <!-- snout -->
+      <ellipse cx="152" cy="91" rx="11" ry="8" fill="#e8980a"/>
+      <ellipse cx="149" cy="91" rx="3.2" ry="2.2" fill="#b06010" opacity=".4"/>
+      <ellipse cx="154" cy="92" rx="3" ry="2.2" fill="#b06010" opacity=".4"/>
+      <!-- eye -->
+      <circle cx="133" cy="82" r="6" fill="#fff" stroke="#ddd" stroke-width="0.5"/>
+      <circle cx="135" cy="82" r="3.8" fill="#111"/>
+      <circle cx="136" cy="80" r="1.5" fill="#fff"/>
+      <!-- arm to handlebar -->
+      <path d="M130 118 Q148 112 160 142" stroke="#F5A020" stroke-width="9" fill="none" stroke-linecap="round"/>
+      <!-- leg to pedal -->
+      <path d="M112" y1="148" d="M112 148 Q96 168 120 173" stroke="#F5A020" stroke-width="9" fill="none" stroke-linecap="round"/>
+      <path d="M112 150 Q96 168 120 173" stroke="#F5A020" stroke-width="9" fill="none" stroke-linecap="round"/>
+    </g>
+
+    <!-- crayons on right red area -->
+    <g transform="translate(308,155) rotate(-18)">
+      <rect x="0" y="0" width="12" height="55" rx="3.5" fill="#4caf50"/>
+      <rect x="0" y="0" width="12" height="9" rx="3.5" fill="#2e7d32"/>
+      <polygon points="0,55 12,55 6,70" fill="#1b5e20"/>
+    </g>
+    <g transform="translate(326,150) rotate(-2)">
+      <rect x="0" y="0" width="12" height="55" rx="3.5" fill="#1565c0"/>
+      <rect x="0" y="0" width="12" height="9" rx="3.5" fill="#0d47a1"/>
+      <polygon points="0,55 12,55 6,70" fill="#0a3070"/>
+    </g>
+    <g transform="translate(344,155) rotate(14)">
+      <rect x="0" y="0" width="12" height="55" rx="3.5" fill="#e65100"/>
+      <rect x="0" y="0" width="12" height="9" rx="3.5" fill="#bf360c"/>
+      <polygon points="0,55 12,55 6,70" fill="#8d2000"/>
+    </g>
+
+    <defs>
+      <filter id="sh2" x="-5%" y="-5%" width="115%" height="115%">
+        <feDropShadow dx="2" dy="3" stdDeviation="5" flood-color="#0003"/>
+      </filter>
+    </defs>
+  </svg>
+</div>
+<div class="card-text">
+  <h2 class="card-title">Geoffrey's colorful bike ride</h2>
+  <p class="card-desc">Have your little one send Geoffrey the Giraffe off on a bike trail that's filledâ€¦</p>
+</div>
+</a>
+
+<!-- Card 3 â€“ bee-you-tiful bug bracelets -->
+<a class="printable-card" href="#bug-bracelets" data-id="bug-bracelets">
+<div class="photo-card">
+  <svg viewBox="0 0 390 240" xmlns="http://www.w3.org/2000/svg">
+    <rect width="390" height="240" fill="#F5E8E8"/>
+    <!-- red corner -->
+    <rect x="300" y="0" width="90" height="240" fill="#b52040"/>
+    <rect x="310" y="0" width="80" height="240" fill="#c42848"/>
+
+    <!-- paper -->
+    <g transform="rotate(-2,180,120)">
+      <rect x="20" y="10" width="268" height="220" rx="8" fill="#fff" filter="url(#sh3)"/>
+      <text x="148" y="30" font-family="Nunito,sans-serif" font-size="11" font-weight="800" fill="#222" text-anchor="middle">bee-you-tiful bug bâ€¦</text>
+      <text x="148" y="43" font-family="Nunito Sans,sans-serif" font-size="6.8" fill="#666" text-anchor="middle">Color in the bee, butterfly, flowers and caterpillars.</text>
+      <text x="148" y="54" font-family="Nunito Sans,sans-serif" font-size="6.8" fill="#666" text-anchor="middle">ask a grown-up cut out the bracelet. Put them on and fasten the</text>
+      <text x="148" y="64" font-family="Nunito Sans,sans-serif" font-size="6.8" fill="#666" text-anchor="middle">You can tape it to make it even stronger. Now, it's ready to weaâ€¦</text>
+
+      <!-- bracelet strip with dashes -->
+      <rect x="30" y="78" width="240" height="62" rx="6" stroke="#bbb" stroke-width="1.5" stroke-dasharray="6,4" fill="#fff"/>
+
+      <!-- caterpillar (colorful) -->
+      <circle cx="52" cy="97" r="9" fill="#66bb6a"/>
+      <circle cx="67" cy="93" r="9" fill="#43a047"/>
+      <circle cx="82" cy="91" r="9" fill="#66bb6a"/>
+      <circle cx="51" cy="113" r="8" fill="#43a047"/>
+      <circle cx="66" cy="110" r="8" fill="#66bb6a"/>
+      <circle cx="81" cy="109" r="8" fill="#43a047"/>
+      <!-- head -->
+      <circle cx="45" cy="90" r="7" fill="#388e3c"/>
+      <circle cx="42" cy="87" r="2" fill="#111"/>
+      <circle cx="47" cy="87" r="2" fill="#111"/>
+      <!-- antennae -->
+      <line x1="42" y1="84" x2="38" y2="78" stroke="#111" stroke-width="1.5"/>
+      <line x1="47" y1="84" x2="51" y2="78" stroke="#111" stroke-width="1.5"/>
+      <circle cx="38" cy="77" r="2" fill="#111"/>
+      <circle cx="51" cy="77" r="2" fill="#111"/>
+
+      <!-- butterfly (red/pink) -->
+      <!-- upper wings -->
+      <ellipse cx="128" cy="98" rx="16" ry="26" fill="#e53935" opacity=".9" transform="rotate(-20,128,98)"/>
+      <ellipse cx="145" cy="103" rx="13" ry="22" fill="#c62828" opacity=".8" transform="rotate(18,145,103)"/>
+      <!-- lower wings smaller -->
+      <ellipse cx="123" cy="118" rx="11" ry="16" fill="#e53935" opacity=".75" transform="rotate(15,123,118)"/>
+      <ellipse cx="148" cy="120" rx="10" ry="14" fill="#c62828" opacity=".7" transform="rotate(-10,148,120)"/>
+      <!-- wing spots -->
+      <circle cx="125" cy="95" r="5" fill="#fdd835" opacity=".85"/>
+      <circle cx="132" cy="110" r="4" fill="#fdd835" opacity=".8"/>
+      <circle cx="146" cy="102" r="4" fill="#fdd835" opacity=".8"/>
+      <!-- body -->
+      <ellipse cx="136" cy="109" rx="4" ry="14" fill="#1a1a1a"/>
+      <!-- head -->
+      <circle cx="136" cy="94" r="4.5" fill="#111"/>
+      <line x1="134" y1="90" x2="129" y2="82" stroke="#111" stroke-width="1.5"/>
+      <line x1="138" y1="90" x2="143" y2="82" stroke="#111" stroke-width="1.5"/>
+      <circle cx="129" cy="81" r="2.5" fill="#111"/>
+      <circle cx="143" cy="81" r="2.5" fill="#111"/>
+
+      <!-- BEE (colored fully) -->
+      <!-- wings -->
+      <ellipse cx="198" cy="84" rx="20" ry="12" fill="#b3e5fc" opacity=".85"/>
+      <ellipse cx="218" cy="88" rx="17" ry="11" fill="#b3e5fc" opacity=".75"/>
+      <!-- body -->
+      <ellipse cx="208" cy="110" rx="17" ry="22" fill="#fdd835"/>
+      <!-- stripes -->
+      <rect x="192" y="100" width="34" height="9" rx="4" fill="#212121"/>
+      <rect x="192" y="115" width="34" height="9" rx="4" fill="#212121"/>
+      <!-- face area -->
+      <ellipse cx="208" cy="128" rx="10" ry="7" fill="#e8c000"/>
+      <!-- eyes -->
+      <circle cx="203" cy="127" r="4" fill="#fff"/>
+      <circle cx="213" cy="127" r="4" fill="#fff"/>
+      <circle cx="204" cy="127" r="2.2" fill="#111"/>
+      <circle cx="214" cy="127" r="2.2" fill="#111"/>
+      <circle cx="204.8" cy="126" r=".9" fill="#fff"/>
+      <circle cx="214.8" cy="126" r=".9" fill="#fff"/>
+      <!-- stinger -->
+      <polygon points="202,133 214,133 208,140" fill="#e8c000"/>
+      <!-- antennae -->
+      <line x1="202" y1="88" x2="196" y2="76" stroke="#212121" stroke-width="2"/>
+      <line x1="214" y1="88" x2="220" y2="76" stroke="#212121" stroke-width="2"/>
+      <circle cx="196" cy="75" r="3.5" fill="#212121"/>
+      <circle cx="220" cy="75" r="3.5" fill="#212121"/>
+
+      <!-- flowers top right -->
+      <g transform="translate(254,55)">
+        <circle cx="0" cy="0" r="5.5" fill="#fdd835"/>
+        <circle cx="0" cy="-13" r="5.5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+        <circle cx="11" cy="-6" r="5.5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+        <circle cx="11" cy="6" r="5.5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+        <circle cx="0" cy="13" r="5.5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+        <circle cx="-11" cy="6" r="5.5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+        <circle cx="-11" cy="-6" r="5.5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+      </g>
+      <!-- flower bottom right -->
+      <g transform="translate(260,155)">
+        <circle cx="0" cy="0" r="5" fill="#fdd835"/>
+        <circle cx="0" cy="-12" r="5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+        <circle cx="10" cy="-6" r="5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+        <circle cx="10" cy="6" r="5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+        <circle cx="0" cy="12" r="5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+        <circle cx="-10" cy="6" r="5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+        <circle cx="-10" cy="-6" r="5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+      </g>
+      <!-- flower bottom left -->
+      <g transform="translate(35,175)">
+        <circle cx="0" cy="0" r="5" fill="#fdd835"/>
+        <circle cx="0" cy="-12" r="5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+        <circle cx="10" cy="-6" r="5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+        <circle cx="10" cy="6" r="5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+        <circle cx="0" cy="12" r="5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+        <circle cx="-10" cy="6" r="5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+        <circle cx="-10" cy="-6" r="5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+      </g>
+    </g>
+
+    <!-- crayons on red bg -->
+    <g transform="translate(308,150) rotate(-14)">
+      <rect x="0" y="0" width="12" height="55" rx="3.5" fill="#26a69a"/>
+      <rect x="0" y="0" width="12" height="9" rx="3.5" fill="#00796b"/>
+      <polygon points="0,55 12,55 6,70" fill="#004d40"/>
+    </g>
+    <g transform="translate(326,148) rotate(4)">
+      <rect x="0" y="0" width="12" height="55" rx="3.5" fill="#4caf50"/>
+      <rect x="0" y="0" width="12" height="9" rx="3.5" fill="#2e7d32"/>
+      <polygon points="0,55 12,55 6,70" fill="#1b5e20"/>
+    </g>
+
+    <defs>
+      <filter id="sh3" x="-5%" y="-5%" width="115%" height="115%">
+        <feDropShadow dx="2" dy="3" stdDeviation="5" flood-color="#0003"/>
+      </filter>
+    </defs>
+  </svg>
+</div>
+<div class="card-text">
+  <h2 class="card-title">bee-you-tiful bug bracelets</h2>
+  <p class="card-desc">Let's make summertime jewelry that really creates a buzz! Let the littles color in theâ€¦</p>
+</div>
+</a>
+
+<!-- View All -->
+<div class="view-all">
+  <button class="btn-all" type="button" data-section="geoffrey">View All</button>
+</div>
+
+<section class="hero">
+  <img src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782402307/Design_sans_titre_53_alkevq.png" alt="ActivitÃ©s imprimables de nos amis â€“ Des activitÃ©s amusantes et des fiches Ã  imprimer de vos personnages et marques prÃ©fÃ©rÃ©s !">
+</section>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• LISTING SECTION 2 â€“ Friends printables â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+
+<!-- Card 1 â€“ Spider-Man web adventure -->
+<a class="printable-card" href="#spider-man-web" data-id="spider-man-web">
+<div class="photo-card">
+  <svg viewBox="0 0 390 220" xmlns="http://www.w3.org/2000/svg">
+    <rect width="390" height="220" fill="#E8EEF8"/>
+    <rect x="300" y="0" width="90" height="220" fill="#c62828"/>
+    <rect x="310" y="0" width="80" height="220" fill="#d32f2f"/>
+    <g transform="rotate(-3,195,110)">
+      <rect x="20" y="12" width="270" height="196" rx="8" fill="#fff"/>
+      <text x="155" y="36" font-family="Buenos Aires,sans-serif" font-size="12" font-weight="800" fill="#222" text-anchor="middle">Spider-Man web maze</text>
+      <text x="155" y="50" font-family="Buenos Aires,sans-serif" font-size="7.5" fill="#666" text-anchor="middle">Help Spider-Man swing through the city! Trace the web lines</text>
+      <text x="155" y="61" font-family="Buenos Aires,sans-serif" font-size="7.5" fill="#666" text-anchor="middle">and color in the buildings, sky and superhero suit.</text>
+      <circle cx="155" cy="120" r="55" stroke="#bbb" stroke-width="1.5" fill="none"/>
+      <line x1="155" y1="65" x2="155" y2="175" stroke="#bbb" stroke-width="1.2"/>
+      <line x1="100" y1="120" x2="210" y2="120" stroke="#bbb" stroke-width="1.2"/>
+      <line x1="116" y1="81" x2="194" y2="159" stroke="#bbb" stroke-width="1.2"/>
+      <line x1="194" y1="81" x2="116" y2="159" stroke="#bbb" stroke-width="1.2"/>
+      <ellipse cx="155" cy="118" rx="18" ry="22" fill="#e53935" opacity=".15"/>
+      <circle cx="155" cy="108" r="14" fill="#1565c0" opacity=".2"/>
+    </g>
+    <g transform="translate(210,148) rotate(-12)">
+      <rect width="11" height="50" rx="3" fill="#1565c0"/>
+      <polygon points="0,50 11,50 5.5,64" fill="#0d47a1"/>
+    </g>
+    <g transform="translate(228,152) rotate(6)">
+      <rect width="11" height="50" rx="3" fill="#e53935"/>
+      <polygon points="0,50 11,50 5.5,64" fill="#b71c1c"/>
+    </g>
+  </svg>
+</div>
+<div class="card-text">
+  <h2 class="card-title">Spider-Man web adventure</h2>
+  <p class="card-desc">Swing into action with a web maze and coloring sheet starring everyone's favorite neighborhood hero!</p>
+</div>
+</a>
+
+<!-- Card 2 â€“ Hello Kitty tea party -->
+<a class="printable-card" href="#hello-kitty-tea" data-id="hello-kitty-tea">
+<div class="photo-card">
+  <svg viewBox="0 0 390 220" xmlns="http://www.w3.org/2000/svg">
+    <rect width="390" height="220" fill="#FFF0F5"/>
+    <rect x="300" y="0" width="90" height="220" fill="#e91e8c"/>
+    <rect x="310" y="0" width="80" height="220" fill="#f06292"/>
+    <g transform="rotate(-2,195,110)">
+      <rect x="20" y="12" width="270" height="196" rx="8" fill="#fff"/>
+      <text x="155" y="36" font-family="Buenos Aires,sans-serif" font-size="12" font-weight="800" fill="#222" text-anchor="middle">Hello Kitty tea party</text>
+      <text x="155" y="50" font-family="Buenos Aires,sans-serif" font-size="7.5" fill="#666" text-anchor="middle">Color the cups, treats and bows, then cut out the party</text>
+      <text x="155" y="61" font-family="Buenos Aires,sans-serif" font-size="7.5" fill="#666" text-anchor="middle">hats for a super-cute tea-time craft!</text>
+      <ellipse cx="90" cy="130" rx="28" ry="24" fill="none" stroke="#ccc" stroke-width="1.5"/>
+      <ellipse cx="90" cy="118" rx="22" ry="18" fill="#fce4ec" opacity=".5"/>
+      <circle cx="78" cy="112" r="3" fill="#111"/>
+      <circle cx="102" cy="112" r="3" fill="#111"/>
+      <ellipse cx="90" cy="122" rx="5" ry="3" fill="#f48fb1"/>
+      <polygon points="68,100 78,88 88,100" fill="#e91e8c"/>
+      <rect x="140" y="145" width="50" height="8" rx="4" fill="none" stroke="#ccc" stroke-width="1.5"/>
+      <ellipse cx="165" cy="140" rx="28" ry="10" fill="none" stroke="#ccc" stroke-width="1.5"/>
+      <circle cx="220" cy="125" r="18" fill="none" stroke="#ccc" stroke-width="1.5"/>
+      <circle cx="220" cy="125" r="10" fill="#fff3e0" opacity=".6"/>
+    </g>
+    <g transform="translate(215,148) rotate(-18)">
+      <rect width="11" height="50" rx="3" fill="#f06292"/>
+      <polygon points="0,50 11,50 5.5,64" fill="#c2185b"/>
+    </g>
+    <g transform="translate(233,150) rotate(4)">
+      <rect width="11" height="50" rx="3" fill="#fdd835"/>
+      <polygon points="0,50 11,50 5.5,64" fill="#f9a825"/>
+    </g>
+  </svg>
+</div>
+<div class="card-text">
+  <h2 class="card-title">Hello Kitty tea party</h2>
+  <p class="card-desc">Plan a purr-fect tea party with printable coloring pages and cut-out party hats!</p>
+</div>
+</a>
+
+<!-- Card 3 â€“ Paw Patrol badge coloring -->
+<a class="printable-card" href="#paw-patrol-badges" data-id="paw-patrol-badges">
+<div class="photo-card">
+  <svg viewBox="0 0 390 220" xmlns="http://www.w3.org/2000/svg">
+    <rect width="390" height="220" fill="#E8F4FC"/>
+    <rect x="300" y="0" width="90" height="220" fill="#1565c0"/>
+    <rect x="310" y="0" width="80" height="220" fill="#1976d2"/>
+    <g transform="rotate(-2,195,110)">
+      <rect x="20" y="12" width="270" height="196" rx="8" fill="#fff"/>
+      <text x="155" y="36" font-family="Buenos Aires,sans-serif" font-size="12" font-weight="800" fill="#222" text-anchor="middle">Paw Patrol badge coloring</text>
+      <text x="155" y="50" font-family="Buenos Aires,sans-serif" font-size="7.5" fill="#666" text-anchor="middle">Color each pup badge, then cut them out and pin them on</text>
+      <text x="155" y="61" font-family="Buenos Aires,sans-serif" font-size="7.5" fill="#666" text-anchor="middle">for your very own rescue team!</text>
+      <polygon points="80,95 95,130 65,130" fill="none" stroke="#bbb" stroke-width="1.5"/>
+      <circle cx="80" cy="108" r="12" fill="#ff9800" opacity=".15"/>
+      <polygon points="130,95 145,130 115,130" fill="none" stroke="#bbb" stroke-width="1.5"/>
+      <circle cx="130" cy="108" r="12" fill="#4caf50" opacity=".15"/>
+      <polygon points="180,95 195,130 165,130" fill="none" stroke="#bbb" stroke-width="1.5"/>
+      <circle cx="180" cy="108" r="12" fill="#f44336" opacity=".15"/>
+      <polygon points="230,95 245,130 215,130" fill="none" stroke="#bbb" stroke-width="1.5"/>
+      <circle cx="230" cy="108" r="12" fill="#2196f3" opacity=".15"/>
+    </g>
+    <g transform="translate(212,148) rotate(-10)">
+      <rect width="11" height="50" rx="3" fill="#ff9800"/>
+      <polygon points="0,50 11,50 5.5,64" fill="#e65100"/>
+    </g>
+    <g transform="translate(230,150) rotate(8)">
+      <rect width="11" height="50" rx="3" fill="#4caf50"/>
+      <polygon points="0,50 11,50 5.5,64" fill="#2e7d32"/>
+    </g>
+  </svg>
+</div>
+<div class="card-text">
+  <h2 class="card-title">Paw Patrol badge coloring</h2>
+  <p class="card-desc">Ready for action? Color and cut out pup badges to build your own rescue squad!</p>
+</div>
+</a>
+
+<!-- View All -->
+<div class="view-all">
+  <button class="btn-all" type="button" data-section="friends">View All</button>
+</div>
+
+</div>
+
+<div id="view-section-all" class="view">
+  <section class="hero">
+    <img id="sectionHeroImg" src="" alt="">
+  </section>
+
+  <nav class="bc section-bc">
+    <a href="#">Home</a> &gt; <a href="#" id="backFromSection">Printables</a>
+  </nav>
+
+  <div class="tags-section">
+    <div class="tags-label">Tags:</div>
+    <div class="tags-grid" id="sectionTagsGrid"></div>
+  </div>
+
+  <div id="sectionPrintablesCards"></div>
+</div>
+
+<div id="view-tag" class="view">
+  <section class="hero">
+    <img id="tagHeroImg" src="" alt="">
+  </section>
+
+  <nav class="bc section-bc">
+    <a href="#">Home</a> &gt; <a href="#" id="backFromTagPrintables">Printables</a> &gt; <span id="tagBreadcrumbName"></span>
+  </nav>
+
+  <h1 class="tagged-header" id="taggedHeader">Tagged with:</h1>
+
+  <div id="tagPrintablesCards"></div>
+</div>
+
+<div id="view-detail" class="view">
+
+<section class="detail-top">
+<nav class="bc">
+  <a href="#">Home</a> &gt; <a href="#" id="backToPrintables">Printables</a> &gt; <span id="detailBreadcrumbTitle"></span>
+</nav>
+
+<h1 class="detail-h" id="detailTitle"></h1>
+<div class="detail-tag-wrap">
+  <span class="printable-tag" id="detailTag"></span>
+</div>
+</section>
+
+<div class="detail-img" id="detailImg"></div>
+
+<div class="detail-body" id="detailBody"></div>
+<div class="detail-sep"></div>
+<button class="btn-dl" onclick="alert('Downloading your printable!')">download printable</button>
+
+<section class="more-section" aria-label="More printables">
+  <div class="more-section-head">
+    <h2 class="more-section-title">Check Out More!</h2>
+    <a href="#" class="more-see-all" id="seeAllPrintables">See All</a>
+  </div>
+  <div id="morePrintablesCards"></div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="article-newsletter" aria-label="Newsletter signup">
+  <h2>Sign Up for Fun!</h2>
+  <p class="article-newsletter-intro">Get exclusive updates on new toys, playtime ideas, and reviews!</p>
+  <form id="article-signup-form">
+    <div class="signup-row">
+      <input type="email" id="article-email-input" placeholder="Enter email" required aria-label="Email address">
+      <button type="submit">Sign Up</button>
+    </div>
+    <p class="signup-disclaimer">By signing up for our newsletter, you agree to our <a href="#">terms &amp; conditions</a> &amp; <a href="#">privacy policy</a>.</p>
+    <p class="signup-confirm" id="article-signup-confirm" role="status"></p>
+  </form>
+</section>
+
+<div style="height: 80px"></div>
+
+</div>
+
+</div>
+
+<script>
+var SECTIONS = {
+  geoffrey: {
+    hero: 'https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782401079/Design_sans_titre_52_pr3lfa.png',
+    heroAlt: 'Imprimables - Activites et fiches d\'exercices a telecharger pour les enfants !',
+    printableIds: ['bubble-time', 'geoffrey-bike', 'bug-bracelets']
+  },
+  friends: {
+    hero: 'https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782402307/Design_sans_titre_53_alkevq.png',
+    heroAlt: 'Activites imprimables de nos amis',
+    printableIds: ['spider-man-web', 'hello-kitty-tea', 'paw-patrol-badges']
+  }
+};
+
+var PRINTABLES = {
+  'bubble-time': {
+    title: 'bubble time with Geoffrey',
+    tag: 'Geoffrey',
+    tagColor: 'green',
+    section: 'geoffrey',
+    body: [
+      'Kids just love to blow bubbles and giraffes do, too! Geoffrey\'s spending time outside blowing bubbles in this fun coloring sheet - color the scene, people, birds and trees, then pick the perfect bubble colors.',
+      'Parents, use <strong>#ShareThePlay</strong> on social media so we can see how they did!'
+    ]
+  },
+  'geoffrey-bike': {
+    title: 'Geoffrey\'s colorful bike ride',
+    tag: 'Geoffrey',
+    tagColor: 'green',
+    section: 'geoffrey',
+    body: [
+      'Have your little one send Geoffrey the Giraffe off on a bike trail that\'s filled with bridges, clouds and plenty of spots to color in along the way.',
+      'Parents, use <strong>#ShareThePlay</strong> on social media so we can see how they did!'
+    ]
+  },
+  'bug-bracelets': {
+    title: 'bee-you-tiful bug bracelets',
+    tag: 'Crafts',
+    tagColor: 'orange',
+    section: 'geoffrey',
+    body: [
+      'Let\'s make summertime jewelry that really creates a buzz! Let the littles color in the butterfly and cutie-pie bee, along with the caterpillars and flowers. Parents, snip along the lines, and help fasten the tabs. Bee-you-tiful!',
+      'Parents, use <strong>#ShareThePlay</strong> on social media so we can see how they did!'
+    ]
+  },
+  'spider-man-web': {
+    title: 'Spider-Man web adventure',
+    tag: 'Spider-Man',
+    tagColor: 'red',
+    section: 'friends',
+    body: [
+      'Swing into action with a web maze and coloring sheet starring everyone\'s favorite neighborhood hero! Trace the web lines and color in the city skyline and superhero suit.',
+      'Parents, use <strong>#ShareThePlay</strong> on social media so we can see how they did!'
+    ]
+  },
+  'hello-kitty-tea': {
+    title: 'Hello Kitty tea party',
+    tag: 'Hello Kitty',
+    tagColor: 'purple',
+    section: 'friends',
+    body: [
+      'Plan a purr-fect tea party with printable coloring pages and cut-out party hats! Color the cups, treats and bows, then craft together for tea-time fun.',
+      'Parents, use <strong>#ShareThePlay</strong> on social media so we can see how they did!'
+    ]
+  },
+  'paw-patrol-badges': {
+    title: 'Paw Patrol badge coloring',
+    tag: 'PAW Patrol',
+    tagColor: 'blue',
+    section: 'friends',
+    body: [
+      'Ready for action? Color each pup badge, cut them out and pin them on to build your very own rescue squad!',
+      'Parents, use <strong>#ShareThePlay</strong> on social media so we can see how they did!'
+    ]
+  }
+};
+
+var PRINTABLE_IDS = Object.keys(PRINTABLES);
+
+var viewListing = document.getElementById('view-listing');
+var viewSectionAll = document.getElementById('view-section-all');
+var viewTag = document.getElementById('view-tag');
+var viewDetail = document.getElementById('view-detail');
+var currentSectionId = null;
+var currentTagName = '';
+
+function hideAllViews() {
+  viewListing.classList.remove('active');
+  viewSectionAll.classList.remove('active');
+  viewTag.classList.remove('active');
+  viewDetail.classList.remove('active');
+}
+
+function getListingCard(id) {
+  return document.querySelector('#view-listing .printable-card[data-id="' + id + '"]');
+}
+
+function getCardDesc(data) {
+  var text = data.body[0].replace(/<[^>]+>/g, '');
+  return text.length > 100 ? text.slice(0, 100) + '...' : text;
+}
+
+function getSectionTags(sectionId) {
+  var tags = [];
+  var seen = {};
+
+  SECTIONS[sectionId].printableIds.forEach(function(id) {
+    var printable = PRINTABLES[id];
+    if (!seen[printable.tag]) {
+      seen[printable.tag] = true;
+      tags.push({ name: printable.tag, color: printable.tagColor });
+    }
+  });
+
+  return tags;
+}
+
+function renderPrintableCards(container, ids, cardClass) {
+  container.innerHTML = ids.map(function(id) {
+    var data = PRINTABLES[id];
+    var card = getListingCard(id);
+    var photoHtml = card ? card.querySelector('.photo-card').innerHTML : '';
+
+    return '<a class="printable-card ' + cardClass + '" href="#' + id + '" data-id="' + id + '">' +
+      '<div class="photo-card">' + photoHtml + '</div>' +
+      '<div class="card-text">' +
+        '<h2 class="card-title">' + data.title + '</h2>' +
+        '<p class="card-desc">' + getCardDesc(data) + '</p>' +
+        '<span class="printable-tag ' + data.tagColor + '">' + data.tag + '</span>' +
+      '</div>' +
+    '</a>';
+  }).join('');
+
+  container.querySelectorAll('.' + cardClass).forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      e.preventDefault();
+      openDetail(card.dataset.id);
+    });
+  });
+}
+
+function renderSectionTags(sectionId) {
+  var grid = document.getElementById('sectionTagsGrid');
+  var tags = getSectionTags(sectionId);
+
+  grid.innerHTML = tags.map(function(tag) {
+    return '<button type="button" class="tag ' + tag.color + '" data-tag="' + tag.name + '">' + tag.name + '</button>';
+  }).join('');
+
+  grid.querySelectorAll('.tag').forEach(function(button) {
+    button.addEventListener('click', function() {
+      openTagView(sectionId, button.dataset.tag);
+    });
+  });
+}
+
+function renderSectionCards(sectionId) {
+  renderPrintableCards(
+    document.getElementById('sectionPrintablesCards'),
+    SECTIONS[sectionId].printableIds,
+    'section-card'
+  );
+}
+
+function renderTagCards(sectionId, tagName) {
+  var ids = SECTIONS[sectionId].printableIds.filter(function(id) {
+    return PRINTABLES[id].tag === tagName;
+  });
+  renderPrintableCards(document.getElementById('tagPrintablesCards'), ids, 'tag-card');
+}
+
+function openTagView(sectionId, tagName, replaceHistory) {
+  var section = SECTIONS[sectionId];
+  if (!section || !tagName) return;
+
+  currentSectionId = sectionId;
+  currentTagName = tagName;
+
+  document.getElementById('tagHeroImg').src = section.hero;
+  document.getElementById('tagHeroImg').alt = section.heroAlt;
+  document.getElementById('taggedHeader').textContent = 'Tagged with: ' + tagName;
+  document.getElementById('tagBreadcrumbName').textContent = tagName;
+  renderTagCards(sectionId, tagName);
+
+  hideAllViews();
+  viewTag.classList.add('active');
+  window.scrollTo(0, 0);
+
+  var hash = '#tag/' + sectionId + '/' + encodeURIComponent(tagName);
+  var state = { view: 'tag', section: sectionId, tag: tagName };
+  if (replaceHistory) history.replaceState(state, '', hash);
+  else history.pushState(state, '', hash);
+}
+
+function openSectionAll(sectionId, replaceHistory) {
+  var section = SECTIONS[sectionId];
+  if (!section) return;
+
+  currentSectionId = sectionId;
+  currentTagName = '';
+
+  document.getElementById('sectionHeroImg').src = section.hero;
+  document.getElementById('sectionHeroImg').alt = section.heroAlt;
+  renderSectionTags(sectionId);
+  renderSectionCards(sectionId);
+
+  hideAllViews();
+  viewSectionAll.classList.add('active');
+  window.scrollTo(0, 0);
+
+  var state = { view: 'section', section: sectionId };
+  if (replaceHistory) history.replaceState(state, '', '#section/' + sectionId);
+  else history.pushState(state, '', '#section/' + sectionId);
+}
+
+function showListing() {
+  hideAllViews();
+  viewListing.classList.add('active');
+  currentSectionId = null;
+  currentTagName = '';
+  window.scrollTo(0, 0);
+  history.pushState({ view: 'listing' }, '', window.location.pathname + window.location.search);
+}
+
+function renderMoreCards(currentId) {
+  var container = document.getElementById('morePrintablesCards');
+  var startIndex = PRINTABLE_IDS.indexOf(currentId);
+  var relatedIds = [];
+  var i;
+
+  for (i = 1; i <= 3; i++) {
+    relatedIds.push(PRINTABLE_IDS[(startIndex + i) % PRINTABLE_IDS.length]);
+  }
+
+  container.innerHTML = relatedIds.map(function(id) {
+    var data = PRINTABLES[id];
+    var card = getListingCard(id);
+    var photoHtml = card ? card.querySelector('.photo-card').innerHTML : '';
+    var bodyHtml = data.body.map(function(p) {
+      return '<p>' + p + '</p>';
+    }).join('');
+
+    return '<a class="printable-card more-card" href="#' + id + '" data-id="' + id + '">' +
+      '<div class="photo-card">' + photoHtml + '</div>' +
+      '<div class="card-text">' +
+        '<h2 class="card-title">' + data.title + '</h2>' +
+        '<div class="more-card-body">' + bodyHtml + '</div>' +
+        '<span class="printable-tag ' + data.tagColor + '">' + data.tag + '</span>' +
+      '</div>' +
+    '</a>';
+  }).join('');
+
+  container.querySelectorAll('.more-card').forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      e.preventDefault();
+      openDetail(card.dataset.id);
+    });
+  });
+}
+
+function openDetail(id, replaceHistory) {
+  var data = PRINTABLES[id];
+  var card = getListingCard(id);
+  if (!data || !card) return;
+
+  if (!viewSectionAll.classList.contains('active') && !viewTag.classList.contains('active')) {
+    currentSectionId = null;
+    currentTagName = '';
+  }
+
+  document.getElementById('detailTitle').textContent = data.title;
+  document.getElementById('detailBreadcrumbTitle').textContent = data.title;
+  var detailTag = document.getElementById('detailTag');
+  detailTag.textContent = data.tag;
+  detailTag.className = 'printable-tag ' + data.tagColor;
+  detailTag.onclick = function() {
+    openTagView(data.section, data.tag);
+  };
+  document.getElementById('detailImg').innerHTML = card.querySelector('.photo-card').innerHTML;
+  document.getElementById('detailBody').innerHTML = data.body.map(function(p) {
+    return '<p>' + p + '</p>';
+  }).join('');
+  renderMoreCards(id);
+
+  hideAllViews();
+  viewDetail.classList.add('active');
+  window.scrollTo(0, 0);
+  var state = { view: 'detail', id: id };
+  if (replaceHistory) history.replaceState(state, '', '#' + id);
+  else history.pushState(state, '', '#' + id);
+}
+
+document.querySelectorAll('#view-listing .printable-card').forEach(function(card) {
+  card.addEventListener('click', function(e) {
+    e.preventDefault();
+    openDetail(card.dataset.id);
+  });
+});
+
+document.querySelectorAll('[data-section]').forEach(function(button) {
+  button.addEventListener('click', function() {
+    openSectionAll(button.dataset.section);
+  });
+});
+
+document.getElementById('backFromSection').addEventListener('click', function(e) {
+  e.preventDefault();
+  showListing();
+});
+
+document.getElementById('backFromTagPrintables').addEventListener('click', function(e) {
+  e.preventDefault();
+  if (currentSectionId) openSectionAll(currentSectionId);
+  else showListing();
+});
+
+document.getElementById('backToPrintables').addEventListener('click', function(e) {
+  e.preventDefault();
+  if (currentTagName && currentSectionId) {
+    openTagView(currentSectionId, currentTagName);
+  } else if (currentSectionId) {
+    openSectionAll(currentSectionId);
+  } else {
+    showListing();
+  }
+});
+
+document.getElementById('seeAllPrintables').addEventListener('click', function(e) {
+  e.preventDefault();
+  var currentId = location.hash.slice(1);
+  if (PRINTABLES[currentId]) {
+    openSectionAll(PRINTABLES[currentId].section);
+  } else if (currentSectionId) {
+    openSectionAll(currentSectionId);
+  } else {
+    showListing();
+  }
+});
+
+function routeFromHash() {
+  var hash = location.hash.slice(1);
+  if (!hash) {
+    hideAllViews();
+    viewListing.classList.add('active');
+    currentSectionId = null;
+    currentTagName = '';
+    return;
+  }
+
+  if (hash.indexOf('tag/') === 0) {
+    var tagParts = hash.split('/');
+    var tagSectionId = tagParts[1];
+    var tagName = tagParts[2] ? decodeURIComponent(tagParts[2]) : '';
+    if (SECTIONS[tagSectionId] && tagName) {
+      openTagView(tagSectionId, tagName, true);
+      return;
+    }
+  }
+
+  if (hash.indexOf('section/') === 0) {
+    var parts = hash.split('/');
+    var sectionId = parts[1];
+    var legacyTag = parts[2] ? decodeURIComponent(parts[2]) : '';
+    if (SECTIONS[sectionId]) {
+      if (legacyTag) openTagView(sectionId, legacyTag, true);
+      else openSectionAll(sectionId, true);
+      return;
+    }
+  }
+
+  if (PRINTABLES[hash]) {
+    openDetail(hash, true);
+    return;
+  }
+
+  hideAllViews();
+  viewListing.classList.add('active');
+  currentSectionId = null;
+  currentTagName = '';
+}
+
+window.addEventListener('popstate', routeFromHash);
+
+routeFromHash();
+
+document.getElementById('article-signup-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var input = document.getElementById('article-email-input');
+  var confirm = document.getElementById('article-signup-confirm');
+  var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
+  if (valid) {
+    confirm.textContent = "You're signed up! Check your inbox to confirm.";
+    input.value = '';
+  } else {
+    confirm.textContent = 'Please enter a valid email address.';
+  }
+});
+</script>
+<script src="site-menu.js"></script>
+<script src="site-footer.js"></script>
+<script src="diy-shell.js"></script>
+<script src="cart-drawer.js"></script>
+<script src="signup-drawer.js"></script>
+<script src="auth-links.js"></script>
+</body>
+</html>

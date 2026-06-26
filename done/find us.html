@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -483,379 +483,9 @@
     }
   }
 
-  /* ── FOOTER ── */
-
-  footer {
-    background: linear-gradient(180deg, var(--trus-blue) 0%, var(--trus-blue) 100%);
-    padding: 40px 0 32px 24px;
-    position: relative;
-    color: var(--white);
-    font-family: 'Buenos Aires', sans-serif;
-  }
-
-  .footer-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-right: 24px;
-  }
-
-  .footer-top {
-    position: relative;
-    padding-right: 110px;
-  }
-
-  .footer-grid {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .footer-grid section {
-    margin-bottom: 36px;
-  }
-
-  .footer-grid .newsletter {
-    margin-bottom: 12px;
-  }
-
-  .footer-grid section:last-child {
-    margin-bottom: 0;
-  }
-
-  .footer-bottom {
-    margin-top: 36px;
-  }
-
-  .footer-brand {
-    text-align: center;
-  }
-
-  .mascot {
-    position: absolute;
-    top: 28px;
-    right: 0;
-    width: 300px;
-    height: auto;
-    opacity: 0.95;
-  }
-
-  h2.section-title {
-    font-size: 30px;
-    font-weight: 800;
-    margin: 0 0 22px 0;
-    letter-spacing: -0.5px;
-  }
-
-  ul.link-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  ul.link-list li {
-    margin-bottom: 26px;
-  }
-
-  ul.link-list li:last-child {
-    margin-bottom: 0;
-  }
-
-  ul.link-list a {
-    color: var(--white);
-    text-decoration: none;
-    font-size: 22px;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    transition: opacity 0.15s ease;
-  }
-
-  ul.link-list a:hover,
-  ul.link-list a:focus-visible {
-    opacity: 0.75;
-  }
-
-  ul.link-list a:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 4px;
-  }
-
-  .heart-icon {
-    flex: none;
-  }
-
-  .newsletter {
-    margin-bottom: 0;
-  }
-
-  .newsletter p {
-    font-size: 19px;
-    line-height: 1.4;
-    margin: 0 0 22px 0;
-  }
-
-  .signup-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
-    flex-wrap: nowrap;
-  }
-
-  .signup-row input[type="email"] {
-    width: 290px;
-    height: 49px;
-    flex: 0 0 290px;
-    padding: 0 18px;
-    border-radius: 10px;
-    border: none;
-    font-size: 18px;
-    color: #333;
-    background: var(--white);
-    box-sizing: border-box;
-  }
-
-  .signup-row input[type="email"]::placeholder {
-    color: #6b6b6b;
-  }
-
-  .signup-row button {
-    width: 89px;
-    height: 49px;
-    flex: 0 0 89px;
-    padding: 0;
-    border-radius: 10px;
-    border: 2px solid var(--white);
-    background: transparent;
-    color: var(--white);
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    transition: background 0.15s ease, color 0.15s ease;
-  }
-
-  .signup-row button:hover,
-  .signup-row button:focus-visible {
-    background: var(--white);
-    color: var(--trus-blue);
-  }
-
-  .signup-row button:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 3px;
-  }
-
-  .signup-disclaimer {
-    font-size: 14px;
-    line-height: 1.5;
-    margin: 0;
-    opacity: 0.95;
-  }
-
-  .signup-disclaimer a {
-    color: var(--white);
-    text-decoration: underline;
-  }
-
-  .signup-confirm {
-    font-size: 14px;
-    margin: 8px 0 0;
-    min-height: 0;
-  }
-
-  .social-row {
-    display: flex;
-    justify-content: center;
-    gap: 26px;
-    margin: 30px 0 18px;
-    flex-wrap: wrap;
-  }
-
-  .social-row a {
-    color: var(--white);
-    display: flex;
-    transition: opacity 0.15s ease;
-  }
-
-  .social-row a:hover,
-  .social-row a:focus-visible {
-    opacity: 0.7;
-  }
-
-  .social-row svg {
-    width: 30px;
-    height: 30px;
-  }
-
-  .handle {
-    text-align: center;
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 30px;
-  }
-
-  hr.divider {
-    border: none;
-    border-top: 1px solid rgba(255,255,255,0.35);
-    margin: 0 0 26px 0;
-  }
-
-  .wordmark {
-    text-align: center;
-    margin-bottom: 22px;
-  }
-
-  .brand-logo {
-    display: block;
-    max-width: 240px;
-    width: 100%;
-    height: auto;
-    margin: 0 auto;
-  }
-
-  .copyright {
-    text-align: center;
-    font-size: 14px;
-    opacity: 0.9;
-    padding-bottom: 10px;
-  }
-
-  @media (max-width: 380px) {
-    h2.section-title { font-size: 26px; }
-    ul.link-list a { font-size: 19px; }
-    .brand-logo { max-width: 200px; }
-    .mascot { width: 220px; }
-  }
-
-  @media (min-width: 480px) {
-    .footer-top { padding-right: 160px; }
-  }
-
-  @media (min-width: 768px) {
-    footer { padding: 64px 0 56px 48px; }
-
-    .footer-inner { padding-right: 48px; }
-
-    .footer-top {
-      padding-right: 420px;
-    }
-
-    .mascot {
-      width: 400px;
-      top: 0;
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 48px 40px;
-    }
-
-    .footer-grid section {
-      margin-bottom: 0;
-    }
-
-    .footer-grid > section:nth-child(1) { grid-column: 1; grid-row: 1; }
-    .footer-grid > section:nth-child(2) { grid-column: 1 / -1; grid-row: 2; }
-    .footer-grid > section:nth-child(3) { grid-column: 2; grid-row: 1; }
-    .footer-grid > section:nth-child(4) { grid-column: 3; grid-row: 1; }
-    .footer-grid > section:nth-child(5) { grid-column: 4; grid-row: 1; }
-
-    h2.section-title {
-      font-size: 22px;
-      margin-bottom: 16px;
-    }
-
-    ul.link-list li { margin-bottom: 14px; }
-    ul.link-list a { font-size: 16px; }
-
-    .newsletter {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px 48px;
-      align-items: start;
-      padding-top: 8px;
-      border-top: 1px solid rgba(255,255,255,0.2);
-      margin-bottom: 0;
-    }
-
-    .newsletter .section-title {
-      grid-column: 1;
-      margin-bottom: 0;
-    }
-
-    .newsletter p {
-      grid-column: 1;
-      margin-bottom: 0;
-      max-width: none;
-      font-size: 17px;
-    }
-
-    .newsletter-intro {
-      width: 250px;
-      max-width: 250px;
-    }
-
-    .newsletter form {
-      grid-column: 2;
-      grid-row: 1 / span 3;
-    }
-
-    .newsletter .signup-disclaimer {
-      grid-column: 1;
-    }
-
-    .newsletter .signup-confirm {
-      grid-column: 1;
-      margin: 0;
-    }
-
-    .signup-row {
-      max-width: none;
-      flex-wrap: nowrap;
-    }
-
-    .footer-bottom {
-      margin-top: 48px;
-      padding-top: 32px;
-      border-top: 1px solid rgba(255,255,255,0.35);
-    }
-
-    hr.divider { display: none; }
-
-    .social-row { margin-top: 0; }
-
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 32px;
-      text-align: left;
-    }
-
-    .wordmark { margin-bottom: 0; }
-    .brand-logo { margin: 0; max-width: 220px; }
-    .copyright { padding-bottom: 0; text-align: right; }
-  }
-
-  @media (min-width: 1024px) {
-    .footer-top {
-      padding-right: 520px;
-    }
-
-    .mascot {
-      width: 500px;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .footer-inner { max-width: 1280px; }
-  }
-
 </style>
+<link rel="stylesheet" href="../site-footer.css">
+<link rel="stylesheet" href="../site-menu.css">
 </head>
 <body>
 
@@ -865,9 +495,8 @@
   <header class="nav" id="mainNav">
     <div class="nav-default">
       <div class="nav-icons">
-        <a class="icon-btn" href="../home-page.html" aria-label="Menu">
-          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-        </a>
+        <button class="icon-btn" type="button" id="menuOpenBtn" aria-label="Menu"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
         <button class="icon-btn" type="button" aria-label="Account">
           <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
         </button>
@@ -1053,7 +682,7 @@
 
 </div><!-- end page -->
 
-<footer>
+<footer class="site-footer">
   <img
     class="mascot"
     src="https://res.cloudinary.com/dbtkfjrvd/image/upload/v1782044381/Design_sans_titre_6_copetd.png"
@@ -1153,7 +782,7 @@
     </a>
   </div>
 
-  <p class="handle">@ajBloks</p>
+  <p class="handle">@ajbloks</p>
 
   <hr class="divider">
 
@@ -1227,25 +856,9 @@
     const name = btn.closest('.store-card').querySelector('h2').textContent;
     window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(name), '_blank');
   }
-
-  const signupForm = document.getElementById('signup-form');
-  const signupConfirm = document.getElementById('signup-confirm');
-
-  if (signupForm && signupConfirm) {
-    signupForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const email = document.getElementById('email-input').value.trim();
-      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-      if (valid) {
-        signupConfirm.textContent = "Merci pour votre inscription ! Consultez votre boîte de réception pour confirmer.";
-        signupForm.reset();
-      } else {
-        signupConfirm.textContent = "Veuillez entrer une adresse e-mail valide.";
-      }
-    });
-  }
 </script>
+<script src="../site-menu.js"></script>
+<script src="../site-footer.js"></script>
 <script src="../auth-links.js"></script>
 </body>
 </html>
