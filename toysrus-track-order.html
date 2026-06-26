@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track your order – Toys"R"Us</title>
+<link rel="stylesheet" href="cart-drawer.css">
+<link rel="stylesheet" href="signup-drawer.css">
+<link rel="stylesheet" href="site-menu.css">
+<link rel="stylesheet" href="diy-shell.css">
+<link rel="stylesheet" href="site-footer.css">
+<style>
+  @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
+
+  :root {
+    --blue: #004ebc;
+    --blue-dark: #003894;
+    --radius-pill: 999px;
+  }
+
+  .diy-content {
+    background: #fff;
+    min-height: calc(100vh - 120px);
+    min-height: calc(100dvh - 120px);
+  }
+
+  .track-main {
+    width: 380px;
+    max-width: 100%;
+    background: #fff;
+    padding: 28px 20px 48px;
+    font-family: 'Buenos Aires', sans-serif;
+    color: #11214A;
+  }
+
+  .track-title {
+    font-size: clamp(2rem, 6vw, 2.5rem);
+    font-weight: 800;
+    margin: 0 0 16px;
+    line-height: 1.15;
+  }
+
+  .track-intro {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 0 0 24px;
+    color: #1a1a1a;
+  }
+
+  .track-field {
+    margin-bottom: 18px;
+  }
+
+  .track-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #11214A;
+  }
+
+  .track-input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #000;
+    border-radius: 0;
+    padding: 12px 14px;
+    font-size: 0.875rem;
+    font-family: 'Buenos Aires', sans-serif;
+    color: #1a1a1a;
+    background: #fff;
+    outline: none;
+  }
+
+  .track-input:focus {
+    border-color: #004ebc;
+    box-shadow: 0 0 0 1px #004ebc;
+  }
+
+  .track-btn {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 15px;
+    min-height: 48px;
+    margin-top: 6px;
+    font-size: 1.02rem;
+    font-weight: 700;
+    font-family: 'Buenos Aires', sans-serif;
+    cursor: pointer;
+    text-align: center;
+    background: var(--blue);
+    color: #fff;
+    box-shadow: 0 4px 0 var(--blue-dark);
+    transition: transform 0.08s ease, filter 0.15s ease;
+  }
+
+  .track-btn:active:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--blue-dark);
+  }
+
+  @media (hover: hover) {
+    .track-btn:hover:not(:disabled) {
+      filter: brightness(1.08);
+    }
+  }
+
+  .track-btn:disabled {
+    background: #c7ccd4;
+    color: #fff;
+    box-shadow: 0 4px 0 #a8adb8;
+    cursor: not-allowed;
+    filter: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="diy-content">
+  <section class="track-main" aria-label="Track your order">
+    <h1 class="track-title">Track your order</h1>
+    <p class="track-intro">Enter your email or phone number and tracking number to find your order.</p>
+
+    <form class="track-form" action="#" method="get" novalidate>
+      <div class="track-field">
+        <label class="track-label" for="track-contact">Email or phone number</label>
+        <input class="track-input" type="text" id="track-contact" name="contact" autocomplete="email tel">
+      </div>
+
+      <div class="track-field">
+        <label class="track-label" for="track-number">Tracking number</label>
+        <input class="track-input" type="text" id="track-number" name="tracking" autocomplete="off">
+      </div>
+
+      <button type="submit" class="track-btn" id="trackSearchBtn" disabled>Search</button>
+    </form>
+  </section>
+</div>
+
+<script src="site-menu.js"></script>
+<script src="site-footer.js"></script>
+<script src="diy-shell.js"></script>
+<script src="cart-drawer.js"></script>
+<script src="signup-drawer.js"></script>
+<script src="auth-links.js"></script>
+<script>
+(function () {
+  var contactInput = document.getElementById('track-contact');
+  var trackingInput = document.getElementById('track-number');
+  var searchBtn = document.getElementById('trackSearchBtn');
+
+  function updateSearchBtn() {
+    var filled = contactInput.value.trim() !== '' && trackingInput.value.trim() !== '';
+    searchBtn.disabled = !filled;
+  }
+
+  contactInput.addEventListener('input', updateSearchBtn);
+  trackingInput.addEventListener('input', updateSearchBtn);
+  updateSearchBtn();
+})();
+</script>
+</body>
+</html>

@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="diy-shell.css">
 <link rel="stylesheet" href="site-footer.css">
 <style>
+  @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
+
   .diy-content {
     background: #fff;
     min-height: calc(100vh - 120px);
@@ -18,8 +20,78 @@
 
   .livraison-main {
     width: 100%;
-    min-height: calc(100vh - 120px);
-    min-height: calc(100dvh - 120px);
+    background: #fff;
+    padding: 28px 20px 48px;
+    font-family: 'Buenos Aires', sans-serif;
+    color: #11214A;
+  }
+
+  .livraison-title1 {
+    font-size: clamp(2rem, 6vw, 2.5rem);
+    font-weight: 800;
+    margin: 0 0 20px;
+    line-height: 1.15;
+  }
+
+  .livraison-title2 {
+    font-size: clamp(1.35rem, 4vw, 1.75rem);
+    font-weight: 700;
+    margin: 0 0 18px;
+    line-height: 1.25;
+  }
+
+  .livraison-text {
+    width: 380px;
+    max-width: 100%;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 0 0 14px;
+    color: #1a1a1a;
+  }
+
+  .livraison-text-2 {
+    list-style-type: circle;
+    padding-left: 1.35em;
+  }
+
+  .livraison-text-2 li {
+    line-height: 1.6;
+  }
+
+  .livraison-table-wrap {
+    margin-top: 22px;
+    overflow-x: auto;
+  }
+
+  .livraison-table-wrap + .livraison-text {
+    margin-top: 22px;
+  }
+
+  .table-bordered {
+    width: 385px;
+    height: 268px;
+    max-width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000;
+    table-layout: fixed;
+    font-size: 0.95rem;
+  }
+
+  .table-bordered th,
+  .table-bordered td {
+    border: 1px solid #000;
+    padding: 14px 12px;
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  .table-bordered thead th {
+    background: #004ebc;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .table-bordered tbody tr {
     background: #fff;
   }
 </style>
@@ -27,7 +99,64 @@
 <body>
 
 <div class="diy-content">
-  <section class="livraison-main" aria-label="Livraison"></section>
+  <section class="livraison-main" aria-label="Livraison">
+    <h1 class="livraison-title1">Shipping</h1>
+    <h2 class="livraison-title2">AJBLOKS Shipping Information</h2>
+    <p class="livraison-text">AJBLOKS offers standard shipping at this time.</p>
+    <ul class="livraison-text livraison-text-2">
+      <li>Standard shipping costs &amp; delivery timing are noted below:</li>
+    </ul>
+
+    <div class="livraison-table-wrap">
+      <table class="table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Shipping Method</th>
+            <th scope="col">Cost</th>
+            <th scope="col">Delivery Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Standard</td>
+            <td>Free on orders over 6500 DZD</td>
+            <td>5–7 business days</td>
+          </tr>
+          <tr>
+            <td>Standard</td>
+            <td>Flat rate applies under 6500 DZD</td>
+            <td>5–7 business days</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="livraison-text">Orders are processed and shipped within 1–2 business days after payment confirmation.</p>
+
+    <div class="livraison-table-wrap">
+      <table class="table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Shipping Method</th>
+            <th scope="col">Cost</th>
+            <th scope="col">Delivery Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Express</td>
+            <td>Additional fee applies</td>
+            <td>2–3 business days</td>
+          </tr>
+          <tr>
+            <td>Store Pickup</td>
+            <td>Free</td>
+            <td>Ready in 24 hours</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </div>
 
 <script src="site-menu.js"></script>

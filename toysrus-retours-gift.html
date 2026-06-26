@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Start a return or claim for a gift – Toys"R"Us</title>
+<link rel="stylesheet" href="cart-drawer.css">
+<link rel="stylesheet" href="signup-drawer.css">
+<link rel="stylesheet" href="site-menu.css">
+<link rel="stylesheet" href="diy-shell.css">
+<link rel="stylesheet" href="site-footer.css">
+<style>
+  @import url(https://db.onlinewebfonts.com/c/1b62cb414d23538e8a465e7f50aa7932?family=Buenos+Aires);
+
+  :root {
+    --blue: #004ebc;
+    --blue-dark: #003894;
+    --blue-soft: #e7ebfb;
+    --radius-pill: 999px;
+    --ink: #11214A;
+    --line: #d8dce3;
+    --border: #d8dce3;
+    --placeholder: #6b6770;
+    --text-gray: #5b6685;
+  }
+
+  body.gift-picker-open {
+    overflow: hidden;
+  }
+
+  .diy-content {
+    background: #fff;
+    min-height: calc(100vh - 120px);
+    min-height: calc(100dvh - 120px);
+  }
+
+  .gift-main {
+    width: 380px;
+    max-width: 100%;
+    background: #fff;
+    padding: 12px 20px 48px;
+    font-family: 'Buenos Aires', sans-serif;
+    color: var(--ink);
+  }
+
+  .gift-back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin: 0 0 12px -8px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .gift-back-btn:hover {
+    background: #e7ebfb;
+  }
+
+  .gift-back-btn svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .gift-title {
+    font-size: clamp(1.65rem, 5vw, 2rem);
+    font-weight: 800;
+    margin: 0 0 14px;
+    line-height: 1.2;
+  }
+
+  .gift-intro {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 0 0 24px;
+    color: #1a1a1a;
+  }
+
+  .gift-section-title {
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 0 0 16px;
+    color: #1a1a1a;
+  }
+
+  .gift-form {
+    margin: 0;
+  }
+
+  .gift-field {
+    margin-bottom: 16px;
+  }
+
+  .gift-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+  }
+
+  .gift-label .req {
+    color: #1a1a1a;
+  }
+
+  .gift-input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-size: 0.875rem;
+    font-family: 'Buenos Aires', sans-serif;
+    color: #1a1a1a;
+    background: #fff;
+    outline: none;
+  }
+
+  .gift-input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 1px var(--blue);
+  }
+
+  .picker-trigger {
+    width: 100%;
+    padding: 12px 40px 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-family: 'Buenos Aires', sans-serif;
+    color: #1a1a1a;
+    background: #fff;
+    text-align: left;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+
+  .picker-trigger::after {
+    content: '';
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    width: 12px;
+    height: 8px;
+    transform: translateY(-50%);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2311214A' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .picker-trigger:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 1px var(--blue);
+    outline: none;
+  }
+
+  .picker-trigger .picker-value.placeholder {
+    color: var(--placeholder);
+  }
+
+  .picker-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    background: rgba(17, 33, 74, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.28s ease, visibility 0.28s ease;
+  }
+
+  .picker-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .picker-sheet {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: min(72dvh, 520px);
+    max-height: min(72dvh, 520px);
+    background: #fff;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100%);
+    transition: transform 0.32s cubic-bezier(0.22, 0.68, 0, 1);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-shadow: 0 -8px 40px rgba(17, 33, 74, 0.18);
+  }
+
+  .picker-overlay.open .picker-sheet {
+    transform: translateY(0);
+  }
+
+  .picker-handle {
+    width: 40px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 999px;
+    margin: 10px auto 0;
+    flex: none;
+  }
+
+  .picker-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px 10px;
+    flex: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .picker-header h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--ink);
+  }
+
+  .picker-close {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: var(--blue-soft);
+    color: var(--ink);
+    font-size: 1.4rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .picker-search-wrap {
+    padding: 12px 16px;
+    flex: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .picker-search {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    font-size: 15px;
+    font-family: 'Buenos Aires', sans-serif;
+    outline: none;
+    background: #f8f9fc;
+  }
+
+  .picker-search:focus {
+    border-color: var(--blue);
+    background: #fff;
+  }
+
+  .picker-list {
+    list-style: none;
+    margin: 0;
+    padding: 6px 0 16px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .picker-list li button {
+    width: 100%;
+    text-align: left;
+    padding: 13px 20px;
+    background: transparent;
+    color: var(--ink);
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    font-family: 'Buenos Aires', sans-serif;
+    transition: background 0.12s ease;
+  }
+
+  .picker-list li button:hover,
+  .picker-list li button:focus {
+    background: var(--blue-soft);
+  }
+
+  .picker-list li button.selected {
+    color: var(--blue);
+    font-weight: 800;
+    background: var(--blue-soft);
+  }
+
+  .picker-empty {
+    padding: 28px 20px;
+    text-align: center;
+    color: var(--text-gray);
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+
+  .gift-missing-link {
+    display: inline-block;
+    margin: -4px 0 28px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--blue);
+    text-decoration: underline;
+  }
+
+  .gift-missing-link:hover {
+    color: var(--blue-dark);
+  }
+
+  .gift-btn {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 15px;
+    min-height: 48px;
+    margin-top: 8px;
+    font-size: 1.02rem;
+    font-weight: 700;
+    font-family: 'Buenos Aires', sans-serif;
+    cursor: pointer;
+    text-align: center;
+    background: var(--blue);
+    color: #fff;
+    box-shadow: 0 4px 0 var(--blue-dark);
+    transition: transform 0.08s ease, filter 0.15s ease;
+  }
+
+  .gift-btn:active:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--blue-dark);
+  }
+
+  @media (hover: hover) {
+    .gift-btn:hover:not(:disabled) {
+      filter: brightness(1.08);
+    }
+  }
+
+  .gift-btn:disabled {
+    background: #c7ccd4;
+    color: #fff;
+    box-shadow: 0 4px 0 #a8adb8;
+    cursor: not-allowed;
+    filter: none;
+  }
+
+  .gift-btn:disabled:active {
+    transform: none;
+    box-shadow: 0 4px 0 #a8adb8;
+  }
+
+  .gift-footer-rule {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 28px 0 18px;
+  }
+
+  .gift-policy-link {
+    display: block;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--blue);
+    text-decoration: underline;
+  }
+
+  .gift-policy-link:hover {
+    color: var(--blue-dark);
+  }
+</style>
+</head>
+<body>
+
+<div class="diy-content">
+  <section class="gift-main" aria-label="Start a return or claim for a gift">
+    <button type="button" class="gift-back-btn" id="giftBackBtn" aria-label="Go back">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+
+    <h1 class="gift-title">Start a return or claim for a gift</h1>
+    <p class="gift-intro">Enter the buyer information and your information to find your order.</p>
+
+    <form class="gift-form" id="giftForm" action="#" method="get" novalidate>
+      <h2 class="gift-section-title">Buyer info:</h2>
+
+      <div class="gift-field">
+        <label class="gift-label" for="gift-buyer-contact">Email or phone number</label>
+        <input class="gift-input" type="text" id="gift-buyer-contact" name="buyer_contact" required>
+      </div>
+
+      <div class="gift-field">
+        <label class="gift-label" for="gift-buyer-order">Tracking number</label>
+        <input class="gift-input" type="text" id="gift-buyer-order" name="buyer_order" required>
+      </div>
+
+      <a class="gift-missing-link" href="#">Missing buyer's info?</a>
+
+      <h2 class="gift-section-title">Your info:</h2>
+
+      <div class="gift-field">
+        <label class="gift-label" for="gift-name">Name <span class="req">*</span></label>
+        <input class="gift-input" type="text" id="gift-name" name="name" autocomplete="name" required>
+      </div>
+
+      <div class="gift-field">
+        <label class="gift-label" for="gift-email">Email <span class="req">*</span></label>
+        <input class="gift-input" type="email" id="gift-email" name="email" autocomplete="email" required>
+      </div>
+
+      <div class="gift-field">
+        <label class="gift-label" for="gift-phone">Phone number</label>
+        <input class="gift-input" type="tel" id="gift-phone" name="phone" autocomplete="tel">
+      </div>
+
+      <div class="gift-field">
+        <label class="gift-label" for="gift-address">Address <span class="req">*</span></label>
+        <input class="gift-input" type="text" id="gift-address" name="address" autocomplete="street-address" required>
+      </div>
+
+      <div class="gift-field">
+        <label class="gift-label" id="giftWilayaLabel">Wilaya</label>
+        <button type="button" class="picker-trigger" id="giftWilayaTrigger" aria-labelledby="giftWilayaLabel" aria-haspopup="listbox">
+          <span class="picker-value placeholder" id="giftWilayaDisplay">Select wilaya</span>
+        </button>
+        <input type="hidden" id="gift-wilaya" name="wilaya">
+      </div>
+
+      <button type="submit" class="gift-btn" id="giftFindBtn" disabled>Find order</button>
+    </form>
+
+    <hr class="gift-footer-rule">
+    <a class="gift-policy-link" href="#">Return/Claim Policy</a>
+  </section>
+</div>
+
+<div class="picker-overlay" id="giftPickerOverlay" aria-hidden="true">
+  <div class="picker-sheet" role="dialog" aria-modal="true" aria-labelledby="giftPickerTitle">
+    <div class="picker-handle" aria-hidden="true"></div>
+    <div class="picker-header">
+      <h3 id="giftPickerTitle">Select wilaya</h3>
+      <button type="button" class="picker-close" id="giftPickerClose" aria-label="Close">&times;</button>
+    </div>
+    <div class="picker-search-wrap">
+      <input type="search" class="picker-search" id="giftPickerSearch" placeholder="Search wilaya…" autocomplete="off">
+    </div>
+    <ul class="picker-list" id="giftPickerList" role="listbox"></ul>
+  </div>
+</div>
+
+<script src="site-menu.js"></script>
+<script src="site-footer.js"></script>
+<script src="diy-shell.js"></script>
+<script src="cart-drawer.js"></script>
+<script src="signup-drawer.js"></script>
+<script src="auth-links.js"></script>
+<script src="algeria-locations.js"></script>
+<script>
+(function () {
+  var backBtn = document.getElementById('giftBackBtn');
+  var findBtn = document.getElementById('giftFindBtn');
+  var wilayaInput = document.getElementById('gift-wilaya');
+  var wilayaTrigger = document.getElementById('giftWilayaTrigger');
+  var wilayaDisplay = document.getElementById('giftWilayaDisplay');
+  var pickerOverlay = document.getElementById('giftPickerOverlay');
+  var pickerSearch = document.getElementById('giftPickerSearch');
+  var pickerList = document.getElementById('giftPickerList');
+  var pickerClose = document.getElementById('giftPickerClose');
+  var selectedWilayaCode = '';
+  var requiredIds = [
+    'gift-buyer-contact',
+    'gift-buyer-order',
+    'gift-name',
+    'gift-email',
+    'gift-address'
+  ];
+
+  backBtn.addEventListener('click', function () {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = 'toysrus-retours-echanges.html';
+    }
+  });
+
+  function getWilayaItems(filter) {
+    if (typeof WILAYAS === 'undefined') return [];
+    var q = filter.trim().toLowerCase();
+    return WILAYAS
+      .filter(function (w) {
+        return !q || w.code.indexOf(q) !== -1 || w.name.toLowerCase().indexOf(q) !== -1;
+      })
+      .map(function (w) {
+        return { value: w.code, label: w.code + ' — ' + w.name };
+      });
+  }
+
+  function renderPickerItems(items, selectedValue) {
+    pickerList.innerHTML = '';
+    if (!items.length) {
+      pickerList.innerHTML = '<li class="picker-empty">No results found</li>';
+      return;
+    }
+    items.forEach(function (item) {
+      var li = document.createElement('li');
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.role = 'option';
+      btn.textContent = item.label;
+      btn.dataset.value = item.value;
+      if (item.value === selectedValue) btn.classList.add('selected');
+      btn.addEventListener('click', function () {
+        selectedWilayaCode = item.value;
+        wilayaInput.value = item.value;
+        wilayaDisplay.textContent = item.label;
+        wilayaDisplay.classList.remove('placeholder');
+        closePicker();
+        updateFindBtn();
+      });
+      li.appendChild(btn);
+      pickerList.appendChild(li);
+    });
+  }
+
+  function openPicker() {
+    pickerSearch.value = '';
+    renderPickerItems(getWilayaItems(''), selectedWilayaCode);
+    pickerOverlay.classList.add('open');
+    pickerOverlay.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('gift-picker-open');
+    setTimeout(function () { pickerSearch.focus(); }, 320);
+  }
+
+  function closePicker() {
+    pickerOverlay.classList.remove('open');
+    pickerOverlay.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('gift-picker-open');
+  }
+
+  wilayaTrigger.addEventListener('click', openPicker);
+  pickerClose.addEventListener('click', closePicker);
+  pickerOverlay.addEventListener('click', function (e) {
+    if (e.target === pickerOverlay) closePicker();
+  });
+  pickerSearch.addEventListener('input', function () {
+    renderPickerItems(getWilayaItems(pickerSearch.value), selectedWilayaCode);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && pickerOverlay.classList.contains('open')) closePicker();
+  });
+
+  function updateFindBtn() {
+    var allFilled = requiredIds.every(function (id) {
+      var el = document.getElementById(id);
+      return el && el.value.trim() !== '';
+    }) && selectedWilayaCode !== '';
+    findBtn.disabled = !allFilled;
+  }
+
+  requiredIds.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', updateFindBtn);
+  });
+
+  updateFindBtn();
+})();
+</script>
+</body>
+</html>
